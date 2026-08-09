@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>禅昌寺 | 北海道津別町の曹洞宗寺院</title>
 
   <style>
@@ -29,27 +30,44 @@
       text-decoration: none;
     }
 
-    .hero {
-  min-height: 420px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 40px 20px;
-  color: #fff;
+    /* =========================
+       トップ写真
+    ========================= */
 
-  background:
-    linear-gradient(
-      rgba(0, 0, 0, 0.38),
-      rgba(0, 0, 0, 0.38)
-    ),
-    url("hero.jpg") center center / cover no-repeat;
-}
+    .hero {
+      min-height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+      color: #fff;
+
+      background:
+        linear-gradient(
+          rgba(0, 0, 0, 0.38),
+          rgba(0, 0, 0, 0.38)
+        ),
+        url("hero.jpg") center center / cover no-repeat;
+    }
+
+    .hero > div {
+      transform: translateY(35px);
+    }
 
     .hero h1 {
       margin: 0;
+
+      font-family:
+        "Yu Mincho",
+        "YuMincho",
+        "Hiragino Mincho ProN",
+        "Hiragino Mincho Pro",
+        "Noto Serif JP",
+        serif;
+
       font-size: 42px;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.16em;
       font-weight: 600;
     }
 
@@ -57,6 +75,10 @@
       margin: 16px 0 0;
       font-size: 18px;
     }
+
+    /* =========================
+       共通
+    ========================= */
 
     .container {
       width: min(1100px, calc(100% - 40px));
@@ -73,6 +95,10 @@
       margin: 0 0 32px;
       font-weight: 600;
     }
+
+    /* =========================
+       最新のお知らせ
+    ========================= */
 
     .news {
       background: #f6f6f4;
@@ -93,6 +119,10 @@
       margin-bottom: 6px;
     }
 
+    /* =========================
+       ご案内
+    ========================= */
+
     .menu-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -104,11 +134,14 @@
       border: 1px solid #ddd;
       border-radius: 8px;
       padding: 28px 20px;
+
       display: flex;
       flex-direction: column;
       justify-content: center;
+
       text-align: center;
       background: #fff;
+
       transition: 0.2s;
     }
 
@@ -127,6 +160,10 @@
       font-size: 15px;
       color: #666;
     }
+
+    /* =========================
+       LINE
+    ========================= */
 
     .line-section {
       background: #f6f6f4;
@@ -153,6 +190,10 @@
       font-weight: 600;
     }
 
+    /* =========================
+       フッター
+    ========================= */
+
     footer {
       padding: 40px 20px;
       background: #222;
@@ -162,9 +203,18 @@
       line-height: 1.9;
     }
 
+    /* =========================
+       スマートフォン
+    ========================= */
+
     @media (max-width: 768px) {
+
       .hero {
         min-height: 320px;
+      }
+
+      .hero > div {
+        transform: translateY(20px);
       }
 
       .hero h1 {
@@ -207,14 +257,20 @@
     }
 
     @media (max-width: 430px) {
+
       .container {
         width: min(100% - 24px, 1100px);
       }
     }
+
   </style>
 </head>
 
 <body>
+
+  <!-- =========================
+       トップ
+  ========================== -->
 
   <header class="hero">
     <div>
@@ -223,21 +279,45 @@
     </div>
   </header>
 
-  <!-- 90日以内のお知らせがある場合のみ表示 -->
+
+  <!-- =========================
+       最新のお知らせ
+       ※後ほど90日自動非表示を実装
+  ========================== -->
+
   <section class="news">
     <div class="container">
-      <h2 class="section-title">最新のお知らせ</h2>
+
+      <h2 class="section-title">
+        最新のお知らせ
+      </h2>
 
       <div class="news-box">
-        <div class="news-date">2026年8月</div>
-        <strong>禅昌寺公式サイトを準備しています</strong>
+
+        <div class="news-date">
+          2026年8月
+        </div>
+
+        <strong>
+          禅昌寺公式サイトを準備しています
+        </strong>
+
       </div>
+
     </div>
   </section>
 
+
+  <!-- =========================
+       ご案内
+  ========================== -->
+
   <section>
     <div class="container">
-      <h2 class="section-title">ご案内</h2>
+
+      <h2 class="section-title">
+        ご案内
+      </h2>
 
       <div class="menu-grid">
 
@@ -272,8 +352,14 @@
         </a>
 
       </div>
+
     </div>
   </section>
+
+
+  <!-- =========================
+       禅昌寺公式LINE
+  ========================== -->
 
   <section class="line-section">
     <div class="container">
@@ -294,10 +380,25 @@
     </div>
   </section>
 
+
+  <!-- =========================
+       フッター
+  ========================== -->
+
   <footer>
-    <div>禅昌寺</div>
-    <div>〒092-0235 北海道網走郡津別町幸町69-2</div>
-    <div>TEL 0152-76-2613</div>
+
+    <div>
+      禅昌寺
+    </div>
+
+    <div>
+      〒092-0235 北海道網走郡津別町幸町69-2
+    </div>
+
+    <div>
+      TEL 0152-76-2613
+    </div>
+
   </footer>
 
 </body>
