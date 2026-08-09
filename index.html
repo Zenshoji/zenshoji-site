@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>禅昌寺 | 北海道津別町の曹洞宗寺院</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Kaku Gothic ProN",
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+      color: #222;
+      background: #fff;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .hero {
+      min-height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+      background: #444;
+      color: #fff;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 42px;
+      letter-spacing: 0.12em;
+      font-weight: 600;
+    }
+
+    .hero p {
+      margin: 16px 0 0;
+      font-size: 18px;
+    }
+
+    .container {
+      width: min(1100px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    section {
+      padding: 64px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 28px;
+      margin: 0 0 32px;
+      font-weight: 600;
+    }
+
+    .news {
+      background: #f6f6f4;
+    }
+
+    .news-box {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 24px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    .news-date {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 6px;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .menu-card {
+      min-height: 140px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 28px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      background: #fff;
+      transition: 0.2s;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+
+    .menu-card h3 {
+      margin: 0 0 8px;
+      font-size: 21px;
+    }
+
+    .menu-card p {
+      margin: 0;
+      font-size: 15px;
+      color: #666;
+    }
+
+    .line-section {
+      background: #f6f6f4;
+      text-align: center;
+    }
+
+    .line-copy {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .line-text {
+      margin-bottom: 28px;
+      font-size: 17px;
+    }
+
+    .line-button {
+      display: inline-block;
+      padding: 14px 28px;
+      border-radius: 8px;
+      background: #333;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    footer {
+      padding: 40px 20px;
+      background: #222;
+      color: #fff;
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        min-height: 320px;
+      }
+
+      .hero h1 {
+        font-size: 30px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      section {
+        padding: 44px 0;
+      }
+
+      .section-title {
+        font-size: 24px;
+      }
+
+      .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .menu-card {
+        min-height: 120px;
+        padding: 20px 14px;
+      }
+
+      .menu-card h3 {
+        font-size: 18px;
+      }
+
+      .menu-card p {
+        font-size: 14px;
+      }
+
+      .line-copy {
+        font-size: 21px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .container {
+        width: min(100% - 24px, 1100px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="hero">
+    <div>
+      <h1>松久山 禅昌寺</h1>
+      <p>曹洞宗　北海道津別町</p>
+    </div>
+  </header>
+
+  <!-- 90日以内のお知らせがある場合のみ表示 -->
+  <section class="news">
+    <div class="container">
+      <h2 class="section-title">最新のお知らせ</h2>
+
+      <div class="news-box">
+        <div class="news-date">2026年8月</div>
+        <strong>禅昌寺公式サイトを準備しています</strong>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title">ご案内</h2>
+
+      <div class="menu-grid">
+
+        <a href="#" class="menu-card">
+          <h3>年間行事</h3>
+          <p>禅昌寺の年間法要・行事</p>
+        </a>
+
+        <a href="#" class="menu-card">
+          <h3>体験・学び</h3>
+          <p>坐禅・写経・仏教のお話</p>
+        </a>
+
+        <a href="#" class="menu-card">
+          <h3>よくある質問</h3>
+          <p>法事・供養などのご案内</p>
+        </a>
+
+        <a href="#" class="menu-card">
+          <h3>アクセス</h3>
+          <p>所在地・駐車場</p>
+        </a>
+
+        <a href="#" class="menu-card">
+          <h3>中陰・年回表</h3>
+          <p>命日から法要日を確認</p>
+        </a>
+
+        <a href="#" class="menu-card">
+          <h3>お問い合わせ</h3>
+          <p>電話番号などのご案内</p>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="line-section">
+    <div class="container">
+
+      <div class="line-copy">
+        必要なときに開けば、必要な情報があります。
+      </div>
+
+      <div class="line-text">
+        通知は必要最小限にしていますので、<br>
+        安心してご利用ください。
+      </div>
+
+      <a href="#" class="line-button">
+        禅昌寺公式LINE
+      </a>
+
+    </div>
+  </section>
+
+  <footer>
+    <div>禅昌寺</div>
+    <div>〒092-0235 北海道網走郡津別町幸町69-2</div>
+    <div>TEL 0152-76-2613</div>
+  </footer>
+
+</body>
+</html>
