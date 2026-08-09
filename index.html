@@ -119,6 +119,11 @@
       margin-bottom: 6px;
     }
 
+    .news-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
     /* =========================
        ご案内
     ========================= */
@@ -282,10 +287,10 @@
 
   <!-- =========================
        最新のお知らせ
-       ※後ほど90日自動非表示を実装
+       90日経過すると自動非表示
   ========================== -->
 
-  <section class="news">
+  <section class="news" id="newsSection">
     <div class="container">
 
       <h2 class="section-title">
@@ -294,13 +299,9 @@
 
       <div class="news-box">
 
-        <div class="news-date">
-          2026年8月
-        </div>
+        <div class="news-date" id="newsDate"></div>
 
-        <strong>
-          禅昌寺公式サイトを準備しています
-        </strong>
+        <div class="news-title" id="newsTitle"></div>
 
       </div>
 
@@ -400,6 +401,68 @@
     </div>
 
   </footer>
+
+
+  <!-- =========================
+       最新のお知らせ設定
+  ========================== -->
+
+  <script>
+
+    /*
+      今後、お知らせを変更するときは
+      基本的にこの3項目だけ変更します。
+    */
+
+    const news = {
+      date: "2026-08-10",
+      displayDate: "2026年8月10日",
+      title: "禅昌寺公式サイトを準備しています"
+    };
+
+
+    /*
+      90日判定
+    */
+
+    const newsDate = new Date(news.date + "T00:00:00");
+
+    const today = new Date();
+
+    newsDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+
+    const millisecondsPerDay =
+      1000 * 60 * 60 * 24;
+
+    const daysPassed =
+      Math.floor(
+        (today - newsDate) / millisecondsPerDay
+      );
+
+
+    /*
+      0～90日以内なら表示
+      91日以上なら非表示
+    */
+
+    if (daysPassed >= 0 && daysPassed <= 90) {
+
+      document.getElementById("newsDate").textContent =
+        news.displayDate;
+
+      document.getElementById("newsTitle").textContent =
+        news.title;
+
+    } else {
+
+      document.getElementById("newsSection").style.display =
+        "none";
+
+    }
+
+  </script>
 
 </body>
 </html>
