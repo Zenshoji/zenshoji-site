@@ -10,9 +10,7 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>
-    PDF内容確認 | 禅昌寺
-  </title>
+  <title>PDF内容確認 | 禅昌寺</title>
 
 
   <style>
@@ -21,9 +19,7 @@
       box-sizing: border-box;
     }
 
-
     body {
-
       margin: 0;
 
       font-family:
@@ -35,28 +31,22 @@
         sans-serif;
 
       color: #222;
-
       background: #f6f6f4;
-
       line-height: 1.8;
-
     }
 
 
     header {
-
       padding: 24px 20px;
 
       background: #fff;
 
       border-bottom:
         1px solid #ddd;
-
     }
 
 
     .header-inner {
-
       width:
         min(
           900px,
@@ -65,16 +55,15 @@
 
       margin:
         0 auto;
-
     }
 
 
     .site-name {
-
       font-family:
         "Yu Mincho",
         "YuMincho",
         "Hiragino Mincho ProN",
+        "Hiragino Mincho Pro",
         serif;
 
       font-size: 22px;
@@ -83,15 +72,13 @@
 
       letter-spacing:
         0.12em;
-
     }
 
 
     main {
-
       width:
         min(
-          720px,
+          680px,
           calc(100% - 28px)
         );
 
@@ -100,12 +87,10 @@
 
       padding:
         48px 0 70px;
-
     }
 
 
     h1 {
-
       margin:
         0 0 12px;
 
@@ -114,12 +99,10 @@
 
       font-size:
         29px;
-
     }
 
 
     .intro {
-
       margin:
         0 0 36px;
 
@@ -128,12 +111,10 @@
 
       color:
         #666;
-
     }
 
 
     .card {
-
       padding:
         26px 24px;
 
@@ -145,17 +126,15 @@
 
       border-radius:
         10px;
-
     }
 
 
     .row {
-
       display:
         grid;
 
       grid-template-columns:
-        120px 1fr;
+        110px 1fr;
 
       gap:
         16px;
@@ -165,45 +144,32 @@
 
       border-bottom:
         1px solid #eee;
-
     }
 
 
     .row:last-child {
-
-      border-bottom:
-        0;
-
+      border-bottom: 0;
     }
 
 
     .label {
+      color: #666;
 
-      color:
-        #666;
+      font-size: 14px;
 
-      font-size:
-        14px;
-
-      font-weight:
-        600;
-
+      font-weight: 600;
     }
 
 
     .value {
-
-      font-size:
-        16px;
+      font-size: 16px;
 
       overflow-wrap:
         anywhere;
-
     }
 
 
     .notice {
-
       margin-top:
         24px;
 
@@ -224,12 +190,10 @@
 
       font-size:
         14px;
-
     }
 
 
     .button-area {
-
       display:
         grid;
 
@@ -241,12 +205,10 @@
 
       margin-top:
         30px;
-
     }
 
 
     button {
-
       width:
         100%;
 
@@ -267,34 +229,28 @@
 
       cursor:
         pointer;
-
     }
 
 
     .back-button {
-
       background:
         #777;
 
       color:
         #fff;
-
     }
 
 
     .create-button {
-
       background:
         #333;
 
       color:
         #fff;
-
     }
 
 
     .error {
-
       padding:
         20px;
 
@@ -309,7 +265,6 @@
 
       text-align:
         center;
-
     }
 
 
@@ -317,45 +272,35 @@
     (max-width: 600px) {
 
       main {
-
         padding-top:
           36px;
-
       }
 
 
       h1 {
-
         font-size:
           26px;
-
       }
 
 
       .card {
-
         padding:
           21px 18px;
-
       }
 
 
       .row {
-
         grid-template-columns:
-          90px 1fr;
+          80px 1fr;
 
         gap:
           10px;
-
       }
 
 
       .button-area {
-
         grid-template-columns:
           1fr;
-
       }
 
     }
@@ -390,9 +335,7 @@
 
 
     <p class="intro">
-
-      印刷する内容をご確認ください。
-
+      入力した内容をご確認ください。
     </p>
 
 
@@ -417,7 +360,9 @@
 
 
     /*
+      ========================================
       データがない場合
+      ========================================
     */
 
     if (!stored) {
@@ -456,29 +401,17 @@
         );
 
 
-      /*
-        戒名
-      */
-
       const kaimyoDisplay =
         data.kaimyo
           ? data.kaimyo
           : "入力なし";
 
 
-      /*
-        行年
-      */
-
       const ageDisplay =
         data.age
           ? data.age + "歳"
           : "入力なし";
 
-
-      /*
-        俗名
-      */
 
       const nameDisplay =
         data.name
@@ -559,51 +492,16 @@
           </div>
 
 
-          <div class="row">
-
-            <div class="label">
-              寺院情報
-            </div>
-
-            <div class="value">
-
-              ${escapeHtml(
-                data.temple.name
-              )}
-
-              <br>
-
-              ${escapeHtml(
-                data.temple.postal
-              )}
-
-              ${escapeHtml(
-                data.temple.address
-              )}
-
-              <br>
-
-              TEL
-
-              ${escapeHtml(
-                data.temple.tel
-              )}
-
-            </div>
-
-          </div>
-
-
         </section>
 
 
         <div class="notice">
 
-          PDFはA4横・両面印刷・三つ折りを想定しています。
+          PDFはA4横・両面・三つ折りを想定して作成します。
 
           <br>
 
-          位牌面には折り目がかからない配置で作成します。
+          位牌面には折り目がかからない配置になります。
 
         </div>
 
@@ -625,7 +523,7 @@
             class="create-button"
             id="createButton"
           >
-            この内容でPDFを作成
+            この内容で作成する
           </button>
 
 
@@ -633,10 +531,6 @@
 
       `;
 
-
-      /*
-        修正
-      */
 
       document
         .getElementById(
@@ -651,10 +545,6 @@
           }
         );
 
-
-      /*
-        PDFレイアウトへ
-      */
 
       document
         .getElementById(
@@ -672,10 +562,6 @@
 
     }
 
-
-    /*
-      HTMLエスケープ
-    */
 
     function escapeHtml(text) {
 
