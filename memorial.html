@@ -1413,30 +1413,55 @@
 
     const chuinItems = [
 
-      { name: "初七日", add: 6 },
+  {
+    name: "初七日",
+    oldName: "初願忌",
+    add: 6
+  },
 
-      { name: "二七日", add: 13 },
+  {
+    name: "二七日",
+    oldName: "以芳忌",
+    add: 13
+  },
 
-      { name: "三七日", add: 20 },
+  {
+    name: "三七日",
+    oldName: "洒水忌",
+    add: 20
+  },
 
-      { name: "四七日", add: 27 },
+  {
+    name: "四七日",
+    oldName: "阿経忌",
+    add: 27
+  },
 
-      {
-        name: "五七日（三十五日）",
-        add: 34
-      },
+  {
+    name: "五七日（三十五日）",
+    oldName: "小錬忌",
+    add: 34
+  },
 
-      { name: "六七日", add: 41 },
+  {
+    name: "六七日",
+    oldName: "檀弘忌",
+    add: 41
+  },
 
-      {
-        name: "七七日（四十九日）",
-        add: 48
-      },
+  {
+    name: "七七日（四十九日）",
+    oldName: "大錬忌",
+    add: 48
+  },
 
-      { name: "百か日", add: 99 }
+  {
+    name: "百か日",
+    oldName: "卒哭忌",
+    add: 99
+  }
 
-    ];
-
+];
 
     /*
       ==================================================
@@ -1927,14 +1952,16 @@ document
               );
 
             return {
-              name: item.name,
-              date:
-                formatJapaneseDate(
-                  targetDate
-                )
-            };
-          }
-        );
+  name: item.name,
+
+  oldName:
+    item.oldName,
+
+  date:
+    formatJapaneseDate(
+      targetDate
+    )
+};
 
 
       /*
