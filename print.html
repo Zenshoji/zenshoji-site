@@ -1383,18 +1383,55 @@ const showTempleInfo =
         data.temple.name;
 
 
-      document
-        .querySelector(
-          ".temple-address"
-        )
-        .textContent =
-        (
-          data.temple.postal +
-          "　" +
-          data.temple.address +
-          "　電話" +
-          data.temple.tel
-        );
+      /*
+  ========================================
+  寺院情報
+  ========================================
+*/
+
+const templeInfo =
+  document.querySelector(
+    ".temple-info"
+  );
+
+
+if (
+  showTempleInfo
+) {
+
+  templeInfo.style.display =
+    "flex";
+
+
+  document
+    .querySelector(
+      ".temple-name"
+    )
+    .textContent =
+    data.temple.name;
+
+
+  document
+    .querySelector(
+      ".temple-address"
+    )
+    .textContent =
+    (
+      data.temple.postal +
+      "　" +
+      data.temple.address +
+      "　電話" +
+      data.temple.tel
+    );
+
+}
+
+else {
+
+  templeInfo.style.display =
+    "none";
+
+}
 
 
       /*
@@ -2303,51 +2340,59 @@ const showTempleInfo =
 
 
       /*
-        寺院情報
-      */
+  ========================================
+  寺院情報
+  ========================================
+*/
 
-      drawVerticalText(
-        ctx,
-        data.temple.name,
-        mm(34),
-        mm(24),
-        {
-          size:
-            mm(3.5),
+if (
+  showTempleInfo
+) {
 
-          gap:
-            mm(4.2),
+  drawVerticalText(
+    ctx,
+    data.temple.name,
+    mm(34),
+    mm(24),
+    {
+      size:
+        mm(3.5),
 
-          maxHeight:
-            mm(140)
-        }
-      );
+      gap:
+        mm(4.2),
+
+      maxHeight:
+        mm(140)
+    }
+  );
 
 
-      drawVerticalText(
-        ctx,
-        (
-          data.temple.postal +
-          data.temple.address +
-          "電話" +
-          data.temple.tel
-        ),
-        mm(20),
-        mm(24),
-        {
-          size:
-            mm(2.4),
+  drawVerticalText(
+    ctx,
+    (
+      data.temple.postal +
+      data.temple.address +
+      "電話" +
+      data.temple.tel
+    ),
+    mm(20),
+    mm(24),
+    {
+      size:
+        mm(2.4),
 
-          gap:
-            mm(3.0),
+      gap:
+        mm(3.0),
 
-          maxHeight:
-            mm(155),
+      maxHeight:
+        mm(155),
 
-          family:
-            "sans"
-        }
-      );
+      family:
+        "sans"
+    }
+  );
+
+}
 
 
       /*
@@ -2526,29 +2571,30 @@ const showTempleInfo =
           */
 
           if (
-            item.oldName
-          ) {
+  showOldNames &&
+  item.oldName
+) {
 
-            drawVerticalText(
-              ctx,
-              item.oldName,
-              cx,
-              row1 +
-                mm(4),
-              {
-                size:
-                  mm(2.6),
+  drawVerticalText(
+    ctx,
+    item.oldName,
+    cx,
+    row1 +
+      mm(4),
+    {
+      size:
+        mm(2.6),
 
-                gap:
-                  mm(3.0),
+      gap:
+        mm(3.0),
 
-                maxHeight:
-                  tableH *
-                  0.20
-              }
-            );
+      maxHeight:
+        tableH *
+        0.20
+    }
+  );
 
-          }
+}
 
 
           /*
