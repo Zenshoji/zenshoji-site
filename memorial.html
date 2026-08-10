@@ -1863,26 +1863,169 @@
 
 
     /*
-      ==================================================
-      PDF
-      現時点では準備中
-      ==================================================
-    */
+  ==================================================
+  PDF作成前の確認画面へ
+  ==================================================
+*/
 
-    document
-      .getElementById("pdfButton")
-      .addEventListener(
-        "click",
-        function () {
+document
+  .getElementById("pdfButton")
+  .addEventListener(
+    "click",
+    function () {
 
-          document
-            .getElementById(
-              "pdfMessage"
-            )
-            .textContent =
-            "PDF作成機能は現在準備中です。";
+      const result =
+        getDeathDate();
+
+
+      if (!result.valid) {
+
+        document
+          .getElementById("pdfMessage")
+          .textContent =
+          "先に中陰表・年回表を表示してください。";
+
+        return;
+      }
+
+
+      const deathDate =
+        result.date;
+
+
+      const name =
+        document
+          .getElementById("name")
+          .value
+          .trim();
+
+      const kaimyo =
+        document
+          .getElementById("kaimyo")
+          .value
+          .trim();
+
+      const age =
+        document
+          .getElementById("age")
+          .value
+          .trim();
+
+
+      /*
+        中陰表
+      */
+
+      const chuin =
+        chuinItems.map(
+          function (item) {
+
+            const targetDate =
+              addDays(
+                deathDate,
+                item.add
+              );
+
+            return {
+              name: item.name,
+              date:
+                formatJapaneseDate(
+                  targetDate
+                )
+            };
+          }
+        );
+
+
+      /*
+        年回表
+        西暦・算用数字
+      */
+
+      const deathYear =
+        deathDate.getUTCFullYear();
+
+
+      const nenkai =
+        memorialItems.map(
+          function (item) {
+
+            return {
+              name: item.name,
+              year:
+                (
+                  deathYear +
+                  item.addYear
+                ) +
+                "年"
+            };
+          }
+        );
+
+
+      /*
+        PDF作成用データ
+      */
+
+      const pdfData = {
+
+        name: name,
+
+        kaimyo: kaimyo,
+
+        age: age,
+
+        deathDateJapanese:
+          formatJapaneseDate(
+            deathDate
+          ),
+
+        deathDateGregorian:
+          formatGregorianDate(
+            deathDate
+          ),
+
+        deathYear:
+          deathYear,
+
+        chuin: chuin,
+
+        nenkai: nenkai,
+
+        temple: {
+          name:
+            "曹洞宗 松久山 禅昌寺",
+
+          postal:
+            "〒092-0235",
+
+          address:
+            "北海道網走郡津別町幸町69-2",
+
+          tel:
+            "0152-76-2613"
         }
+
+      };
+
+
+      /*
+        確認画面へデータを渡す
+      */
+
+      sessionStorage.setItem(
+        "zenshojiPdfData",
+        JSON.stringify(
+          pdfData
+        )
       );
+
+
+      window.location.href =
+        "confirm.html";
+
+    }
+  );
 
 
     /*
