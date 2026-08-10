@@ -257,35 +257,54 @@
 
     th:first-child,
     td:first-child {
-      width: 42%;
+      width: 46%;
       text-align: left;
     }
 
     th:last-child,
     td:last-child {
-      width: 58%;
+      width: 54%;
       text-align: left;
     }
 
-    .copy-area {
-      margin-top: 34px;
-      text-align: center;
+    .action-area {
+      max-width: 520px;
+      margin: 36px auto 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .action-button {
+      width: 100%;
+      padding: 14px 12px;
     }
 
     .copy-button {
-      background: #666;
+      background: #555;
     }
 
-    .copy-message {
-      margin-top: 10px;
-      min-height: 24px;
+    .pdf-button {
+      background: #333;
+    }
+
+    .reset-button {
+      background: #777;
+    }
+
+    .copy-message,
+    .pdf-message {
+      grid-column: 1 / -1;
+      min-height: 22px;
+      margin-top: -2px;
+      text-align: center;
       font-size: 14px;
       color: #666;
     }
 
     .future-note {
       max-width: 520px;
-      margin: 42px auto 0;
+      margin: 34px auto 0;
       padding: 18px 20px;
       background: #f6f6f4;
       border-radius: 6px;
@@ -363,12 +382,12 @@
 
       th:first-child,
       td:first-child {
-        width: 46%;
+        width: 48%;
       }
 
       th:last-child,
       td:last-child {
-        width: 54%;
+        width: 52%;
       }
     }
 
@@ -380,6 +399,15 @@
       .wareki-grid .date-part:nth-child(3),
       .wareki-grid .date-part:nth-child(4) {
         margin-top: 2px;
+      }
+
+      .action-area {
+        grid-template-columns: 1fr;
+      }
+
+      .copy-message,
+      .pdf-message {
+        grid-column: auto;
       }
 
       button {
@@ -432,8 +460,6 @@
           </button>
         </div>
 
-        <!-- 和暦入力 -->
-
         <div id="warekiArea">
 
           <div class="wareki-grid">
@@ -442,7 +468,8 @@
               <span class="date-label">元号</span>
 
               <select id="era">
-                <option value="showa">昭和</option>
+                <option value="taisho">大正</option>
+                <option value="showa" selected>昭和</option>
                 <option value="heisei">平成</option>
                 <option value="reiwa">令和</option>
               </select>
@@ -497,8 +524,6 @@
         </div>
 
 
-        <!-- 西暦入力 -->
-
         <div id="seirekiArea" class="hidden">
 
           <div class="date-grid">
@@ -510,7 +535,7 @@
                 type="number"
                 id="deathYear"
                 inputmode="numeric"
-                min="1800"
+                min="1900"
                 max="2200"
                 placeholder="例：1974"
               >
@@ -631,19 +656,47 @@
       </section>
 
 
-      <div class="copy-area">
+      <div class="action-area">
 
-        <button type="button" class="copy-button" id="copyButton">
-          表の内容をコピー
+        <button
+          type="button"
+          class="action-button copy-button"
+          id="copyButton"
+        >
+          共有用テキストをコピー
         </button>
 
-        <div class="copy-message" id="copyMessage"></div>
+        <button
+          type="button"
+          class="action-button pdf-button"
+          id="pdfButton"
+        >
+          PDFを作成
+        </button>
+
+        <div
+          class="copy-message"
+          id="copyMessage"
+        ></div>
+
+        <div
+          class="pdf-message"
+          id="pdfMessage"
+        ></div>
+
+        <button
+          type="button"
+          class="action-button reset-button"
+          id="resetButton"
+        >
+          もう一度入力する
+        </button>
 
       </div>
 
 
       <div class="future-note">
-        印刷用PDF、位牌表示、十三仏、旧呼称などの機能は今後追加する予定です。
+        PDFでは、位牌表示や十三仏、戒名の意味・由来、旧呼称などを必要に応じて追加できるようにする予定です。
       </div>
 
     </section>
@@ -666,10 +719,19 @@
     /*
       ==================================================
       元号定義
+      明治は対象外
       ==================================================
     */
 
     const eras = {
+
+      taisho: {
+        name: "大正",
+        start: [1912, 7, 30],
+        end: [1926, 12, 24],
+        baseYear: 1911
+      },
+
       showa: {
         name: "昭和",
         start: [1926, 12, 25],
@@ -745,11 +807,12 @@
 
     /*
       ==================================================
-      日数計算
+      日付基本処理
       ==================================================
     */
 
     function getDaysInMonth(year, month) {
+
       return new Date(
         Date.UTC(year, month, 0)
       ).getUTCDate();
@@ -757,6 +820,7 @@
 
 
     function createUtcDate(year, month, day) {
+
       return new Date(
         Date.UTC(year, month - 1, day)
       );
@@ -774,6 +838,25 @@
       }
 
       return a[2] - b[2];
+    }
+
+
+    function addDays(date, days) {
+
+      const result =
+        new Date(
+          Date.UTC(
+            date.getUTCFullYear(),
+            date.getUTCMonth(),
+            date.getUTCDate()
+          )
+        );
+
+      result.setUTCDate(
+        result.getUTCDate() + days
+      );
+
+      return result;
     }
 
 
@@ -825,8 +908,7 @@
         previousDay <= maxDay
       ) {
 
-        select.value =
-          previousDay;
+        select.value = previousDay;
       }
     }
 
@@ -896,9 +978,7 @@
         );
 
 
-      if (
-        day > maxDay
-      ) {
+      if (day > maxDay) {
 
         return {
           valid: false,
@@ -923,7 +1003,7 @@
           valid: false,
           message:
             era.name +
-            eraYear +
+            formatEraYear(eraYear) +
             "年" +
             month +
             "月" +
@@ -945,7 +1025,7 @@
           valid: false,
           message:
             era.name +
-            eraYear +
+            formatEraYear(eraYear) +
             "年" +
             month +
             "月" +
@@ -1018,9 +1098,7 @@
         );
 
 
-      if (
-        day > maxDay
-      ) {
+      if (day > maxDay) {
 
         return {
           valid: false,
@@ -1042,17 +1120,10 @@
     }
 
 
-    /*
-      ==================================================
-      命日取得
-      ==================================================
-    */
-
     function getDeathDate() {
 
       if (
-        inputMode ===
-        "wareki"
+        inputMode === "wareki"
       ) {
 
         return warekiToGregorian();
@@ -1064,7 +1135,7 @@
 
     /*
       ==================================================
-      和暦入力の日プルダウン更新
+      入力欄の日数更新
       ==================================================
     */
 
@@ -1141,12 +1212,6 @@
       );
 
 
-    /*
-      ==================================================
-      西暦入力の日プルダウン更新
-      ==================================================
-    */
-
     function updateGregorianDays() {
 
       const year =
@@ -1189,133 +1254,136 @@
 
     /*
       ==================================================
-      日付加算
+      元年表示
       ==================================================
     */
 
-    function addDays(date, days) {
+    function formatEraYear(eraYear) {
 
-      const result =
-        new Date(
-          Date.UTC(
-            date.getUTCFullYear(),
-            date.getUTCMonth(),
-            date.getUTCDate()
-          )
-        );
-
-      result.setUTCDate(
-        result.getUTCDate() + days
-      );
-
-      return result;
+      return eraYear === 1
+        ? "元"
+        : eraYear;
     }
 
 
     /*
       ==================================================
-      和暦表示
+      和暦・西暦表示
       ==================================================
     */
 
     function formatJapaneseDate(date) {
 
-  const year =
-    date.getUTCFullYear();
+      const year =
+        date.getUTCFullYear();
 
-  const month =
-    date.getUTCMonth() + 1;
+      const month =
+        date.getUTCMonth() + 1;
 
-  const day =
-    date.getUTCDate();
+      const day =
+        date.getUTCDate();
 
-  const parts =
-    [year, month, day];
-
-
-  function formatEraYear(eraYear) {
-
-    return eraYear === 1
-      ? "元"
-      : eraYear;
-  }
+      const parts =
+        [year, month, day];
 
 
-  if (
-    compareDateParts(
-      parts,
-      eras.reiwa.start
-    ) >= 0
-  ) {
+      if (
+        compareDateParts(
+          parts,
+          eras.reiwa.start
+        ) >= 0
+      ) {
 
-    const eraYear =
-      year - 2018;
+        const eraYear =
+          year - 2018;
 
-    return (
-      "令和" +
-      formatEraYear(eraYear) +
-      "年" +
-      month +
-      "月" +
-      day +
-      "日"
-    );
-  }
-
-
-  if (
-    compareDateParts(
-      parts,
-      eras.heisei.start
-    ) >= 0
-  ) {
-
-    const eraYear =
-      year - 1988;
-
-    return (
-      "平成" +
-      formatEraYear(eraYear) +
-      "年" +
-      month +
-      "月" +
-      day +
-      "日"
-    );
-  }
+        return (
+          "令和" +
+          formatEraYear(eraYear) +
+          "年" +
+          month +
+          "月" +
+          day +
+          "日"
+        );
+      }
 
 
-  if (
-    compareDateParts(
-      parts,
-      eras.showa.start
-    ) >= 0
-  ) {
+      if (
+        compareDateParts(
+          parts,
+          eras.heisei.start
+        ) >= 0
+      ) {
 
-    const eraYear =
-      year - 1925;
+        const eraYear =
+          year - 1988;
 
-    return (
-      "昭和" +
-      formatEraYear(eraYear) +
-      "年" +
-      month +
-      "月" +
-      day +
-      "日"
-    );
-  }
+        return (
+          "平成" +
+          formatEraYear(eraYear) +
+          "年" +
+          month +
+          "月" +
+          day +
+          "日"
+        );
+      }
 
 
-  return (
-    year +
-    "年" +
-    month +
-    "月" +
-    day +
-    "日"
-  );
-}
+      if (
+        compareDateParts(
+          parts,
+          eras.showa.start
+        ) >= 0
+      ) {
+
+        const eraYear =
+          year - 1925;
+
+        return (
+          "昭和" +
+          formatEraYear(eraYear) +
+          "年" +
+          month +
+          "月" +
+          day +
+          "日"
+        );
+      }
+
+
+      if (
+        compareDateParts(
+          parts,
+          eras.taisho.start
+        ) >= 0
+      ) {
+
+        const eraYear =
+          year - 1911;
+
+        return (
+          "大正" +
+          formatEraYear(eraYear) +
+          "年" +
+          month +
+          "月" +
+          day +
+          "日"
+        );
+      }
+
+
+      return (
+        year +
+        "年" +
+        month +
+        "月" +
+        day +
+        "日"
+      );
+    }
 
 
     function formatGregorianDate(date) {
@@ -1338,14 +1406,29 @@
     */
 
     const chuinItems = [
+
       { name: "初七日", add: 6 },
+
       { name: "二七日", add: 13 },
+
       { name: "三七日", add: 20 },
+
       { name: "四七日", add: 27 },
-      { name: "五七日（三十五日）", add: 34 },
+
+      {
+        name: "五七日（三十五日）",
+        add: 34
+      },
+
       { name: "六七日", add: 41 },
-      { name: "七七日（四十九日）", add: 48 },
+
+      {
+        name: "七七日（四十九日）",
+        add: 48
+      },
+
       { name: "百か日", add: 99 }
+
     ];
 
 
@@ -1356,16 +1439,27 @@
     */
 
     const memorialItems = [
+
       { name: "一周忌", addYear: 1 },
+
       { name: "三回忌", addYear: 2 },
+
       { name: "七回忌", addYear: 6 },
+
       { name: "十三回忌", addYear: 12 },
+
       { name: "十七回忌", addYear: 16 },
+
       { name: "二十三回忌", addYear: 22 },
+
       { name: "二十七回忌", addYear: 26 },
+
       { name: "三十三回忌", addYear: 32 },
+
       { name: "三十七回忌", addYear: 36 },
+
       { name: "五十回忌", addYear: 49 }
+
     ];
 
 
@@ -1385,9 +1479,7 @@
             getDeathDate();
 
 
-          if (
-            !result.valid
-          ) {
+          if (!result.valid) {
 
             alert(
               result.message
@@ -1481,7 +1573,9 @@
                 );
 
               const row =
-                document.createElement("tr");
+                document.createElement(
+                  "tr"
+                );
 
               row.innerHTML =
                 "<td>" +
@@ -1506,7 +1600,9 @@
 
           const nenkaiBody =
             document
-              .getElementById("nenkaiBody");
+              .getElementById(
+                "nenkaiBody"
+              );
 
           nenkaiBody.innerHTML = "";
 
@@ -1519,7 +1615,9 @@
                 item.addYear;
 
               const row =
-                document.createElement("tr");
+                document.createElement(
+                  "tr"
+                );
 
               row.innerHTML =
                 "<td>" +
@@ -1543,6 +1641,18 @@
 
 
           document
+            .getElementById("copyMessage")
+            .textContent =
+            "";
+
+
+          document
+            .getElementById("pdfMessage")
+            .textContent =
+            "";
+
+
+          document
             .getElementById("results")
             .scrollIntoView({
               behavior: "smooth",
@@ -1550,6 +1660,144 @@
             });
         }
       );
+
+
+    /*
+      ==================================================
+      共有用テキストを作る
+      ==================================================
+    */
+
+    function createShareText() {
+
+      const result =
+        getDeathDate();
+
+
+      if (!result.valid) {
+        return "";
+      }
+
+
+      const deathDate =
+        result.date;
+
+
+      const name =
+        document
+          .getElementById("name")
+          .value
+          .trim();
+
+      const kaimyo =
+        document
+          .getElementById("kaimyo")
+          .value
+          .trim();
+
+      const age =
+        document
+          .getElementById("age")
+          .value
+          .trim();
+
+
+      let text = "";
+
+
+      text +=
+        "【故人】\n";
+
+
+      if (name) {
+
+        text +=
+          "俗名：" +
+          name +
+          "\n";
+      }
+
+
+      if (kaimyo) {
+
+        text +=
+          "戒名：" +
+          kaimyo +
+          "\n";
+      }
+
+
+      text +=
+        "命日：" +
+        formatJapaneseDate(
+          deathDate
+        ) +
+        "（" +
+        formatGregorianDate(
+          deathDate
+        ) +
+        "）\n";
+
+
+      if (age) {
+
+        text +=
+          "行年：" +
+          age +
+          "歳\n";
+      }
+
+
+      text +=
+        "\n【中陰表】\n";
+
+
+      chuinItems.forEach(
+        function (item) {
+
+          const targetDate =
+            addDays(
+              deathDate,
+              item.add
+            );
+
+
+          text +=
+            item.name +
+            "　" +
+            formatJapaneseDate(
+              targetDate
+            ) +
+            "\n";
+        }
+      );
+
+
+      text +=
+        "\n【年回表】\n";
+
+
+      const deathYear =
+        deathDate.getUTCFullYear();
+
+
+      memorialItems.forEach(
+        function (item) {
+
+          text +=
+            item.name +
+            "　" +
+            (
+              deathYear +
+              item.addYear
+            ) +
+            "年\n";
+        }
+      );
+
+
+      return text;
+    }
 
 
     /*
@@ -1564,124 +1812,21 @@
         "click",
         async function () {
 
-          const result =
-            getDeathDate();
+          const text =
+            createShareText();
 
 
-          if (
-            !result.valid
-          ) {
+          if (!text) {
+
+            document
+              .getElementById(
+                "copyMessage"
+              )
+              .textContent =
+              "先に中陰表・年回表を表示してください。";
+
             return;
           }
-
-
-          const deathDate =
-            result.date;
-
-
-          const name =
-            document
-              .getElementById("name")
-              .value
-              .trim();
-
-          const kaimyo =
-            document
-              .getElementById("kaimyo")
-              .value
-              .trim();
-
-          const age =
-            document
-              .getElementById("age")
-              .value
-              .trim();
-
-
-          let text = "";
-
-
-          if (name) {
-            text +=
-              "俗名：" +
-              name +
-              "\n";
-          }
-
-
-          if (kaimyo) {
-            text +=
-              "戒名：" +
-              kaimyo +
-              "\n";
-          }
-
-
-          text +=
-            "命日：" +
-            formatJapaneseDate(
-              deathDate
-            ) +
-            "（" +
-            formatGregorianDate(
-              deathDate
-            ) +
-            "）\n";
-
-
-          if (age) {
-            text +=
-              "行年：" +
-              age +
-              "歳\n";
-          }
-
-
-          text +=
-            "\n【中陰表】\n";
-
-
-          chuinItems.forEach(
-            function (item) {
-
-              const targetDate =
-                addDays(
-                  deathDate,
-                  item.add
-                );
-
-              text +=
-                item.name +
-                "　" +
-                formatJapaneseDate(
-                  targetDate
-                ) +
-                "\n";
-            }
-          );
-
-
-          text +=
-            "\n【年回表】\n";
-
-
-          const deathYear =
-            deathDate.getUTCFullYear();
-
-
-          memorialItems.forEach(
-            function (item) {
-
-              text +=
-                item.name +
-                "　" +
-                (
-                  deathYear +
-                  item.addYear
-                ) +
-                "年\n";
-            }
-          );
 
 
           try {
@@ -1690,18 +1835,131 @@
               .clipboard
               .writeText(text);
 
+
             document
-              .getElementById("copyMessage")
+              .getElementById(
+                "copyMessage"
+              )
               .textContent =
-              "コピーしました。";
+              "共有用テキストをコピーしました。";
 
           } catch (error) {
 
             document
-              .getElementById("copyMessage")
+              .getElementById(
+                "copyMessage"
+              )
               .textContent =
               "コピーできませんでした。";
           }
+        }
+      );
+
+
+    /*
+      ==================================================
+      PDF
+      現時点では準備中
+      ==================================================
+    */
+
+    document
+      .getElementById("pdfButton")
+      .addEventListener(
+        "click",
+        function () {
+
+          document
+            .getElementById(
+              "pdfMessage"
+            )
+            .textContent =
+            "PDF作成機能は現在準備中です。";
+        }
+      );
+
+
+    /*
+      ==================================================
+      もう一度入力する
+      ==================================================
+    */
+
+    document
+      .getElementById("resetButton")
+      .addEventListener(
+        "click",
+        function () {
+
+          document
+            .getElementById("name")
+            .value =
+            "";
+
+          document
+            .getElementById("kaimyo")
+            .value =
+            "";
+
+          document
+            .getElementById("age")
+            .value =
+            "";
+
+          document
+            .getElementById("era")
+            .value =
+            "showa";
+
+          document
+            .getElementById("eraYear")
+            .value =
+            "";
+
+          document
+            .getElementById("warekiMonth")
+            .value =
+            "";
+
+          document
+            .getElementById("warekiDay")
+            .innerHTML =
+            '<option value="">日</option>';
+
+          document
+            .getElementById("deathYear")
+            .value =
+            "";
+
+          document
+            .getElementById("deathMonth")
+            .value =
+            "";
+
+          document
+            .getElementById("deathDay")
+            .innerHTML =
+            '<option value="">日</option>';
+
+          document
+            .getElementById("results")
+            .style.display =
+            "none";
+
+          document
+            .getElementById("copyMessage")
+            .textContent =
+            "";
+
+          document
+            .getElementById("pdfMessage")
+            .textContent =
+            "";
+
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
         }
       );
 
