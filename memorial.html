@@ -120,9 +120,40 @@
       background: #fff;
     }
 
-    .death-date-grid {
+    .mode-switch {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .mode-button {
+      flex: 1;
+      padding: 11px 12px;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      background: #fff;
+      color: #333;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .mode-button.active {
+      background: #333;
+      color: #fff;
+      border-color: #333;
+    }
+
+    .date-grid {
       display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr;
+      grid-template-columns: 1.3fr 1fr 1fr;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .wareki-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 0.9fr 0.9fr;
       gap: 10px;
       width: 100%;
     }
@@ -142,6 +173,10 @@
       margin-top: 7px;
       font-size: 13px;
       color: #777;
+    }
+
+    .hidden {
+      display: none;
     }
 
     .button-area {
@@ -271,7 +306,6 @@
     }
 
     @media (max-width: 700px) {
-
       header {
         padding: 20px 16px;
       }
@@ -297,15 +331,20 @@
         padding: 22px 16px;
       }
 
-      .death-date-grid {
+      .date-grid {
         grid-template-columns: 1fr 0.8fr 0.8fr;
         gap: 8px;
       }
 
+      .wareki-grid {
+        grid-template-columns: 1.1fr 0.9fr 0.8fr 0.8fr;
+        gap: 7px;
+      }
+
       input,
       select {
-        padding: 12px 10px;
-        font-size: 16px;
+        padding: 12px 9px;
+        font-size: 15px;
       }
 
       .result-section h2 {
@@ -333,21 +372,18 @@
       }
     }
 
-    @media (max-width: 420px) {
-
-      .death-date-grid {
-        grid-template-columns: 1fr 0.72fr 0.72fr;
-        gap: 6px;
+    @media (max-width: 430px) {
+      .wareki-grid {
+        grid-template-columns: 1fr 0.9fr;
       }
 
-      input,
-      select {
-        font-size: 15px;
+      .wareki-grid .date-part:nth-child(3),
+      .wareki-grid .date-part:nth-child(4) {
+        margin-top: 2px;
       }
 
       button {
         width: 100%;
-        max-width: 100%;
       }
     }
   </style>
@@ -371,89 +407,155 @@
       ご命日を入力すると、中陰の日程と今後の年回忌をご確認いただけます。
     </p>
 
-
     <section class="input-card">
 
       <div class="field">
         <label for="name">故人のお名前</label>
-        <input
-          type="text"
-          id="name"
-          placeholder="例：山田 太郎"
-        >
+        <input type="text" id="name" placeholder="例：山田 太郎">
       </div>
-
 
       <div class="field">
         <label for="kaimyo">戒名（任意）</label>
-        <input
-          type="text"
-          id="kaimyo"
-          placeholder="戒名がある場合に入力してください"
-        >
+        <input type="text" id="kaimyo" placeholder="戒名がある場合に入力してください">
       </div>
 
-
       <div class="field">
-
         <label>ご命日</label>
 
-        <div class="death-date-grid">
+        <div class="mode-switch">
+          <button type="button" class="mode-button active" id="warekiButton">
+            和暦で入力
+          </button>
 
-          <div class="date-part">
-            <span class="date-label">年</span>
+          <button type="button" class="mode-button" id="seirekiButton">
+            西暦で入力
+          </button>
+        </div>
 
-            <input
-              type="number"
-              id="deathYear"
-              inputmode="numeric"
-              min="1800"
-              max="2200"
-              placeholder="例：2013"
-            >
+        <!-- 和暦入力 -->
+
+        <div id="warekiArea">
+
+          <div class="wareki-grid">
+
+            <div class="date-part">
+              <span class="date-label">元号</span>
+
+              <select id="era">
+                <option value="showa">昭和</option>
+                <option value="heisei">平成</option>
+                <option value="reiwa">令和</option>
+              </select>
+            </div>
+
+            <div class="date-part">
+              <span class="date-label">年</span>
+
+              <input
+                type="number"
+                id="eraYear"
+                inputmode="numeric"
+                min="1"
+                placeholder="例：49"
+              >
+            </div>
+
+            <div class="date-part">
+              <span class="date-label">月</span>
+
+              <select id="warekiMonth">
+                <option value="">月</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+              </select>
+            </div>
+
+            <div class="date-part">
+              <span class="date-label">日</span>
+
+              <select id="warekiDay">
+                <option value="">日</option>
+              </select>
+            </div>
+
           </div>
 
-
-          <div class="date-part">
-            <span class="date-label">月</span>
-
-            <select id="deathMonth">
-              <option value="">月</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
-            </select>
-          </div>
-
-
-          <div class="date-part">
-            <span class="date-label">日</span>
-
-            <select id="deathDay">
-              <option value="">日</option>
-            </select>
+          <div class="small-note">
+            元号と年・月・日を入力してください。
           </div>
 
         </div>
 
-        <div class="small-note">
-          西暦で入力してください。
+
+        <!-- 西暦入力 -->
+
+        <div id="seirekiArea" class="hidden">
+
+          <div class="date-grid">
+
+            <div class="date-part">
+              <span class="date-label">年</span>
+
+              <input
+                type="number"
+                id="deathYear"
+                inputmode="numeric"
+                min="1800"
+                max="2200"
+                placeholder="例：1974"
+              >
+            </div>
+
+            <div class="date-part">
+              <span class="date-label">月</span>
+
+              <select id="deathMonth">
+                <option value="">月</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+              </select>
+            </div>
+
+            <div class="date-part">
+              <span class="date-label">日</span>
+
+              <select id="deathDay">
+                <option value="">日</option>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="small-note">
+            西暦で入力してください。
+          </div>
+
         </div>
 
       </div>
 
 
       <div class="field">
-
         <label for="age">行年（任意）</label>
 
         <input
@@ -468,38 +570,22 @@
         <div class="small-note">
           数字のみ入力してください。
         </div>
-
       </div>
 
 
       <div class="button-area">
-
-        <button
-          type="button"
-          id="createButton"
-        >
+        <button type="button" id="createButton">
           中陰表・年回表を表示する
         </button>
-
       </div>
 
     </section>
 
 
-    <!-- 結果 -->
+    <section class="results" id="results">
 
-    <section
-      class="results"
-      id="results"
-    >
+      <div class="person-box" id="personBox"></div>
 
-      <div
-        class="person-box"
-        id="personBox"
-      ></div>
-
-
-      <!-- 中陰表 -->
 
       <section class="result-section">
 
@@ -508,7 +594,6 @@
         <div class="table-wrap">
 
           <table>
-
             <thead>
               <tr>
                 <th>法要</th>
@@ -517,15 +602,12 @@
             </thead>
 
             <tbody id="chuinBody"></tbody>
-
           </table>
 
         </div>
 
       </section>
 
-
-      <!-- 年回表 -->
 
       <section class="result-section">
 
@@ -534,7 +616,6 @@
         <div class="table-wrap">
 
           <table>
-
             <thead>
               <tr>
                 <th>年回忌</th>
@@ -543,7 +624,6 @@
             </thead>
 
             <tbody id="nenkaiBody"></tbody>
-
           </table>
 
         </div>
@@ -551,22 +631,13 @@
       </section>
 
 
-      <!-- コピー -->
-
       <div class="copy-area">
 
-        <button
-          type="button"
-          class="copy-button"
-          id="copyButton"
-        >
+        <button type="button" class="copy-button" id="copyButton">
           表の内容をコピー
         </button>
 
-        <div
-          class="copy-message"
-          id="copyMessage"
-        ></div>
+        <div class="copy-message" id="copyMessage"></div>
 
       </div>
 
@@ -589,52 +660,138 @@
 
   <script>
 
+    let inputMode = "wareki";
+
+
     /*
       ==================================================
-      月の日数
-      閏年を含めて自動計算
+      元号定義
+      ==================================================
+    */
+
+    const eras = {
+      showa: {
+        name: "昭和",
+        start: [1926, 12, 25],
+        end: [1989, 1, 7],
+        baseYear: 1925
+      },
+
+      heisei: {
+        name: "平成",
+        start: [1989, 1, 8],
+        end: [2019, 4, 30],
+        baseYear: 1988
+      },
+
+      reiwa: {
+        name: "令和",
+        start: [2019, 5, 1],
+        end: null,
+        baseYear: 2018
+      }
+    };
+
+
+    /*
+      ==================================================
+      入力方式切替
+      ==================================================
+    */
+
+    document
+      .getElementById("warekiButton")
+      .addEventListener("click", function () {
+
+        inputMode = "wareki";
+
+        document
+          .getElementById("warekiArea")
+          .classList.remove("hidden");
+
+        document
+          .getElementById("seirekiArea")
+          .classList.add("hidden");
+
+        this.classList.add("active");
+
+        document
+          .getElementById("seirekiButton")
+          .classList.remove("active");
+      });
+
+
+    document
+      .getElementById("seirekiButton")
+      .addEventListener("click", function () {
+
+        inputMode = "seireki";
+
+        document
+          .getElementById("seirekiArea")
+          .classList.remove("hidden");
+
+        document
+          .getElementById("warekiArea")
+          .classList.add("hidden");
+
+        this.classList.add("active");
+
+        document
+          .getElementById("warekiButton")
+          .classList.remove("active");
+      });
+
+
+    /*
+      ==================================================
+      日数計算
       ==================================================
     */
 
     function getDaysInMonth(year, month) {
-
       return new Date(
         Date.UTC(year, month, 0)
       ).getUTCDate();
+    }
 
+
+    function createUtcDate(year, month, day) {
+      return new Date(
+        Date.UTC(year, month - 1, day)
+      );
+    }
+
+
+    function compareDateParts(a, b) {
+
+      if (a[0] !== b[0]) {
+        return a[0] - b[0];
+      }
+
+      if (a[1] !== b[1]) {
+        return a[1] - b[1];
+      }
+
+      return a[2] - b[2];
     }
 
 
     /*
       ==================================================
-      日のプルダウンを更新
+      日プルダウン生成
       ==================================================
     */
 
-    function updateDayOptions() {
+    function fillDaySelect(selectId, year, month) {
 
-      const year =
-        Number(
-          document
-            .getElementById("deathYear")
-            .value
-        );
-
-      const month =
-        Number(
-          document
-            .getElementById("deathMonth")
-            .value
-        );
-
-      const daySelect =
-        document
-          .getElementById("deathDay");
+      const select =
+        document.getElementById(selectId);
 
       const previousDay =
-        Number(daySelect.value);
+        Number(select.value);
 
-      daySelect.innerHTML =
+      select.innerHTML =
         '<option value="">日</option>';
 
 
@@ -643,355 +800,180 @@
       }
 
 
-      const days =
+      const maxDay =
+        getDaysInMonth(year, month);
+
+
+      for (
+        let day = 1;
+        day <= maxDay;
+        day++
+      ) {
+
+        const option =
+          document.createElement("option");
+
+        option.value = day;
+        option.textContent = day;
+
+        select.appendChild(option);
+      }
+
+
+      if (
+        previousDay &&
+        previousDay <= maxDay
+      ) {
+
+        select.value =
+          previousDay;
+      }
+    }
+
+
+    /*
+      ==================================================
+      和暦 → 西暦
+      ==================================================
+    */
+
+    function warekiToGregorian() {
+
+      const eraKey =
+        document
+          .getElementById("era")
+          .value;
+
+      const eraYear =
+        Number(
+          document
+            .getElementById("eraYear")
+            .value
+        );
+
+      const month =
+        Number(
+          document
+            .getElementById("warekiMonth")
+            .value
+        );
+
+      const day =
+        Number(
+          document
+            .getElementById("warekiDay")
+            .value
+        );
+
+
+      if (
+        !eraKey ||
+        !eraYear ||
+        !month ||
+        !day
+      ) {
+
+        return {
+          valid: false,
+          message:
+            "ご命日の元号・年・月・日を入力してください。"
+        };
+      }
+
+
+      const era =
+        eras[eraKey];
+
+      const year =
+        era.baseYear +
+        eraYear;
+
+
+      const maxDay =
         getDaysInMonth(
           year,
           month
         );
 
 
-      for (
-        let day = 1;
-        day <= days;
-        day++
+      if (
+        day > maxDay
       ) {
 
-        const option =
-          document.createElement(
-            "option"
-          );
+        return {
+          valid: false,
+          message:
+            "存在しない日付です。"
+        };
+      }
 
-        option.value = day;
-        option.textContent = day;
 
-        daySelect.appendChild(
-          option
-        );
+      const entered =
+        [year, month, day];
+
+
+      if (
+        compareDateParts(
+          entered,
+          era.start
+        ) < 0
+      ) {
+
+        return {
+          valid: false,
+          message:
+            era.name +
+            eraYear +
+            "年" +
+            month +
+            "月" +
+            day +
+            "日は、この元号の期間外です。"
+        };
       }
 
 
       if (
-        previousDay &&
-        previousDay <= days
+        era.end &&
+        compareDateParts(
+          entered,
+          era.end
+        ) > 0
       ) {
 
-        daySelect.value =
-          previousDay;
-
+        return {
+          valid: false,
+          message:
+            era.name +
+            eraYear +
+            "年" +
+            month +
+            "月" +
+            day +
+            "日は、この元号の期間外です。"
+        };
       }
 
-    }
 
-
-    document
-      .getElementById("deathYear")
-      .addEventListener(
-        "input",
-        updateDayOptions
-      );
-
-
-    document
-      .getElementById("deathMonth")
-      .addEventListener(
-        "change",
-        updateDayOptions
-      );
-
-
-    /*
-      ==================================================
-      日付処理
-      ==================================================
-    */
-
-    function createUtcDate(
-      year,
-      month,
-      day
-    ) {
-
-      return new Date(
-        Date.UTC(
-          year,
-          month - 1,
-          day
-        )
-      );
-
-    }
-
-
-    function addDays(
-      date,
-      days
-    ) {
-
-      const result =
-        new Date(
-          Date.UTC(
-            date.getUTCFullYear(),
-            date.getUTCMonth(),
-            date.getUTCDate()
+      return {
+        valid: true,
+        date:
+          createUtcDate(
+            year,
+            month,
+            day
           )
-        );
-
-      result.setUTCDate(
-        result.getUTCDate() +
-        days
-      );
-
-      return result;
-
+      };
     }
 
 
     /*
       ==================================================
-      西暦 → 和暦
-      中陰表は和暦・算用数字
+      西暦入力
       ==================================================
     */
 
-    function formatJapaneseDate(
-      date
-    ) {
-
-      const year =
-        date.getUTCFullYear();
-
-      const month =
-        date.getUTCMonth() + 1;
-
-      const day =
-        date.getUTCDate();
-
-
-      const reiwaStart =
-        new Date(
-          Date.UTC(
-            2019,
-            4,
-            1
-          )
-        );
-
-
-      if (
-        date >=
-        reiwaStart
-      ) {
-
-        const reiwaYear =
-          year - 2018;
-
-        return (
-          "令和" +
-          reiwaYear +
-          "年" +
-          month +
-          "月" +
-          day +
-          "日"
-        );
-
-      }
-
-
-      const heiseiStart =
-        new Date(
-          Date.UTC(
-            1989,
-            0,
-            8
-          )
-        );
-
-
-      if (
-        date >=
-        heiseiStart
-      ) {
-
-        const heiseiYear =
-          year - 1988;
-
-        return (
-          "平成" +
-          heiseiYear +
-          "年" +
-          month +
-          "月" +
-          day +
-          "日"
-        );
-
-      }
-
-
-      const showaStart =
-        new Date(
-          Date.UTC(
-            1926,
-            11,
-            25
-          )
-        );
-
-
-      if (
-        date >=
-        showaStart
-      ) {
-
-        const showaYear =
-          year - 1925;
-
-        return (
-          "昭和" +
-          showaYear +
-          "年" +
-          month +
-          "月" +
-          day +
-          "日"
-        );
-
-      }
-
-
-      return (
-        year +
-        "年" +
-        month +
-        "月" +
-        day +
-        "日"
-      );
-
-    }
-
-
-    /*
-      ==================================================
-      中陰
-      命日を1日目として計算
-      ==================================================
-    */
-
-    const chuinItems = [
-
-      {
-        name: "初七日",
-        add: 6
-      },
-
-      {
-        name: "二七日",
-        add: 13
-      },
-
-      {
-        name: "三七日",
-        add: 20
-      },
-
-      {
-        name: "四七日",
-        add: 27
-      },
-
-      {
-        name: "五七日",
-        add: 34
-      },
-
-      {
-        name: "六七日",
-        add: 41
-      },
-
-      {
-        name: "七七日（四十九日）",
-        add: 48
-      },
-
-      {
-        name: "百か日",
-        add: 99
-      }
-
-    ];
-
-
-    /*
-      ==================================================
-      年回忌
-      ==================================================
-    */
-
-    const memorialItems = [
-
-      {
-        name: "一周忌",
-        addYear: 1
-      },
-
-      {
-        name: "三回忌",
-        addYear: 2
-      },
-
-      {
-        name: "七回忌",
-        addYear: 6
-      },
-
-      {
-        name: "十三回忌",
-        addYear: 12
-      },
-
-      {
-        name: "十七回忌",
-        addYear: 16
-      },
-
-      {
-        name: "二十三回忌",
-        addYear: 22
-      },
-
-      {
-        name: "二十七回忌",
-        addYear: 26
-      },
-
-      {
-        name: "三十三回忌",
-        addYear: 32
-      },
-
-      {
-        name: "三十七回忌",
-        addYear: 36
-      },
-
-      {
-        name: "五十回忌",
-        addYear: 49
-      }
-
-    ];
-
-
-    /*
-      ==================================================
-      入力された命日を取得
-      ==================================================
-    */
-
-    function getDeathDateFromInput() {
+    function getGregorianInput() {
 
       const year =
         Number(
@@ -1021,12 +1003,15 @@
         !day
       ) {
 
-        return null;
-
+        return {
+          valid: false,
+          message:
+            "ご命日の年・月・日を入力してください。"
+        };
       }
 
 
-      const daysInMonth =
+      const maxDay =
         getDaysInMonth(
           year,
           month
@@ -1034,37 +1019,371 @@
 
 
       if (
-        day >
-        daysInMonth
+        day > maxDay
       ) {
 
-        return null;
-
+        return {
+          valid: false,
+          message:
+            "存在しない日付です。"
+        };
       }
 
 
-      return createUtcDate(
-        year,
-        month,
-        day
-      );
-
+      return {
+        valid: true,
+        date:
+          createUtcDate(
+            year,
+            month,
+            day
+          )
+      };
     }
 
 
     /*
       ==================================================
-      表を作る
+      命日取得
+      ==================================================
+    */
+
+    function getDeathDate() {
+
+      if (
+        inputMode ===
+        "wareki"
+      ) {
+
+        return warekiToGregorian();
+      }
+
+      return getGregorianInput();
+    }
+
+
+    /*
+      ==================================================
+      和暦入力の日プルダウン更新
+      ==================================================
+    */
+
+    function updateWarekiDays() {
+
+      const eraKey =
+        document
+          .getElementById("era")
+          .value;
+
+      const eraYear =
+        Number(
+          document
+            .getElementById("eraYear")
+            .value
+        );
+
+      const month =
+        Number(
+          document
+            .getElementById("warekiMonth")
+            .value
+        );
+
+
+      if (
+        !eraKey ||
+        !eraYear ||
+        !month
+      ) {
+
+        fillDaySelect(
+          "warekiDay",
+          0,
+          0
+        );
+
+        return;
+      }
+
+
+      const year =
+        eras[eraKey].baseYear +
+        eraYear;
+
+
+      fillDaySelect(
+        "warekiDay",
+        year,
+        month
+      );
+    }
+
+
+    document
+      .getElementById("era")
+      .addEventListener(
+        "change",
+        updateWarekiDays
+      );
+
+    document
+      .getElementById("eraYear")
+      .addEventListener(
+        "input",
+        updateWarekiDays
+      );
+
+    document
+      .getElementById("warekiMonth")
+      .addEventListener(
+        "change",
+        updateWarekiDays
+      );
+
+
+    /*
+      ==================================================
+      西暦入力の日プルダウン更新
+      ==================================================
+    */
+
+    function updateGregorianDays() {
+
+      const year =
+        Number(
+          document
+            .getElementById("deathYear")
+            .value
+        );
+
+      const month =
+        Number(
+          document
+            .getElementById("deathMonth")
+            .value
+        );
+
+
+      fillDaySelect(
+        "deathDay",
+        year,
+        month
+      );
+    }
+
+
+    document
+      .getElementById("deathYear")
+      .addEventListener(
+        "input",
+        updateGregorianDays
+      );
+
+    document
+      .getElementById("deathMonth")
+      .addEventListener(
+        "change",
+        updateGregorianDays
+      );
+
+
+    /*
+      ==================================================
+      日付加算
+      ==================================================
+    */
+
+    function addDays(date, days) {
+
+      const result =
+        new Date(
+          Date.UTC(
+            date.getUTCFullYear(),
+            date.getUTCMonth(),
+            date.getUTCDate()
+          )
+        );
+
+      result.setUTCDate(
+        result.getUTCDate() + days
+      );
+
+      return result;
+    }
+
+
+    /*
+      ==================================================
+      和暦表示
+      ==================================================
+    */
+
+    function formatJapaneseDate(date) {
+
+      const year =
+        date.getUTCFullYear();
+
+      const month =
+        date.getUTCMonth() + 1;
+
+      const day =
+        date.getUTCDate();
+
+
+      const parts =
+        [year, month, day];
+
+
+      if (
+        compareDateParts(
+          parts,
+          eras.reiwa.start
+        ) >= 0
+      ) {
+
+        return (
+          "令和" +
+          (year - 2018) +
+          "年" +
+          month +
+          "月" +
+          day +
+          "日"
+        );
+      }
+
+
+      if (
+        compareDateParts(
+          parts,
+          eras.heisei.start
+        ) >= 0
+      ) {
+
+        return (
+          "平成" +
+          (year - 1988) +
+          "年" +
+          month +
+          "月" +
+          day +
+          "日"
+        );
+      }
+
+
+      if (
+        compareDateParts(
+          parts,
+          eras.showa.start
+        ) >= 0
+      ) {
+
+        return (
+          "昭和" +
+          (year - 1925) +
+          "年" +
+          month +
+          "月" +
+          day +
+          "日"
+        );
+      }
+
+
+      return (
+        year +
+        "年" +
+        month +
+        "月" +
+        day +
+        "日"
+      );
+    }
+
+
+    function formatGregorianDate(date) {
+
+      return (
+        date.getUTCFullYear() +
+        "年" +
+        (date.getUTCMonth() + 1) +
+        "月" +
+        date.getUTCDate() +
+        "日"
+      );
+    }
+
+
+    /*
+      ==================================================
+      中陰
+      ==================================================
+    */
+
+    const chuinItems = [
+      { name: "初七日", add: 6 },
+      { name: "二七日", add: 13 },
+      { name: "三七日", add: 20 },
+      { name: "四七日", add: 27 },
+      { name: "五七日", add: 34 },
+      { name: "六七日", add: 41 },
+      { name: "七七日（四十九日）", add: 48 },
+      { name: "百か日", add: 99 }
+    ];
+
+
+    /*
+      ==================================================
+      年回忌
+      ==================================================
+    */
+
+    const memorialItems = [
+      { name: "一周忌", addYear: 1 },
+      { name: "三回忌", addYear: 2 },
+      { name: "七回忌", addYear: 6 },
+      { name: "十三回忌", addYear: 12 },
+      { name: "十七回忌", addYear: 16 },
+      { name: "二十三回忌", addYear: 22 },
+      { name: "二十七回忌", addYear: 26 },
+      { name: "三十三回忌", addYear: 32 },
+      { name: "三十七回忌", addYear: 36 },
+      { name: "五十回忌", addYear: 49 }
+    ];
+
+
+    /*
+      ==================================================
+      表示
       ==================================================
     */
 
     document
-      .getElementById(
-        "createButton"
-      )
+      .getElementById("createButton")
       .addEventListener(
         "click",
         function () {
+
+          const result =
+            getDeathDate();
+
+
+          if (
+            !result.valid
+          ) {
+
+            alert(
+              result.message
+            );
+
+            return;
+          }
+
+
+          const deathDate =
+            result.date;
+
 
           const name =
             document
@@ -1085,26 +1404,6 @@
               .trim();
 
 
-          const deathDate =
-            getDeathDateFromInput();
-
-
-          if (
-            !deathDate
-          ) {
-
-            alert(
-              "ご命日の年・月・日を入力してください。"
-            );
-
-            return;
-          }
-
-
-          /*
-            故人情報
-          */
-
           let personHtml = "";
 
 
@@ -1114,7 +1413,6 @@
               "<p><strong>俗名：</strong>" +
               escapeHtml(name) +
               "</p>";
-
           }
 
 
@@ -1124,16 +1422,15 @@
               "<p><strong>戒名：</strong>" +
               escapeHtml(kaimyo) +
               "</p>";
-
           }
 
 
           personHtml +=
             "<p><strong>命日：</strong>" +
-            formatJapaneseDate(
-              deathDate
-            ) +
-            "</p>";
+            formatJapaneseDate(deathDate) +
+            "（" +
+            formatGregorianDate(deathDate) +
+            "）</p>";
 
 
           if (age) {
@@ -1142,27 +1439,18 @@
               "<p><strong>行年：</strong>" +
               escapeHtml(age) +
               "歳</p>";
-
           }
 
 
           document
-            .getElementById(
-              "personBox"
-            )
+            .getElementById("personBox")
             .innerHTML =
             personHtml;
 
 
-          /*
-            中陰表
-          */
-
           const chuinBody =
             document
-              .getElementById(
-                "chuinBody"
-              );
+              .getElementById("chuinBody");
 
           chuinBody.innerHTML = "";
 
@@ -1176,12 +1464,8 @@
                   item.add
                 );
 
-
               const row =
-                document.createElement(
-                  "tr"
-                );
-
+                document.createElement("tr");
 
               row.innerHTML =
                 "<td>" +
@@ -1193,29 +1477,20 @@
                 ) +
                 "</td>";
 
-
               chuinBody.appendChild(
                 row
               );
-
             }
           );
 
 
-          /*
-            年回表
-          */
-
           const deathYear =
-            deathDate
-              .getUTCFullYear();
+            deathDate.getUTCFullYear();
 
 
           const nenkaiBody =
             document
-              .getElementById(
-                "nenkaiBody"
-              );
+              .getElementById("nenkaiBody");
 
           nenkaiBody.innerHTML = "";
 
@@ -1227,12 +1502,8 @@
                 deathYear +
                 item.addYear;
 
-
               const row =
-                document.createElement(
-                  "tr"
-                );
-
+                document.createElement("tr");
 
               row.innerHTML =
                 "<td>" +
@@ -1242,33 +1513,25 @@
                 year +
                 "年</td>";
 
-
               nenkaiBody.appendChild(
                 row
               );
-
             }
           );
 
 
           document
-            .getElementById(
-              "results"
-            )
-            .style
-            .display =
+            .getElementById("results")
+            .style.display =
             "block";
 
 
           document
-            .getElementById(
-              "results"
-            )
+            .getElementById("results")
             .scrollIntoView({
               behavior: "smooth",
               block: "start"
             });
-
         }
       );
 
@@ -1280,12 +1543,25 @@
     */
 
     document
-      .getElementById(
-        "copyButton"
-      )
+      .getElementById("copyButton")
       .addEventListener(
         "click",
         async function () {
+
+          const result =
+            getDeathDate();
+
+
+          if (
+            !result.valid
+          ) {
+            return;
+          }
+
+
+          const deathDate =
+            result.date;
+
 
           const name =
             document
@@ -1306,35 +1582,22 @@
               .trim();
 
 
-          const deathDate =
-            getDeathDateFromInput();
-
-
-          if (!deathDate) {
-            return;
-          }
-
-
           let text = "";
 
 
           if (name) {
-
             text +=
               "俗名：" +
               name +
               "\n";
-
           }
 
 
           if (kaimyo) {
-
             text +=
               "戒名：" +
               kaimyo +
               "\n";
-
           }
 
 
@@ -1343,16 +1606,18 @@
             formatJapaneseDate(
               deathDate
             ) +
-            "\n";
+            "（" +
+            formatGregorianDate(
+              deathDate
+            ) +
+            "）\n";
 
 
           if (age) {
-
             text +=
               "行年：" +
               age +
               "歳\n";
-
           }
 
 
@@ -1369,7 +1634,6 @@
                   item.add
                 );
 
-
               text +=
                 item.name +
                 "　" +
@@ -1377,7 +1641,6 @@
                   targetDate
                 ) +
                 "\n";
-
             }
           );
 
@@ -1387,8 +1650,7 @@
 
 
           const deathYear =
-            deathDate
-              .getUTCFullYear();
+            deathDate.getUTCFullYear();
 
 
           memorialItems.forEach(
@@ -1402,7 +1664,6 @@
                   item.addYear
                 ) +
                 "年\n";
-
             }
           );
 
@@ -1411,29 +1672,20 @@
 
             await navigator
               .clipboard
-              .writeText(
-                text
-              );
-
+              .writeText(text);
 
             document
-              .getElementById(
-                "copyMessage"
-              )
+              .getElementById("copyMessage")
               .textContent =
               "コピーしました。";
 
           } catch (error) {
 
             document
-              .getElementById(
-                "copyMessage"
-              )
+              .getElementById("copyMessage")
               .textContent =
               "コピーできませんでした。";
-
           }
-
         }
       );
 
@@ -1447,27 +1699,11 @@
     function escapeHtml(text) {
 
       return text
-        .replaceAll(
-          "&",
-          "&amp;"
-        )
-        .replaceAll(
-          "<",
-          "&lt;"
-        )
-        .replaceAll(
-          ">",
-          "&gt;"
-        )
-        .replaceAll(
-          '"',
-          "&quot;"
-        )
-        .replaceAll(
-          "'",
-          "&#039;"
-        );
-
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
     }
 
   </script>
