@@ -1096,6 +1096,51 @@
           )
         : null;
 
+    /*
+  ========================================
+  PDF表示設定
+  ========================================
+
+  古いsessionStorageデータから
+  開かれた場合にも壊れないように、
+  初期値をここで定義する。
+*/
+
+const pdfOptions =
+  data &&
+  data.options
+    ? data.options
+    : {};
+
+
+/*
+  旧呼称
+
+  falseと明示されていない限り表示
+*/
+
+const showOldNames =
+  pdfOptions.showOldNames !== false;
+
+
+/*
+  十三仏
+
+  trueと明示された場合だけ表示
+*/
+
+const showThirteenBuddhas =
+  pdfOptions.showThirteenBuddhas === true;
+
+
+/*
+  寺院情報
+
+  falseと明示されていない限り表示
+*/
+
+const showTempleInfo =
+  pdfOptions.showTempleInfo !== false;
 
     /*
       ========================================
@@ -1544,12 +1589,17 @@
               >
 
                 <div
-                  class="old-name"
-                >
-                  ${escapeHtml(
-                    item.oldName || ""
-                  )}
-                </div>
+  class="old-name"
+>
+  ${escapeHtml(
+    showOldNames
+      ? (
+          item.oldName ||
+          ""
+        )
+      : ""
+  )}
+</div>
 
               </div>
 
