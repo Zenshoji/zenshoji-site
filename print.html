@@ -176,6 +176,10 @@
     .tcy {
       display: inline-block;
 
+      width: 1em;
+
+      text-align: center;
+
       writing-mode: horizontal-tb;
       text-orientation: upright;
 
@@ -186,6 +190,12 @@
     }
 
     .upright-digit {
+      display: inline-block;
+
+      width: 1em;
+
+      text-align: center;
+
       text-orientation: upright;
     }
 
@@ -200,10 +210,10 @@
 
 
     /* ========================================
-       HTML縦書き用ハイフン
+       縦書き用ハイフン
 
-       「-」という文字は表示せず、
-       CSSで縦線を描く
+       数字と同じ1em幅を持たせ、
+       同じ中心軸に縦線を描く
     ======================================== */
 
     .vertical-hyphen {
@@ -214,6 +224,8 @@
       width: 1em;
       height: 1em;
 
+      flex: 0 0 1em;
+
       vertical-align: top;
     }
 
@@ -223,8 +235,8 @@
       position: absolute;
 
       left: 50%;
-      top: 12%;
-      bottom: 12%;
+      top: 8%;
+      bottom: 8%;
 
       width: 1px;
 
@@ -238,17 +250,19 @@
     /* ========================================
        寺院情報
 
-       右：寺院名
-       左：郵便番号・住所・電話番号
+       右列：寺院名
+       左列：住所・電話
+
+       列を近接させる
     ======================================== */
 
     .temple-info {
       position: absolute;
 
-      left: 5mm;
+      left: 6mm;
       top: 17mm;
 
-      width: 41mm;
+      width: 40mm;
       height: 176mm;
     }
 
@@ -256,9 +270,14 @@
     .temple-name {
       position: absolute;
 
-      right: 4mm;
+      /*
+        右列
+      */
+
+      left: 24mm;
       top: 5mm;
 
+      width: 8mm;
       height: 165mm;
 
       writing-mode:
@@ -268,16 +287,22 @@
         upright;
 
       font-size: 11pt;
-      line-height: 1.8;
+      line-height: 1.45;
     }
 
 
     .temple-address {
       position: absolute;
 
-      left: 3mm;
+      /*
+        左列
+        寺名との間隔を約8mm程度に
+      */
+
+      left: 10mm;
       top: 5mm;
 
+      width: 8mm;
       height: 165mm;
 
       writing-mode:
@@ -287,7 +312,9 @@
         upright;
 
       font-size: 7.4pt;
-      line-height: 1.8;
+      line-height: 1.35;
+
+      white-space: nowrap;
     }
 
 
@@ -863,17 +890,11 @@
   <div class="page-wrapper">
 
 
-    <!-- ========================================
-         表面
-    ======================================== -->
-
     <section class="page front">
 
       <div class="screen-fold fold-1"></div>
       <div class="screen-fold fold-2"></div>
 
-
-      <!-- 寺院情報 -->
 
       <div class="temple-info">
 
@@ -887,8 +908,6 @@
 
       </div>
 
-
-      <!-- 中陰表 -->
 
       <div class="chuin-area">
 
@@ -918,8 +937,6 @@
 
       </div>
 
-
-      <!-- 位牌 -->
 
       <div class="ihai-area">
 
@@ -952,10 +969,6 @@
     </section>
 
 
-
-    <!-- ========================================
-         裏面
-    ======================================== -->
 
     <section class="page back">
 
@@ -990,12 +1003,6 @@
 
     "use strict";
 
-
-    /*
-      ========================================
-      データ
-    ========================================
-    */
 
     const stored =
       sessionStorage.getItem(
@@ -1041,12 +1048,6 @@
     const showTempleInfo =
       pdfOptions.showTempleInfo !== false;
 
-
-    /*
-      ========================================
-      十三仏
-    ========================================
-    */
 
     const thirteenBuddhas = {
 
@@ -1105,12 +1106,6 @@
     }
 
 
-    /*
-      ========================================
-      忌日名分離
-    ========================================
-    */
-
     function splitChuinName(
       name
     ) {
@@ -1155,55 +1150,20 @@
     }
 
 
-    /*
-      ========================================
-      HTMLエスケープ
-    ========================================
-    */
-
     function escapeHtml(
       text
     ) {
 
       return String(text)
 
-        .replaceAll(
-          "&",
-          "&amp;"
-        )
-
-        .replaceAll(
-          "<",
-          "&lt;"
-        )
-
-        .replaceAll(
-          ">",
-          "&gt;"
-        )
-
-        .replaceAll(
-          '"',
-          "&quot;"
-        )
-
-        .replaceAll(
-          "'",
-          "&#039;"
-        );
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 
     }
 
-
-    /*
-      ========================================
-      HTML縦書き
-
-      ・1～2桁数字は縦中横
-      ・年、月の後は日付用追加余白
-      ・ハイフンは文字を表示せず縦線を描く
-    ========================================
-    */
 
     function verticalHtml(
       text,
@@ -1308,11 +1268,6 @@
           flushNumbers();
 
 
-          /*
-            寺院情報のハイフンは
-            「-」を表示せず縦線を描画
-          */
-
           if (
             verticalHyphen &&
             (
@@ -1365,12 +1320,6 @@
     }
 
 
-    /*
-      ========================================
-      漢数字
-    ========================================
-    */
-
     function numberToKanji(
       n
     ) {
@@ -1393,41 +1342,27 @@
         Number(n);
 
 
-      if (
-        n < 10
-      ) {
-
+      if (n < 10) {
         return digits[n];
-
       }
 
 
-      if (
-        n === 10
-      ) {
-
+      if (n === 10) {
         return "十";
-
       }
 
 
-      if (
-        n < 20
-      ) {
+      if (n < 20) {
 
         return (
           "十" +
-          digits[
-            n - 10
-          ]
+          digits[n - 10]
         );
 
       }
 
 
-      if (
-        n < 100
-      ) {
+      if (n < 100) {
 
         const tens =
           Math.floor(
@@ -1448,9 +1383,7 @@
       }
 
 
-      if (
-        n < 1000
-      ) {
+      if (n < 1000) {
 
         const hundreds =
           Math.floor(
@@ -1467,11 +1400,8 @@
 
 
         result +=
-
           hundreds === 1
-
             ? "百"
-
             : digits[hundreds] +
               "百";
 
@@ -1524,9 +1454,7 @@
 
       const year =
         match[2] === "元"
-
           ? "元"
-
           : numberToKanji(
               Number(
                 match[2]
@@ -1567,12 +1495,8 @@
       age
     ) {
 
-      if (
-        !age
-      ) {
-
+      if (!age) {
         return "";
-
       }
 
 
@@ -1585,12 +1509,6 @@
 
     }
 
-
-    /*
-      ========================================
-      表の段構成
-    ========================================
-    */
 
     function getChuinGridRows() {
 
@@ -1655,18 +1573,8 @@
     }
 
 
-    /*
-      ========================================
-      HTMLプレビュー
-    ========================================
-    */
-
     function buildPreview() {
 
-
-      /*
-        寺院情報
-      */
 
       const templeInfo =
         document.querySelector(
@@ -1682,10 +1590,6 @@
           "block";
 
 
-        /*
-          右側：寺院名
-        */
-
         document
           .querySelector(
             ".temple-name"
@@ -1693,12 +1597,6 @@
           .textContent =
           data.temple.name;
 
-
-        /*
-          左側：郵便番号・住所・電話
-
-          ハイフンは縦線として描画
-        */
 
         document
           .querySelector(
@@ -1729,10 +1627,6 @@
 
       }
 
-
-      /*
-        位牌
-      */
 
       document
         .getElementById(
@@ -1789,8 +1683,7 @@
             text
           ) {
 
-            text +=
-              "　";
+            text += "　";
 
           }
 
@@ -1820,25 +1713,19 @@
         ihaiMain.innerHTML = `
 
           <span
-            style="
-              font-size:0.58em;
-            "
+            style="font-size:0.58em;"
           >
             俗名
           </span>
 
           <span
-            style="
-              font-size:1.15em;
-            "
+            style="font-size:1.15em;"
           >
             ${escapeHtml(name)}
           </span>
 
           <span
-            style="
-              font-size:0.58em;
-            "
+            style="font-size:0.58em;"
           >
             之精霊位
           </span>
@@ -1867,10 +1754,6 @@
 
       }
 
-
-      /*
-        中陰表
-      */
 
       const chuinTable =
         document.getElementById(
@@ -2029,10 +1912,6 @@
         );
 
 
-      /*
-        年回表
-      */
-
       const nenkaiTable =
         document.getElementById(
           "nenkaiTable"
@@ -2135,12 +2014,6 @@
     }
 
 
-    /*
-      ========================================
-      Canvas基本設定
-    ========================================
-    */
-
     const PDF_SCALE =
       10;
 
@@ -2227,11 +2100,8 @@
     ) {
 
       const families =
-
         family === "sans"
-
           ? '"Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif'
-
           : '"Yu Mincho","Hiragino Mincho ProN","Noto Serif JP",serif';
 
 
@@ -2248,12 +2118,6 @@
 
     }
 
-
-    /*
-      ========================================
-      UTF-16安全な文字分解
-    ========================================
-    */
 
     function tokenizeVerticalText(
       text
@@ -2333,15 +2197,6 @@
     }
 
 
-    /*
-      ========================================
-      PDF縦書き
-
-      ハイフンは文字を使わず
-      Canvasで縦線を描く
-    ========================================
-    */
-
     function drawVerticalText(
       ctx,
       text,
@@ -2415,10 +2270,6 @@
 
         }
 
-
-        /*
-          1～2桁数字
-        */
 
         if (
           /^\d{1,2}$/.test(
@@ -2505,10 +2356,6 @@
         }
 
 
-        /*
-          3桁以上数字
-        */
-
         if (
           /^\d+$/.test(
             token
@@ -2568,10 +2415,6 @@
         }
 
 
-        /*
-          括弧
-        */
-
         if (
           token === "(" ||
           token === "（" ||
@@ -2617,17 +2460,12 @@
 
 
             ctx.fillText(
-
               token === "(" ||
               token === "（"
-
                 ? "（"
-
                 : "）",
-
               0,
               0
-
             );
 
 
@@ -2671,15 +2509,7 @@
         }
 
 
-        /*
-          ハイフン類
-
-          「-」という文字は描かず
-          縦線そのものを描く
-        */
-
         if (
-
           token === "-" ||
           token === "－" ||
           token === "ー" ||
@@ -2687,8 +2517,11 @@
           token === "‐" ||
           token === "–" ||
           token === "—"
-
         ) {
+
+          /*
+            数字とまったく同じx座標を中心軸にする
+          */
 
           ctx.save();
 
@@ -2700,7 +2533,7 @@
             Math.max(
               1,
               size *
-              0.07
+              0.065
             );
 
 
@@ -2708,7 +2541,7 @@
             x,
             yy +
             size *
-            0.10
+            0.05
           );
 
 
@@ -2716,7 +2549,7 @@
             x,
             yy +
             size *
-            0.90
+            0.95
           );
 
 
@@ -2734,10 +2567,6 @@
 
         }
 
-
-        /*
-          通常文字
-        */
 
         setFont(
           ctx,
@@ -2818,12 +2647,6 @@
 
     }
 
-
-    /*
-      ========================================
-      位牌
-    ========================================
-    */
 
     function drawIhaiCanvas(
       ctx
@@ -3130,12 +2953,6 @@
     }
 
 
-    /*
-      ========================================
-      表面Canvas
-    ========================================
-    */
-
     function renderFrontCanvas() {
 
       const {
@@ -3147,6 +2964,8 @@
 
       /*
         寺院情報
+
+        PDF側も近接した2列にする
       */
 
       if (
@@ -3154,13 +2973,13 @@
       ) {
 
         /*
-          右側：寺院名
+          右：寺名
         */
 
         drawVerticalText(
           ctx,
           data.temple.name,
-          mm(36),
+          mm(32),
           mm(24),
           {
             size:
@@ -3176,7 +2995,9 @@
 
 
         /*
-          左側：郵便番号・住所・電話
+          左：住所・電話
+
+          寺名との差を約10mm程度に
         */
 
         drawVerticalText(
@@ -3186,7 +3007,7 @@
           data.temple.address +
           "　電話" +
           data.temple.tel,
-          mm(17),
+          mm(21),
           mm(24),
           {
             size:
@@ -3205,10 +3026,6 @@
 
       }
 
-
-      /*
-        中陰表タイトル
-      */
 
       drawCenteredText(
         ctx,
@@ -3625,10 +3442,6 @@
       );
 
 
-      /*
-        中陰とは
-      */
-
       setFont(
         ctx,
         mm(3.3),
@@ -3704,12 +3517,6 @@
     }
 
 
-    /*
-      ========================================
-      裏面Canvas
-    ========================================
-    */
-
     function renderBackCanvas() {
 
       const {
@@ -3758,15 +3565,12 @@
 
 
       const rowRatios =
-
         showThirteenBuddhas
-
           ? [
               0.36,
               0.40,
               0.24
             ]
-
           : [
               0.46,
               0.54
@@ -3981,12 +3785,6 @@
 
     }
 
-
-    /*
-      ========================================
-      PDF保存
-    ========================================
-    */
 
     async function savePdf() {
 
