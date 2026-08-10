@@ -3,11 +3,377 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>体験・学び | 禅昌寺</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Kaku Gothic ProN",
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+      color: #222;
+      background: #fff;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* =========================
+       ヘッダー
+    ========================= */
+
+    header {
+      padding: 26px 20px;
+      border-bottom: 1px solid #ddd;
+      background: #fff;
+    }
+
+    .header-inner {
+      width: min(1000px, calc(100% - 20px));
+      margin: 0 auto;
+    }
+
+    .site-name {
+      font-family:
+        "Yu Mincho",
+        "YuMincho",
+        "Hiragino Mincho ProN",
+        "Hiragino Mincho Pro",
+        "Noto Serif JP",
+        serif;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+    }
+
+    /* =========================
+       メイン
+    ========================= */
+
+    main {
+      width: min(900px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 60px 0 80px;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      text-align: center;
+      font-size: 32px;
+      font-weight: 600;
+    }
+
+    .intro {
+      margin: 0 auto 46px;
+      text-align: center;
+      color: #666;
+      font-size: 16px;
+    }
+
+    /* =========================
+       体験・学び
+    ========================= */
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .category {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 34px 28px;
+      background: #fff;
+    }
+
+    .category h2 {
+      margin: 0 0 8px;
+      text-align: center;
+      font-size: 25px;
+    }
+
+    .category-description {
+      margin: 0 0 26px;
+      text-align: center;
+      color: #777;
+      font-size: 15px;
+    }
+
+    /* =========================
+       各項目
+    ========================= */
+
+    .item {
+      display: block;
+      padding: 17px 4px;
+      border-top: 1px solid #e5e5e5;
+    }
+
+    .item:last-child {
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .item-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .item-text {
+      margin-top: 3px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    a.item:hover .item-title {
+      text-decoration: underline;
+    }
+
+    /* リンク未設定の項目 */
+
+    .item-disabled {
+      color: #777;
+    }
+
+    .status {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 7px;
+      border-radius: 4px;
+      background: #f0f0f0;
+      color: #777;
+      font-size: 12px;
+      font-weight: normal;
+      vertical-align: middle;
+    }
+
+    /* =========================
+       トップへ戻る
+    ========================= */
+
+    .back {
+      margin-top: 58px;
+      text-align: center;
+    }
+
+    .back a {
+      display: inline-block;
+      padding: 12px 24px;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      background: #fff;
+    }
+
+    /* =========================
+       スマートフォン
+    ========================= */
+
+    @media (max-width: 700px) {
+
+      header {
+        padding: 20px 16px;
+      }
+
+      .site-name {
+        font-size: 20px;
+      }
+
+      main {
+        width: min(100% - 28px, 900px);
+        padding: 42px 0 60px;
+      }
+
+      h1 {
+        font-size: 27px;
+      }
+
+      .intro {
+        margin-bottom: 32px;
+      }
+
+      .category-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .category {
+        padding: 28px 22px;
+      }
+
+      .category h2 {
+        font-size: 23px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <h1>体験・学び</h1>
-  <p>このページは準備中です。</p>
-  <p><a href="index.html">トップページへ戻る</a></p>
+
+  <!-- =========================
+       ヘッダー
+  ========================== -->
+
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="site-name">
+        松久山 禅昌寺
+      </a>
+    </div>
+  </header>
+
+
+  <!-- =========================
+       本文
+  ========================== -->
+
+  <main>
+
+    <h1>体験・学び</h1>
+
+    <p class="intro">
+      禅昌寺での体験や、仏教についての読みものをご案内しています。
+    </p>
+
+
+    <div class="category-grid">
+
+      <!-- =====================
+           体験
+      ====================== -->
+
+      <section class="category">
+
+        <h2>体験</h2>
+
+        <p class="category-description">
+          お寺で仏教にふれる
+        </p>
+
+        <div class="item item-disabled">
+          <div class="item-title">
+            月例坐禅会
+            <span class="status">準備中</span>
+          </div>
+
+          <div class="item-text">
+            坐禅会について
+          </div>
+        </div>
+
+        <div class="item item-disabled">
+          <div class="item-title">
+            月例写経会
+            <span class="status">準備中</span>
+          </div>
+
+          <div class="item-text">
+            写経会について
+          </div>
+        </div>
+
+        <div class="item item-disabled">
+          <div class="item-title">
+            その他の体験
+            <span class="status">準備中</span>
+          </div>
+
+          <div class="item-text">
+            禅昌寺で行う体験のご案内
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- =====================
+           学び
+      ====================== -->
+
+      <section class="category">
+
+        <h2>学び</h2>
+
+        <p class="category-description">
+          仏教を身近に知る
+        </p>
+
+
+        <!-- 1分で読める仏教のお話 -->
+
+        <a
+          href="https://zenshoji.github.io/meinichi-liff/learning/articles/"
+          class="item"
+        >
+          <div class="item-title">
+            1分で読める仏教のお話
+          </div>
+
+          <div class="item-text">
+            身近な話題から仏教にふれる短いお話
+          </div>
+        </a>
+
+
+        <!-- 仏教の言葉 -->
+
+        <a
+          href="https://zenshoji.github.io/meinichi-liff/learning/words/"
+          class="item"
+        >
+          <div class="item-title">
+            仏教の言葉
+          </div>
+
+          <div class="item-text">
+            仏教や禅の言葉をご紹介します
+          </div>
+        </a>
+
+
+        <!-- 寺だより -->
+
+        <a
+          href="https://zenshoji.github.io/meinichi-liff/learning/teradayori/"
+          class="item"
+        >
+          <div class="item-title">
+            寺だより
+            <span class="status">準備中</span>
+          </div>
+
+          <div class="item-text">
+            禅昌寺からの読みもの
+          </div>
+        </a>
+
+      </section>
+
+    </div>
+
+
+    <!-- =====================
+         トップへ戻る
+    ====================== -->
+
+    <div class="back">
+      <a href="index.html">
+        トップページへ戻る
+      </a>
+    </div>
+
+  </main>
+
 </body>
 </html>
