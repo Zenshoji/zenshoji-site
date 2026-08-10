@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>行年・数え年の数え方 | 禅昌寺</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Kaku Gothic ProN",
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+      color: #222;
+      background: #fff;
+      line-height: 1.8;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    header {
+      padding: 26px 20px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .header-inner {
+      width: min(1000px, calc(100% - 20px));
+      margin: 0 auto;
+    }
+
+    .site-name {
+      font-family:
+        "Yu Mincho",
+        "YuMincho",
+        "Hiragino Mincho ProN",
+        "Hiragino Mincho Pro",
+        serif;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+    }
+
+    main {
+      width: min(720px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 54px 0 70px;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      text-align: center;
+      font-size: 30px;
+    }
+
+    .intro {
+      margin: 0 0 40px;
+      text-align: center;
+      color: #666;
+    }
+
+    section {
+      margin-top: 38px;
+    }
+
+    h2 {
+      font-size: 21px;
+      margin: 0 0 12px;
+    }
+
+    .box {
+      padding: 20px;
+      background: #f6f6f4;
+      border-radius: 8px;
+    }
+
+    .formula {
+      margin: 18px 0;
+      padding: 16px;
+      border: 1px solid #ddd;
+      border-radius: 7px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .calculator {
+      margin-top: 22px;
+      padding: 24px 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      border: 0;
+      border-radius: 7px;
+      background: #333;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    #result {
+      display: none;
+      margin-top: 20px;
+      padding: 18px;
+      background: #f6f6f4;
+      border-radius: 7px;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .note {
+      margin-top: 14px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .back {
+      margin-top: 48px;
+      text-align: center;
+    }
+
+    .back a {
+      display: inline-block;
+      padding: 11px 20px;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+
+    @media (max-width: 700px) {
+      header {
+        padding: 20px 16px;
+      }
+
+      .site-name {
+        font-size: 20px;
+      }
+
+      main {
+        padding-top: 40px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="site-name">
+        松久山 禅昌寺
+      </a>
+    </div>
+  </header>
+
+  <main>
+
+    <h1>行年・数え年の数え方</h1>
+
+    <p class="intro">
+      禅昌寺では、位牌などに記す行年を数え年で表記します。
+    </p>
+
+    <section>
+      <h2>数え年とは</h2>
+
+      <div class="box">
+        生まれた年を1歳とし、その後は誕生日ではなく、
+        年が変わるごとに1歳を加える数え方です。
+      </div>
+
+      <div class="formula">
+        数え年 ＝ 亡くなった年 − 生まれた年 ＋ 1
+      </div>
+
+      <p>
+        例えば、昭和10年（1935年）生まれの方が
+        令和5年（2023年）に亡くなられた場合は、
+      </p>
+
+      <div class="formula">
+        2023 − 1935 ＋ 1 ＝ 89歳
+      </div>
+
+      <p>
+        となり、行年89歳となります。
+      </p>
+    </section>
+
+
+    <section>
+      <h2>数え年を確認する</h2>
+
+      <p>
+        生まれた年と亡くなった年が分かれば、
+        こちらで確認できます。
+      </p>
+
+      <div class="calculator">
+
+        <div class="field">
+          <label for="birthYear">
+            生まれた年（西暦）
+          </label>
+
+          <input
+            type="number"
+            id="birthYear"
+            inputmode="numeric"
+            placeholder="例：1935"
+          >
+        </div>
+
+        <div class="field">
+          <label for="deathYear">
+            亡くなった年（西暦）
+          </label>
+
+          <input
+            type="number"
+            id="deathYear"
+            inputmode="numeric"
+            placeholder="例：2023"
+          >
+        </div>
+
+        <button
+          type="button"
+          id="calcButton"
+        >
+          数え年を確認する
+        </button>
+
+        <div id="result"></div>
+
+      </div>
+
+      <p class="note">
+        ※過去帳・位牌などにすでに行年の記載がある場合は、
+        その記載をご確認ください。
+      </p>
+    </section>
+
+
+    <div class="back">
+      <a href="memorial.html">
+        中陰表・年回表へ戻る
+      </a>
+    </div>
+
+  </main>
+
+
+  <script>
+
+    document
+      .getElementById("calcButton")
+      .addEventListener(
+        "click",
+        function () {
+
+          const birthYear =
+            Number(
+              document
+                .getElementById("birthYear")
+                .value
+            );
+
+          const deathYear =
+            Number(
+              document
+                .getElementById("deathYear")
+                .value
+            );
+
+
+          if (
+            !birthYear ||
+            !deathYear
+          ) {
+
+            alert(
+              "生まれた年と亡くなった年を入力してください。"
+            );
+
+            return;
+          }
+
+
+          if (
+            birthYear >
+            deathYear
+          ) {
+
+            alert(
+              "年の入力をご確認ください。"
+            );
+
+            return;
+          }
+
+
+          const age =
+            deathYear -
+            birthYear +
+            1;
+
+
+          const result =
+            document
+              .getElementById("result");
+
+
+          result.innerHTML =
+            "数え年は <strong>" +
+            age +
+            "歳</strong> です。";
+
+
+          result.style.display =
+            "block";
+        }
+      );
+
+  </script>
+
+</body>
+</html>
