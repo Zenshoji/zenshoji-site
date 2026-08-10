@@ -3496,61 +3496,120 @@
 
           const pdfData = {
 
+  /*
+    ========================================
+    故人情報
+    ========================================
+  */
 
-            name:
-              name,
+  name:
+    name,
 
+  kaimyo:
+    kaimyo,
 
-            kaimyo:
-              kaimyo,
-
-
-            age:
-              age,
-
-
-            deathDateJapanese:
-              formatJapaneseDate(
-                deathDate
-              ),
+  age:
+    age,
 
 
-            deathDateGregorian:
-              formatGregorianDate(
-                deathDate
-              ),
+  /*
+    ========================================
+    命日
+    ========================================
+  */
+
+  deathDateJapanese:
+    formatJapaneseDate(
+      deathDate
+    ),
+
+  deathDateGregorian:
+    formatGregorianDate(
+      deathDate
+    ),
+
+  deathYear:
+    deathYear,
 
 
-            deathYear:
-              deathYear,
+  /*
+    ========================================
+    表データ
+    ========================================
+  */
+
+  chuin:
+    chuin,
+
+  nenkai:
+    nenkai,
 
 
-            chuin:
-              chuin,
+  /*
+    ========================================
+    PDF表示設定
+
+    一般利用者版では固定。
+
+    管理者版では、
+    後からこの値を変更できるようにする。
+    ========================================
+  */
+
+  options: {
+
+    /*
+      旧呼称
+      一般利用者版では表示する
+    */
+
+    showOldNames:
+      true,
 
 
-            nenkai:
-              nenkai,
+    /*
+      十三仏
+      一般利用者版では表示しない
+    */
+
+    showThirteenBuddhas:
+      false,
 
 
-            temple: {
+    /*
+      寺院情報
+      一般利用者版では表示する
+    */
 
-              name:
-                "曹洞宗 松久山 禅昌寺",
+    showTempleInfo:
+      true
 
-              postal:
-                "〒092-0235",
-
-              address:
-                "北海道網走郡津別町幸町69-2",
-
-              tel:
-                "0152-76-2613"
-
-            }
+  },
 
 
-          };
+  /*
+    ========================================
+    寺院情報
+    ========================================
+  */
+
+  temple: {
+
+    name:
+      "曹洞宗 松久山 禅昌寺",
+
+    postal:
+      "〒092-0235",
+
+    address:
+      "北海道網走郡津別町幸町69-2",
+
+    tel:
+      "0152-76-2613"
+
+  }
+
+};
 
 
           sessionStorage
