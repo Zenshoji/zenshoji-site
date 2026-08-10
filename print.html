@@ -1,10 +1,26 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>中陰年回表</title>
+
+
+  <!--
+    PDF直接生成用 jsPDF
+  -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/jspdf@4.0.0/dist/jspdf.umd.min.js"
+  ></script>
+
 
   <style>
 
@@ -12,11 +28,14 @@
       box-sizing: border-box;
     }
 
+
     html,
     body {
       margin: 0;
       padding: 0;
+
       background: #ddd;
+
       color: #111;
 
       font-family:
@@ -35,54 +54,122 @@
 
     .toolbar {
       position: sticky;
+
       top: 0;
+
       z-index: 100;
 
       padding: 12px;
 
       background: #fff;
-      border-bottom: 1px solid #bbb;
+
+      border-bottom:
+        1px solid #bbb;
 
       text-align: center;
     }
 
+
     .print-guide {
-      margin-bottom: 10px;
-      font-size: 14px;
-      line-height: 1.6;
-      color: #555;
+      margin-bottom:
+        10px;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+
+      font-size:
+        14px;
+
+      line-height:
+        1.6;
+
+      color:
+        #555;
     }
+
 
     .toolbar-buttons {
       display: flex;
-      justify-content: center;
-      gap: 10px;
+
+      justify-content:
+        center;
+
+      gap:
+        10px;
     }
+
 
     .toolbar button {
-      padding: 12px 24px;
+      padding:
+        12px 22px;
 
-      border: 0;
-      border-radius: 6px;
+      border:
+        0;
 
-      background: #333;
-      color: #fff;
+      border-radius:
+        6px;
 
-      font-size: 16px;
-      font-weight: 600;
+      color:
+        #fff;
 
-      cursor: pointer;
+      font-size:
+        16px;
+
+      font-weight:
+        600;
+
+      cursor:
+        pointer;
     }
 
-    .toolbar .back-button {
-      background: #777;
+
+    .back-button {
+      background:
+        #777;
+    }
+
+
+    .pdf-button {
+      background:
+        #333;
+    }
+
+
+    .print-button {
+      background:
+        #555;
+    }
+
+
+    .status {
+      min-height:
+        22px;
+
+      margin-top:
+        8px;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+
+      font-size:
+        13px;
+
+      color:
+        #666;
     }
 
 
     /* ========================================
-       A4横
-       297mm × 210mm
-    ======================================== */
+       A4横プレビュー
+       ======================================== */
 
     .page {
       position: relative;
@@ -90,96 +177,104 @@
       width: 297mm;
       height: 210mm;
 
-      margin: 14mm auto;
+      margin:
+        14mm auto;
 
-      background: #fff;
+      background:
+        #fff;
 
-      overflow: hidden;
+      overflow:
+        hidden;
 
       box-shadow:
-        0 2px 14px rgba(0,0,0,0.20);
+        0 2px 14px
+        rgba(0,0,0,0.20);
     }
 
 
     /*
-      画面確認用の三つ折り線
-      印刷時には消す
+      画面確認用折り線
+      印刷時は消す
     */
 
     .screen-fold {
-      position: absolute;
+      position:
+        absolute;
 
       top: 0;
       bottom: 0;
 
-      border-left: 1px dashed #bbb;
+      border-left:
+        1px dashed #bbb;
 
-      pointer-events: none;
+      pointer-events:
+        none;
     }
+
 
     .fold-1 {
       left: 99mm;
     }
+
 
     .fold-2 {
       left: 198mm;
     }
 
 
-    /* ========================================
-       共通
-    ======================================== */
-
     .vertical {
-      writing-mode: vertical-rl;
-      text-orientation: upright;
+      writing-mode:
+        vertical-rl;
+
+      text-orientation:
+        upright;
     }
 
 
     /* ========================================
        表面
-    ======================================== */
-
-    .front {
-      position: relative;
-    }
-
-
-    /*
-      左端：寺院情報
-    */
+       ======================================== */
 
     .temple-info {
-      position: absolute;
+      position:
+        absolute;
 
-      left: 10mm;
-      top: 20mm;
+      left: 8mm;
+      top: 17mm;
 
-      width: 37mm;
-      height: 170mm;
+      width: 38mm;
+      height: 176mm;
 
       display: flex;
-      justify-content: center;
+
+      justify-content:
+        center;
+
       gap: 5mm;
     }
 
+
     .temple-name {
-      font-size: 11pt;
-      line-height: 1.8;
+      font-size:
+        11pt;
+
+      line-height:
+        1.8;
     }
+
 
     .temple-address {
-      font-size: 7.7pt;
-      line-height: 1.7;
+      font-size:
+        7.4pt;
+
+      line-height:
+        1.8;
     }
 
 
-    /*
-      中央〜左：中陰表
-    */
-
     .chuin-area {
-      position: absolute;
+      position:
+        absolute;
 
       left: 48mm;
       top: 13mm;
@@ -188,24 +283,34 @@
       height: 184mm;
     }
 
+
     .chuin-title {
-      position: absolute;
+      position:
+        absolute;
 
       top: 0;
       left: 0;
 
-      width: 100%;
+      width:
+        100%;
 
-      text-align: center;
+      text-align:
+        center;
 
-      font-size: 19pt;
-      font-weight: 600;
-      letter-spacing: 0.18em;
+      font-size:
+        19pt;
+
+      font-weight:
+        600;
+
+      letter-spacing:
+        0.18em;
     }
 
 
     .chuin-table {
-      position: absolute;
+      position:
+        absolute;
 
       left: 0;
       top: 24mm;
@@ -213,25 +318,11 @@
       width: 100%;
       height: 111mm;
 
-      border: 1px solid #333;
+      border:
+        1px solid #333;
 
-      display: grid;
-
-      /*
-        左 → 右
-
-        百か日
-        七七日
-        六七日
-        五七日
-        四七日
-        三七日
-        二七日
-        初七日
-
-        縦書きでは右側から
-        初七日 → 左へ進む
-      */
+      display:
+        grid;
 
       grid-template-columns:
         repeat(8, 1fr);
@@ -239,101 +330,134 @@
 
 
     .chuin-column {
-      position: relative;
+      border-right:
+        1px solid #777;
 
-      border-right: 1px solid #777;
-
-      display: grid;
+      display:
+        grid;
 
       grid-template-rows:
         36% 25% 39%;
     }
 
+
     .chuin-column:last-child {
-      border-right: 0;
+      border-right:
+        0;
     }
 
 
     .chuin-cell {
-      display: flex;
+      display:
+        flex;
 
-      align-items: center;
-      justify-content: center;
+      align-items:
+        center;
 
-      border-bottom: 1px solid #999;
+      justify-content:
+        center;
 
-      overflow: hidden;
+      border-bottom:
+        1px solid #999;
+
+      overflow:
+        hidden;
     }
 
+
     .chuin-cell:last-child {
-      border-bottom: 0;
+      border-bottom:
+        0;
     }
 
 
     .chuin-name {
-      writing-mode: vertical-rl;
-      text-orientation: upright;
+      writing-mode:
+        vertical-rl;
 
-      font-size: 9pt;
-      line-height: 1.25;
+      text-orientation:
+        upright;
 
-      text-align: center;
+      font-size:
+        9pt;
+
+      line-height:
+        1.25;
+
+      text-align:
+        center;
     }
 
 
     .old-name {
-      writing-mode: vertical-rl;
-      text-orientation: upright;
+      writing-mode:
+        vertical-rl;
 
-      font-size: 7.5pt;
+      text-orientation:
+        upright;
 
-      color: #444;
+      font-size:
+        7.5pt;
+
+      color:
+        #444;
     }
 
 
     .chuin-date {
-      writing-mode: vertical-rl;
-      text-orientation: upright;
+      writing-mode:
+        vertical-rl;
 
-      font-size: 8.5pt;
+      text-orientation:
+        upright;
 
-      white-space: nowrap;
+      font-size:
+        8.5pt;
+
+      white-space:
+        nowrap;
     }
 
 
-    /*
-      中陰とは
-    */
-
     .chuin-description {
-      position: absolute;
+      position:
+        absolute;
 
       left: 2mm;
       right: 2mm;
 
       top: 143mm;
 
-      min-height: 32mm;
+      min-height:
+        32mm;
 
-      padding: 5mm 6mm;
+      padding:
+        5mm 6mm;
 
-      border-top: 1px solid #aaa;
+      border-top:
+        1px solid #aaa;
 
       font-family:
         -apple-system,
         BlinkMacSystemFont,
-        "Hiragino Kaku Gothic ProN",
         "Yu Gothic",
         "Meiryo",
         sans-serif;
 
-      font-size: 8.5pt;
-      line-height: 1.7;
+      font-size:
+        8.5pt;
+
+      line-height:
+        1.7;
     }
 
+
     .chuin-description strong {
-      display: block;
-      margin-bottom: 2mm;
+      display:
+        block;
+
+      margin-bottom:
+        2mm;
 
       font-family:
         "Yu Mincho",
@@ -341,17 +465,18 @@
         "Hiragino Mincho ProN",
         serif;
 
-      font-size: 10pt;
+      font-size:
+        10pt;
     }
 
 
     /*
-      右端：位牌
-      三つ折り右面99mm内に完全収納
+      位牌：右99mm内
     */
 
     .ihai-area {
-      position: absolute;
+      position:
+        absolute;
 
       left: 201mm;
       top: 10mm;
@@ -359,27 +484,29 @@
       width: 86mm;
       height: 190mm;
 
-      display: flex;
+      display:
+        flex;
 
-      align-items: center;
-      justify-content: center;
+      align-items:
+        center;
+
+      justify-content:
+        center;
     }
 
 
     .ihai {
-      position: relative;
+      position:
+        relative;
 
       width: 60mm;
       height: 165mm;
     }
 
 
-    /*
-      位牌外形
-    */
-
     .ihai-body {
-      position: absolute;
+      position:
+        absolute;
 
       left: 7mm;
       right: 7mm;
@@ -387,7 +514,8 @@
       top: 20mm;
       bottom: 20mm;
 
-      border: 1.3px solid #222;
+      border:
+        1.3px solid #222;
 
       border-radius:
         7mm 7mm 3mm 3mm;
@@ -395,7 +523,8 @@
 
 
     .ihai-top {
-      position: absolute;
+      position:
+        absolute;
 
       top: 3mm;
       left: 18mm;
@@ -403,108 +532,121 @@
       width: 24mm;
       height: 27mm;
 
-      border-top: 1.3px solid #222;
-      border-left: 1.3px solid #222;
-      border-right: 1.3px solid #222;
+      border-top:
+        1.3px solid #222;
 
-      transform: rotate(45deg);
+      border-left:
+        1.3px solid #222;
 
-      border-radius: 3mm 0 0 0;
+      border-right:
+        1.3px solid #222;
+
+      transform:
+        rotate(45deg);
     }
 
 
     .ihai-base-1 {
-      position: absolute;
+      position:
+        absolute;
 
       bottom: 14mm;
       left: 4mm;
 
       width: 52mm;
 
-      border-top: 1.3px solid #222;
+      border-top:
+        1.3px solid #222;
     }
 
 
     .ihai-base-2 {
-      position: absolute;
+      position:
+        absolute;
 
       bottom: 9mm;
       left: 9mm;
 
       width: 42mm;
 
-      border-top: 1.3px solid #222;
+      border-top:
+        1.3px solid #222;
     }
 
 
-    /*
-      位牌内文字
-    */
-
     .ihai-main {
-      position: absolute;
+      position:
+        absolute;
 
       top: 33mm;
       right: 20mm;
 
       height: 100mm;
 
-      writing-mode: vertical-rl;
-      text-orientation: upright;
+      writing-mode:
+        vertical-rl;
 
-      font-size: 16pt;
-      letter-spacing: 0.08em;
+      text-orientation:
+        upright;
+
+      font-size:
+        16pt;
+
+      letter-spacing:
+        0.08em;
     }
 
 
     .ihai-date {
-      position: absolute;
+      position:
+        absolute;
 
       top: 40mm;
       right: 8mm;
 
       height: 95mm;
 
-      writing-mode: vertical-rl;
-      text-orientation: upright;
+      writing-mode:
+        vertical-rl;
 
-      font-size: 9pt;
+      text-orientation:
+        upright;
+
+      font-size:
+        9pt;
     }
 
 
     .ihai-left {
-      position: absolute;
+      position:
+        absolute;
 
       top: 40mm;
       left: 8mm;
 
       height: 100mm;
 
-      writing-mode: vertical-rl;
-      text-orientation: upright;
+      writing-mode:
+        vertical-rl;
 
-      font-size: 8.5pt;
+      text-orientation:
+        upright;
 
-      line-height: 1.7;
+      font-size:
+        8.5pt;
+
+      line-height:
+        1.7;
     }
 
 
     /* ========================================
        裏面
-    ======================================== */
-
-    .back {
-      position: relative;
-    }
-
-
-    /*
-      左側
-      初期版は余白
-    */
+       ======================================== */
 
     .back-extra {
-      position: absolute;
+      position:
+        absolute;
 
       left: 12mm;
       top: 20mm;
@@ -514,12 +656,9 @@
     }
 
 
-    /*
-      右〜中央：年回表
-    */
-
     .nenkai-area {
-      position: absolute;
+      position:
+        absolute;
 
       left: 83mm;
       top: 14mm;
@@ -530,18 +669,26 @@
 
 
     .nenkai-title {
-      width: 100%;
+      width:
+        100%;
 
-      text-align: center;
+      text-align:
+        center;
 
-      font-size: 19pt;
-      font-weight: 600;
-      letter-spacing: 0.18em;
+      font-size:
+        19pt;
+
+      font-weight:
+        600;
+
+      letter-spacing:
+        0.18em;
     }
 
 
     .nenkai-table {
-      position: absolute;
+      position:
+        absolute;
 
       left: 0;
       top: 25mm;
@@ -549,9 +696,11 @@
       width: 100%;
       height: 110mm;
 
-      border: 1px solid #333;
+      border:
+        1px solid #333;
 
-      display: grid;
+      display:
+        grid;
 
       grid-template-columns:
         repeat(10, 1fr);
@@ -559,56 +708,78 @@
 
 
     .nenkai-column {
-      display: grid;
+      display:
+        grid;
 
       grid-template-rows:
         48% 52%;
 
-      border-right: 1px solid #777;
+      border-right:
+        1px solid #777;
     }
 
+
     .nenkai-column:last-child {
-      border-right: 0;
+      border-right:
+        0;
     }
 
 
     .nenkai-cell {
-      display: flex;
+      display:
+        flex;
 
-      align-items: center;
-      justify-content: center;
+      align-items:
+        center;
 
-      border-bottom: 1px solid #999;
+      justify-content:
+        center;
+
+      border-bottom:
+        1px solid #999;
     }
 
+
     .nenkai-cell:last-child {
-      border-bottom: 0;
+      border-bottom:
+        0;
     }
 
 
     .nenkai-name {
-      writing-mode: vertical-rl;
-      text-orientation: upright;
+      writing-mode:
+        vertical-rl;
 
-      font-size: 8.5pt;
+      text-orientation:
+        upright;
+
+      font-size:
+        8.5pt;
     }
 
 
     .nenkai-year {
-      writing-mode: vertical-rl;
-      text-orientation: upright;
+      writing-mode:
+        vertical-rl;
 
-      font-size: 9pt;
+      text-orientation:
+        upright;
+
+      font-size:
+        9pt;
     }
 
 
     /* ========================================
        印刷
-    ======================================== */
+       ======================================== */
 
     @page {
-      size: A4 landscape;
-      margin: 0;
+      size:
+        A4 landscape;
+
+      margin:
+        0;
     }
 
 
@@ -616,12 +787,14 @@
 
       html,
       body {
-        background: #fff;
+        background:
+          #fff;
       }
 
 
       .toolbar {
-        display: none;
+        display:
+          none;
       }
 
 
@@ -631,81 +804,92 @@
 
         margin: 0;
 
-        box-shadow: none;
+        box-shadow:
+          none;
 
-        page-break-after: always;
+        page-break-after:
+          always;
       }
 
 
       .page:last-child {
-        page-break-after: auto;
+        page-break-after:
+          auto;
       }
 
-
-      /*
-        折り線はPDFへ印刷しない
-      */
 
       .screen-fold {
-        display: none;
+        display:
+          none;
       }
 
     }
 
 
-    /* ========================================
-       スマホ・小画面
-    ======================================== */
-
-    @media screen and (max-width: 900px) {
+    @media
+    screen and
+    (max-width: 900px) {
 
       .page-wrapper {
-        width: 297mm;
+        width:
+          297mm;
 
-        transform-origin: top left;
+        transform-origin:
+          top left;
 
-        transform: scale(0.42);
+        transform:
+          scale(0.42);
 
-        margin-bottom: -115mm;
+        margin-bottom:
+          -115mm;
       }
 
     }
 
 
-    @media screen and (max-width: 600px) {
+    @media
+    screen and
+    (max-width: 600px) {
 
       .toolbar-buttons {
-        flex-direction: column;
+        flex-direction:
+          column;
       }
 
+
       .toolbar button {
-        width: 100%;
+        width:
+          100%;
       }
 
     }
 
   </style>
+
 </head>
 
 
 <body>
 
 
-  <!-- ======================================
+  <!-- ========================================
        操作
-  ======================================= -->
+       ======================================== -->
 
   <div class="toolbar">
 
+
     <div class="print-guide">
 
-      A4・横向きで印刷してください。<br>
-      両面印刷する場合は、表裏の向きを確認してから印刷してください。
+      「PDFを保存」はPDFファイルを直接保存します。<br>
+
+      「印刷する」はプリンターの印刷画面を開きます。
 
     </div>
 
 
     <div class="toolbar-buttons">
+
 
       <button
         type="button"
@@ -718,12 +902,30 @@
 
       <button
         type="button"
-        onclick="startPrint()"
+        class="pdf-button"
+        id="pdfSaveButton"
       >
-        PDFとして保存・印刷
+        PDFを保存
       </button>
 
+
+      <button
+        type="button"
+        class="print-button"
+        onclick="window.print()"
+      >
+        印刷する
+      </button>
+
+
     </div>
+
+
+    <div
+      class="status"
+      id="status"
+    ></div>
+
 
   </div>
 
@@ -731,36 +933,44 @@
   <div class="page-wrapper">
 
 
-    <!-- ====================================
+    <!-- ========================================
          表面
-    ===================================== -->
+         ======================================== -->
 
     <section class="page front">
 
-      <!-- 画面確認用折り線 -->
 
-      <div class="screen-fold fold-1"></div>
-      <div class="screen-fold fold-2"></div>
+      <div
+        class="screen-fold fold-1"
+      ></div>
+
+      <div
+        class="screen-fold fold-2"
+      ></div>
 
 
       <!-- 寺院情報 -->
 
       <div class="temple-info">
 
-        <div class="temple-name vertical">
-          曹洞宗 松久山 禅昌寺
-        </div>
+
+        <div
+          class="temple-name vertical"
+        ></div>
 
 
-        <div class="temple-address vertical">
-        </div>
+        <div
+          class="temple-address vertical"
+        ></div>
+
 
       </div>
 
 
-      <!-- 中陰 -->
+      <!-- 中陰表 -->
 
       <div class="chuin-area">
+
 
         <div class="chuin-title">
           中　陰　表
@@ -775,15 +985,19 @@
 
         <div class="chuin-description">
 
+
           <strong>
             中陰とは
           </strong>
+
 
           ご命日から四十九日までの期間を中陰といい、
           七日ごとに故人を偲び、ご供養を勤めます。
           初七日から七七日（四十九日）まで七日ごとに忌日を迎えます。
 
+
         </div>
+
 
       </div>
 
@@ -792,7 +1006,9 @@
 
       <div class="ihai-area">
 
+
         <div class="ihai">
+
 
           <div class="ihai-top"></div>
 
@@ -820,35 +1036,39 @@
             id="ihaiLeft"
           ></div>
 
+
         </div>
 
+
       </div>
+
 
     </section>
 
 
 
-    <!-- ====================================
+    <!-- ========================================
          裏面
-    ===================================== -->
+         ======================================== -->
 
     <section class="page back">
 
-      <!-- 画面確認用折り線 -->
 
-      <div class="screen-fold fold-1"></div>
-      <div class="screen-fold fold-2"></div>
+      <div
+        class="screen-fold fold-1"
+      ></div>
 
+      <div
+        class="screen-fold fold-2"
+      ></div>
 
-      <!-- 将来利用 -->
 
       <div class="back-extra">
       </div>
 
 
-      <!-- 年回表 -->
-
       <div class="nenkai-area">
+
 
         <div class="nenkai-title">
           年　回　表
@@ -860,9 +1080,12 @@
           id="nenkaiTable"
         ></div>
 
+
       </div>
 
+
     </section>
+
 
   </div>
 
@@ -871,7 +1094,7 @@
 
     /*
       ========================================
-      memorial.html から受け取ったPDFデータ
+      データ取得
       ========================================
     */
 
@@ -884,7 +1107,7 @@
     if (!stored) {
 
       alert(
-        "印刷用の情報がありません。中陰表・年回表から作成してください。"
+        "印刷用の情報がありません。"
       );
 
       window.location.href =
@@ -895,15 +1118,16 @@
 
     const data =
       stored
-        ? JSON.parse(stored)
+        ? JSON.parse(
+            stored
+          )
         : null;
 
 
     /*
       ========================================
-      漢数字変換
-      位牌内のみ使用
-      〇は使わない
+      漢数字
+      位牌用
       ========================================
     */
 
@@ -923,6 +1147,10 @@
       ];
 
 
+      n =
+        Number(n);
+
+
       if (n < 10) {
         return digits[n];
       }
@@ -939,6 +1167,7 @@
           "十" +
           digits[n - 10]
         );
+
       }
 
 
@@ -958,6 +1187,7 @@
           "十" +
           digits[ones]
         );
+
       }
 
 
@@ -972,72 +1202,32 @@
           n % 100;
 
 
-        let result = "";
+        let text = "";
 
 
         if (hundreds === 1) {
+          text += "百";
+        }
 
-          result +=
-            "百";
-
-        } else {
-
-          result +=
+        else {
+          text +=
             digits[hundreds] +
             "百";
         }
 
 
-        if (remainder > 0) {
+        if (remainder) {
 
-          result +=
+          text +=
             numberToKanji(
               remainder
             );
+
         }
 
 
-        return result;
-      }
+        return text;
 
-
-      if (n < 10000) {
-
-        const thousands =
-          Math.floor(
-            n / 1000
-          );
-
-        const remainder =
-          n % 1000;
-
-
-        let result = "";
-
-
-        if (thousands === 1) {
-
-          result +=
-            "千";
-
-        } else {
-
-          result +=
-            digits[thousands] +
-            "千";
-        }
-
-
-        if (remainder > 0) {
-
-          result +=
-            numberToKanji(
-              remainder
-            );
-        }
-
-
-        return result;
       }
 
 
@@ -1045,18 +1235,6 @@
 
     }
 
-
-    /*
-      ========================================
-      和暦文字列を
-      位牌用の漢数字表記へ変換
-
-      例：
-      令和8年8月1日
-      ↓
-      令和八年八月一日
-      ========================================
-    */
 
     function japaneseDateToKanji(
       text
@@ -1070,7 +1248,6 @@
 
 
       if (!match) {
-
         return text;
       }
 
@@ -1078,78 +1255,56 @@
       const era =
         match[1];
 
-      const eraYear =
-        match[2];
 
-      const month =
-        Number(
-          match[3]
-        );
-
-      const day =
-        Number(
-          match[4]
-        );
-
-
-      const eraYearText =
-        eraYear === "元"
+      const year =
+        match[2] === "元"
           ? "元"
           : numberToKanji(
               Number(
-                eraYear
+                match[2]
               )
             );
 
 
+      const month =
+        numberToKanji(
+          Number(
+            match[3]
+          )
+        );
+
+
+      const day =
+        numberToKanji(
+          Number(
+            match[4]
+          )
+        );
+
+
       return (
         era +
-        eraYearText +
+        year +
         "年" +
-        numberToKanji(
-          month
-        ) +
+        month +
         "月" +
-        numberToKanji(
-          day
-        ) +
+        day +
         "日"
       );
 
     }
 
 
-    /*
-      ========================================
-      数字年齢を漢数字へ
-      ========================================
-    */
-
-    function ageToKanji(
-      age
-    ) {
+    function ageToKanji(age) {
 
       if (!age) {
         return "";
       }
 
 
-      const number =
-        Number(age);
-
-
-      if (
-        !number ||
-        number < 1
-      ) {
-
-        return age;
-      }
-
-
       return (
         numberToKanji(
-          number
+          Number(age)
         ) +
         "歳"
       );
@@ -1157,15 +1312,7 @@
     }
 
 
-    /*
-      ========================================
-      HTMLエスケープ
-      ========================================
-    */
-
-    function escapeHtml(
-      text
-    ) {
+    function escapeHtml(text) {
 
       return String(text)
 
@@ -1199,19 +1346,48 @@
 
     /*
       ========================================
-      位牌
+      HTMLプレビュー生成
       ========================================
     */
 
-    if (data) {
+    function buildPreview() {
 
-      const ihaiDate =
-        document.getElementById(
-          "ihaiDate"
+
+      /*
+        寺院
+      */
+
+      document
+        .querySelector(
+          ".temple-name"
+        )
+        .textContent =
+        data.temple.name;
+
+
+      document
+        .querySelector(
+          ".temple-address"
+        )
+        .textContent =
+        (
+          data.temple.postal +
+          "　" +
+          data.temple.address +
+          "　電話" +
+          data.temple.tel
         );
 
 
-      ihaiDate.textContent =
+      /*
+        位牌
+      */
+
+      document
+        .getElementById(
+          "ihaiDate"
+        )
+        .textContent =
         japaneseDateToKanji(
           data.deathDateJapanese
         );
@@ -1229,20 +1405,17 @@
         );
 
 
-      /*
-        戒名あり
-      */
-
       if (
         data.kaimyo &&
         data.kaimyo.trim()
       ) {
 
+
         ihaiMain.textContent =
           data.kaimyo.trim();
 
 
-        let leftText = "";
+        let text = "";
 
 
         if (
@@ -1250,47 +1423,46 @@
           data.name.trim()
         ) {
 
-          leftText +=
+          text +=
             "俗名　" +
             data.name.trim();
+
         }
 
 
         if (
           data.age &&
-          String(data.age).trim()
+          String(
+            data.age
+          ).trim()
         ) {
 
-          if (leftText) {
 
-            leftText +=
-              "　";
+          if (text) {
+            text += "　";
           }
 
 
-          leftText +=
+          text +=
             "行年　" +
             ageToKanji(
               data.age
             );
+
         }
 
 
         ihaiLeft.textContent =
-          leftText;
+          text;
 
       }
 
 
-      /*
-        戒名なし
-      */
-
       else {
 
+
         const name =
-          data.name &&
-          data.name.trim()
+          data.name
             ? data.name.trim()
             : "";
 
@@ -1324,10 +1496,7 @@
         `;
 
 
-        if (
-          data.age &&
-          String(data.age).trim()
-        ) {
+        if (data.age) {
 
           ihaiLeft.textContent =
             "行年　" +
@@ -1335,20 +1504,20 @@
               data.age
             );
 
-        } else {
+        }
+
+        else {
 
           ihaiLeft.textContent =
             "";
+
         }
 
       }
 
 
       /*
-        ========================================
         中陰表
-        右から左へ
-        ========================================
       */
 
       const chuinTable =
@@ -1361,85 +1530,83 @@
         "";
 
 
-      const chuinForPrint =
-        [...data.chuin]
-          .reverse();
+      [
+        ...data.chuin
+      ]
+        .reverse()
+        .forEach(
+
+          function (item) {
 
 
-      chuinForPrint.forEach(
-        function (item) {
-
-          const column =
-            document.createElement(
-              "div"
-            );
+            const column =
+              document.createElement(
+                "div"
+              );
 
 
-          column.className =
-            "chuin-column";
+            column.className =
+              "chuin-column";
 
 
-          column.innerHTML = `
-
-            <div
-              class="chuin-cell"
-            >
+            column.innerHTML = `
 
               <div
-                class="chuin-name"
+                class="chuin-cell"
               >
-                ${escapeHtml(
-                  item.name
-                )}
+
+                <div
+                  class="chuin-name"
+                >
+                  ${escapeHtml(
+                    item.name
+                  )}
+                </div>
+
               </div>
 
-            </div>
-
-
-            <div
-              class="chuin-cell"
-            >
 
               <div
-                class="old-name"
+                class="chuin-cell"
               >
-                &nbsp;
+
+                <div
+                  class="old-name"
+                >
+                  &nbsp;
+                </div>
+
               </div>
 
-            </div>
-
-
-            <div
-              class="chuin-cell"
-            >
 
               <div
-                class="chuin-date"
+                class="chuin-cell"
               >
-                ${escapeHtml(
-                  item.date
-                )}
+
+                <div
+                  class="chuin-date"
+                >
+                  ${escapeHtml(
+                    item.date
+                  )}
+                </div>
+
               </div>
 
-            </div>
-
-          `;
+            `;
 
 
-          chuinTable
-            .appendChild(
+            chuinTable.appendChild(
               column
             );
 
-        }
-      );
+          }
+
+        );
 
 
       /*
-        ========================================
         年回表
-        右から一周忌
-        ========================================
       */
 
       const nenkaiTable =
@@ -1452,112 +1619,1004 @@
         "";
 
 
-      const nenkaiForPrint =
-        [...data.nenkai]
-          .reverse();
+      [
+        ...data.nenkai
+      ]
+        .reverse()
+        .forEach(
+
+          function (item) {
 
 
-      nenkaiForPrint.forEach(
-        function (item) {
-
-          const column =
-            document.createElement(
-              "div"
-            );
+            const column =
+              document.createElement(
+                "div"
+              );
 
 
-          column.className =
-            "nenkai-column";
+            column.className =
+              "nenkai-column";
 
 
-          column.innerHTML = `
-
-            <div
-              class="nenkai-cell"
-            >
+            column.innerHTML = `
 
               <div
-                class="nenkai-name"
+                class="nenkai-cell"
               >
-                ${escapeHtml(
-                  item.name
-                )}
+
+                <div
+                  class="nenkai-name"
+                >
+                  ${escapeHtml(
+                    item.name
+                  )}
+                </div>
+
               </div>
 
-            </div>
-
-
-            <div
-              class="nenkai-cell"
-            >
 
               <div
-                class="nenkai-year"
+                class="nenkai-cell"
               >
-                ${escapeHtml(
-                  item.year
-                )}
+
+                <div
+                  class="nenkai-year"
+                >
+                  ${escapeHtml(
+                    item.year
+                  )}
+                </div>
+
               </div>
 
-            </div>
-
-          `;
+            `;
 
 
-          nenkaiTable
-            .appendChild(
+            nenkaiTable.appendChild(
               column
             );
 
+          }
+
+        );
+
+    }
+
+
+    /*
+      ========================================
+      Canvas PDF描画
+      ========================================
+
+      CSS縦書きをPDFへ変換するのではなく、
+      PDF用Canvasへ直接描画する。
+    */
+
+
+    const PDF_SCALE =
+      10;
+
+
+    const PAGE_W_MM =
+      297;
+
+
+    const PAGE_H_MM =
+      210;
+
+
+    function mm(value) {
+
+      return (
+        value *
+        PDF_SCALE
+      );
+
+    }
+
+
+    function createPageCanvas() {
+
+
+      const canvas =
+        document.createElement(
+          "canvas"
+        );
+
+
+      canvas.width =
+        mm(
+          PAGE_W_MM
+        );
+
+
+      canvas.height =
+        mm(
+          PAGE_H_MM
+        );
+
+
+      const ctx =
+        canvas.getContext(
+          "2d"
+        );
+
+
+      ctx.fillStyle =
+        "#ffffff";
+
+
+      ctx.fillRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+
+      ctx.fillStyle =
+        "#111111";
+
+
+      ctx.strokeStyle =
+        "#222222";
+
+
+      return {
+        canvas,
+        ctx
+      };
+
+    }
+
+
+    function setFont(
+      ctx,
+      sizePx,
+      weight = "normal",
+      family = "serif"
+    ) {
+
+      const families =
+        family === "sans"
+          ? '"Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif'
+          : '"Yu Mincho","Hiragino Mincho ProN","Noto Serif JP",serif';
+
+
+      ctx.font =
+        weight +
+        " " +
+        sizePx +
+        "px " +
+        families;
+
+
+      ctx.textBaseline =
+        "top";
+
+    }
+
+
+    function drawVerticalText(
+      ctx,
+      text,
+      x,
+      y,
+      options = {}
+    ) {
+
+
+      const size =
+        options.size ||
+        mm(3.5);
+
+
+      const gap =
+        options.gap ||
+        size * 1.08;
+
+
+      const maxHeight =
+        options.maxHeight ||
+        Infinity;
+
+
+      const weight =
+        options.weight ||
+        "normal";
+
+
+      const family =
+        options.family ||
+        "serif";
+
+
+      setFont(
+        ctx,
+        size,
+        weight,
+        family
+      );
+
+
+      const chars =
+        Array.from(
+          String(text)
+        );
+
+
+      let yy =
+        y;
+
+
+      chars.forEach(
+
+        function (char) {
+
+
+          if (
+            yy - y + gap >
+            maxHeight
+          ) {
+
+            return;
+
+          }
+
+
+          const metrics =
+            ctx.measureText(
+              char
+            );
+
+
+          ctx.fillText(
+            char,
+            x -
+              metrics.width /
+              2,
+            yy
+          );
+
+
+          yy +=
+            gap;
+
+        }
+
+      );
+
+    }
+
+
+    function drawCenteredText(
+      ctx,
+      text,
+      centerX,
+      y,
+      size,
+      weight = "normal",
+      family = "serif"
+    ) {
+
+
+      setFont(
+        ctx,
+        size,
+        weight,
+        family
+      );
+
+
+      const width =
+        ctx.measureText(
+          text
+        ).width;
+
+
+      ctx.fillText(
+        text,
+        centerX -
+          width / 2,
+        y
+      );
+
+    }
+
+
+    /*
+      ========================================
+      PDF表面
+      ========================================
+    */
+
+    function renderFrontCanvas() {
+
+
+      const {
+        canvas,
+        ctx
+      } =
+        createPageCanvas();
+
+
+      /*
+        寺院情報
+      */
+
+      drawVerticalText(
+        ctx,
+        data.temple.name,
+        mm(34),
+        mm(24),
+        {
+          size:
+            mm(3.5),
+
+          gap:
+            mm(4.2),
+
+          maxHeight:
+            mm(140)
+        }
+      );
+
+
+      drawVerticalText(
+        ctx,
+        (
+          data.temple.postal +
+          data.temple.address +
+          "電話" +
+          data.temple.tel
+        ),
+        mm(20),
+        mm(24),
+        {
+          size:
+            mm(2.4),
+
+          gap:
+            mm(3.0),
+
+          maxHeight:
+            mm(155),
+
+          family:
+            "sans"
         }
       );
 
 
       /*
-        ========================================
-        寺院情報
-        ========================================
+        中陰表タイトル
       */
 
-      const templeName =
-        document.querySelector(
-          ".temple-name"
+      drawCenteredText(
+        ctx,
+        "中　陰　表",
+        mm(119.5),
+        mm(14),
+        mm(6.5),
+        "600"
+      );
+
+
+      /*
+        中陰表
+      */
+
+      const tableX =
+        mm(48);
+
+
+      const tableY =
+        mm(37);
+
+
+      const tableW =
+        mm(143);
+
+
+      const tableH =
+        mm(111);
+
+
+      ctx.lineWidth =
+        mm(0.18);
+
+
+      ctx.strokeRect(
+        tableX,
+        tableY,
+        tableW,
+        tableH
+      );
+
+
+      const columns =
+        8;
+
+
+      const columnW =
+        tableW /
+        columns;
+
+
+      const row1 =
+        tableY +
+        tableH *
+        0.36;
+
+
+      const row2 =
+        tableY +
+        tableH *
+        0.61;
+
+
+      ctx.beginPath();
+
+      ctx.moveTo(
+        tableX,
+        row1
+      );
+
+      ctx.lineTo(
+        tableX + tableW,
+        row1
+      );
+
+      ctx.moveTo(
+        tableX,
+        row2
+      );
+
+      ctx.lineTo(
+        tableX + tableW,
+        row2
+      );
+
+
+      for (
+        let i = 1;
+        i < columns;
+        i++
+      ) {
+
+        const x =
+          tableX +
+          columnW *
+          i;
+
+
+        ctx.moveTo(
+          x,
+          tableY
         );
 
 
-      const templeAddress =
-        document.querySelector(
-          ".temple-address"
+        ctx.lineTo(
+          x,
+          tableY +
+          tableH
         );
-
-
-      if (templeName) {
-
-        templeName.textContent =
-          data.temple.name;
 
       }
 
 
-      if (templeAddress) {
+      ctx.stroke();
 
-        templeAddress.innerHTML = `
 
-          ${escapeHtml(
-            data.temple.postal
-          )}
+      const chuin =
+        [
+          ...data.chuin
+        ].reverse();
 
-          ${escapeHtml(
-            data.temple.address
-          )}
 
-          電話
+      chuin.forEach(
 
-          ${escapeHtml(
-            data.temple.tel
-          )}
+        function (
+          item,
+          index
+        ) {
 
-        `;
+
+          const cx =
+            tableX +
+            columnW *
+            index +
+            columnW /
+            2;
+
+
+          drawVerticalText(
+            ctx,
+            item.name,
+            cx,
+            tableY +
+              mm(5),
+            {
+              size:
+                mm(2.9),
+
+              gap:
+                mm(3.3),
+
+              maxHeight:
+                tableH *
+                0.31
+            }
+          );
+
+
+          /*
+            旧呼称欄
+            現段階は空欄
+          */
+
+
+          drawVerticalText(
+            ctx,
+            item.date,
+            cx,
+            row2 +
+              mm(4),
+            {
+              size:
+                mm(2.8),
+
+              gap:
+                mm(3.15),
+
+              maxHeight:
+                tableH *
+                  0.35
+            }
+          );
+
+        }
+
+      );
+
+
+      /*
+        中陰とは
+      */
+
+      setFont(
+        ctx,
+        mm(3.3),
+        "600",
+        "sans"
+      );
+
+
+      ctx.fillText(
+        "中陰とは",
+        mm(51),
+        mm(158)
+      );
+
+
+      setFont(
+        ctx,
+        mm(2.5),
+        "normal",
+        "sans"
+      );
+
+
+      const descriptionLines = [
+
+        "ご命日から四十九日までの期間を中陰といい、",
+
+        "七日ごとに故人を偲び、ご供養を勤めます。",
+
+        "初七日から七七日（四十九日）まで七日ごとに忌日を迎えます。"
+
+      ];
+
+
+      descriptionLines
+        .forEach(
+
+          function (
+            line,
+            index
+          ) {
+
+            ctx.fillText(
+              line,
+              mm(51),
+              mm(
+                166 +
+                index *
+                6
+              )
+            );
+
+          }
+
+        );
+
+
+      /*
+        位牌
+        右側198～297mm以内
+      */
+
+      drawIhaiCanvas(
+        ctx
+      );
+
+
+      return canvas;
+
+    }
+
+
+    /*
+      ========================================
+      位牌PDF描画
+      ========================================
+    */
+
+    function drawIhaiCanvas(
+      ctx
+    ) {
+
+
+      const left =
+        mm(214);
+
+
+      const top =
+        mm(24);
+
+
+      const width =
+        mm(60);
+
+
+      const height =
+        mm(162);
+
+
+      /*
+        位牌本体
+      */
+
+      ctx.lineWidth =
+        mm(0.25);
+
+
+      ctx.strokeRect(
+        left +
+          mm(7),
+        top +
+          mm(19),
+        width -
+          mm(14),
+        height -
+          mm(39)
+      );
+
+
+      /*
+        上部
+      */
+
+      ctx.beginPath();
+
+
+      ctx.moveTo(
+        left +
+          mm(18),
+        top +
+          mm(19)
+      );
+
+
+      ctx.lineTo(
+        left +
+          width /
+          2,
+        top +
+          mm(5)
+      );
+
+
+      ctx.lineTo(
+        left +
+          width -
+          mm(18),
+        top +
+          mm(19)
+      );
+
+
+      ctx.stroke();
+
+
+      /*
+        台座
+      */
+
+      ctx.beginPath();
+
+
+      ctx.moveTo(
+        left +
+          mm(4),
+        top +
+          height -
+          mm(15)
+      );
+
+
+      ctx.lineTo(
+        left +
+          width -
+          mm(4),
+        top +
+          height -
+          mm(15)
+      );
+
+
+      ctx.moveTo(
+        left +
+          mm(10),
+        top +
+          height -
+          mm(9)
+      );
+
+
+      ctx.lineTo(
+        left +
+          width -
+          mm(10),
+        top +
+          height -
+          mm(9)
+      );
+
+
+      ctx.stroke();
+
+
+      /*
+        命日
+      */
+
+      drawVerticalText(
+        ctx,
+        japaneseDateToKanji(
+          data.deathDateJapanese
+        ),
+        left +
+          width -
+          mm(10),
+        top +
+          mm(34),
+        {
+          size:
+            mm(3.0),
+
+          gap:
+            mm(3.4),
+
+          maxHeight:
+            mm(100)
+        }
+      );
+
+
+      /*
+        戒名あり
+      */
+
+      if (
+        data.kaimyo &&
+        data.kaimyo.trim()
+      ) {
+
+
+        drawVerticalText(
+          ctx,
+          data.kaimyo.trim(),
+          left +
+            width /
+            2,
+          top +
+            mm(29),
+          {
+            size:
+              mm(5.0),
+
+            gap:
+              mm(5.6),
+
+            maxHeight:
+              mm(105),
+
+            weight:
+              "600"
+          }
+        );
+
+
+        let leftText =
+          "";
+
+
+        if (
+          data.name &&
+          data.name.trim()
+        ) {
+
+          leftText +=
+            "俗名" +
+            data.name.trim();
+
+        }
+
+
+        if (data.age) {
+
+          if (leftText) {
+
+            leftText +=
+              "　";
+
+          }
+
+
+          leftText +=
+            "行年" +
+            ageToKanji(
+              data.age
+            );
+
+        }
+
+
+        if (leftText) {
+
+          drawVerticalText(
+            ctx,
+            leftText,
+            left +
+              mm(10),
+            top +
+              mm(34),
+            {
+              size:
+                mm(2.8),
+
+              gap:
+                mm(3.2),
+
+              maxHeight:
+                mm(100)
+            }
+          );
+
+        }
+
+      }
+
+
+      /*
+        戒名なし
+      */
+
+      else {
+
+
+        const name =
+          data.name
+            ? data.name.trim()
+            : "";
+
+
+        const cx =
+          left +
+          width /
+          2;
+
+
+        let y =
+          top +
+          mm(31);
+
+
+        drawVerticalText(
+          ctx,
+          "俗名",
+          cx,
+          y,
+          {
+            size:
+              mm(3.0),
+
+            gap:
+              mm(3.4)
+          }
+        );
+
+
+        y +=
+          mm(12);
+
+
+        drawVerticalText(
+          ctx,
+          name,
+          cx,
+          y,
+          {
+            size:
+              mm(5.1),
+
+            gap:
+              mm(5.7),
+
+            weight:
+              "600"
+          }
+        );
+
+
+        y +=
+          mm(
+            Math.max(
+              18,
+              name.length *
+                6
+            )
+          );
+
+
+        drawVerticalText(
+          ctx,
+          "之精霊位",
+          cx,
+          y,
+          {
+            size:
+              mm(3.0),
+
+            gap:
+              mm(3.4)
+          }
+        );
+
+
+        if (data.age) {
+
+          drawVerticalText(
+            ctx,
+            "行年" +
+              ageToKanji(
+                data.age
+              ),
+            left +
+              mm(10),
+            top +
+              mm(40),
+            {
+              size:
+                mm(2.8),
+
+              gap:
+                mm(3.2)
+            }
+          );
+
+        }
 
       }
 
@@ -1566,27 +2625,384 @@
 
     /*
       ========================================
-      PDF保存・印刷
+      PDF裏面
       ========================================
     */
 
-    function startPrint() {
-
-      /*
-        ブラウザがPDF保存時の
-        初期ファイル名として
-        titleを使う場合に備える
-      */
-
-      document.title =
-        "中陰年回表";
+    function renderBackCanvas() {
 
 
-      window.print();
+      const {
+        canvas,
+        ctx
+      } =
+        createPageCanvas();
+
+
+      drawCenteredText(
+        ctx,
+        "年　回　表",
+        mm(184),
+        mm(14),
+        mm(6.5),
+        "600"
+      );
+
+
+      const tableX =
+        mm(83);
+
+
+      const tableY =
+        mm(39);
+
+
+      const tableW =
+        mm(202);
+
+
+      const tableH =
+        mm(110);
+
+
+      ctx.lineWidth =
+        mm(0.18);
+
+
+      ctx.strokeRect(
+        tableX,
+        tableY,
+        tableW,
+        tableH
+      );
+
+
+      const nenkai =
+        [
+          ...data.nenkai
+        ].reverse();
+
+
+      const count =
+        nenkai.length;
+
+
+      const columnW =
+        tableW /
+        count;
+
+
+      const splitY =
+        tableY +
+        tableH *
+        0.48;
+
+
+      ctx.beginPath();
+
+
+      ctx.moveTo(
+        tableX,
+        splitY
+      );
+
+
+      ctx.lineTo(
+        tableX +
+          tableW,
+        splitY
+      );
+
+
+      for (
+        let i = 1;
+        i < count;
+        i++
+      ) {
+
+
+        const x =
+          tableX +
+          columnW *
+          i;
+
+
+        ctx.moveTo(
+          x,
+          tableY
+        );
+
+
+        ctx.lineTo(
+          x,
+          tableY +
+          tableH
+        );
+
+      }
+
+
+      ctx.stroke();
+
+
+      nenkai.forEach(
+
+        function (
+          item,
+          index
+        ) {
+
+
+          const cx =
+            tableX +
+            columnW *
+            index +
+            columnW /
+            2;
+
+
+          drawVerticalText(
+            ctx,
+            item.name,
+            cx,
+            tableY +
+              mm(7),
+            {
+              size:
+                mm(3.0),
+
+              gap:
+                mm(3.5),
+
+              maxHeight:
+                tableH *
+                0.40
+            }
+          );
+
+
+          drawVerticalText(
+            ctx,
+            item.year,
+            cx,
+            splitY +
+              mm(10),
+            {
+              size:
+                mm(3.1),
+
+              gap:
+                mm(3.6)
+            }
+          );
+
+        }
+
+      );
+
+
+      return canvas;
+
+    }
+
+
+    /*
+      ========================================
+      PDF直接保存
+      ========================================
+    */
+
+    async function savePdf() {
+
+
+      const status =
+        document.getElementById(
+          "status"
+        );
+
+
+      status.textContent =
+        "PDFを作成しています…";
+
+
+      try {
+
+
+        /*
+          ブラウザの日本語フォント読み込み待ち
+        */
+
+        if (
+          document.fonts &&
+          document.fonts.ready
+        ) {
+
+          await document.fonts.ready;
+
+        }
+
+
+        if (
+          !window.jspdf ||
+          !window.jspdf.jsPDF
+        ) {
+
+          throw new Error(
+            "jsPDFが読み込まれていません。"
+          );
+
+        }
+
+
+        const front =
+          renderFrontCanvas();
+
+
+        const back =
+          renderBackCanvas();
+
+
+        const {
+          jsPDF
+        } =
+          window.jspdf;
+
+
+        const pdf =
+          new jsPDF({
+
+            orientation:
+              "landscape",
+
+            unit:
+              "mm",
+
+            format:
+              "a4",
+
+            compress:
+              true
+
+          });
+
+
+        /*
+          1ページ目：表
+        */
+
+        pdf.addImage(
+
+          front.toDataURL(
+            "image/png"
+          ),
+
+          "PNG",
+
+          0,
+          0,
+
+          297,
+          210,
+
+          undefined,
+
+          "FAST"
+
+        );
+
+
+        /*
+          2ページ目：裏
+        */
+
+        pdf.addPage(
+          "a4",
+          "landscape"
+        );
+
+
+        pdf.addImage(
+
+          back.toDataURL(
+            "image/png"
+          ),
+
+          "PNG",
+
+          0,
+          0,
+
+          297,
+          210,
+
+          undefined,
+
+          "FAST"
+
+        );
+
+
+        /*
+          印刷画面を経由せず直接保存
+        */
+
+        pdf.save(
+          "中陰年回表.pdf"
+        );
+
+
+        status.textContent =
+          "中陰年回表.pdf を作成しました。";
+
+
+      }
+
+
+      catch (error) {
+
+
+        console.error(
+          error
+        );
+
+
+        status.textContent =
+          "PDFを作成できませんでした。時間をおいてもう一度お試しください。";
+
+
+      }
+
+    }
+
+
+    document
+      .getElementById(
+        "pdfSaveButton"
+      )
+      .addEventListener(
+
+        "click",
+
+        savePdf
+
+      );
+
+
+    /*
+      ========================================
+      開始
+      ========================================
+    */
+
+    if (data) {
+
+      buildPreview();
 
     }
 
   </script>
 
+
 </body>
+
 </html>
