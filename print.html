@@ -13,10 +13,6 @@
   <title>中陰年回表</title>
 
 
-  <!--
-    PDF直接生成用 jsPDF
-  -->
-
   <script
     src="https://cdn.jsdelivr.net/npm/jspdf@4.0.0/dist/jspdf.umd.min.js"
   ></script>
@@ -54,9 +50,7 @@
 
     .toolbar {
       position: sticky;
-
       top: 0;
-
       z-index: 100;
 
       padding: 12px;
@@ -71,8 +65,7 @@
 
 
     .print-guide {
-      margin-bottom:
-        10px;
+      margin-bottom: 10px;
 
       font-family:
         -apple-system,
@@ -81,25 +74,17 @@
         "Meiryo",
         sans-serif;
 
-      font-size:
-        14px;
+      font-size: 14px;
+      line-height: 1.6;
 
-      line-height:
-        1.6;
-
-      color:
-        #555;
+      color: #555;
     }
 
 
     .toolbar-buttons {
       display: flex;
-
-      justify-content:
-        center;
-
-      gap:
-        10px;
+      justify-content: center;
+      gap: 10px;
     }
 
 
@@ -107,50 +92,36 @@
       padding:
         12px 22px;
 
-      border:
-        0;
+      border: 0;
+      border-radius: 6px;
 
-      border-radius:
-        6px;
+      color: #fff;
 
-      color:
-        #fff;
+      font-size: 16px;
+      font-weight: 600;
 
-      font-size:
-        16px;
-
-      font-weight:
-        600;
-
-      cursor:
-        pointer;
+      cursor: pointer;
     }
 
 
     .back-button {
-      background:
-        #777;
+      background: #777;
     }
 
 
     .pdf-button {
-      background:
-        #333;
+      background: #333;
     }
 
 
     .print-button {
-      background:
-        #555;
+      background: #555;
     }
 
 
     .status {
-      min-height:
-        22px;
-
-      margin-top:
-        8px;
+      min-height: 22px;
+      margin-top: 8px;
 
       font-family:
         -apple-system,
@@ -159,17 +130,15 @@
         "Meiryo",
         sans-serif;
 
-      font-size:
-        13px;
+      font-size: 13px;
 
-      color:
-        #666;
+      color: #666;
     }
 
 
     /* ========================================
        A4横プレビュー
-       ======================================== */
+    ======================================== */
 
     .page {
       position: relative;
@@ -233,7 +202,7 @@
 
     /* ========================================
        表面
-       ======================================== */
+    ======================================== */
 
     .temple-info {
       position:
@@ -376,7 +345,7 @@
         vertical-rl;
 
       text-orientation:
-        upright;
+        mixed;
 
       font-size:
         9pt;
@@ -399,8 +368,7 @@
       font-size:
         7.5pt;
 
-      color:
-        #444;
+      color: #444;
     }
 
 
@@ -409,7 +377,7 @@
         vertical-rl;
 
       text-orientation:
-        upright;
+        mixed;
 
       font-size:
         8.5pt;
@@ -418,6 +386,10 @@
         nowrap;
     }
 
+
+    /*
+      中陰とは
+    */
 
     .chuin-description {
       position:
@@ -471,7 +443,7 @@
 
 
     /*
-      位牌：右99mm内
+      位牌
     */
 
     .ihai-area {
@@ -642,7 +614,7 @@
 
     /* ========================================
        裏面
-       ======================================== */
+    ======================================== */
 
     .back-extra {
       position:
@@ -772,7 +744,7 @@
 
     /* ========================================
        印刷
-       ======================================== */
+    ======================================== */
 
     @page {
       size:
@@ -874,7 +846,7 @@
 
   <!-- ========================================
        操作
-       ======================================== -->
+  ======================================== -->
 
   <div class="toolbar">
 
@@ -935,7 +907,7 @@
 
     <!-- ========================================
          表面
-         ======================================== -->
+    ======================================== -->
 
     <section class="page front">
 
@@ -985,16 +957,19 @@
 
         <div class="chuin-description">
 
-  <strong>
-    中陰とは
-  </strong>
 
-  ご命日から四十九日までの期間を「中陰」といいます。<br>
+          <strong>
+            中陰とは
+          </strong>
 
-  この間、初七日から七七日（四十九日）まで、
-  七日ごとに忌日を迎え、故人を偲びご供養を勤めます。
 
-</div>
+          ご命日から四十九日までの期間を「中陰」といいます。<br>
+
+          この間、初七日から七七日（四十九日）まで、
+          七日ごとに忌日を迎え、故人を偲びご供養を勤めます。
+
+
+        </div>
 
 
       </div>
@@ -1047,7 +1022,7 @@
 
     <!-- ========================================
          裏面
-         ======================================== -->
+    ======================================== -->
 
     <section class="page back">
 
@@ -1093,7 +1068,7 @@
     /*
       ========================================
       データ取得
-      ========================================
+    ========================================
     */
 
     const stored =
@@ -1126,7 +1101,7 @@
       ========================================
       漢数字
       位牌用
-      ========================================
+    ========================================
     */
 
     function numberToKanji(n) {
@@ -1345,7 +1320,7 @@
     /*
       ========================================
       HTMLプレビュー生成
-      ========================================
+    ========================================
     */
 
     function buildPreview() {
@@ -1569,12 +1544,12 @@
               >
 
                 <div
-  class="old-name"
->
-  ${escapeHtml(
-    item.oldName || ""
-  )}
-</div>>
+                  class="old-name"
+                >
+                  ${escapeHtml(
+                    item.oldName || ""
+                  )}
+                </div>
 
               </div>
 
@@ -1686,12 +1661,8 @@
     /*
       ========================================
       Canvas PDF描画
-      ========================================
-
-      CSS縦書きをPDFへ変換するのではなく、
-      PDF用Canvasへ直接描画する。
+    ========================================
     */
-
 
     const PDF_SCALE =
       10;
@@ -1797,6 +1768,17 @@
     }
 
 
+    /*
+      ========================================
+      日本語縦書き描画
+
+      ・1～2桁数字は縦中横
+      ・3桁以上は1桁ずつ
+      ・括弧は縦書き向け回転
+      ・ハイフン類は縦棒
+      ========================================
+    */
+
     function drawVerticalText(
       ctx,
       text,
@@ -1839,52 +1821,382 @@
       );
 
 
-      const chars =
-        Array.from(
-          String(text)
-        );
+      const tokens =
+        String(text)
+          .match(
+            /\d+|[^\d]/g
+          ) || [];
 
 
       let yy =
         y;
 
 
-      chars.forEach(
+      for (
+        const token of tokens
+      ) {
 
-        function (char) {
+
+        if (
+          yy - y + gap >
+          maxHeight
+        ) {
+
+          break;
+
+        }
 
 
-          if (
-            yy - y + gap >
-            maxHeight
-          ) {
+        /*
+          1～2桁数字
+        */
 
-            return;
+        if (
+          /^\d+$/.test(
+            token
+          ) &&
+          token.length <= 2
+        ) {
 
-          }
+
+          ctx.save();
+
+
+          setFont(
+            ctx,
+            size * 0.90,
+            weight,
+            family
+          );
 
 
           const metrics =
             ctx.measureText(
-              char
+              token
             );
 
 
-          ctx.fillText(
-            char,
-            x -
-              metrics.width /
-              2,
-            yy
+          const maximumWidth =
+            size *
+            0.95;
+
+
+          let scaleX =
+            1;
+
+
+          if (
+            metrics.width >
+            maximumWidth
+          ) {
+
+            scaleX =
+              maximumWidth /
+              metrics.width;
+
+          }
+
+
+          ctx.translate(
+            x,
+            yy +
+              size *
+              0.48
           );
+
+
+          ctx.scale(
+            scaleX,
+            1
+          );
+
+
+          ctx.textAlign =
+            "center";
+
+
+          ctx.textBaseline =
+            "middle";
+
+
+          ctx.fillText(
+            token,
+            0,
+            0
+          );
+
+
+          ctx.restore();
 
 
           yy +=
             gap;
 
+
+          continue;
+
         }
 
-      );
+
+        /*
+          3桁以上の数字
+        */
+
+        if (
+          /^\d+$/.test(
+            token
+          )
+        ) {
+
+
+          for (
+            const digit of token
+          ) {
+
+
+            if (
+              yy - y + gap >
+              maxHeight
+            ) {
+
+              break;
+
+            }
+
+
+            setFont(
+              ctx,
+              size,
+              weight,
+              family
+            );
+
+
+            const metrics =
+              ctx.measureText(
+                digit
+              );
+
+
+            ctx.fillText(
+              digit,
+              x -
+                metrics.width /
+                2,
+              yy
+            );
+
+
+            yy +=
+              gap;
+
+          }
+
+
+          continue;
+
+        }
+
+
+        /*
+          開き括弧
+        */
+
+        if (
+          token === "(" ||
+          token === "（"
+        ) {
+
+
+          ctx.save();
+
+
+          ctx.translate(
+            x,
+            yy +
+              size /
+              2
+          );
+
+
+          ctx.rotate(
+            Math.PI /
+            2
+          );
+
+
+          ctx.textAlign =
+            "center";
+
+
+          ctx.textBaseline =
+            "middle";
+
+
+          ctx.fillText(
+            "（",
+            0,
+            0
+          );
+
+
+          ctx.restore();
+
+
+          yy +=
+            gap;
+
+
+          continue;
+
+        }
+
+
+        /*
+          閉じ括弧
+        */
+
+        if (
+          token === ")" ||
+          token === "）"
+        ) {
+
+
+          ctx.save();
+
+
+          ctx.translate(
+            x,
+            yy +
+              size /
+              2
+          );
+
+
+          ctx.rotate(
+            Math.PI /
+            2
+          );
+
+
+          ctx.textAlign =
+            "center";
+
+
+          ctx.textBaseline =
+            "middle";
+
+
+          ctx.fillText(
+            "）",
+            0,
+            0
+          );
+
+
+          ctx.restore();
+
+
+          yy +=
+            gap;
+
+
+          continue;
+
+        }
+
+
+        /*
+          ハイフン・長音・ダッシュ
+        */
+
+        if (
+          token === "-" ||
+          token === "－" ||
+          token === "ー" ||
+          token === "―" ||
+          token === "‐" ||
+          token === "–" ||
+          token === "—"
+        ) {
+
+
+          ctx.save();
+
+
+          ctx.beginPath();
+
+
+          ctx.lineWidth =
+            Math.max(
+              1,
+              size *
+                0.07
+            );
+
+
+          ctx.moveTo(
+            x,
+            yy +
+              size *
+              0.15
+          );
+
+
+          ctx.lineTo(
+            x,
+            yy +
+              size *
+              0.85
+          );
+
+
+          ctx.stroke();
+
+
+          ctx.restore();
+
+
+          yy +=
+            gap;
+
+
+          continue;
+
+        }
+
+
+        /*
+          通常文字
+        */
+
+        setFont(
+          ctx,
+          size,
+          weight,
+          family
+        );
+
+
+        const metrics =
+          ctx.measureText(
+            token
+          );
+
+
+        ctx.fillText(
+          token,
+          x -
+            metrics.width /
+            2,
+          yy
+        );
+
+
+        yy +=
+          gap;
+
+      }
 
     }
 
@@ -1927,7 +2239,7 @@
     /*
       ========================================
       PDF表面
-      ========================================
+    ========================================
     */
 
     function renderFrontCanvas() {
@@ -2057,20 +2369,24 @@
 
       ctx.beginPath();
 
+
       ctx.moveTo(
         tableX,
         row1
       );
+
 
       ctx.lineTo(
         tableX + tableW,
         row1
       );
 
+
       ctx.moveTo(
         tableX,
         row2
       );
+
 
       ctx.lineTo(
         tableX + tableW,
@@ -2083,6 +2399,7 @@
         i < columns;
         i++
       ) {
+
 
         const x =
           tableX +
@@ -2130,6 +2447,10 @@
             2;
 
 
+          /*
+            忌日名
+          */
+
           drawVerticalText(
             ctx,
             item.name,
@@ -2151,34 +2472,38 @@
 
 
           /*
-  旧呼称
-*/
+            旧呼称
+          */
 
-if (
-  item.oldName
-) {
+          if (
+            item.oldName
+          ) {
 
-  drawVerticalText(
-    ctx,
-    item.oldName,
-    cx,
-    row1 +
-      mm(4),
-    {
-      size:
-        mm(2.6),
+            drawVerticalText(
+              ctx,
+              item.oldName,
+              cx,
+              row1 +
+                mm(4),
+              {
+                size:
+                  mm(2.6),
 
-      gap:
-        mm(3.0),
+                gap:
+                  mm(3.0),
 
-      maxHeight:
-        tableH *
-        0.20
-    }
-  );
+                maxHeight:
+                  tableH *
+                  0.20
+              }
+            );
 
-}
+          }
 
+
+          /*
+            日付
+          */
 
           drawVerticalText(
             ctx,
@@ -2233,13 +2558,13 @@ if (
 
       const descriptionLines = [
 
-  "ご命日から四十九日までの期間を「中陰」といいます。",
+        "ご命日から四十九日までの期間を「中陰」といいます。",
 
-  "この間、初七日から七七日（四十九日）まで、",
+        "この間、初七日から七七日（四十九日）まで、",
 
-  "七日ごとに忌日を迎え、故人を偲びご供養を勤めます。"
+        "七日ごとに忌日を迎え、故人を偲びご供養を勤めます。"
 
-];
+      ];
 
 
       descriptionLines
@@ -2267,7 +2592,6 @@ if (
 
       /*
         位牌
-        右側198～297mm以内
       */
 
       drawIhaiCanvas(
@@ -2283,7 +2607,7 @@ if (
     /*
       ========================================
       位牌PDF描画
-      ========================================
+    ========================================
     */
 
     function drawIhaiCanvas(
@@ -2488,9 +2812,13 @@ if (
         }
 
 
-        if (data.age) {
+        if (
+          data.age
+        ) {
 
-          if (leftText) {
+          if (
+            leftText
+          ) {
 
             leftText +=
               "　";
@@ -2507,7 +2835,9 @@ if (
         }
 
 
-        if (leftText) {
+        if (
+          leftText
+        ) {
 
           drawVerticalText(
             ctx,
@@ -2619,7 +2949,9 @@ if (
         );
 
 
-        if (data.age) {
+        if (
+          data.age
+        ) {
 
           drawVerticalText(
             ctx,
@@ -2650,7 +2982,7 @@ if (
     /*
       ========================================
       PDF裏面
-      ========================================
+    ========================================
     */
 
     function renderBackCanvas() {
@@ -2833,7 +3165,7 @@ if (
     /*
       ========================================
       PDF直接保存
-      ========================================
+    ========================================
     */
 
     async function savePdf() {
@@ -2851,10 +3183,6 @@ if (
 
       try {
 
-
-        /*
-          ブラウザの日本語フォント読み込み待ち
-        */
 
         if (
           document.fonts &&
@@ -2911,7 +3239,7 @@ if (
 
 
         /*
-          1ページ目：表
+          表面
         */
 
         pdf.addImage(
@@ -2936,7 +3264,7 @@ if (
 
 
         /*
-          2ページ目：裏
+          裏面
         */
 
         pdf.addPage(
@@ -2966,10 +3294,6 @@ if (
         );
 
 
-        /*
-          印刷画面を経由せず直接保存
-        */
-
         pdf.save(
           "中陰年回表.pdf"
         );
@@ -2982,7 +3306,9 @@ if (
       }
 
 
-      catch (error) {
+      catch (
+        error
+      ) {
 
 
         console.error(
@@ -3015,10 +3341,12 @@ if (
     /*
       ========================================
       開始
-      ========================================
+    ========================================
     */
 
-    if (data) {
+    if (
+      data
+    ) {
 
       buildPreview();
 
