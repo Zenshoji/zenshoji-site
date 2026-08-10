@@ -81,8 +81,7 @@
     }
 
     .toolbar button {
-      padding:
-        12px 22px;
+      padding: 12px 22px;
 
       border: 0;
       border-radius: 6px;
@@ -134,8 +133,7 @@
       width: 297mm;
       height: 210mm;
 
-      margin:
-        14mm auto;
+      margin: 14mm auto;
 
       background: #fff;
 
@@ -166,11 +164,8 @@
     }
 
     .vertical {
-      writing-mode:
-        vertical-rl;
-
-      text-orientation:
-        upright;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
     }
 
 
@@ -181,24 +176,31 @@
     .tcy {
       display: inline-block;
 
-      writing-mode:
-        horizontal-tb;
+      writing-mode: horizontal-tb;
+      text-orientation: upright;
 
-      text-orientation:
-        upright;
-
-      text-combine-upright:
-        all;
-
-      -webkit-text-combine:
-        horizontal;
+      text-combine-upright: all;
+      -webkit-text-combine: horizontal;
 
       line-height: 1;
     }
 
     .upright-digit {
-      text-orientation:
-        upright;
+      text-orientation: upright;
+    }
+
+
+    /*
+      年・月の後の追加余白
+    */
+
+    .date-separator {
+      display: inline-block;
+
+      width: 1px;
+      height: 0.42em;
+
+      vertical-align: top;
     }
 
 
@@ -271,8 +273,7 @@
       width: 100%;
       height: 111mm;
 
-      border:
-        1px solid #333;
+      border: 1px solid #333;
 
       display: grid;
 
@@ -325,11 +326,8 @@
       transform:
         translate(-50%, -50%);
 
-      writing-mode:
-        vertical-rl;
-
-      text-orientation:
-        upright;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
 
       font-size: 9.5pt;
       font-weight: 600;
@@ -342,23 +340,11 @@
     .chuin-sub-name {
       position: absolute;
 
-      /*
-        本体より左に配置
-      */
-
       left: 24%;
-
-      /*
-        本体2文字目「七」の高さ付近から開始
-      */
-
       top: 37%;
 
-      writing-mode:
-        vertical-rl;
-
-      text-orientation:
-        upright;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
 
       font-size: 6.3pt;
 
@@ -370,11 +356,8 @@
     }
 
     .old-name {
-      writing-mode:
-        vertical-rl;
-
-      text-orientation:
-        upright;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
 
       font-size: 7.2pt;
 
@@ -382,23 +365,23 @@
     }
 
     .chuin-date {
-      writing-mode:
-        vertical-rl;
-
-      text-orientation:
-        upright;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
 
       font-size: 8.7pt;
+
+      /*
+        通常の文字間隔も少し広げる
+      */
+
+      line-height: 1.15;
 
       white-space: nowrap;
     }
 
     .thirteen-buddha {
-      writing-mode:
-        vertical-rl;
-
-      text-orientation:
-        upright;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
 
       font-size: 7.5pt;
 
@@ -420,8 +403,7 @@
 
       min-height: 32mm;
 
-      padding:
-        5mm 6mm;
+      padding: 5mm 6mm;
 
       border-top:
         1px solid #aaa;
@@ -548,16 +530,12 @@
 
       height: 100mm;
 
-      writing-mode:
-        vertical-rl;
-
-      text-orientation:
-        upright;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
 
       font-size: 16pt;
 
-      letter-spacing:
-        0.08em;
+      letter-spacing: 0.08em;
     }
 
     .ihai-date {
@@ -568,11 +546,8 @@
 
       height: 95mm;
 
-      writing-mode:
-        vertical-rl;
-
-      text-orientation:
-        upright;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
 
       font-size: 9pt;
     }
@@ -585,11 +560,8 @@
 
       height: 100mm;
 
-      writing-mode:
-        vertical-rl;
-
-      text-orientation:
-        upright;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
 
       font-size: 8.5pt;
 
@@ -629,8 +601,7 @@
       font-size: 19pt;
       font-weight: 600;
 
-      letter-spacing:
-        0.18em;
+      letter-spacing: 0.18em;
     }
 
     .nenkai-table {
@@ -642,8 +613,7 @@
       width: 100%;
       height: 110mm;
 
-      border:
-        1px solid #333;
+      border: 1px solid #333;
 
       display: grid;
 
@@ -679,11 +649,8 @@
     }
 
     .nenkai-name {
-      writing-mode:
-        vertical-rl;
-
-      text-orientation:
-        upright;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
 
       font-size: 8.5pt;
 
@@ -691,21 +658,17 @@
     }
 
     .nenkai-year {
-      writing-mode:
-        vertical-rl;
-
-      text-orientation:
-        upright;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
 
       font-size: 9pt;
+
+      line-height: 1.15;
     }
 
     .nenkai-buddha {
-      writing-mode:
-        vertical-rl;
-
-      text-orientation:
-        upright;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
 
       font-size: 7.5pt;
 
@@ -791,7 +754,6 @@
     }
 
   </style>
-
 </head>
 
 
@@ -801,10 +763,8 @@
   <div class="toolbar">
 
     <div class="print-guide">
-
       「PDFを保存」はPDFファイルを直接保存します。<br>
       「印刷する」はプリンターの印刷画面を開きます。
-
     </div>
 
 
@@ -849,8 +809,6 @@
 
   <div class="page-wrapper">
 
-
-    <!-- 表面 -->
 
     <section class="page front">
 
@@ -932,8 +890,6 @@
 
 
 
-    <!-- 裏面 -->
-
     <section class="page back">
 
       <div class="screen-fold fold-1"></div>
@@ -967,12 +923,6 @@
 
     "use strict";
 
-
-    /*
-      ========================================
-      データ
-    ========================================
-    */
 
     const stored =
       sessionStorage.getItem(
@@ -1084,8 +1034,8 @@
 
     /*
       ========================================
-      忌日表示分解
-      ========================================
+      忌日名分離
+    ========================================
     */
 
     function splitChuinName(
@@ -1098,10 +1048,8 @@
       ) {
 
         return {
-          main:
-            "五七日",
-          sub:
-            "（三十五日）"
+          main: "五七日",
+          sub: "（三十五日）"
         };
 
       }
@@ -1113,30 +1061,20 @@
       ) {
 
         return {
-          main:
-            "七七日",
-          sub:
-            "（四十九日）"
+          main: "七七日",
+          sub: "（四十九日）"
         };
 
       }
 
 
       return {
-        main:
-          name,
-        sub:
-          ""
+        main: name,
+        sub: ""
       };
 
     }
 
-
-    /*
-      ========================================
-      HTMLエスケープ
-    ========================================
-    */
 
     function escapeHtml(
       text
@@ -1174,13 +1112,21 @@
 
     /*
       ========================================
-      縦書きHTML
+      HTML縦書き
+
+      日付の場合は
+      年と月の後に追加余白
     ========================================
     */
 
     function verticalHtml(
-      text
+      text,
+      options = {}
     ) {
+
+      const addDateSpacing =
+        options.dateSpacing === true;
+
 
       const characters =
         Array.from(
@@ -1190,7 +1136,6 @@
 
       let html =
         "";
-
 
       let numberBuffer =
         "";
@@ -1212,13 +1157,10 @@
         ) {
 
           html +=
-
             '<span class="tcy">' +
-
             escapeHtml(
               numberBuffer
             ) +
-
             "</span>";
 
         }
@@ -1235,11 +1177,8 @@
               ) {
 
                 html +=
-
                   '<span class="upright-digit">' +
-
                   digit +
-
                   "</span>";
 
               }
@@ -1282,6 +1221,25 @@
             escapeHtml(
               char
             );
+
+
+          /*
+            日付のみ
+            年・月の後へ追加余白
+          */
+
+          if (
+            addDateSpacing &&
+            (
+              char === "年" ||
+              char === "月"
+            )
+          ) {
+
+            html +=
+              '<span class="date-separator"></span>';
+
+          }
 
         }
 
@@ -1365,7 +1323,6 @@
             n / 10
           );
 
-
         const ones =
           n % 10;
 
@@ -1387,7 +1344,6 @@
           Math.floor(
             n / 100
           );
-
 
         const remainder =
           n % 100;
@@ -1517,12 +1473,6 @@
     }
 
 
-    /*
-      ========================================
-      段構成
-    ========================================
-    */
-
     function getChuinGridRows() {
 
       if (
@@ -1641,10 +1591,6 @@
 
       }
 
-
-      /*
-        位牌
-      */
 
       document
         .getElementById(
@@ -1780,10 +1726,6 @@
       }
 
 
-      /*
-        中陰表
-      */
-
       const chuinTable =
         document.getElementById(
           "chuinTable"
@@ -1886,9 +1828,15 @@
               <div class="chuin-cell">
 
                 <div class="chuin-date">
+
                   ${verticalHtml(
-                    item.date
+                    item.date,
+                    {
+                      dateSpacing:
+                        true
+                    }
                   )}
+
                 </div>
 
               </div>
@@ -1934,10 +1882,6 @@
 
         );
 
-
-      /*
-        年回
-      */
 
       const nenkaiTable =
         document.getElementById(
@@ -1990,9 +1934,11 @@
               <div class="nenkai-cell">
 
                 <div class="nenkai-year">
+
                   ${verticalHtml(
                     item.year
                   )}
+
                 </div>
 
               </div>
@@ -2142,7 +2088,6 @@
 
 
       ctx.font =
-
         weight +
         " " +
         sizePx +
@@ -2155,12 +2100,6 @@
 
     }
 
-
-    /*
-      ========================================
-      UTF-16安全な分解
-    ========================================
-    */
 
     function tokenizeVerticalText(
       text
@@ -2243,6 +2182,9 @@
     /*
       ========================================
       PDF縦書き
+
+      dateSpacing:true の場合、
+      年・月の後へ追加余白
     ========================================
     */
 
@@ -2259,10 +2201,14 @@
         mm(3.5);
 
 
+      /*
+        通常間隔も少し広くする
+      */
+
       const gap =
         options.gap ||
         size *
-        1.08;
+        1.14;
 
 
       const maxHeight =
@@ -2282,6 +2228,20 @@
 
       const rotateParentheses =
         options.rotateParentheses !== false;
+
+
+      const dateSpacing =
+        options.dateSpacing === true;
+
+
+      /*
+        年・月の後に足す間隔
+      */
+
+      const extraDateGap =
+        options.extraDateGap ||
+        size *
+        0.42;
 
 
       const tokens =
@@ -2309,10 +2269,6 @@
 
         }
 
-
-        /*
-          1～2桁数字
-        */
 
         if (
           /^\d{1,2}$/.test(
@@ -2399,10 +2355,6 @@
         }
 
 
-        /*
-          3桁以上
-        */
-
         if (
           /^\d+$/.test(
             token
@@ -2461,14 +2413,6 @@
 
         }
 
-
-        /*
-          括弧
-
-          通常日付等は従来処理可能。
-          補足忌日は rotateParentheses:false で
-          絶対に回転させない。
-        */
 
         if (
           token === "(" ||
@@ -2535,10 +2479,6 @@
 
           else {
 
-            /*
-              補足忌日の括弧は正立
-            */
-
             setFont(
               ctx,
               size,
@@ -2572,10 +2512,6 @@
 
         }
 
-
-        /*
-          ハイフン
-        */
 
         if (
 
@@ -2634,10 +2570,6 @@
         }
 
 
-        /*
-          通常文字
-        */
-
         setFont(
           ctx,
           size,
@@ -2663,6 +2595,24 @@
 
         yy +=
           gap;
+
+
+        /*
+          年と月の後だけ追加余白
+        */
+
+        if (
+          dateSpacing &&
+          (
+            token === "年" ||
+            token === "月"
+          )
+        ) {
+
+          yy +=
+            extraDateGap;
+
+        }
 
       }
 
@@ -2706,7 +2656,7 @@
 
     /*
       ========================================
-      位牌Canvas
+      位牌
     ========================================
     */
 
@@ -2717,14 +2667,11 @@
       const left =
         mm(214);
 
-
       const top =
         mm(24);
 
-
       const width =
         mm(60);
-
 
       const height =
         mm(162);
@@ -2735,89 +2682,54 @@
 
 
       ctx.strokeRect(
-        left +
-        mm(7),
-        top +
-        mm(19),
-        width -
-        mm(14),
-        height -
-        mm(39)
+        left + mm(7),
+        top + mm(19),
+        width - mm(14),
+        height - mm(39)
       );
 
 
       ctx.beginPath();
 
-
       ctx.moveTo(
-        left +
-        mm(18),
-        top +
-        mm(19)
+        left + mm(18),
+        top + mm(19)
       );
-
 
       ctx.lineTo(
-        left +
-        width /
-        2,
-        top +
-        mm(5)
+        left + width / 2,
+        top + mm(5)
       );
-
 
       ctx.lineTo(
-        left +
-        width -
-        mm(18),
-        top +
-        mm(19)
+        left + width - mm(18),
+        top + mm(19)
       );
-
 
       ctx.stroke();
 
 
       ctx.beginPath();
 
-
       ctx.moveTo(
-        left +
-        mm(4),
-        top +
-        height -
-        mm(15)
+        left + mm(4),
+        top + height - mm(15)
       );
-
 
       ctx.lineTo(
-        left +
-        width -
-        mm(4),
-        top +
-        height -
-        mm(15)
+        left + width - mm(4),
+        top + height - mm(15)
       );
-
 
       ctx.moveTo(
-        left +
-        mm(10),
-        top +
-        height -
-        mm(9)
+        left + mm(10),
+        top + height - mm(9)
       );
-
 
       ctx.lineTo(
-        left +
-        width -
-        mm(10),
-        top +
-        height -
-        mm(9)
+        left + width - mm(10),
+        top + height - mm(9)
       );
-
 
       ctx.stroke();
 
@@ -2835,8 +2747,10 @@
         {
           size:
             mm(3.0),
+
           gap:
             mm(3.4),
+
           maxHeight:
             mm(100)
         }
@@ -2859,10 +2773,13 @@
           {
             size:
               mm(5.0),
+
             gap:
               mm(5.6),
+
             maxHeight:
               mm(105),
+
             weight:
               "600"
           }
@@ -2922,8 +2839,10 @@
             {
               size:
                 mm(2.8),
+
               gap:
                 mm(3.2),
+
               maxHeight:
                 mm(100)
             }
@@ -2960,6 +2879,7 @@
           {
             size:
               mm(3.0),
+
             gap:
               mm(3.4)
           }
@@ -2978,8 +2898,10 @@
           {
             size:
               mm(5.1),
+
             gap:
               mm(5.7),
+
             weight:
               "600"
           }
@@ -3006,6 +2928,7 @@
           {
             size:
               mm(3.0),
+
             gap:
               mm(3.4)
           }
@@ -3029,6 +2952,7 @@
             {
               size:
                 mm(2.8),
+
               gap:
                 mm(3.2)
             }
@@ -3043,7 +2967,7 @@
 
     /*
       ========================================
-      表面Canvas
+      表面
     ========================================
     */
 
@@ -3068,8 +2992,10 @@
           {
             size:
               mm(3.5),
+
             gap:
               mm(4.2),
+
             maxHeight:
               mm(140)
           }
@@ -3087,10 +3013,13 @@
           {
             size:
               mm(2.4),
+
             gap:
               mm(3.0),
+
             maxHeight:
               mm(155),
+
             family:
               "sans"
           }
@@ -3112,22 +3041,17 @@
       const tableX =
         mm(48);
 
-
       const tableY =
         mm(37);
-
 
       const tableW =
         mm(143);
 
-
       const tableH =
         mm(111);
 
-
       const columnCount =
         8;
-
 
       const columnW =
         tableW /
@@ -3329,8 +3253,10 @@
                 {
                   size:
                     mm(2.4),
+
                   gap:
                     mm(2.8),
+
                   maxHeight:
                     tableH *
                     rowRatios[
@@ -3367,11 +3293,6 @@
             ];
 
 
-          /*
-            本体
-            他の忌日と同じ中心位置
-          */
-
           const mainStartY =
             mainRowTop +
             mm(5);
@@ -3385,23 +3306,19 @@
             {
               size:
                 mm(3.0),
+
               gap:
                 mm(3.35),
+
               maxHeight:
                 mainRowHeight -
                 mm(7),
+
               weight:
                 "600"
             }
           );
 
-
-          /*
-            補足
-            左列
-            本体2文字目「七」の高さから開始
-            括弧は絶対に回転させない
-          */
 
           if (
             splitName.sub
@@ -3445,6 +3362,11 @@
           rowIndex++;
 
 
+          /*
+            日付
+            通常間隔＋年/月後追加間隔
+          */
+
           drawVerticalText(
             ctx,
             item.date,
@@ -3456,8 +3378,16 @@
             {
               size:
                 mm(2.75),
+
               gap:
-                mm(3.1),
+                mm(3.35),
+
+              extraDateGap:
+                mm(1.15),
+
+              dateSpacing:
+                true,
+
               maxHeight:
                 tableH *
                 rowRatios[
@@ -3496,8 +3426,10 @@
                 {
                   size:
                     mm(2.45),
+
                   gap:
                     mm(2.85),
+
                   maxHeight:
                     tableH *
                     rowRatios[
@@ -3593,7 +3525,7 @@
 
     /*
       ========================================
-      裏面Canvas
+      裏面
     ========================================
     */
 
@@ -3619,14 +3551,11 @@
       const tableX =
         mm(83);
 
-
       const tableY =
         mm(39);
 
-
       const tableW =
         mm(202);
-
 
       const tableH =
         mm(110);
@@ -3788,12 +3717,15 @@
             {
               size:
                 mm(3.0),
+
               gap:
                 mm(3.4),
+
               maxHeight:
                 tableH *
                 rowRatios[0] -
                 mm(9),
+
               weight:
                 "600"
             }
@@ -3809,8 +3741,10 @@
             {
               size:
                 mm(3.0),
+
               gap:
-                mm(3.4),
+                mm(3.55),
+
               maxHeight:
                 tableH *
                 rowRatios[1] -
@@ -3842,8 +3776,10 @@
                 {
                   size:
                     mm(2.5),
+
                   gap:
                     mm(2.9),
+
                   maxHeight:
                     tableH *
                     rowRatios[2] -
