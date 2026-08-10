@@ -3,11 +3,311 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>年間行事 | 禅昌寺</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Kaku Gothic ProN",
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+      color: #222;
+      background: #fff;
+      line-height: 1.8;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    header {
+      padding: 26px 20px;
+      border-bottom: 1px solid #ddd;
+      background: #fff;
+    }
+
+    .header-inner {
+      width: min(1000px, calc(100% - 20px));
+      margin: 0 auto;
+    }
+
+    .site-name {
+      font-family:
+        "Yu Mincho",
+        "YuMincho",
+        "Hiragino Mincho ProN",
+        "Hiragino Mincho Pro",
+        "Noto Serif JP",
+        serif;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+    }
+
+    main {
+      width: min(900px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 60px 0 80px;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      text-align: center;
+      font-size: 32px;
+      font-weight: 600;
+    }
+
+    .intro {
+      margin: 0 auto 46px;
+      text-align: center;
+      color: #666;
+      font-size: 16px;
+    }
+
+    .events-list {
+      border-top: 1px solid #ddd;
+    }
+
+    .event-row {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 24px;
+      padding: 24px 4px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .month {
+      font-size: 22px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    .event-content h2 {
+      margin: 0 0 6px;
+      font-size: 21px;
+    }
+
+    .event-content p {
+      margin: 0;
+      color: #666;
+      font-size: 15px;
+    }
+
+    .event-content h2 + h2 {
+      margin-top: 16px;
+    }
+
+    .note {
+      margin-top: 34px;
+      padding: 18px 20px;
+      background: #f6f6f4;
+      border-radius: 6px;
+      color: #555;
+      font-size: 14px;
+    }
+
+    .back {
+      margin-top: 58px;
+      text-align: center;
+    }
+
+    .back a {
+      display: inline-block;
+      padding: 12px 24px;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+    }
+
+    @media (max-width: 700px) {
+
+      header {
+        padding: 20px 16px;
+      }
+
+      .site-name {
+        font-size: 20px;
+      }
+
+      main {
+        width: min(100% - 28px, 900px);
+        padding: 42px 0 60px;
+      }
+
+      h1 {
+        font-size: 27px;
+      }
+
+      .intro {
+        margin-bottom: 32px;
+      }
+
+      .event-row {
+        grid-template-columns: 72px 1fr;
+        gap: 16px;
+        padding: 20px 2px;
+      }
+
+      .month {
+        font-size: 19px;
+      }
+
+      .event-content h2 {
+        font-size: 19px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <h1>年間行事</h1>
-  <p>このページは準備中です。</p>
-  <p><a href="index.html">トップページへ戻る</a></p>
+
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="site-name">
+        松久山 禅昌寺
+      </a>
+    </div>
+  </header>
+
+  <main>
+
+    <h1>年間行事</h1>
+
+    <p class="intro">
+      禅昌寺で行っている主な年間法要・行事をご案内します。
+    </p>
+
+    <div class="events-list">
+
+      <section class="event-row">
+        <div class="month">1月</div>
+
+        <div class="event-content">
+          <h2>修正会・初詣</h2>
+          <p>
+            新しい年の始まりにお参りいただく法要・行事です。
+          </p>
+
+          <h2>大般若祈祷会</h2>
+          <p>
+            大般若経六百巻を用いて、厄除けや諸願成就を祈る法要です。
+          </p>
+        </div>
+      </section>
+
+
+      <section class="event-row">
+        <div class="month">2月</div>
+
+        <div class="event-content">
+          <h2>涅槃会</h2>
+          <p>
+            お釈迦さまのご入滅を偲ぶ法要です。
+          </p>
+        </div>
+      </section>
+
+
+      <section class="event-row">
+        <div class="month">3月</div>
+
+        <div class="event-content">
+          <h2>春彼岸会</h2>
+          <p>
+            春分の日にあわせて行います。
+          </p>
+        </div>
+      </section>
+
+
+      <section class="event-row">
+        <div class="month">5月</div>
+
+        <div class="event-content">
+          <h2>降誕会</h2>
+          <p>
+            お釈迦さまのご誕生をお祝いする法要です。
+          </p>
+        </div>
+      </section>
+
+
+      <section class="event-row">
+        <div class="month">6月</div>
+
+        <div class="event-content">
+          <h2>六地蔵・永代観音供養会</h2>
+          <p>
+            六地蔵菩薩・永代観音のご供養を行います。
+          </p>
+        </div>
+      </section>
+
+
+      <section class="event-row">
+        <div class="month">8月</div>
+
+        <div class="event-content">
+          <h2>初盆供養会</h2>
+          <p>
+            初盆を迎えられるご家庭を対象にご供養を行います。
+          </p>
+
+          <h2>盂蘭盆会</h2>
+          <p>
+            お盆のご供養として行う法要です。
+          </p>
+        </div>
+      </section>
+
+
+      <section class="event-row">
+        <div class="month">9月</div>
+
+        <div class="event-content">
+          <h2>秋彼岸会</h2>
+          <p>
+            秋分の日にあわせて行います。
+          </p>
+        </div>
+      </section>
+
+
+      <section class="event-row">
+        <div class="month">10月</div>
+
+        <div class="event-content">
+          <h2>成道会・報恩講</h2>
+          <p>
+            お釈迦さまの成道を偲び、仏祖への報恩感謝を捧げる法要です。
+          </p>
+        </div>
+      </section>
+
+    </div>
+
+
+    <div class="note">
+      法要の日時や内容は年によって異なる場合があります。詳しいご案内は、禅昌寺からの案内をご確認ください。
+    </div>
+
+
+    <div class="back">
+      <a href="index.html">
+        トップページへ戻る
+      </a>
+    </div>
+
+  </main>
+
 </body>
 </html>
