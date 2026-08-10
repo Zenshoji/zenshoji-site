@@ -3,11 +3,212 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>お問い合わせ | 禅昌寺</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Kaku Gothic ProN",
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+      color: #222;
+      background: #fff;
+      line-height: 1.8;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    header {
+      padding: 26px 20px;
+      border-bottom: 1px solid #ddd;
+      background: #fff;
+    }
+
+    .header-inner {
+      width: min(1000px, calc(100% - 20px));
+      margin: 0 auto;
+    }
+
+    .site-name {
+      font-family:
+        "Yu Mincho",
+        "YuMincho",
+        "Hiragino Mincho ProN",
+        "Hiragino Mincho Pro",
+        "Noto Serif JP",
+        serif;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+    }
+
+    main {
+      width: min(760px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 60px 0 80px;
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      text-align: center;
+      font-size: 32px;
+      font-weight: 600;
+    }
+
+    .intro {
+      margin: 0 auto 42px;
+      text-align: center;
+      color: #666;
+    }
+
+    .contact-box {
+      padding: 30px 26px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    .contact-box + .contact-box {
+      margin-top: 22px;
+    }
+
+    .contact-box h2 {
+      margin: 0 0 14px;
+      font-size: 22px;
+    }
+
+    .tel {
+      font-size: 25px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .tel a {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .note {
+      margin-top: 12px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .line-button {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 12px 22px;
+      border-radius: 6px;
+      background: #333;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .back {
+      margin-top: 58px;
+      text-align: center;
+    }
+
+    .back a {
+      display: inline-block;
+      padding: 12px 24px;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+    }
+
+    @media (max-width: 700px) {
+
+      header {
+        padding: 20px 16px;
+      }
+
+      .site-name {
+        font-size: 20px;
+      }
+
+      main {
+        width: min(100% - 28px, 760px);
+        padding: 42px 0 60px;
+      }
+
+      h1 {
+        font-size: 27px;
+      }
+
+      .contact-box {
+        padding: 24px 20px;
+      }
+
+      .tel {
+        font-size: 22px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <h1>お問い合わせ</h1>
-  <p>このページは準備中です。</p>
-  <p><a href="index.html">トップページへ戻る</a></p>
+
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="site-name">
+        松久山 禅昌寺
+      </a>
+    </div>
+  </header>
+
+  <main>
+
+    <h1>お問い合わせ</h1>
+
+    <p class="intro">
+      禅昌寺へのお問い合わせはこちらからお願いいたします。
+    </p>
+
+    <section class="contact-box">
+      <h2>お電話</h2>
+
+      <div class="tel">
+        <a href="tel:0152762613">
+          0152-76-2613
+        </a>
+      </div>
+
+      <p class="note">
+        法要中や外出中など、すぐに電話に出られない場合があります。
+      </p>
+    </section>
+
+    <section class="contact-box">
+      <h2>禅昌寺公式LINE</h2>
+
+      <p>
+        ご命日の登録や各種ご案内は、禅昌寺公式LINEからもご利用いただけます。
+      </p>
+
+      <a href="#" class="line-button">
+        禅昌寺公式LINEを開く
+      </a>
+    </section>
+
+    <div class="back">
+      <a href="index.html">
+        トップページへ戻る
+      </a>
+    </div>
+
+  </main>
+
 </body>
 </html>
