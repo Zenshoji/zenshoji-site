@@ -2,7 +2,6 @@
 <html lang="ja">
 
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -12,18 +11,15 @@
 
   <title>中陰年回表</title>
 
-
   <script
     src="https://cdn.jsdelivr.net/npm/jspdf@4.0.0/dist/jspdf.umd.min.js"
   ></script>
-
 
   <style>
 
     * {
       box-sizing: border-box;
     }
-
 
     html,
     body {
@@ -62,7 +58,6 @@
       text-align: center;
     }
 
-
     .print-guide {
       margin-bottom: 10px;
 
@@ -79,14 +74,11 @@
       color: #555;
     }
 
-
     .toolbar-buttons {
       display: flex;
       justify-content: center;
-
       gap: 10px;
     }
-
 
     .toolbar button {
       padding:
@@ -103,25 +95,20 @@
       cursor: pointer;
     }
 
-
     .back-button {
       background: #777;
     }
-
 
     .pdf-button {
       background: #333;
     }
 
-
     .print-button {
       background: #555;
     }
 
-
     .status {
       min-height: 22px;
-
       margin-top: 8px;
 
       font-family:
@@ -155,10 +142,8 @@
       overflow: hidden;
 
       box-shadow:
-        0 2px 14px
-        rgba(0,0,0,0.20);
+        0 2px 14px rgba(0,0,0,0.20);
     }
-
 
     .screen-fold {
       position: absolute;
@@ -172,16 +157,13 @@
       pointer-events: none;
     }
 
-
     .fold-1 {
       left: 99mm;
     }
 
-
     .fold-2 {
       left: 198mm;
     }
-
 
     .vertical {
       writing-mode:
@@ -192,15 +174,9 @@
     }
 
 
-    /*
-      ========================================
-      縦中横
-
-      13などの1～2桁数字を
-      横倒しにせず、
-      縦書きの1文字分に収める
-      ========================================
-    */
+    /* ========================================
+       縦中横
+    ======================================== */
 
     .tcy {
       display: inline-block;
@@ -219,7 +195,6 @@
 
       line-height: 1;
     }
-
 
     .upright-digit {
       text-orientation:
@@ -241,29 +216,19 @@
       height: 176mm;
 
       display: flex;
-
-      justify-content:
-        center;
+      justify-content: center;
 
       gap: 5mm;
     }
 
-
     .temple-name {
-      font-size:
-        11pt;
-
-      line-height:
-        1.8;
+      font-size: 11pt;
+      line-height: 1.8;
     }
 
-
     .temple-address {
-      font-size:
-        7.4pt;
-
-      line-height:
-        1.8;
+      font-size: 7.4pt;
+      line-height: 1.8;
     }
 
 
@@ -281,7 +246,6 @@
       height: 184mm;
     }
 
-
     .chuin-title {
       position: absolute;
 
@@ -295,10 +259,8 @@
       font-size: 19pt;
       font-weight: 600;
 
-      letter-spacing:
-        0.18em;
+      letter-spacing: 0.18em;
     }
-
 
     .chuin-table {
       position: absolute;
@@ -318,7 +280,6 @@
         repeat(8, 1fr);
     }
 
-
     .chuin-column {
       border-right:
         1px solid #777;
@@ -326,13 +287,13 @@
       display: grid;
     }
 
-
     .chuin-column:last-child {
       border-right: 0;
     }
 
-
     .chuin-cell {
+      position: relative;
+
       display: flex;
 
       align-items: center;
@@ -344,13 +305,26 @@
       overflow: hidden;
     }
 
-
     .chuin-cell:last-child {
       border-bottom: 0;
     }
 
+    .chuin-name-wrap {
+      position: relative;
 
-    .chuin-name {
+      width: 100%;
+      height: 100%;
+    }
+
+    .chuin-main-name {
+      position: absolute;
+
+      left: 50%;
+      top: 50%;
+
+      transform:
+        translate(-50%, -50%);
+
       writing-mode:
         vertical-rl;
 
@@ -365,6 +339,35 @@
       text-align: center;
     }
 
+    .chuin-sub-name {
+      position: absolute;
+
+      /*
+        本体より左に配置
+      */
+
+      left: 24%;
+
+      /*
+        本体2文字目「七」の高さ付近から開始
+      */
+
+      top: 37%;
+
+      writing-mode:
+        vertical-rl;
+
+      text-orientation:
+        upright;
+
+      font-size: 6.3pt;
+
+      line-height: 1.05;
+
+      color: #444;
+
+      white-space: nowrap;
+    }
 
     .old-name {
       writing-mode:
@@ -378,7 +381,6 @@
       color: #555;
     }
 
-
     .chuin-date {
       writing-mode:
         vertical-rl;
@@ -390,7 +392,6 @@
 
       white-space: nowrap;
     }
-
 
     .thirteen-buddha {
       writing-mode:
@@ -436,7 +437,6 @@
       line-height: 1.7;
     }
 
-
     .chuin-description strong {
       display: block;
 
@@ -471,14 +471,12 @@
       justify-content: center;
     }
 
-
     .ihai {
       position: relative;
 
       width: 60mm;
       height: 165mm;
     }
-
 
     .ihai-body {
       position: absolute;
@@ -495,7 +493,6 @@
       border-radius:
         7mm 7mm 3mm 3mm;
     }
-
 
     .ihai-top {
       position: absolute;
@@ -519,7 +516,6 @@
         rotate(45deg);
     }
 
-
     .ihai-base-1 {
       position: absolute;
 
@@ -532,7 +528,6 @@
         1.3px solid #222;
     }
 
-
     .ihai-base-2 {
       position: absolute;
 
@@ -544,7 +539,6 @@
       border-top:
         1.3px solid #222;
     }
-
 
     .ihai-main {
       position: absolute;
@@ -566,7 +560,6 @@
         0.08em;
     }
 
-
     .ihai-date {
       position: absolute;
 
@@ -583,7 +576,6 @@
 
       font-size: 9pt;
     }
-
 
     .ihai-left {
       position: absolute;
@@ -619,7 +611,6 @@
       height: 170mm;
     }
 
-
     .nenkai-area {
       position: absolute;
 
@@ -629,7 +620,6 @@
       width: 202mm;
       height: 180mm;
     }
-
 
     .nenkai-title {
       width: 100%;
@@ -642,7 +632,6 @@
       letter-spacing:
         0.18em;
     }
-
 
     .nenkai-table {
       position: absolute;
@@ -662,7 +651,6 @@
         repeat(10, 1fr);
     }
 
-
     .nenkai-column {
       display: grid;
 
@@ -670,11 +658,9 @@
         1px solid #777;
     }
 
-
     .nenkai-column:last-child {
       border-right: 0;
     }
-
 
     .nenkai-cell {
       display: flex;
@@ -688,11 +674,9 @@
       overflow: hidden;
     }
 
-
     .nenkai-cell:last-child {
       border-bottom: 0;
     }
-
 
     .nenkai-name {
       writing-mode:
@@ -706,7 +690,6 @@
       font-weight: 600;
     }
 
-
     .nenkai-year {
       writing-mode:
         vertical-rl;
@@ -716,7 +699,6 @@
 
       font-size: 9pt;
     }
-
 
     .nenkai-buddha {
       writing-mode:
@@ -740,7 +722,6 @@
       margin: 0;
     }
 
-
     @media print {
 
       html,
@@ -748,11 +729,9 @@
         background: #fff;
       }
 
-
       .toolbar {
         display: none;
       }
-
 
       .page {
         width: 297mm;
@@ -766,19 +745,16 @@
           always;
       }
 
-
       .page:last-child {
         page-break-after:
           auto;
       }
-
 
       .screen-fold {
         display: none;
       }
 
     }
-
 
     @media
     screen and
@@ -799,7 +775,6 @@
 
     }
 
-
     @media
     screen and
     (max-width: 600px) {
@@ -808,7 +783,6 @@
         flex-direction:
           column;
       }
-
 
       .toolbar button {
         width: 100%;
@@ -826,18 +800,15 @@
 
   <div class="toolbar">
 
-
     <div class="print-guide">
 
       「PDFを保存」はPDFファイルを直接保存します。<br>
-
       「印刷する」はプリンターの印刷画面を開きます。
 
     </div>
 
 
     <div class="toolbar-buttons">
-
 
       <button
         type="button"
@@ -865,7 +836,6 @@
         印刷する
       </button>
 
-
     </div>
 
 
@@ -873,7 +843,6 @@
       class="status"
       id="status"
     ></div>
-
 
   </div>
 
@@ -884,7 +853,6 @@
     <!-- 表面 -->
 
     <section class="page front">
-
 
       <div class="screen-fold fold-1"></div>
       <div class="screen-fold fold-2"></div>
@@ -904,7 +872,6 @@
 
 
       <div class="chuin-area">
-
 
         <div class="chuin-title">
           中　陰　表
@@ -930,45 +897,36 @@
 
         </div>
 
-
       </div>
 
 
       <div class="ihai-area">
 
-
         <div class="ihai">
-
 
           <div class="ihai-top"></div>
           <div class="ihai-body"></div>
           <div class="ihai-base-1"></div>
           <div class="ihai-base-2"></div>
 
-
           <div
             class="ihai-date"
             id="ihaiDate"
           ></div>
-
 
           <div
             class="ihai-main"
             id="ihaiMain"
           ></div>
 
-
           <div
             class="ihai-left"
             id="ihaiLeft"
           ></div>
 
-
         </div>
 
-
       </div>
-
 
     </section>
 
@@ -978,7 +936,6 @@
 
     <section class="page back">
 
-
       <div class="screen-fold fold-1"></div>
       <div class="screen-fold fold-2"></div>
 
@@ -987,7 +944,6 @@
 
 
       <div class="nenkai-area">
-
 
         <div class="nenkai-title">
           年　回　表
@@ -999,9 +955,7 @@
           id="nenkaiTable"
         ></div>
 
-
       </div>
-
 
     </section>
 
@@ -1130,6 +1084,56 @@
 
     /*
       ========================================
+      忌日表示分解
+      ========================================
+    */
+
+    function splitChuinName(
+      name
+    ) {
+
+      if (
+        name ===
+        "五七日（三十五日）"
+      ) {
+
+        return {
+          main:
+            "五七日",
+          sub:
+            "（三十五日）"
+        };
+
+      }
+
+
+      if (
+        name ===
+        "七七日（四十九日）"
+      ) {
+
+        return {
+          main:
+            "七七日",
+          sub:
+            "（四十九日）"
+        };
+
+      }
+
+
+      return {
+        main:
+          name,
+        sub:
+          ""
+      };
+
+    }
+
+
+    /*
+      ========================================
       HTMLエスケープ
     ========================================
     */
@@ -1170,17 +1174,13 @@
 
     /*
       ========================================
-      縦書きHTML用
-
-      1～2桁数字を縦中横
-      3桁以上は1桁ずつ縦
-      ========================================
+      縦書きHTML
+    ========================================
     */
 
     function verticalHtml(
       text
     ) {
-
 
       const characters =
         Array.from(
@@ -1198,7 +1198,6 @@
 
       function flushNumbers() {
 
-
         if (
           !numberBuffer
         ) {
@@ -1208,15 +1207,9 @@
         }
 
 
-        /*
-          1～2桁
-        */
-
         if (
-          numberBuffer.length <=
-          2
+          numberBuffer.length <= 2
         ) {
-
 
           html +=
 
@@ -1228,17 +1221,9 @@
 
             "</span>";
 
-
         }
 
-
-        /*
-          3桁以上
-          西暦など
-        */
-
         else {
-
 
           Array.from(
             numberBuffer
@@ -1249,7 +1234,6 @@
                 digit
               ) {
 
-
                 html +=
 
                   '<span class="upright-digit">' +
@@ -1258,18 +1242,15 @@
 
                   "</span>";
 
-
               }
 
             );
-
 
         }
 
 
         numberBuffer =
           "";
-
 
       }
 
@@ -1280,20 +1261,16 @@
           char
         ) {
 
-
           if (
             /^[0-9]$/.test(
               char
             )
           ) {
 
-
             numberBuffer +=
               char;
 
-
             return;
-
 
           }
 
@@ -1305,7 +1282,6 @@
             escapeHtml(
               char
             );
-
 
         }
 
@@ -1323,36 +1299,24 @@
     /*
       ========================================
       漢数字
-      ========================================
+    ========================================
     */
 
     function numberToKanji(
       n
     ) {
 
-
       const digits = [
-
         "",
-
         "一",
-
         "二",
-
         "三",
-
         "四",
-
         "五",
-
         "六",
-
         "七",
-
         "八",
-
         "九"
-
       ];
 
 
@@ -1383,13 +1347,10 @@
       ) {
 
         return (
-
           "十" +
-
           digits[
             n - 10
           ]
-
         );
 
       }
@@ -1398,7 +1359,6 @@
       if (
         n < 100
       ) {
-
 
         const tens =
           Math.floor(
@@ -1411,13 +1371,9 @@
 
 
         return (
-
           digits[tens] +
-
           "十" +
-
           digits[ones]
-
         );
 
       }
@@ -1426,7 +1382,6 @@
       if (
         n < 1000
       ) {
-
 
         const hundreds =
           Math.floor(
@@ -1456,12 +1411,10 @@
           remainder
         ) {
 
-
           result +=
             numberToKanji(
               remainder
             );
-
 
         }
 
@@ -1480,13 +1433,10 @@
       text
     ) {
 
-
       const match =
         String(text)
           .match(
-
             /^(大正|昭和|平成|令和)(元|\d+)年(\d+)月(\d+)日$/
-
           );
 
 
@@ -1532,21 +1482,13 @@
 
 
       return (
-
         era +
-
         year +
-
         "年" +
-
         month +
-
         "月" +
-
         day +
-
         "日"
-
       );
 
     }
@@ -1555,7 +1497,6 @@
     function ageToKanji(
       age
     ) {
-
 
       if (
         !age
@@ -1567,13 +1508,10 @@
 
 
       return (
-
         numberToKanji(
           Number(age)
         ) +
-
         "歳"
-
       );
 
     }
@@ -1581,12 +1519,11 @@
 
     /*
       ========================================
-      HTMLプレビュー段構成
+      段構成
     ========================================
     */
 
     function getChuinGridRows() {
-
 
       if (
         showOldNames &&
@@ -1631,7 +1568,6 @@
 
     function getNenkaiGridRows() {
 
-
       if (
         showThirteenBuddhas
       ) {
@@ -1669,7 +1605,6 @@
         showTempleInfo
       ) {
 
-
         templeInfo.style.display =
           "flex";
 
@@ -1690,34 +1625,25 @@
           verticalHtml(
 
             data.temple.postal +
-
             "　" +
-
             data.temple.address +
-
             "　電話" +
-
             data.temple.tel
 
           );
 
-
       }
-
 
       else {
 
-
         templeInfo.style.display =
           "none";
-
 
       }
 
 
       /*
         位牌
-        位牌の日付は漢数字
       */
 
       document
@@ -1747,7 +1673,6 @@
         data.kaimyo.trim()
       ) {
 
-
         ihaiMain.textContent =
           data.kaimyo.trim();
 
@@ -1761,13 +1686,9 @@
           data.name.trim()
         ) {
 
-
           text +=
-
             "俗名　" +
-
             data.name.trim();
-
 
         }
 
@@ -1775,7 +1696,6 @@
         if (
           data.age
         ) {
-
 
           if (
             text
@@ -1788,13 +1708,10 @@
 
 
           text +=
-
             "行年　" +
-
             ageToKanji(
               data.age
             );
-
 
         }
 
@@ -1802,12 +1719,9 @@
         ihaiLeft.textContent =
           text;
 
-
       }
 
-
       else {
-
 
         const name =
           data.name
@@ -1848,34 +1762,26 @@
           data.age
         ) {
 
-
           ihaiLeft.textContent =
-
             "行年　" +
-
             ageToKanji(
               data.age
             );
 
-
         }
 
-
         else {
-
 
           ihaiLeft.textContent =
             "";
 
-
         }
-
 
       }
 
 
       /*
-        中陰
+        中陰表
       */
 
       const chuinTable =
@@ -1898,7 +1804,6 @@
             item
           ) {
 
-
             const column =
               document.createElement(
                 "div"
@@ -1914,6 +1819,12 @@
               getChuinGridRows();
 
 
+            const splitName =
+              splitChuinName(
+                item.name
+              );
+
+
             let html =
               "";
 
@@ -1921,7 +1832,6 @@
             if (
               showOldNames
             ) {
-
 
               html += `
 
@@ -1937,7 +1847,6 @@
 
               `;
 
-
             }
 
 
@@ -1945,10 +1854,26 @@
 
               <div class="chuin-cell">
 
-                <div class="chuin-name">
-                  ${verticalHtml(
-                    item.name
-                  )}
+                <div class="chuin-name-wrap">
+
+                  <div class="chuin-main-name">
+                    ${escapeHtml(
+                      splitName.main
+                    )}
+                  </div>
+
+                  ${
+                    splitName.sub
+                      ? `
+                        <div class="chuin-sub-name">
+                          ${escapeHtml(
+                            splitName.sub
+                          )}
+                        </div>
+                      `
+                      : ""
+                  }
+
                 </div>
 
               </div>
@@ -1975,7 +1900,6 @@
               showThirteenBuddhas
             ) {
 
-
               html += `
 
                 <div class="chuin-cell">
@@ -1994,7 +1918,6 @@
 
               `;
 
-
             }
 
 
@@ -2006,7 +1929,6 @@
               .appendChild(
                 column
               );
-
 
           }
 
@@ -2036,7 +1958,6 @@
           function (
             item
           ) {
-
 
             const column =
               document.createElement(
@@ -2083,7 +2004,6 @@
               showThirteenBuddhas
             ) {
 
-
               html += `
 
                 <div class="nenkai-cell">
@@ -2102,7 +2022,6 @@
 
               `;
 
-
             }
 
 
@@ -2115,11 +2034,9 @@
                 column
               );
 
-
           }
 
         );
-
 
     }
 
@@ -2155,7 +2072,6 @@
 
 
     function createPageCanvas() {
-
 
       const canvas =
         document.createElement(
@@ -2202,11 +2118,8 @@
 
 
       return {
-
         canvas,
-
         ctx
-
       };
 
     }
@@ -2218,7 +2131,6 @@
       weight = "normal",
       family = "serif"
     ) {
-
 
       const families =
 
@@ -2232,13 +2144,9 @@
       ctx.font =
 
         weight +
-
         " " +
-
         sizePx +
-
         "px " +
-
         families;
 
 
@@ -2250,14 +2158,13 @@
 
     /*
       ========================================
-      UTF-16安全な文字分割
+      UTF-16安全な分解
     ========================================
     */
 
     function tokenizeVerticalText(
       text
     ) {
-
 
       const characters =
         Array.from(
@@ -2279,20 +2186,16 @@
           char
         ) {
 
-
           if (
             /^[0-9]$/.test(
               char
             )
           ) {
 
-
             numberBuffer +=
               char;
 
-
             return;
-
 
           }
 
@@ -2300,7 +2203,6 @@
           if (
             numberBuffer
           ) {
-
 
             tokens.push(
               numberBuffer
@@ -2310,14 +2212,12 @@
             numberBuffer =
               "";
 
-
           }
 
 
           tokens.push(
             char
           );
-
 
         }
 
@@ -2328,11 +2228,9 @@
         numberBuffer
       ) {
 
-
         tokens.push(
           numberBuffer
         );
-
 
       }
 
@@ -2345,13 +2243,6 @@
     /*
       ========================================
       PDF縦書き
-
-      算用数字は回転させない
-
-      13 → 横向きに寝かせず
-      正立した「13」を1文字幅に配置
-
-      2027 → 2 0 2 7 を縦配置
     ========================================
     */
 
@@ -2362,7 +2253,6 @@
       y,
       options = {}
     ) {
-
 
       const size =
         options.size ||
@@ -2390,6 +2280,10 @@
         "serif";
 
 
+      const rotateParentheses =
+        options.rotateParentheses !== false;
+
+
       const tokens =
         tokenizeVerticalText(
           text
@@ -2404,7 +2298,6 @@
         const token of tokens
       ) {
 
-
         if (
           yy -
           y +
@@ -2418,7 +2311,7 @@
 
 
         /*
-          1～2桁＝縦中横
+          1～2桁数字
         */
 
         if (
@@ -2427,21 +2320,14 @@
           )
         ) {
 
-
           ctx.save();
 
 
           setFont(
-
             ctx,
-
-            size *
-            0.90,
-
+            size * 0.90,
             weight,
-
             family
-
           );
 
 
@@ -2473,25 +2359,18 @@
             maxWidth
           ) {
 
-
             scaleX =
-
               maxWidth /
-
               measured;
-
 
           }
 
 
           ctx.translate(
-
             x,
-
             yy +
             size *
             0.50
-
           );
 
 
@@ -2500,10 +2379,6 @@
             1
           );
 
-
-          /*
-            回転はしない
-          */
 
           ctx.fillText(
             token,
@@ -2534,14 +2409,12 @@
           )
         ) {
 
-
           for (
             const digit of
             Array.from(
               token
             )
           ) {
-
 
             if (
               yy -
@@ -2556,15 +2429,10 @@
 
 
             setFont(
-
               ctx,
-
               size,
-
               weight,
-
               family
-
             );
 
 
@@ -2577,19 +2445,14 @@
 
 
             ctx.fillText(
-
               digit,
-
               x,
-
               yy
-
             );
 
 
             yy +=
               gap;
-
 
           }
 
@@ -2601,6 +2464,10 @@
 
         /*
           括弧
+
+          通常日付等は従来処理可能。
+          補足忌日は rotateParentheses:false で
+          絶対に回転させない。
         */
 
         if (
@@ -2610,65 +2477,91 @@
           token === "）"
         ) {
 
+          if (
+            rotateParentheses
+          ) {
 
-          ctx.save();
-
-
-          setFont(
-
-            ctx,
-
-            size,
-
-            weight,
-
-            family
-
-          );
+            ctx.save();
 
 
-          ctx.translate(
-
-            x,
-
-            yy +
-            size /
-            2
-
-          );
+            setFont(
+              ctx,
+              size,
+              weight,
+              family
+            );
 
 
-          ctx.rotate(
-            Math.PI /
-            2
-          );
+            ctx.translate(
+              x,
+              yy +
+              size /
+              2
+            );
 
 
-          ctx.textAlign =
-            "center";
+            ctx.rotate(
+              Math.PI /
+              2
+            );
 
 
-          ctx.textBaseline =
-            "middle";
+            ctx.textAlign =
+              "center";
 
 
-          ctx.fillText(
-
-            token === "(" ||
-            token === "（"
-
-              ? "（"
-
-              : "）",
-
-            0,
-
-            0
-
-          );
+            ctx.textBaseline =
+              "middle";
 
 
-          ctx.restore();
+            ctx.fillText(
+
+              token === "(" ||
+              token === "（"
+
+                ? "（"
+
+                : "）",
+
+              0,
+              0
+
+            );
+
+
+            ctx.restore();
+
+          }
+
+          else {
+
+            /*
+              補足忌日の括弧は正立
+            */
+
+            setFont(
+              ctx,
+              size,
+              weight,
+              family
+            );
+
+
+            ctx.textAlign =
+              "center";
+
+
+            ctx.textBaseline =
+              "top";
+
+
+            ctx.fillText(
+              token,
+              x,
+              yy
+            );
+
+          }
 
 
           yy +=
@@ -2687,21 +2580,14 @@
         if (
 
           token === "-" ||
-
           token === "－" ||
-
           token === "ー" ||
-
           token === "―" ||
-
           token === "‐" ||
-
           token === "–" ||
-
           token === "—"
 
         ) {
-
 
           ctx.save();
 
@@ -2711,34 +2597,25 @@
 
           ctx.lineWidth =
             Math.max(
-
               1,
-
               size *
               0.07
-
             );
 
 
           ctx.moveTo(
-
             x,
-
             yy +
             size *
             0.15
-
           );
 
 
           ctx.lineTo(
-
             x,
-
             yy +
             size *
             0.85
-
           );
 
 
@@ -2762,15 +2639,10 @@
         */
 
         setFont(
-
           ctx,
-
           size,
-
           weight,
-
           family
-
         );
 
 
@@ -2783,22 +2655,16 @@
 
 
         ctx.fillText(
-
           token,
-
           x,
-
           yy
-
         );
 
 
         yy +=
           gap;
 
-
       }
-
 
     }
 
@@ -2812,7 +2678,6 @@
       weight = "normal",
       family = "serif"
     ) {
-
 
       setFont(
         ctx,
@@ -2831,13 +2696,9 @@
 
 
       ctx.fillText(
-
         text,
-
         centerX,
-
         y
-
       );
 
     }
@@ -2852,7 +2713,6 @@
     function drawIhaiCanvas(
       ctx
     ) {
-
 
       const left =
         mm(214);
@@ -2875,19 +2735,14 @@
 
 
       ctx.strokeRect(
-
         left +
         mm(7),
-
         top +
         mm(19),
-
         width -
         mm(14),
-
         height -
         mm(39)
-
       );
 
 
@@ -2895,37 +2750,28 @@
 
 
       ctx.moveTo(
-
         left +
         mm(18),
-
         top +
         mm(19)
-
       );
 
 
       ctx.lineTo(
-
         left +
         width /
         2,
-
         top +
         mm(5)
-
       );
 
 
       ctx.lineTo(
-
         left +
         width -
         mm(18),
-
         top +
         mm(19)
-
       );
 
 
@@ -2936,52 +2782,40 @@
 
 
       ctx.moveTo(
-
         left +
         mm(4),
-
         top +
         height -
         mm(15)
-
       );
 
 
       ctx.lineTo(
-
         left +
         width -
         mm(4),
-
         top +
         height -
         mm(15)
-
       );
 
 
       ctx.moveTo(
-
         left +
         mm(10),
-
         top +
         height -
         mm(9)
-
       );
 
 
       ctx.lineTo(
-
         left +
         width -
         mm(10),
-
         top +
         height -
         mm(9)
-
       );
 
 
@@ -2989,33 +2823,23 @@
 
 
       drawVerticalText(
-
         ctx,
-
         japaneseDateToKanji(
           data.deathDateJapanese
         ),
-
         left +
         width -
         mm(10),
-
         top +
         mm(34),
-
         {
-
           size:
             mm(3.0),
-
           gap:
             mm(3.4),
-
           maxHeight:
             mm(100)
-
         }
-
       );
 
 
@@ -3024,36 +2848,24 @@
         data.kaimyo.trim()
       ) {
 
-
         drawVerticalText(
-
           ctx,
-
           data.kaimyo.trim(),
-
           left +
           width /
           2,
-
           top +
           mm(29),
-
           {
-
             size:
               mm(5.0),
-
             gap:
               mm(5.6),
-
             maxHeight:
               mm(105),
-
             weight:
               "600"
-
           }
-
         );
 
 
@@ -3066,13 +2878,9 @@
           data.name.trim()
         ) {
 
-
           leftText +=
-
             "俗名" +
-
             data.name.trim();
-
 
         }
 
@@ -3080,7 +2888,6 @@
         if (
           data.age
         ) {
-
 
           if (
             leftText
@@ -3093,13 +2900,10 @@
 
 
           leftText +=
-
             "行年" +
-
             ageToKanji(
               data.age
             );
-
 
         }
 
@@ -3108,43 +2912,28 @@
           leftText
         ) {
 
-
           drawVerticalText(
-
             ctx,
-
             leftText,
-
             left +
             mm(10),
-
             top +
             mm(34),
-
             {
-
               size:
                 mm(2.8),
-
               gap:
                 mm(3.2),
-
               maxHeight:
                 mm(100)
-
             }
-
           );
-
 
         }
 
-
       }
 
-
       else {
-
 
         const name =
           data.name
@@ -3164,23 +2953,16 @@
 
 
         drawVerticalText(
-
           ctx,
-
           "俗名",
-
           cx,
-
           y,
-
           {
             size:
               mm(3.0),
-
             gap:
               mm(3.4)
           }
-
         );
 
 
@@ -3189,65 +2971,44 @@
 
 
         drawVerticalText(
-
           ctx,
-
           name,
-
           cx,
-
           y,
-
           {
             size:
               mm(5.1),
-
             gap:
               mm(5.7),
-
             weight:
               "600"
           }
-
         );
 
 
         y +=
-
           mm(
-
             Math.max(
-
               18,
-
               Array.from(
                 name
               ).length *
               6
-
             )
-
           );
 
 
         drawVerticalText(
-
           ctx,
-
           "之精霊位",
-
           cx,
-
           y,
-
           {
             size:
               mm(3.0),
-
             gap:
               mm(3.4)
           }
-
         );
 
 
@@ -3255,38 +3016,27 @@
           data.age
         ) {
 
-
           drawVerticalText(
-
             ctx,
-
             "行年" +
             ageToKanji(
               data.age
             ),
-
             left +
             mm(10),
-
             top +
             mm(40),
-
             {
               size:
                 mm(2.8),
-
               gap:
                 mm(3.2)
             }
-
           );
-
 
         }
 
-
       }
-
 
     }
 
@@ -3299,7 +3049,6 @@
 
     function renderFrontCanvas() {
 
-
       const {
         canvas,
         ctx
@@ -3311,78 +3060,52 @@
         showTempleInfo
       ) {
 
-
         drawVerticalText(
-
           ctx,
-
           data.temple.name,
-
           mm(34),
-
           mm(24),
-
           {
             size:
               mm(3.5),
-
             gap:
               mm(4.2),
-
             maxHeight:
               mm(140)
           }
-
         );
 
 
         drawVerticalText(
-
           ctx,
-
           data.temple.postal +
           data.temple.address +
           "電話" +
           data.temple.tel,
-
           mm(20),
-
           mm(24),
-
           {
             size:
               mm(2.4),
-
             gap:
               mm(3.0),
-
             maxHeight:
               mm(155),
-
             family:
               "sans"
           }
-
         );
-
 
       }
 
 
       drawCenteredText(
-
         ctx,
-
         "中　陰　表",
-
         mm(119.5),
-
         mm(14),
-
         mm(6.5),
-
         "600"
-
       );
 
 
@@ -3419,7 +3142,6 @@
         showThirteenBuddhas
       ) {
 
-
         rowRatios = [
           0.17,
           0.29,
@@ -3427,14 +3149,11 @@
           0.20
         ];
 
-
       }
-
 
       else if (
         showOldNames
       ) {
-
 
         rowRatios = [
           0.22,
@@ -3442,14 +3161,11 @@
           0.45
         ];
 
-
       }
-
 
       else if (
         showThirteenBuddhas
       ) {
-
 
         rowRatios = [
           0.31,
@@ -3457,18 +3173,14 @@
           0.26
         ];
 
-
       }
 
-
       else {
-
 
         rowRatios = [
           0.42,
           0.58
         ];
-
 
       }
 
@@ -3490,19 +3202,15 @@
         i++
       ) {
 
-
         cumulative +=
           rowRatios[i];
 
 
         rowStarts.push(
-
           tableY +
           tableH *
           cumulative
-
         );
-
 
       }
 
@@ -3512,12 +3220,10 @@
 
 
       ctx.strokeRect(
-
         tableX,
         tableY,
         tableW,
         tableH
-
       );
 
 
@@ -3530,11 +3236,8 @@
         i++
       ) {
 
-
         const x =
-
           tableX +
-
           columnW *
           i;
 
@@ -3551,7 +3254,6 @@
           tableH
         );
 
-
       }
 
 
@@ -3562,7 +3264,6 @@
           function (
             y
           ) {
-
 
             ctx.moveTo(
               tableX,
@@ -3575,7 +3276,6 @@
               tableW,
               y
             );
-
 
           }
 
@@ -3598,14 +3298,10 @@
           index
         ) {
 
-
           const cx =
-
             tableX +
-
             columnW *
             index +
-
             columnW /
             2;
 
@@ -3618,126 +3314,157 @@
             showOldNames
           ) {
 
-
             if (
               item.oldName
             ) {
 
-
               drawVerticalText(
-
                 ctx,
-
                 item.oldName,
-
                 cx,
-
                 rowStarts[
                   rowIndex
                 ] +
                 mm(3),
-
                 {
                   size:
                     mm(2.4),
-
                   gap:
                     mm(2.8),
-
                   maxHeight:
-
                     tableH *
-
                     rowRatios[
                       rowIndex
                     ] -
-
                     mm(5)
                 }
-
               );
-
 
             }
 
 
             rowIndex++;
 
-
           }
 
 
-          drawVerticalText(
+          const splitName =
+            splitChuinName(
+              item.name
+            );
 
-            ctx,
 
-            item.name,
-
-            cx,
-
+          const mainRowTop =
             rowStarts[
               rowIndex
-            ] +
-            mm(4),
+            ];
 
+
+          const mainRowHeight =
+            tableH *
+            rowRatios[
+              rowIndex
+            ];
+
+
+          /*
+            本体
+            他の忌日と同じ中心位置
+          */
+
+          const mainStartY =
+            mainRowTop +
+            mm(5);
+
+
+          drawVerticalText(
+            ctx,
+            splitName.main,
+            cx,
+            mainStartY,
             {
               size:
                 mm(3.0),
-
               gap:
                 mm(3.35),
-
               maxHeight:
-
-                tableH *
-
-                rowRatios[
-                  rowIndex
-                ] -
-
+                mainRowHeight -
                 mm(7),
-
               weight:
                 "600"
             }
-
           );
+
+
+          /*
+            補足
+            左列
+            本体2文字目「七」の高さから開始
+            括弧は絶対に回転させない
+          */
+
+          if (
+            splitName.sub
+          ) {
+
+            const subX =
+              cx -
+              columnW *
+              0.24;
+
+
+            const subY =
+              mainStartY +
+              mm(3.35);
+
+
+            drawVerticalText(
+              ctx,
+              splitName.sub,
+              subX,
+              subY,
+              {
+                size:
+                  mm(2.05),
+
+                gap:
+                  mm(2.28),
+
+                maxHeight:
+                  mainRowHeight -
+                  mm(7),
+
+                rotateParentheses:
+                  false
+              }
+            );
+
+          }
 
 
           rowIndex++;
 
 
           drawVerticalText(
-
             ctx,
-
             item.date,
-
             cx,
-
             rowStarts[
               rowIndex
             ] +
             mm(4),
-
             {
               size:
                 mm(2.75),
-
               gap:
                 mm(3.1),
-
               maxHeight:
-
                 tableH *
-
                 rowRatios[
                   rowIndex
                 ] -
-
                 mm(7)
             }
-
           );
 
 
@@ -3747,7 +3474,6 @@
           if (
             showThirteenBuddhas
           ) {
-
 
             const buddha =
               getThirteenBuddha(
@@ -3759,46 +3485,31 @@
               buddha
             ) {
 
-
               drawVerticalText(
-
                 ctx,
-
                 buddha,
-
                 cx,
-
                 rowStarts[
                   rowIndex
                 ] +
                 mm(3),
-
                 {
                   size:
                     mm(2.45),
-
                   gap:
                     mm(2.85),
-
                   maxHeight:
-
                     tableH *
-
                     rowRatios[
                       rowIndex
                     ] -
-
                     mm(5)
                 }
-
               );
-
 
             }
 
-
           }
-
 
         }
 
@@ -3806,15 +3517,10 @@
 
 
       setFont(
-
         ctx,
-
         mm(3.3),
-
         "600",
-
         "sans"
-
       );
 
 
@@ -3823,26 +3529,17 @@
 
 
       ctx.fillText(
-
         "中陰とは",
-
         mm(51),
-
         mm(158)
-
       );
 
 
       setFont(
-
         ctx,
-
         mm(2.5),
-
         "normal",
-
         "sans"
-
       );
 
 
@@ -3869,21 +3566,15 @@
             index
           ) {
 
-
             ctx.fillText(
-
               line,
-
               mm(51),
-
               mm(
                 166 +
                 index *
                 6
               )
-
             );
-
 
           }
 
@@ -3908,7 +3599,6 @@
 
     function renderBackCanvas() {
 
-
       const {
         canvas,
         ctx
@@ -3917,19 +3607,12 @@
 
 
       drawCenteredText(
-
         ctx,
-
         "年　回　表",
-
         mm(184),
-
         mm(14),
-
         mm(6.5),
-
         "600"
-
       );
 
 
@@ -3998,19 +3681,15 @@
         i++
       ) {
 
-
         cumulative +=
           rowRatios[i];
 
 
         rowStarts.push(
-
           tableY +
           tableH *
           cumulative
-
         );
-
 
       }
 
@@ -4020,12 +3699,10 @@
 
 
       ctx.strokeRect(
-
         tableX,
         tableY,
         tableW,
         tableH
-
       );
 
 
@@ -4038,11 +3715,8 @@
         i++
       ) {
 
-
         const x =
-
           tableX +
-
           columnW *
           i;
 
@@ -4059,7 +3733,6 @@
           tableH
         );
 
-
       }
 
 
@@ -4070,7 +3743,6 @@
           function (
             y
           ) {
-
 
             ctx.moveTo(
               tableX,
@@ -4083,7 +3755,6 @@
               tableW,
               y
             );
-
 
           }
 
@@ -4100,85 +3771,57 @@
           index
         ) {
 
-
           const cx =
-
             tableX +
-
             columnW *
             index +
-
             columnW /
             2;
 
 
           drawVerticalText(
-
             ctx,
-
             item.name,
-
             cx,
-
             rowStarts[0] +
             mm(6),
-
             {
               size:
                 mm(3.0),
-
               gap:
                 mm(3.4),
-
               maxHeight:
-
                 tableH *
-
                 rowRatios[0] -
-
                 mm(9),
-
               weight:
                 "600"
             }
-
           );
 
 
           drawVerticalText(
-
             ctx,
-
             item.year,
-
             cx,
-
             rowStarts[1] +
             mm(7),
-
             {
               size:
                 mm(3.0),
-
               gap:
                 mm(3.4),
-
               maxHeight:
-
                 tableH *
-
                 rowRatios[1] -
-
                 mm(10)
             }
-
           );
 
 
           if (
             showThirteenBuddhas
           ) {
-
 
             const buddha =
               getThirteenBuddha(
@@ -4190,42 +3833,27 @@
               buddha
             ) {
 
-
               drawVerticalText(
-
                 ctx,
-
                 buddha,
-
                 cx,
-
                 rowStarts[2] +
                 mm(4),
-
                 {
                   size:
                     mm(2.5),
-
                   gap:
                     mm(2.9),
-
                   maxHeight:
-
                     tableH *
-
                     rowRatios[2] -
-
                     mm(6)
                 }
-
               );
-
 
             }
 
-
           }
-
 
         }
 
@@ -4245,7 +3873,6 @@
 
     async function savePdf() {
 
-
       const status =
         document.getElementById(
           "status"
@@ -4258,17 +3885,14 @@
 
       try {
 
-
         if (
           document.fonts &&
           document.fonts.ready
         ) {
 
-
           await document
             .fonts
             .ready;
-
 
         }
 
@@ -4278,11 +3902,9 @@
           !window.jspdf.jsPDF
         ) {
 
-
           throw new Error(
             "jsPDFが読み込まれていません。"
           );
-
 
         }
 
@@ -4375,14 +3997,11 @@
         status.textContent =
           "中陰年回表.pdf を作成しました。";
 
-
       }
-
 
       catch (
         error
       ) {
-
 
         console.error(
           error
@@ -4392,9 +4011,7 @@
         status.textContent =
           "PDFを作成できませんでした。時間をおいてもう一度お試しください。";
 
-
       }
-
 
     }
 
@@ -4404,11 +4021,8 @@
         "pdfSaveButton"
       )
       .addEventListener(
-
         "click",
-
         savePdf
-
       );
 
 
@@ -4416,14 +4030,11 @@
       data
     ) {
 
-
       buildPreview();
-
 
     }
 
   </script>
-
 
 </body>
 
