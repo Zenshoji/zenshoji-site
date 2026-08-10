@@ -985,18 +985,16 @@
 
         <div class="chuin-description">
 
+  <strong>
+    中陰とは
+  </strong>
 
-          <strong>
-            中陰とは
-          </strong>
+  ご命日から四十九日までの期間を「中陰」といいます。<br>
 
+  この間、初七日から七七日（四十九日）まで、
+  七日ごとに忌日を迎え、故人を偲びご供養を勤めます。
 
-          ご命日から四十九日までの期間を中陰といい、
-          七日ごとに故人を偲び、ご供養を勤めます。
-          初七日から七七日（四十九日）まで七日ごとに忌日を迎えます。
-
-
-        </div>
+</div>
 
 
       </div>
@@ -1571,10 +1569,12 @@
               >
 
                 <div
-                  class="old-name"
-                >
-                  &nbsp;
-                </div>
+  class="old-name"
+>
+  ${escapeHtml(
+    item.oldName || ""
+  )}
+</div>>
 
               </div>
 
@@ -2151,9 +2151,33 @@
 
 
           /*
-            旧呼称欄
-            現段階は空欄
-          */
+  旧呼称
+*/
+
+if (
+  item.oldName
+) {
+
+  drawVerticalText(
+    ctx,
+    item.oldName,
+    cx,
+    row1 +
+      mm(4),
+    {
+      size:
+        mm(2.6),
+
+      gap:
+        mm(3.0),
+
+      maxHeight:
+        tableH *
+        0.20
+    }
+  );
+
+}
 
 
           drawVerticalText(
@@ -2209,13 +2233,13 @@
 
       const descriptionLines = [
 
-        "ご命日から四十九日までの期間を中陰といい、",
+  "ご命日から四十九日までの期間を「中陰」といいます。",
 
-        "七日ごとに故人を偲び、ご供養を勤めます。",
+  "この間、初七日から七七日（四十九日）まで、",
 
-        "初七日から七七日（四十九日）まで七日ごとに忌日を迎えます。"
+  "七日ごとに忌日を迎え、故人を偲びご供養を勤めます。"
 
-      ];
+];
 
 
       descriptionLines
