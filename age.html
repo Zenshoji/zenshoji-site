@@ -26,16 +26,17 @@
     }
 
     a {
-      color: inherit;
+      color: #333;
+      text-underline-offset: 3px;
     }
 
     header {
-      padding: 26px 20px;
+      padding: 22px 18px;
       border-bottom: 1px solid #ddd;
     }
 
     .header-inner {
-      width: min(1000px, calc(100% - 20px));
+      width: min(720px, calc(100% - 16px));
       margin: 0 auto;
     }
 
@@ -46,48 +47,52 @@
         "Hiragino Mincho ProN",
         "Hiragino Mincho Pro",
         serif;
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 600;
       letter-spacing: 0.12em;
       text-decoration: none;
     }
 
     main {
-      width: min(720px, calc(100% - 32px));
+      width: min(640px, calc(100% - 28px));
       margin: 0 auto;
-      padding: 54px 0 70px;
+      padding: 38px 0 50px;
     }
 
     h1 {
-      margin: 0 0 16px;
+      margin: 0 0 12px;
       text-align: center;
-      font-size: 30px;
+      font-size: 27px;
     }
 
     .intro {
-      margin: 0 0 40px;
+      margin: 0 0 32px;
       text-align: center;
       color: #666;
     }
 
     section {
-      margin-top: 38px;
+      margin-top: 34px;
     }
 
     h2 {
-      font-size: 21px;
       margin: 0 0 12px;
+      font-size: 20px;
     }
 
-    .box {
-      padding: 20px;
+    p {
+      margin: 10px 0;
+    }
+
+    .important {
+      padding: 18px 20px;
       background: #f6f6f4;
       border-radius: 8px;
     }
 
     .formula {
       margin: 18px 0;
-      padding: 16px;
+      padding: 15px;
       border: 1px solid #ddd;
       border-radius: 7px;
       font-weight: 600;
@@ -95,14 +100,14 @@
     }
 
     .calculator {
-      margin-top: 22px;
-      padding: 24px 20px;
+      margin-top: 20px;
+      padding: 22px 20px;
       border: 1px solid #ddd;
       border-radius: 8px;
     }
 
     .field {
-      margin-bottom: 18px;
+      margin-bottom: 17px;
     }
 
     label {
@@ -121,7 +126,7 @@
 
     button {
       width: 100%;
-      padding: 13px;
+      padding: 13px 16px;
       border: 0;
       border-radius: 7px;
       background: #333;
@@ -133,8 +138,8 @@
 
     #result {
       display: none;
-      margin-top: 20px;
-      padding: 18px;
+      margin-top: 18px;
+      padding: 17px;
       background: #f6f6f4;
       border-radius: 7px;
       text-align: center;
@@ -142,39 +147,40 @@
     }
 
     .note {
-      margin-top: 14px;
       color: #666;
       font-size: 14px;
     }
 
-    .back {
-      margin-top: 48px;
+    .reference {
+      padding-top: 18px;
+      border-top: 1px solid #ddd;
+      color: #555;
+      font-size: 14px;
+    }
+
+    .close-area {
+      margin-top: 42px;
       text-align: center;
     }
 
-    .back a {
+    .close-button {
       display: inline-block;
-      padding: 11px 20px;
-      border: 1px solid #bbb;
-      border-radius: 6px;
-      text-decoration: none;
+      width: auto;
+      min-width: 190px;
+      background: #666;
     }
 
-    @media (max-width: 700px) {
-      header {
-        padding: 20px 16px;
-      }
-
+    @media (max-width: 600px) {
       .site-name {
-        font-size: 20px;
+        font-size: 19px;
       }
 
       main {
-        padding-top: 40px;
+        padding-top: 32px;
       }
 
       h1 {
-        font-size: 26px;
+        font-size: 25px;
       }
     }
   </style>
@@ -195,24 +201,25 @@
     <h1>行年・数え年の数え方</h1>
 
     <p class="intro">
-      禅昌寺では、位牌などに記す行年を数え年で表記します。
+      位牌などに記す年齢についてご案内します。
     </p>
 
+
     <section>
+
       <h2>数え年とは</h2>
 
-      <div class="box">
-        生まれた年を1歳とし、その後は誕生日ではなく、
-        年が変わるごとに1歳を加える数え方です。
-      </div>
+      <p>
+        数え年は、生まれた年を1歳とし、
+        その後は誕生日ではなく、年が変わるごとに1歳を加える数え方です。
+      </p>
 
       <div class="formula">
         数え年 ＝ 亡くなった年 − 生まれた年 ＋ 1
       </div>
 
       <p>
-        例えば、昭和10年（1935年）生まれの方が
-        令和5年（2023年）に亡くなられた場合は、
+        例えば、1935年生まれの方が2023年に亡くなられた場合は、
       </p>
 
       <div class="formula">
@@ -220,17 +227,36 @@
       </div>
 
       <p>
-        となり、行年89歳となります。
+        となります。
       </p>
+
     </section>
 
 
     <section>
+
+      <h2>禅昌寺での表記</h2>
+
+      <div class="important">
+        禅昌寺では、位牌等に記す「行年」を
+        <strong>数え年</strong>で表記しています。
+      </div>
+
+      <p class="note">
+        ※年齢の表記方法や「行年」「享年」などの用語の扱いは、
+        寺院や地域によって異なる場合があります。
+      </p>
+
+    </section>
+
+
+    <section>
+
       <h2>数え年を確認する</h2>
 
       <p>
         生まれた年と亡くなった年が分かれば、
-        こちらで確認できます。
+        数え年をこちらで確認できます。
       </p>
 
       <div class="calculator">
@@ -244,6 +270,8 @@
             type="number"
             id="birthYear"
             inputmode="numeric"
+            min="1800"
+            max="2200"
             placeholder="例：1935"
           >
         </div>
@@ -257,6 +285,8 @@
             type="number"
             id="deathYear"
             inputmode="numeric"
+            min="1800"
+            max="2200"
             placeholder="例：2023"
           >
         </div>
@@ -273,16 +303,46 @@
       </div>
 
       <p class="note">
-        ※過去帳・位牌などにすでに行年の記載がある場合は、
-        その記載をご確認ください。
+        ※過去帳や位牌などにすでに行年の記載がある場合は、
+        その記載もご確認ください。
       </p>
+
     </section>
 
 
-    <div class="back">
-      <a href="memorial.html">
-        中陰表・年回表へ戻る
-      </a>
+    <section class="reference">
+
+      <strong>参考</strong>
+
+      <p>
+        曹洞宗公式サイト「曹洞禅ネット」では、
+        生年月日と命日から数え年・満年齢を確認できる
+        「忌日表（中陰表）・年回表」の計算機能が公開されています。
+      </p>
+
+      <p>
+        <a
+          href="https://sotozen-net.or.jp/hayamihyo/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          曹洞宗公式「忌日表（中陰表）・年回表」
+        </a>
+      </p>
+
+    </section>
+
+
+    <div class="close-area">
+
+      <button
+        type="button"
+        class="close-button"
+        id="closeButton"
+      >
+        この画面を閉じる
+      </button>
+
     </div>
 
   </main>
@@ -356,6 +416,46 @@
 
           result.style.display =
             "block";
+        }
+      );
+
+
+    document
+      .getElementById("closeButton")
+      .addEventListener(
+        "click",
+        function () {
+
+          /*
+            PCの小窓として開かれている場合
+          */
+
+          if (
+            window.opener &&
+            !window.opener.closed
+          ) {
+
+            window.close();
+            return;
+          }
+
+
+          /*
+            スマホ等で通常画面として
+            開かれている場合
+          */
+
+          if (
+            window.history.length > 1
+          ) {
+
+            window.history.back();
+
+          } else {
+
+            window.location.href =
+              "memorial.html";
+          }
         }
       );
 
