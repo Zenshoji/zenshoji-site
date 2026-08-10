@@ -189,11 +189,6 @@
       text-orientation: upright;
     }
 
-
-    /*
-      年・月の後の追加余白
-    */
-
     .date-separator {
       display: inline-block;
 
@@ -205,30 +200,92 @@
 
 
     /* ========================================
+       HTML縦書き用ハイフン
+
+       「-」という文字は表示せず、
+       CSSで縦線を描く
+    ======================================== */
+
+    .vertical-hyphen {
+      display: inline-block;
+
+      position: relative;
+
+      width: 1em;
+      height: 1em;
+
+      vertical-align: top;
+    }
+
+    .vertical-hyphen::before {
+      content: "";
+
+      position: absolute;
+
+      left: 50%;
+      top: 12%;
+      bottom: 12%;
+
+      width: 1px;
+
+      background: currentColor;
+
+      transform:
+        translateX(-50%);
+    }
+
+
+    /* ========================================
        寺院情報
+
+       右：寺院名
+       左：郵便番号・住所・電話番号
     ======================================== */
 
     .temple-info {
       position: absolute;
 
-      left: 8mm;
+      left: 5mm;
       top: 17mm;
 
-      width: 38mm;
+      width: 41mm;
       height: 176mm;
-
-      display: flex;
-      justify-content: center;
-
-      gap: 5mm;
     }
 
+
     .temple-name {
+      position: absolute;
+
+      right: 4mm;
+      top: 5mm;
+
+      height: 165mm;
+
+      writing-mode:
+        vertical-rl;
+
+      text-orientation:
+        upright;
+
       font-size: 11pt;
       line-height: 1.8;
     }
 
+
     .temple-address {
+      position: absolute;
+
+      left: 3mm;
+      top: 5mm;
+
+      height: 165mm;
+
+      writing-mode:
+        vertical-rl;
+
+      text-orientation:
+        upright;
+
       font-size: 7.4pt;
       line-height: 1.8;
     }
@@ -369,10 +426,6 @@
       text-orientation: upright;
 
       font-size: 8.7pt;
-
-      /*
-        通常の文字間隔も少し広げる
-      */
 
       line-height: 1.15;
 
@@ -810,24 +863,32 @@
   <div class="page-wrapper">
 
 
+    <!-- ========================================
+         表面
+    ======================================== -->
+
     <section class="page front">
 
       <div class="screen-fold fold-1"></div>
       <div class="screen-fold fold-2"></div>
 
 
+      <!-- 寺院情報 -->
+
       <div class="temple-info">
 
         <div
-          class="temple-name vertical"
+          class="temple-name"
         ></div>
 
         <div
-          class="temple-address vertical"
+          class="temple-address"
         ></div>
 
       </div>
 
+
+      <!-- 中陰表 -->
 
       <div class="chuin-area">
 
@@ -857,6 +918,8 @@
 
       </div>
 
+
+      <!-- 位牌 -->
 
       <div class="ihai-area">
 
@@ -889,6 +952,10 @@
     </section>
 
 
+
+    <!-- ========================================
+         裏面
+    ======================================== -->
 
     <section class="page back">
 
@@ -923,6 +990,12 @@
 
     "use strict";
 
+
+    /*
+      ========================================
+      データ
+    ========================================
+    */
 
     const stored =
       sessionStorage.getItem(
@@ -1048,8 +1121,10 @@
       ) {
 
         return {
-          main: "五七日",
-          sub: "（三十五日）"
+          main:
+            "五七日",
+          sub:
+            "（三十五日）"
         };
 
       }
@@ -1061,20 +1136,30 @@
       ) {
 
         return {
-          main: "七七日",
-          sub: "（四十九日）"
+          main:
+            "七七日",
+          sub:
+            "（四十九日）"
         };
 
       }
 
 
       return {
-        main: name,
-        sub: ""
+        main:
+          name,
+        sub:
+          ""
       };
 
     }
 
+
+    /*
+      ========================================
+      HTMLエスケープ
+    ========================================
+    */
 
     function escapeHtml(
       text
@@ -1114,8 +1199,9 @@
       ========================================
       HTML縦書き
 
-      日付の場合は
-      年と月の後に追加余白
+      ・1～2桁数字は縦中横
+      ・年、月の後は日付用追加余白
+      ・ハイフンは文字を表示せず縦線を描く
     ========================================
     */
 
@@ -1128,6 +1214,10 @@
         options.dateSpacing === true;
 
 
+      const verticalHyphen =
+        options.verticalHyphen === true;
+
+
       const characters =
         Array.from(
           String(text)
@@ -1136,6 +1226,7 @@
 
       let html =
         "";
+
 
       let numberBuffer =
         "";
@@ -1217,16 +1308,36 @@
           flushNumbers();
 
 
+          /*
+            寺院情報のハイフンは
+            「-」を表示せず縦線を描画
+          */
+
+          if (
+            verticalHyphen &&
+            (
+              char === "-" ||
+              char === "－" ||
+              char === "‐" ||
+              char === "―" ||
+              char === "–" ||
+              char === "—"
+            )
+          ) {
+
+            html +=
+              '<span class="vertical-hyphen"></span>';
+
+            return;
+
+          }
+
+
           html +=
             escapeHtml(
               char
             );
 
-
-          /*
-            日付のみ
-            年・月の後へ追加余白
-          */
 
           if (
             addDateSpacing &&
@@ -1323,6 +1434,7 @@
             n / 10
           );
 
+
         const ones =
           n % 10;
 
@@ -1344,6 +1456,7 @@
           Math.floor(
             n / 100
           );
+
 
         const remainder =
           n % 100;
@@ -1473,6 +1586,12 @@
     }
 
 
+    /*
+      ========================================
+      表の段構成
+    ========================================
+    */
+
     function getChuinGridRows() {
 
       if (
@@ -1545,6 +1664,10 @@
     function buildPreview() {
 
 
+      /*
+        寺院情報
+      */
+
       const templeInfo =
         document.querySelector(
           ".temple-info"
@@ -1556,8 +1679,12 @@
       ) {
 
         templeInfo.style.display =
-          "flex";
+          "block";
 
+
+        /*
+          右側：寺院名
+        */
 
         document
           .querySelector(
@@ -1566,6 +1693,12 @@
           .textContent =
           data.temple.name;
 
+
+        /*
+          左側：郵便番号・住所・電話
+
+          ハイフンは縦線として描画
+        */
 
         document
           .querySelector(
@@ -1578,7 +1711,12 @@
             "　" +
             data.temple.address +
             "　電話" +
-            data.temple.tel
+            data.temple.tel,
+
+            {
+              verticalHyphen:
+                true
+            }
 
           );
 
@@ -1591,6 +1729,10 @@
 
       }
 
+
+      /*
+        位牌
+      */
 
       document
         .getElementById(
@@ -1725,6 +1867,10 @@
 
       }
 
+
+      /*
+        中陰表
+      */
 
       const chuinTable =
         document.getElementById(
@@ -1883,6 +2029,10 @@
         );
 
 
+      /*
+        年回表
+      */
+
       const nenkaiTable =
         document.getElementById(
           "nenkaiTable"
@@ -1934,11 +2084,9 @@
               <div class="nenkai-cell">
 
                 <div class="nenkai-year">
-
                   ${verticalHtml(
                     item.year
                   )}
-
                 </div>
 
               </div>
@@ -1989,7 +2137,7 @@
 
     /*
       ========================================
-      Canvas
+      Canvas基本設定
     ========================================
     */
 
@@ -2101,6 +2249,12 @@
     }
 
 
+    /*
+      ========================================
+      UTF-16安全な文字分解
+    ========================================
+    */
+
     function tokenizeVerticalText(
       text
     ) {
@@ -2183,8 +2337,8 @@
       ========================================
       PDF縦書き
 
-      dateSpacing:true の場合、
-      年・月の後へ追加余白
+      ハイフンは文字を使わず
+      Canvasで縦線を描く
     ========================================
     */
 
@@ -2200,10 +2354,6 @@
         options.size ||
         mm(3.5);
 
-
-      /*
-        通常間隔も少し広くする
-      */
 
       const gap =
         options.gap ||
@@ -2233,10 +2383,6 @@
       const dateSpacing =
         options.dateSpacing === true;
 
-
-      /*
-        年・月の後に足す間隔
-      */
 
       const extraDateGap =
         options.extraDateGap ||
@@ -2269,6 +2415,10 @@
 
         }
 
+
+        /*
+          1～2桁数字
+        */
 
         if (
           /^\d{1,2}$/.test(
@@ -2355,6 +2505,10 @@
         }
 
 
+        /*
+          3桁以上数字
+        */
+
         if (
           /^\d+$/.test(
             token
@@ -2413,6 +2567,10 @@
 
         }
 
+
+        /*
+          括弧
+        */
 
         if (
           token === "(" ||
@@ -2513,6 +2671,13 @@
         }
 
 
+        /*
+          ハイフン類
+
+          「-」という文字は描かず
+          縦線そのものを描く
+        */
+
         if (
 
           token === "-" ||
@@ -2543,7 +2708,7 @@
             x,
             yy +
             size *
-            0.15
+            0.10
           );
 
 
@@ -2551,7 +2716,7 @@
             x,
             yy +
             size *
-            0.85
+            0.90
           );
 
 
@@ -2569,6 +2734,10 @@
 
         }
 
+
+        /*
+          通常文字
+        */
 
         setFont(
           ctx,
@@ -2596,10 +2765,6 @@
         yy +=
           gap;
 
-
-        /*
-          年と月の後だけ追加余白
-        */
 
         if (
           dateSpacing &&
@@ -2967,7 +3132,7 @@
 
     /*
       ========================================
-      表面
+      表面Canvas
     ========================================
     */
 
@@ -2980,14 +3145,22 @@
         createPageCanvas();
 
 
+      /*
+        寺院情報
+      */
+
       if (
         showTempleInfo
       ) {
 
+        /*
+          右側：寺院名
+        */
+
         drawVerticalText(
           ctx,
           data.temple.name,
-          mm(34),
+          mm(36),
           mm(24),
           {
             size:
@@ -2997,18 +3170,23 @@
               mm(4.2),
 
             maxHeight:
-              mm(140)
+              mm(145)
           }
         );
 
 
+        /*
+          左側：郵便番号・住所・電話
+        */
+
         drawVerticalText(
           ctx,
           data.temple.postal +
+          "　" +
           data.temple.address +
-          "電話" +
+          "　電話" +
           data.temple.tel,
-          mm(20),
+          mm(17),
           mm(24),
           {
             size:
@@ -3027,6 +3205,10 @@
 
       }
 
+
+      /*
+        中陰表タイトル
+      */
 
       drawCenteredText(
         ctx,
@@ -3362,11 +3544,6 @@
           rowIndex++;
 
 
-          /*
-            日付
-            通常間隔＋年/月後追加間隔
-          */
-
           drawVerticalText(
             ctx,
             item.date,
@@ -3448,6 +3625,10 @@
       );
 
 
+      /*
+        中陰とは
+      */
+
       setFont(
         ctx,
         mm(3.3),
@@ -3525,7 +3706,7 @@
 
     /*
       ========================================
-      裏面
+      裏面Canvas
     ========================================
     */
 
