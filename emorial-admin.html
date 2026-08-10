@@ -1,0 +1,3137 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>中陰表・年回表 管理者用 | 禅昌寺</title>
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    html,
+    body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+
+    body {
+      margin: 0;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Kaku Gothic ProN",
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+
+      color: #222;
+      background: #fff;
+
+      line-height: 1.8;
+    }
+
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+
+    header {
+      padding: 26px 20px;
+
+      border-bottom:
+        1px solid #ddd;
+
+      background: #fff;
+    }
+
+
+    .header-inner {
+      width:
+        min(
+          1000px,
+          calc(100% - 20px)
+        );
+
+      margin:
+        0 auto;
+    }
+
+
+    .site-name {
+      font-family:
+        "Yu Mincho",
+        "YuMincho",
+        "Hiragino Mincho ProN",
+        "Hiragino Mincho Pro",
+        "Noto Serif JP",
+        serif;
+
+      font-size: 24px;
+      font-weight: 600;
+
+      letter-spacing:
+        0.12em;
+    }
+
+
+    main {
+      width:
+        min(
+          900px,
+          calc(100% - 40px)
+        );
+
+      margin:
+        0 auto;
+
+      padding:
+        60px 0 80px;
+    }
+
+
+    h1 {
+      margin:
+        0 0 8px;
+
+      text-align: center;
+
+      font-size: 32px;
+      font-weight: 600;
+    }
+
+
+    .admin-label {
+      margin:
+        0 0 14px;
+
+      text-align: center;
+
+      color: #777;
+
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+
+    .intro {
+      margin:
+        0 auto 42px;
+
+      text-align: center;
+
+      color: #666;
+
+      font-size: 16px;
+    }
+
+
+    .input-card {
+      width: 100%;
+      max-width: 680px;
+
+      margin:
+        0 auto;
+
+      padding:
+        30px 26px;
+
+      border:
+        1px solid #ddd;
+
+      border-radius:
+        10px;
+
+      background: #fff;
+    }
+
+
+    .field {
+      margin-bottom: 22px;
+    }
+
+
+    label {
+      display: block;
+
+      margin-bottom:
+        7px;
+
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+
+    input,
+    select {
+      display: block;
+
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+
+      padding:
+        13px 14px;
+
+      border:
+        1px solid #bbb;
+
+      border-radius:
+        6px;
+
+      font-size: 16px;
+
+      font-family: inherit;
+
+      background: #fff;
+    }
+
+
+    .mode-switch {
+      display: flex;
+
+      gap: 8px;
+
+      margin-bottom:
+        18px;
+    }
+
+
+    .mode-button {
+      flex: 1;
+
+      padding:
+        11px 12px;
+
+      border:
+        1px solid #bbb;
+
+      border-radius:
+        6px;
+
+      background: #fff;
+
+      color: #333;
+
+      font-size: 15px;
+      font-weight: 600;
+
+      cursor: pointer;
+    }
+
+
+    .mode-button.active {
+      background: #333;
+      color: #fff;
+
+      border-color: #333;
+    }
+
+
+    .date-grid {
+      display: grid;
+
+      grid-template-columns:
+        1.3fr 1fr 1fr;
+
+      gap: 10px;
+    }
+
+
+    .wareki-grid {
+      display: grid;
+
+      grid-template-columns:
+        1.2fr 1fr 0.9fr 0.9fr;
+
+      gap: 10px;
+    }
+
+
+    .date-part {
+      min-width: 0;
+    }
+
+
+    .date-label {
+      display: block;
+
+      margin-bottom:
+        5px;
+
+      color: #777;
+
+      font-size: 13px;
+    }
+
+
+    .small-note {
+      margin-top:
+        7px;
+
+      color: #777;
+
+      font-size: 13px;
+    }
+
+
+    .small-note a {
+      text-decoration: underline;
+
+      text-underline-offset:
+        3px;
+    }
+
+
+    .hidden {
+      display: none;
+    }
+
+
+    /*
+      ========================================
+      管理者設定
+      ========================================
+    */
+
+    .admin-options {
+      margin-top: 30px;
+
+      padding:
+        22px 20px;
+
+      background:
+        #f6f6f4;
+
+      border-radius:
+        8px;
+    }
+
+
+    .admin-options h2 {
+      margin:
+        0 0 7px;
+
+      font-size:
+        19px;
+    }
+
+
+    .option-intro {
+      margin:
+        0 0 18px;
+
+      color: #666;
+
+      font-size:
+        13px;
+    }
+
+
+    .option-row {
+      display: flex;
+
+      align-items: flex-start;
+
+      gap: 12px;
+
+      padding:
+        13px 0;
+
+      border-bottom:
+        1px solid #ddd;
+    }
+
+
+    .option-row:last-child {
+      border-bottom: 0;
+    }
+
+
+    .option-row input {
+      width: auto;
+
+      margin-top:
+        5px;
+
+      transform:
+        scale(1.25);
+    }
+
+
+    .option-content {
+      flex: 1;
+    }
+
+
+    .option-title {
+      display: block;
+
+      margin: 0;
+
+      font-size: 15px;
+      font-weight: 600;
+
+      cursor: pointer;
+    }
+
+
+    .option-description {
+      margin-top:
+        3px;
+
+      color: #777;
+
+      font-size: 12px;
+    }
+
+
+    .button-area {
+      margin-top:
+        30px;
+
+      text-align: center;
+    }
+
+
+    button {
+      border: 0;
+
+      border-radius:
+        7px;
+
+      padding:
+        14px 28px;
+
+      background: #333;
+
+      color: #fff;
+
+      font-size: 17px;
+      font-weight: 600;
+
+      cursor: pointer;
+    }
+
+
+    button:hover {
+      background: #111;
+    }
+
+
+    .results {
+      display: none;
+
+      margin-top:
+        56px;
+    }
+
+
+    .person-box {
+      max-width: 520px;
+
+      margin:
+        0 auto 34px;
+
+      padding:
+        18px 20px;
+
+      background:
+        #f6f6f4;
+
+      border-radius:
+        6px;
+    }
+
+
+    .person-box p {
+      margin:
+        4px 0;
+    }
+
+
+    .result-section {
+      margin-top:
+        44px;
+    }
+
+
+    .result-section h2 {
+      margin:
+        0 0 18px;
+
+      text-align: center;
+
+      font-size: 24px;
+    }
+
+
+    .table-wrap {
+      width: 100%;
+      max-width: 520px;
+
+      margin:
+        0 auto;
+    }
+
+
+    table {
+      width: 100%;
+
+      border-collapse:
+        collapse;
+
+      background: #fff;
+
+      table-layout:
+        fixed;
+    }
+
+
+    th,
+    td {
+      border:
+        1px solid #ccc;
+
+      padding:
+        10px 12px;
+
+      vertical-align:
+        middle;
+    }
+
+
+    th {
+      background:
+        #f3f3f1;
+
+      font-weight:
+        600;
+    }
+
+
+    th:first-child,
+    td:first-child {
+      width: 46%;
+
+      text-align: left;
+    }
+
+
+    th:last-child,
+    td:last-child {
+      width: 54%;
+
+      text-align: left;
+    }
+
+
+    .action-area {
+      max-width: 520px;
+
+      margin:
+        36px auto 0;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, 1fr);
+
+      gap: 12px;
+    }
+
+
+    .action-button {
+      width: 100%;
+
+      padding:
+        14px 12px;
+    }
+
+
+    .pdf-button {
+      background: #333;
+    }
+
+
+    .reset-button {
+      background: #777;
+    }
+
+
+    .pdf-message {
+      grid-column:
+        1 / -1;
+
+      min-height:
+        22px;
+
+      text-align: center;
+
+      color: #666;
+
+      font-size:
+        14px;
+    }
+
+
+    .back {
+      margin-top:
+        58px;
+
+      text-align: center;
+    }
+
+
+    .back a {
+      display: inline-block;
+
+      padding:
+        12px 24px;
+
+      border:
+        1px solid #bbb;
+
+      border-radius:
+        6px;
+    }
+
+
+    @media
+    (max-width: 700px) {
+
+      header {
+        padding:
+          20px 16px;
+      }
+
+
+      .site-name {
+        font-size: 20px;
+      }
+
+
+      main {
+        width:
+          min(
+            100% - 24px,
+            900px
+          );
+
+        padding:
+          42px 0 60px;
+      }
+
+
+      h1 {
+        font-size: 27px;
+      }
+
+
+      .input-card {
+        padding:
+          22px 16px;
+      }
+
+
+      .date-grid {
+        grid-template-columns:
+          1fr 0.8fr 0.8fr;
+
+        gap:
+          8px;
+      }
+
+
+      .wareki-grid {
+        grid-template-columns:
+          1.1fr 0.9fr 0.8fr 0.8fr;
+
+        gap:
+          7px;
+      }
+
+
+      input,
+      select {
+        padding:
+          12px 9px;
+
+        font-size:
+          15px;
+      }
+
+
+      .table-wrap {
+        max-width: 100%;
+      }
+
+    }
+
+
+    @media
+    (max-width: 430px) {
+
+      .wareki-grid {
+        grid-template-columns:
+          1fr 0.9fr;
+      }
+
+
+      .action-area {
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .pdf-message {
+        grid-column:
+          auto;
+      }
+
+
+      button {
+        width: 100%;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <header>
+
+    <div class="header-inner">
+
+      <a
+        href="index.html"
+        class="site-name"
+      >
+        松久山 禅昌寺
+      </a>
+
+    </div>
+
+  </header>
+
+
+  <main>
+
+
+    <h1>
+      中陰表・年回表
+    </h1>
+
+
+    <div class="admin-label">
+      管理者用
+    </div>
+
+
+    <p class="intro">
+      故人情報とPDFに掲載する内容を設定します。
+    </p>
+
+
+    <section class="input-card">
+
+
+      <div class="field">
+
+        <label for="name">
+          故人のお名前
+        </label>
+
+        <input
+          type="text"
+          id="name"
+          placeholder="例：山田 太郎"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="kaimyo">
+          戒名（任意）
+        </label>
+
+        <input
+          type="text"
+          id="kaimyo"
+          placeholder="戒名がある場合に入力してください"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+
+        <label>
+          ご命日
+        </label>
+
+
+        <div class="mode-switch">
+
+
+          <button
+            type="button"
+            class="mode-button active"
+            id="warekiButton"
+          >
+            和暦で入力
+          </button>
+
+
+          <button
+            type="button"
+            class="mode-button"
+            id="seirekiButton"
+          >
+            西暦で入力
+          </button>
+
+
+        </div>
+
+
+        <div id="warekiArea">
+
+
+          <div class="wareki-grid">
+
+
+            <div class="date-part">
+
+              <span class="date-label">
+                元号
+              </span>
+
+              <select id="era">
+
+                <option value="taisho">
+                  大正
+                </option>
+
+                <option
+                  value="showa"
+                  selected
+                >
+                  昭和
+                </option>
+
+                <option value="heisei">
+                  平成
+                </option>
+
+                <option value="reiwa">
+                  令和
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="date-part">
+
+              <span class="date-label">
+                年
+              </span>
+
+              <input
+                type="number"
+                id="eraYear"
+                inputmode="numeric"
+                min="1"
+                placeholder="例：49"
+              >
+
+            </div>
+
+
+            <div class="date-part">
+
+              <span class="date-label">
+                月
+              </span>
+
+              <select id="warekiMonth">
+
+                <option value="">
+                  月
+                </option>
+
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+
+              </select>
+
+            </div>
+
+
+            <div class="date-part">
+
+              <span class="date-label">
+                日
+              </span>
+
+              <select id="warekiDay">
+
+                <option value="">
+                  日
+                </option>
+
+              </select>
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+
+        <div
+          id="seirekiArea"
+          class="hidden"
+        >
+
+
+          <div class="date-grid">
+
+
+            <div class="date-part">
+
+              <span class="date-label">
+                年
+              </span>
+
+              <input
+                type="number"
+                id="deathYear"
+                inputmode="numeric"
+                min="1912"
+                max="2200"
+                placeholder="例：1974"
+              >
+
+            </div>
+
+
+            <div class="date-part">
+
+              <span class="date-label">
+                月
+              </span>
+
+              <select id="deathMonth">
+
+                <option value="">
+                  月
+                </option>
+
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+
+              </select>
+
+            </div>
+
+
+            <div class="date-part">
+
+              <span class="date-label">
+                日
+              </span>
+
+              <select id="deathDay">
+
+                <option value="">
+                  日
+                </option>
+
+              </select>
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+
+      <div class="field">
+
+
+        <label for="age">
+          行年（任意）
+        </label>
+
+
+        <input
+          type="number"
+          id="age"
+          inputmode="numeric"
+          min="1"
+          max="150"
+          placeholder="例：88"
+        >
+
+
+        <div class="small-note">
+
+          禅昌寺では、位牌等の行年を数え年で表記します。
+
+          <br>
+
+          <a
+            href="age.html"
+            id="ageHelpLink"
+          >
+            数え方がわからない場合
+          </a>
+
+        </div>
+
+
+      </div>
+
+
+      <!-- =====================================
+           管理者PDF設定
+      ====================================== -->
+
+      <section class="admin-options">
+
+
+        <h2>
+          PDF掲載内容
+        </h2>
+
+
+        <p class="option-intro">
+          必要な項目を選択してください。
+        </p>
+
+
+        <div class="option-row">
+
+
+          <input
+            type="checkbox"
+            id="showOldNames"
+            checked
+          >
+
+
+          <div class="option-content">
+
+            <label
+              for="showOldNames"
+              class="option-title"
+            >
+              旧呼称を表示
+            </label>
+
+            <div class="option-description">
+              初願忌・以芳忌などを中陰表に表示します。
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+        <div class="option-row">
+
+
+          <input
+            type="checkbox"
+            id="showThirteenBuddhas"
+          >
+
+
+          <div class="option-content">
+
+            <label
+              for="showThirteenBuddhas"
+              class="option-title"
+            >
+              十三仏を表示
+            </label>
+
+            <div class="option-description">
+              各忌日・年回忌に対応する十三仏を表示します。
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+        <div class="option-row">
+
+
+          <input
+            type="checkbox"
+            id="showTempleInfo"
+            checked
+          >
+
+
+          <div class="option-content">
+
+            <label
+              for="showTempleInfo"
+              class="option-title"
+            >
+              寺院情報を表示
+            </label>
+
+            <div class="option-description">
+              曹洞宗 松久山 禅昌寺・住所・電話番号を表示します。
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+      </section>
+
+
+      <div class="button-area">
+
+        <button
+          type="button"
+          id="createButton"
+        >
+          中陰表・年回表を表示する
+        </button>
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- ========================================
+         結果
+    ======================================== -->
+
+    <section
+      class="results"
+      id="results"
+    >
+
+
+      <div
+        class="person-box"
+        id="personBox"
+      ></div>
+
+
+      <section class="result-section">
+
+
+        <h2>
+          中陰表
+        </h2>
+
+
+        <div class="table-wrap">
+
+
+          <table>
+
+
+            <thead>
+
+              <tr>
+
+                <th>
+                  法要
+                </th>
+
+                <th>
+                  日付
+                </th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody
+              id="chuinBody"
+            ></tbody>
+
+
+          </table>
+
+
+        </div>
+
+
+      </section>
+
+
+      <section class="result-section">
+
+
+        <h2>
+          年回表
+        </h2>
+
+
+        <div class="table-wrap">
+
+
+          <table>
+
+
+            <thead>
+
+              <tr>
+
+                <th>
+                  年回忌
+                </th>
+
+                <th>
+                  年
+                </th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody
+              id="nenkaiBody"
+            ></tbody>
+
+
+          </table>
+
+
+        </div>
+
+
+      </section>
+
+
+      <div class="action-area">
+
+
+        <button
+          type="button"
+          class="action-button pdf-button"
+          id="pdfButton"
+        >
+          PDFを作成
+        </button>
+
+
+        <button
+          type="button"
+          class="action-button reset-button"
+          id="resetButton"
+        >
+          もう一度入力する
+        </button>
+
+
+        <div
+          class="pdf-message"
+          id="pdfMessage"
+        ></div>
+
+
+      </div>
+
+
+    </section>
+
+
+    <div class="back">
+
+      <a href="index.html">
+        トップページへ戻る
+      </a>
+
+    </div>
+
+
+  </main>
+
+
+  <script>
+
+    "use strict";
+
+
+    let inputMode =
+      "wareki";
+
+
+    const eras = {
+
+
+      taisho: {
+
+        name:
+          "大正",
+
+        start:
+          [1912, 7, 30],
+
+        end:
+          [1926, 12, 24],
+
+        baseYear:
+          1911
+
+      },
+
+
+      showa: {
+
+        name:
+          "昭和",
+
+        start:
+          [1926, 12, 25],
+
+        end:
+          [1989, 1, 7],
+
+        baseYear:
+          1925
+
+      },
+
+
+      heisei: {
+
+        name:
+          "平成",
+
+        start:
+          [1989, 1, 8],
+
+        end:
+          [2019, 4, 30],
+
+        baseYear:
+          1988
+
+      },
+
+
+      reiwa: {
+
+        name:
+          "令和",
+
+        start:
+          [2019, 5, 1],
+
+        end:
+          null,
+
+        baseYear:
+          2018
+
+      }
+
+
+    };
+
+
+    /*
+      ========================================
+      入力方式切替
+      ========================================
+    */
+
+    document
+      .getElementById(
+        "warekiButton"
+      )
+      .addEventListener(
+
+        "click",
+
+        function () {
+
+
+          inputMode =
+            "wareki";
+
+
+          document
+            .getElementById(
+              "warekiArea"
+            )
+            .classList
+            .remove(
+              "hidden"
+            );
+
+
+          document
+            .getElementById(
+              "seirekiArea"
+            )
+            .classList
+            .add(
+              "hidden"
+            );
+
+
+          this
+            .classList
+            .add(
+              "active"
+            );
+
+
+          document
+            .getElementById(
+              "seirekiButton"
+            )
+            .classList
+            .remove(
+              "active"
+            );
+
+
+        }
+
+      );
+
+
+    document
+      .getElementById(
+        "seirekiButton"
+      )
+      .addEventListener(
+
+        "click",
+
+        function () {
+
+
+          inputMode =
+            "seireki";
+
+
+          document
+            .getElementById(
+              "seirekiArea"
+            )
+            .classList
+            .remove(
+              "hidden"
+            );
+
+
+          document
+            .getElementById(
+              "warekiArea"
+            )
+            .classList
+            .add(
+              "hidden"
+            );
+
+
+          this
+            .classList
+            .add(
+              "active"
+            );
+
+
+          document
+            .getElementById(
+              "warekiButton"
+            )
+            .classList
+            .remove(
+              "active"
+            );
+
+
+        }
+
+      );
+
+
+    /*
+      ========================================
+      日付
+      ========================================
+    */
+
+    function getDaysInMonth(
+      year,
+      month
+    ) {
+
+
+      return new Date(
+
+        Date.UTC(
+          year,
+          month,
+          0
+        )
+
+      )
+        .getUTCDate();
+
+
+    }
+
+
+    function createUtcDate(
+      year,
+      month,
+      day
+    ) {
+
+
+      return new Date(
+
+        Date.UTC(
+          year,
+          month - 1,
+          day
+        )
+
+      );
+
+
+    }
+
+
+    function compareDateParts(
+      a,
+      b
+    ) {
+
+
+      if (
+        a[0] !== b[0]
+      ) {
+
+        return (
+          a[0] -
+          b[0]
+        );
+
+      }
+
+
+      if (
+        a[1] !== b[1]
+      ) {
+
+        return (
+          a[1] -
+          b[1]
+        );
+
+      }
+
+
+      return (
+        a[2] -
+        b[2]
+      );
+
+
+    }
+
+
+    function addDays(
+      date,
+      days
+    ) {
+
+
+      const result =
+        new Date(
+
+          Date.UTC(
+
+            date
+              .getUTCFullYear(),
+
+            date
+              .getUTCMonth(),
+
+            date
+              .getUTCDate()
+
+          )
+
+        );
+
+
+      result
+        .setUTCDate(
+
+          result
+            .getUTCDate() +
+          days
+
+        );
+
+
+      return result;
+
+
+    }
+
+
+    function fillDaySelect(
+      selectId,
+      year,
+      month
+    ) {
+
+
+      const select =
+        document
+          .getElementById(
+            selectId
+          );
+
+
+      const previousDay =
+        Number(
+          select.value
+        );
+
+
+      select.innerHTML =
+        '<option value="">日</option>';
+
+
+      if (
+        !year ||
+        !month
+      ) {
+
+        return;
+
+      }
+
+
+      const maxDay =
+        getDaysInMonth(
+          year,
+          month
+        );
+
+
+      for (
+        let day = 1;
+        day <= maxDay;
+        day++
+      ) {
+
+
+        const option =
+          document
+            .createElement(
+              "option"
+            );
+
+
+        option.value =
+          String(day);
+
+
+        option.textContent =
+          String(day);
+
+
+        select
+          .appendChild(
+            option
+          );
+
+
+      }
+
+
+      if (
+        previousDay &&
+        previousDay <= maxDay
+      ) {
+
+
+        select.value =
+          String(
+            previousDay
+          );
+
+
+      }
+
+
+    }
+
+
+    function updateWarekiDays() {
+
+
+      const eraKey =
+        document
+          .getElementById(
+            "era"
+          )
+          .value;
+
+
+      const eraYear =
+        Number(
+
+          document
+            .getElementById(
+              "eraYear"
+            )
+            .value
+
+        );
+
+
+      const month =
+        Number(
+
+          document
+            .getElementById(
+              "warekiMonth"
+            )
+            .value
+
+        );
+
+
+      if (
+        !eraKey ||
+        !eraYear ||
+        !month
+      ) {
+
+
+        fillDaySelect(
+          "warekiDay",
+          0,
+          0
+        );
+
+
+        return;
+
+      }
+
+
+      const year =
+        eras[eraKey]
+          .baseYear +
+        eraYear;
+
+
+      fillDaySelect(
+        "warekiDay",
+        year,
+        month
+      );
+
+
+    }
+
+
+    document
+      .getElementById(
+        "era"
+      )
+      .addEventListener(
+        "change",
+        updateWarekiDays
+      );
+
+
+    document
+      .getElementById(
+        "eraYear"
+      )
+      .addEventListener(
+        "input",
+        updateWarekiDays
+      );
+
+
+    document
+      .getElementById(
+        "warekiMonth"
+      )
+      .addEventListener(
+        "change",
+        updateWarekiDays
+      );
+
+
+    function updateGregorianDays() {
+
+
+      const year =
+        Number(
+
+          document
+            .getElementById(
+              "deathYear"
+            )
+            .value
+
+        );
+
+
+      const month =
+        Number(
+
+          document
+            .getElementById(
+              "deathMonth"
+            )
+            .value
+
+        );
+
+
+      fillDaySelect(
+        "deathDay",
+        year,
+        month
+      );
+
+
+    }
+
+
+    document
+      .getElementById(
+        "deathYear"
+      )
+      .addEventListener(
+        "input",
+        updateGregorianDays
+      );
+
+
+    document
+      .getElementById(
+        "deathMonth"
+      )
+      .addEventListener(
+        "change",
+        updateGregorianDays
+      );
+
+
+    function formatEraYear(
+      eraYear
+    ) {
+
+
+      return (
+        eraYear === 1
+          ? "元"
+          : String(
+              eraYear
+            )
+      );
+
+
+    }
+
+
+    function warekiToGregorian() {
+
+
+      const eraKey =
+        document
+          .getElementById(
+            "era"
+          )
+          .value;
+
+
+      const eraYear =
+        Number(
+
+          document
+            .getElementById(
+              "eraYear"
+            )
+            .value
+
+        );
+
+
+      const month =
+        Number(
+
+          document
+            .getElementById(
+              "warekiMonth"
+            )
+            .value
+
+        );
+
+
+      const day =
+        Number(
+
+          document
+            .getElementById(
+              "warekiDay"
+            )
+            .value
+
+        );
+
+
+      if (
+        !eraKey ||
+        !eraYear ||
+        !month ||
+        !day
+      ) {
+
+
+        return {
+
+          valid:
+            false,
+
+          message:
+            "ご命日の元号・年・月・日を入力してください。"
+
+        };
+
+
+      }
+
+
+      const era =
+        eras[eraKey];
+
+
+      const year =
+        era.baseYear +
+        eraYear;
+
+
+      const entered =
+        [
+          year,
+          month,
+          day
+        ];
+
+
+      if (
+        compareDateParts(
+          entered,
+          era.start
+        ) < 0
+      ) {
+
+
+        return {
+
+          valid:
+            false,
+
+          message:
+            "入力した日付は、この元号の期間外です。"
+
+        };
+
+
+      }
+
+
+      if (
+        era.end &&
+        compareDateParts(
+          entered,
+          era.end
+        ) > 0
+      ) {
+
+
+        return {
+
+          valid:
+            false,
+
+          message:
+            "入力した日付は、この元号の期間外です。"
+
+        };
+
+
+      }
+
+
+      return {
+
+        valid:
+          true,
+
+        date:
+          createUtcDate(
+            year,
+            month,
+            day
+          )
+
+      };
+
+
+    }
+
+
+    function getGregorianInput() {
+
+
+      const year =
+        Number(
+
+          document
+            .getElementById(
+              "deathYear"
+            )
+            .value
+
+        );
+
+
+      const month =
+        Number(
+
+          document
+            .getElementById(
+              "deathMonth"
+            )
+            .value
+
+        );
+
+
+      const day =
+        Number(
+
+          document
+            .getElementById(
+              "deathDay"
+            )
+            .value
+
+        );
+
+
+      if (
+        !year ||
+        !month ||
+        !day
+      ) {
+
+
+        return {
+
+          valid:
+            false,
+
+          message:
+            "ご命日の年・月・日を入力してください。"
+
+        };
+
+
+      }
+
+
+      if (
+        year < 1912
+      ) {
+
+
+        return {
+
+          valid:
+            false,
+
+          message:
+            "現在は大正以降の日付に対応しています。"
+
+        };
+
+
+      }
+
+
+      return {
+
+        valid:
+          true,
+
+        date:
+          createUtcDate(
+            year,
+            month,
+            day
+          )
+
+      };
+
+
+    }
+
+
+    function getDeathDate() {
+
+
+      return (
+        inputMode === "wareki"
+          ? warekiToGregorian()
+          : getGregorianInput()
+      );
+
+
+    }
+
+
+    /*
+      ========================================
+      日付表示
+      ========================================
+    */
+
+    function formatJapaneseDate(
+      date
+    ) {
+
+
+      const year =
+        date
+          .getUTCFullYear();
+
+
+      const month =
+        date
+          .getUTCMonth() +
+        1;
+
+
+      const day =
+        date
+          .getUTCDate();
+
+
+      const parts =
+        [
+          year,
+          month,
+          day
+        ];
+
+
+      if (
+        compareDateParts(
+          parts,
+          eras.reiwa.start
+        ) >= 0
+      ) {
+
+
+        return (
+
+          "令和" +
+
+          formatEraYear(
+            year - 2018
+          ) +
+
+          "年" +
+
+          month +
+
+          "月" +
+
+          day +
+
+          "日"
+
+        );
+
+
+      }
+
+
+      if (
+        compareDateParts(
+          parts,
+          eras.heisei.start
+        ) >= 0
+      ) {
+
+
+        return (
+
+          "平成" +
+
+          formatEraYear(
+            year - 1988
+          ) +
+
+          "年" +
+
+          month +
+
+          "月" +
+
+          day +
+
+          "日"
+
+        );
+
+
+      }
+
+
+      if (
+        compareDateParts(
+          parts,
+          eras.showa.start
+        ) >= 0
+      ) {
+
+
+        return (
+
+          "昭和" +
+
+          formatEraYear(
+            year - 1925
+          ) +
+
+          "年" +
+
+          month +
+
+          "月" +
+
+          day +
+
+          "日"
+
+        );
+
+
+      }
+
+
+      return (
+
+        "大正" +
+
+        formatEraYear(
+          year - 1911
+        ) +
+
+        "年" +
+
+        month +
+
+        "月" +
+
+        day +
+
+        "日"
+
+      );
+
+
+    }
+
+
+    function formatGregorianDate(
+      date
+    ) {
+
+
+      return (
+
+        date
+          .getUTCFullYear() +
+
+        "年" +
+
+        (
+          date
+            .getUTCMonth() +
+          1
+        ) +
+
+        "月" +
+
+        date
+          .getUTCDate() +
+
+        "日"
+
+      );
+
+
+    }
+
+
+    /*
+      ========================================
+      中陰・年回
+      ========================================
+    */
+
+    const chuinItems = [
+
+      {
+        name: "初七日",
+        oldName: "初願忌",
+        add: 6
+      },
+
+      {
+        name: "二七日",
+        oldName: "以芳忌",
+        add: 13
+      },
+
+      {
+        name: "三七日",
+        oldName: "洒水忌",
+        add: 20
+      },
+
+      {
+        name: "四七日",
+        oldName: "阿経忌",
+        add: 27
+      },
+
+      {
+        name: "五七日（三十五日）",
+        oldName: "小錬忌",
+        add: 34
+      },
+
+      {
+        name: "六七日",
+        oldName: "檀弘忌",
+        add: 41
+      },
+
+      {
+        name: "七七日（四十九日）",
+        oldName: "大錬忌",
+        add: 48
+      },
+
+      {
+        name: "百か日",
+        oldName: "卒哭忌",
+        add: 99
+      }
+
+    ];
+
+
+    const memorialItems = [
+
+      {
+        name: "一周忌",
+        addYear: 1
+      },
+
+      {
+        name: "三回忌",
+        addYear: 2
+      },
+
+      {
+        name: "七回忌",
+        addYear: 6
+      },
+
+      {
+        name: "十三回忌",
+        addYear: 12
+      },
+
+      {
+        name: "十七回忌",
+        addYear: 16
+      },
+
+      {
+        name: "二十三回忌",
+        addYear: 22
+      },
+
+      {
+        name: "二十七回忌",
+        addYear: 26
+      },
+
+      {
+        name: "三十三回忌",
+        addYear: 32
+      },
+
+      {
+        name: "三十七回忌",
+        addYear: 36
+      },
+
+      {
+        name: "五十回忌",
+        addYear: 49
+      }
+
+    ];
+
+
+    /*
+      ========================================
+      結果表示
+      ========================================
+    */
+
+    document
+      .getElementById(
+        "createButton"
+      )
+      .addEventListener(
+
+        "click",
+
+        function () {
+
+
+          const result =
+            getDeathDate();
+
+
+          if (
+            !result.valid
+          ) {
+
+
+            alert(
+              result.message
+            );
+
+
+            return;
+
+          }
+
+
+          const deathDate =
+            result.date;
+
+
+          const name =
+            document
+              .getElementById(
+                "name"
+              )
+              .value
+              .trim();
+
+
+          const kaimyo =
+            document
+              .getElementById(
+                "kaimyo"
+              )
+              .value
+              .trim();
+
+
+          const age =
+            document
+              .getElementById(
+                "age"
+              )
+              .value
+              .trim();
+
+
+          let personHtml =
+            "";
+
+
+          if (
+            name
+          ) {
+
+            personHtml +=
+
+              "<p><strong>俗名：</strong>" +
+
+              escapeHtml(
+                name
+              ) +
+
+              "</p>";
+
+          }
+
+
+          if (
+            kaimyo
+          ) {
+
+            personHtml +=
+
+              "<p><strong>戒名：</strong>" +
+
+              escapeHtml(
+                kaimyo
+              ) +
+
+              "</p>";
+
+          }
+
+
+          personHtml +=
+
+            "<p><strong>命日：</strong>" +
+
+            formatJapaneseDate(
+              deathDate
+            ) +
+
+            "（" +
+
+            formatGregorianDate(
+              deathDate
+            ) +
+
+            "）</p>";
+
+
+          if (
+            age
+          ) {
+
+            personHtml +=
+
+              "<p><strong>行年：</strong>" +
+
+              escapeHtml(
+                age
+              ) +
+
+              "歳</p>";
+
+          }
+
+
+          document
+            .getElementById(
+              "personBox"
+            )
+            .innerHTML =
+            personHtml;
+
+
+          const chuinBody =
+            document
+              .getElementById(
+                "chuinBody"
+              );
+
+
+          chuinBody.innerHTML =
+            "";
+
+
+          chuinItems
+            .forEach(
+
+              function (
+                item
+              ) {
+
+
+                const row =
+                  document
+                    .createElement(
+                      "tr"
+                    );
+
+
+                row.innerHTML =
+
+                  "<td>" +
+
+                  escapeHtml(
+                    item.name
+                  ) +
+
+                  "</td>" +
+
+                  "<td>" +
+
+                  formatJapaneseDate(
+
+                    addDays(
+                      deathDate,
+                      item.add
+                    )
+
+                  ) +
+
+                  "</td>";
+
+
+                chuinBody
+                  .appendChild(
+                    row
+                  );
+
+
+              }
+
+            );
+
+
+          const deathYear =
+            deathDate
+              .getUTCFullYear();
+
+
+          const nenkaiBody =
+            document
+              .getElementById(
+                "nenkaiBody"
+              );
+
+
+          nenkaiBody.innerHTML =
+            "";
+
+
+          memorialItems
+            .forEach(
+
+              function (
+                item
+              ) {
+
+
+                const row =
+                  document
+                    .createElement(
+                      "tr"
+                    );
+
+
+                row.innerHTML =
+
+                  "<td>" +
+
+                  escapeHtml(
+                    item.name
+                  ) +
+
+                  "</td>" +
+
+                  "<td>" +
+
+                  (
+                    deathYear +
+                    item.addYear
+                  ) +
+
+                  "年</td>";
+
+
+                nenkaiBody
+                  .appendChild(
+                    row
+                  );
+
+
+              }
+
+            );
+
+
+          document
+            .getElementById(
+              "results"
+            )
+            .style
+            .display =
+            "block";
+
+
+          document
+            .getElementById(
+              "results"
+            )
+            .scrollIntoView({
+
+              behavior:
+                "smooth",
+
+              block:
+                "start"
+
+            });
+
+
+        }
+
+      );
+
+
+    /*
+      ========================================
+      PDF
+      ========================================
+    */
+
+    document
+      .getElementById(
+        "pdfButton"
+      )
+      .addEventListener(
+
+        "click",
+
+        function () {
+
+
+          const result =
+            getDeathDate();
+
+
+          if (
+            !result.valid
+          ) {
+
+
+            document
+              .getElementById(
+                "pdfMessage"
+              )
+              .textContent =
+              "先に中陰表・年回表を表示してください。";
+
+
+            return;
+
+          }
+
+
+          const deathDate =
+            result.date;
+
+
+          const deathYear =
+            deathDate
+              .getUTCFullYear();
+
+
+          const chuin =
+            chuinItems
+              .map(
+
+                function (
+                  item
+                ) {
+
+
+                  return {
+
+                    name:
+                      item.name,
+
+                    oldName:
+                      item.oldName,
+
+                    date:
+                      formatJapaneseDate(
+
+                        addDays(
+                          deathDate,
+                          item.add
+                        )
+
+                      )
+
+                  };
+
+
+                }
+
+              );
+
+
+          const nenkai =
+            memorialItems
+              .map(
+
+                function (
+                  item
+                ) {
+
+
+                  return {
+
+                    name:
+                      item.name,
+
+                    year:
+                      (
+                        deathYear +
+                        item.addYear
+                      ) +
+                      "年"
+
+                  };
+
+
+                }
+
+              );
+
+
+          const pdfData = {
+
+
+            source:
+              "admin",
+
+
+            name:
+              document
+                .getElementById(
+                  "name"
+                )
+                .value
+                .trim(),
+
+
+            kaimyo:
+              document
+                .getElementById(
+                  "kaimyo"
+                )
+                .value
+                .trim(),
+
+
+            age:
+              document
+                .getElementById(
+                  "age"
+                )
+                .value
+                .trim(),
+
+
+            deathDateJapanese:
+              formatJapaneseDate(
+                deathDate
+              ),
+
+
+            deathDateGregorian:
+              formatGregorianDate(
+                deathDate
+              ),
+
+
+            deathYear:
+              deathYear,
+
+
+            chuin:
+              chuin,
+
+
+            nenkai:
+              nenkai,
+
+
+            options: {
+
+
+              showOldNames:
+                document
+                  .getElementById(
+                    "showOldNames"
+                  )
+                  .checked,
+
+
+              showThirteenBuddhas:
+                document
+                  .getElementById(
+                    "showThirteenBuddhas"
+                  )
+                  .checked,
+
+
+              showTempleInfo:
+                document
+                  .getElementById(
+                    "showTempleInfo"
+                  )
+                  .checked
+
+
+            },
+
+
+            temple: {
+
+              name:
+                "曹洞宗 松久山 禅昌寺",
+
+              postal:
+                "〒092-0235",
+
+              address:
+                "北海道網走郡津別町幸町69-2",
+
+              tel:
+                "0152-76-2613"
+
+            }
+
+
+          };
+
+
+          sessionStorage
+            .setItem(
+
+              "zenshojiPdfData",
+
+              JSON.stringify(
+                pdfData
+              )
+
+            );
+
+
+          window.location.href =
+            "confirm.html";
+
+
+        }
+
+      );
+
+
+    /*
+      ========================================
+      リセット
+      ========================================
+    */
+
+    document
+      .getElementById(
+        "resetButton"
+      )
+      .addEventListener(
+
+        "click",
+
+        function () {
+
+
+          window.location.reload();
+
+
+        }
+
+      );
+
+
+    /*
+      ========================================
+      行年説明
+      ========================================
+    */
+
+    document
+      .getElementById(
+        "ageHelpLink"
+      )
+      .addEventListener(
+
+        "click",
+
+        function (
+          event
+        ) {
+
+
+          if (
+            window.innerWidth >=
+            768
+          ) {
+
+
+            event
+              .preventDefault();
+
+
+            window.open(
+
+              "age.html",
+
+              "ageHelp",
+
+              "width=560,height=720,resizable=yes,scrollbars=yes"
+
+            );
+
+
+          }
+
+
+        }
+
+      );
+
+
+    /*
+      ========================================
+      HTMLエスケープ
+      ========================================
+    */
+
+    function escapeHtml(
+      text
+    ) {
+
+
+      return String(text)
+
+        .replaceAll(
+          "&",
+          "&amp;"
+        )
+
+        .replaceAll(
+          "<",
+          "&lt;"
+        )
+
+        .replaceAll(
+          ">",
+          "&gt;"
+        )
+
+        .replaceAll(
+          '"',
+          "&quot;"
+        )
+
+        .replaceAll(
+          "'",
+          "&#039;"
+        );
+
+
+    }
+
+
+  </script>
+
+
+</body>
+
+</html>
