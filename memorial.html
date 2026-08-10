@@ -1220,86 +1220,102 @@
 
     function formatJapaneseDate(date) {
 
-      const year =
-        date.getUTCFullYear();
+  const year =
+    date.getUTCFullYear();
 
-      const month =
-        date.getUTCMonth() + 1;
+  const month =
+    date.getUTCMonth() + 1;
 
-      const day =
-        date.getUTCDate();
+  const day =
+    date.getUTCDate();
 
-
-      const parts =
-        [year, month, day];
-
-
-      if (
-        compareDateParts(
-          parts,
-          eras.reiwa.start
-        ) >= 0
-      ) {
-
-        return (
-          "令和" +
-          (year - 2018) +
-          "年" +
-          month +
-          "月" +
-          day +
-          "日"
-        );
-      }
+  const parts =
+    [year, month, day];
 
 
-      if (
-        compareDateParts(
-          parts,
-          eras.heisei.start
-        ) >= 0
-      ) {
+  function formatEraYear(eraYear) {
 
-        return (
-          "平成" +
-          (year - 1988) +
-          "年" +
-          month +
-          "月" +
-          day +
-          "日"
-        );
-      }
+    return eraYear === 1
+      ? "元"
+      : eraYear;
+  }
 
 
-      if (
-        compareDateParts(
-          parts,
-          eras.showa.start
-        ) >= 0
-      ) {
+  if (
+    compareDateParts(
+      parts,
+      eras.reiwa.start
+    ) >= 0
+  ) {
 
-        return (
-          "昭和" +
-          (year - 1925) +
-          "年" +
-          month +
-          "月" +
-          day +
-          "日"
-        );
-      }
+    const eraYear =
+      year - 2018;
+
+    return (
+      "令和" +
+      formatEraYear(eraYear) +
+      "年" +
+      month +
+      "月" +
+      day +
+      "日"
+    );
+  }
 
 
-      return (
-        year +
-        "年" +
-        month +
-        "月" +
-        day +
-        "日"
-      );
-    }
+  if (
+    compareDateParts(
+      parts,
+      eras.heisei.start
+    ) >= 0
+  ) {
+
+    const eraYear =
+      year - 1988;
+
+    return (
+      "平成" +
+      formatEraYear(eraYear) +
+      "年" +
+      month +
+      "月" +
+      day +
+      "日"
+    );
+  }
+
+
+  if (
+    compareDateParts(
+      parts,
+      eras.showa.start
+    ) >= 0
+  ) {
+
+    const eraYear =
+      year - 1925;
+
+    return (
+      "昭和" +
+      formatEraYear(eraYear) +
+      "年" +
+      month +
+      "月" +
+      day +
+      "日"
+    );
+  }
+
+
+  return (
+    year +
+    "年" +
+    month +
+    "月" +
+    day +
+    "日"
+  );
+}
 
 
     function formatGregorianDate(date) {
@@ -1326,7 +1342,7 @@
       { name: "二七日", add: 13 },
       { name: "三七日", add: 20 },
       { name: "四七日", add: 27 },
-      { name: "五七日", add: 34 },
+      { name: "五七日（三十五日）", add: 34 },
       { name: "六七日", add: 41 },
       { name: "七七日（四十九日）", add: 48 },
       { name: "百か日", add: 99 }
