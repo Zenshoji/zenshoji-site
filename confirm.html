@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    PDF内容確認 | 禅昌寺
+  </title>
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    body {
+
+      margin: 0;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Kaku Gothic ProN",
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+
+      color: #222;
+
+      background: #f6f6f4;
+
+      line-height: 1.8;
+
+    }
+
+
+    header {
+
+      padding: 24px 20px;
+
+      background: #fff;
+
+      border-bottom:
+        1px solid #ddd;
+
+    }
+
+
+    .header-inner {
+
+      width:
+        min(
+          900px,
+          calc(100% - 20px)
+        );
+
+      margin:
+        0 auto;
+
+    }
+
+
+    .site-name {
+
+      font-family:
+        "Yu Mincho",
+        "YuMincho",
+        "Hiragino Mincho ProN",
+        serif;
+
+      font-size: 22px;
+
+      font-weight: 600;
+
+      letter-spacing:
+        0.12em;
+
+    }
+
+
+    main {
+
+      width:
+        min(
+          720px,
+          calc(100% - 28px)
+        );
+
+      margin:
+        0 auto;
+
+      padding:
+        48px 0 70px;
+
+    }
+
+
+    h1 {
+
+      margin:
+        0 0 12px;
+
+      text-align:
+        center;
+
+      font-size:
+        29px;
+
+    }
+
+
+    .intro {
+
+      margin:
+        0 0 36px;
+
+      text-align:
+        center;
+
+      color:
+        #666;
+
+    }
+
+
+    .card {
+
+      padding:
+        26px 24px;
+
+      background:
+        #fff;
+
+      border:
+        1px solid #ddd;
+
+      border-radius:
+        10px;
+
+    }
+
+
+    .row {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        120px 1fr;
+
+      gap:
+        16px;
+
+      padding:
+        13px 0;
+
+      border-bottom:
+        1px solid #eee;
+
+    }
+
+
+    .row:last-child {
+
+      border-bottom:
+        0;
+
+    }
+
+
+    .label {
+
+      color:
+        #666;
+
+      font-size:
+        14px;
+
+      font-weight:
+        600;
+
+    }
+
+
+    .value {
+
+      font-size:
+        16px;
+
+      overflow-wrap:
+        anywhere;
+
+    }
+
+
+    .notice {
+
+      margin-top:
+        24px;
+
+      padding:
+        17px 18px;
+
+      background:
+        #fff;
+
+      border:
+        1px solid #ddd;
+
+      border-radius:
+        8px;
+
+      color:
+        #555;
+
+      font-size:
+        14px;
+
+    }
+
+
+    .button-area {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap:
+        12px;
+
+      margin-top:
+        30px;
+
+    }
+
+
+    button {
+
+      width:
+        100%;
+
+      padding:
+        14px 16px;
+
+      border:
+        0;
+
+      border-radius:
+        7px;
+
+      font-size:
+        16px;
+
+      font-weight:
+        600;
+
+      cursor:
+        pointer;
+
+    }
+
+
+    .back-button {
+
+      background:
+        #777;
+
+      color:
+        #fff;
+
+    }
+
+
+    .create-button {
+
+      background:
+        #333;
+
+      color:
+        #fff;
+
+    }
+
+
+    .error {
+
+      padding:
+        20px;
+
+      background:
+        #fff;
+
+      border:
+        1px solid #ddd;
+
+      border-radius:
+        8px;
+
+      text-align:
+        center;
+
+    }
+
+
+    @media
+    (max-width: 600px) {
+
+      main {
+
+        padding-top:
+          36px;
+
+      }
+
+
+      h1 {
+
+        font-size:
+          26px;
+
+      }
+
+
+      .card {
+
+        padding:
+          21px 18px;
+
+      }
+
+
+      .row {
+
+        grid-template-columns:
+          90px 1fr;
+
+        gap:
+          10px;
+
+      }
+
+
+      .button-area {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <header>
+
+    <div class="header-inner">
+
+      <div class="site-name">
+        松久山 禅昌寺
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <main>
+
+
+    <h1>
+      PDF内容確認
+    </h1>
+
+
+    <p class="intro">
+
+      印刷する内容をご確認ください。
+
+    </p>
+
+
+    <div id="content"></div>
+
+
+  </main>
+
+
+  <script>
+
+    const stored =
+      sessionStorage.getItem(
+        "zenshojiPdfData"
+      );
+
+
+    const content =
+      document.getElementById(
+        "content"
+      );
+
+
+    /*
+      データがない場合
+    */
+
+    if (!stored) {
+
+      content.innerHTML = `
+
+        <div class="error">
+
+          PDF作成用の情報がありません。
+
+          <br><br>
+
+          <button
+            class="back-button"
+            onclick="
+              window.location.href =
+              'memorial.html'
+            "
+          >
+            中陰表・年回表へ戻る
+          </button>
+
+        </div>
+
+      `;
+
+    }
+
+
+    else {
+
+
+      const data =
+        JSON.parse(
+          stored
+        );
+
+
+      /*
+        戒名
+      */
+
+      const kaimyoDisplay =
+        data.kaimyo
+          ? data.kaimyo
+          : "入力なし";
+
+
+      /*
+        行年
+      */
+
+      const ageDisplay =
+        data.age
+          ? data.age + "歳"
+          : "入力なし";
+
+
+      /*
+        俗名
+      */
+
+      const nameDisplay =
+        data.name
+          ? data.name
+          : "入力なし";
+
+
+      content.innerHTML = `
+
+        <section class="card">
+
+
+          <div class="row">
+
+            <div class="label">
+              俗名
+            </div>
+
+            <div class="value">
+              ${escapeHtml(
+                nameDisplay
+              )}
+            </div>
+
+          </div>
+
+
+          <div class="row">
+
+            <div class="label">
+              戒名
+            </div>
+
+            <div class="value">
+              ${escapeHtml(
+                kaimyoDisplay
+              )}
+            </div>
+
+          </div>
+
+
+          <div class="row">
+
+            <div class="label">
+              命日
+            </div>
+
+            <div class="value">
+
+              ${escapeHtml(
+                data.deathDateJapanese
+              )}
+
+              <br>
+
+              （${escapeHtml(
+                data.deathDateGregorian
+              )}）
+
+            </div>
+
+          </div>
+
+
+          <div class="row">
+
+            <div class="label">
+              行年
+            </div>
+
+            <div class="value">
+              ${escapeHtml(
+                ageDisplay
+              )}
+            </div>
+
+          </div>
+
+
+          <div class="row">
+
+            <div class="label">
+              寺院情報
+            </div>
+
+            <div class="value">
+
+              ${escapeHtml(
+                data.temple.name
+              )}
+
+              <br>
+
+              ${escapeHtml(
+                data.temple.postal
+              )}
+
+              ${escapeHtml(
+                data.temple.address
+              )}
+
+              <br>
+
+              TEL
+
+              ${escapeHtml(
+                data.temple.tel
+              )}
+
+            </div>
+
+          </div>
+
+
+        </section>
+
+
+        <div class="notice">
+
+          PDFはA4横・両面印刷・三つ折りを想定しています。
+
+          <br>
+
+          位牌面には折り目がかからない配置で作成します。
+
+        </div>
+
+
+        <div class="button-area">
+
+
+          <button
+            type="button"
+            class="back-button"
+            id="backButton"
+          >
+            入力内容を修正する
+          </button>
+
+
+          <button
+            type="button"
+            class="create-button"
+            id="createButton"
+          >
+            この内容でPDFを作成
+          </button>
+
+
+        </div>
+
+      `;
+
+
+      /*
+        修正
+      */
+
+      document
+        .getElementById(
+          "backButton"
+        )
+        .addEventListener(
+          "click",
+          function () {
+
+            window.history.back();
+
+          }
+        );
+
+
+      /*
+        PDFレイアウトへ
+      */
+
+      document
+        .getElementById(
+          "createButton"
+        )
+        .addEventListener(
+          "click",
+          function () {
+
+            window.location.href =
+              "print.html";
+
+          }
+        );
+
+    }
+
+
+    /*
+      HTMLエスケープ
+    */
+
+    function escapeHtml(text) {
+
+      return String(text)
+
+        .replaceAll(
+          "&",
+          "&amp;"
+        )
+
+        .replaceAll(
+          "<",
+          "&lt;"
+        )
+
+        .replaceAll(
+          ">",
+          "&gt;"
+        )
+
+        .replaceAll(
+          '"',
+          "&quot;"
+        )
+
+        .replaceAll(
+          "'",
+          "&#039;"
+        );
+
+    }
+
+  </script>
+
+
+</body>
+
+</html>
