@@ -864,238 +864,703 @@
 
   <script>
 
-    /*
-      ========================================
-      仮データ
-      memorial.html接続前なのでテスト用
-      ========================================
-    */
+  /*
+    ========================================
+    memorial.html から受け取ったPDFデータ
+    ========================================
+  */
 
-    const sample = {
-
-      chuin: [
-
-        {
-          name: "百か日",
-          oldName: "",
-          date: "令和八年十一月八日"
-        },
-
-        {
-          name: "七七日（四十九日）",
-          oldName: "",
-          date: "令和八年九月十八日"
-        },
-
-        {
-          name: "六七日",
-          oldName: "",
-          date: "令和八年九月十一日"
-        },
-
-        {
-          name: "五七日（三十五日）",
-          oldName: "",
-          date: "令和八年九月四日"
-        },
-
-        {
-          name: "四七日",
-          oldName: "",
-          date: "令和八年八月二十八日"
-        },
-
-        {
-          name: "三七日",
-          oldName: "",
-          date: "令和八年八月二十一日"
-        },
-
-        {
-          name: "二七日",
-          oldName: "",
-          date: "令和八年八月十四日"
-        },
-
-        {
-          name: "初七日",
-          oldName: "",
-          date: "令和八年八月七日"
-        }
-
-      ],
-
-
-      nenkai: [
-
-        {
-          name: "五十回忌",
-          year: "二〇七五年"
-        },
-
-        {
-          name: "三十七回忌",
-          year: "二〇六二年"
-        },
-
-        {
-          name: "三十三回忌",
-          year: "二〇五八年"
-        },
-
-        {
-          name: "二十七回忌",
-          year: "二〇五二年"
-        },
-
-        {
-          name: "二十三回忌",
-          year: "二〇四八年"
-        },
-
-        {
-          name: "十七回忌",
-          year: "二〇四二年"
-        },
-
-        {
-          name: "十三回忌",
-          year: "二〇三八年"
-        },
-
-        {
-          name: "七回忌",
-          year: "二〇三二年"
-        },
-
-        {
-          name: "三回忌",
-          year: "二〇二八年"
-        },
-
-        {
-          name: "一周忌",
-          year: "二〇二七年"
-        }
-
-      ]
-
-    };
-
-
-    /*
-      中陰表
-    */
-
-    const chuinTable =
-      document.getElementById(
-        "chuinTable"
-      );
-
-
-    sample.chuin.forEach(
-      function (item) {
-
-        const column =
-          document.createElement(
-            "div"
-          );
-
-        column.className =
-          "chuin-column";
-
-
-        column.innerHTML = `
-
-          <div class="chuin-cell">
-
-            <div class="chuin-name">
-              ${item.name}
-            </div>
-
-          </div>
-
-
-          <div class="chuin-cell">
-
-            <div class="old-name">
-              ${item.oldName || "　"}
-            </div>
-
-          </div>
-
-
-          <div class="chuin-cell">
-
-            <div class="chuin-date">
-              ${item.date}
-            </div>
-
-          </div>
-
-        `;
-
-
-        chuinTable.appendChild(
-          column
-        );
-
-      }
+  const stored =
+    sessionStorage.getItem(
+      "zenshojiPdfData"
     );
 
 
-    /*
-      年回表
-    */
+  if (!stored) {
 
-    const nenkaiTable =
-      document.getElementById(
-        "nenkaiTable"
+    alert(
+      "印刷用の情報がありません。中陰表・年回表から作成してください。"
+    );
+
+    window.location.href =
+      "memorial.html";
+
+  }
+
+
+  const data =
+    JSON.parse(
+      stored
+    );
+
+
+  /*
+    ========================================
+    漢数字変換
+    位牌内のみ使用
+    〇は使わない
+    ========================================
+  */
+
+  function numberToKanji(n) {
+
+    const digits = [
+      "",
+      "一",
+      "二",
+      "三",
+      "四",
+      "五",
+      "六",
+      "七",
+      "八",
+      "九"
+    ];
+
+
+    if (n < 10) {
+      return digits[n];
+    }
+
+
+    if (n === 10) {
+      return "十";
+    }
+
+
+    if (n < 20) {
+
+      return (
+        "十" +
+        digits[n - 10]
+      );
+    }
+
+
+    if (n < 100) {
+
+      const tens =
+        Math.floor(
+          n / 10
+        );
+
+      const ones =
+        n % 10;
+
+
+      return (
+        digits[tens] +
+        "十" +
+        digits[ones]
+      );
+    }
+
+
+    if (n < 1000) {
+
+      const hundreds =
+        Math.floor(
+          n / 100
+        );
+
+      const remainder =
+        n % 100;
+
+
+      let result = "";
+
+
+      if (hundreds === 1) {
+
+        result +=
+          "百";
+
+      } else {
+
+        result +=
+          digits[hundreds] +
+          "百";
+      }
+
+
+      if (remainder > 0) {
+
+        result +=
+          numberToKanji(
+            remainder
+          );
+      }
+
+
+      return result;
+    }
+
+
+    if (n < 10000) {
+
+      const thousands =
+        Math.floor(
+          n / 1000
+        );
+
+      const remainder =
+        n % 1000;
+
+
+      let result = "";
+
+
+      if (thousands === 1) {
+
+        result +=
+          "千";
+
+      } else {
+
+        result +=
+          digits[thousands] +
+          "千";
+      }
+
+
+      if (remainder > 0) {
+
+        result +=
+          numberToKanji(
+            remainder
+          );
+      }
+
+
+      return result;
+    }
+
+
+    return String(n);
+
+  }
+
+
+  /*
+    ========================================
+    和暦文字列を
+    位牌用の漢数字表記へ変換
+
+    例：
+    令和8年8月1日
+    ↓
+    令和八年八月一日
+    ========================================
+  */
+
+  function japaneseDateToKanji(
+    text
+  ) {
+
+    const match =
+      String(text)
+        .match(
+          /^(大正|昭和|平成|令和)(元|\d+)年(\d+)月(\d+)日$/
+        );
+
+
+    if (!match) {
+
+      return text;
+    }
+
+
+    const era =
+      match[1];
+
+    const eraYear =
+      match[2];
+
+    const month =
+      Number(
+        match[3]
+      );
+
+    const day =
+      Number(
+        match[4]
       );
 
 
-    sample.nenkai.forEach(
-      function (item) {
-
-        const column =
-          document.createElement(
-            "div"
+    const eraYearText =
+      eraYear === "元"
+        ? "元"
+        : numberToKanji(
+            Number(
+              eraYear
+            )
           );
 
-        column.className =
-          "nenkai-column";
+
+    return (
+      era +
+      eraYearText +
+      "年" +
+      numberToKanji(
+        month
+      ) +
+      "月" +
+      numberToKanji(
+        day
+      ) +
+      "日"
+    );
+
+  }
 
 
-        column.innerHTML = `
+  /*
+    ========================================
+    数字年齢を漢数字へ
+    ========================================
+  */
 
-          <div class="nenkai-cell">
+  function ageToKanji(
+    age
+  ) {
 
-            <div class="nenkai-name">
-              ${item.name}
-            </div>
+    if (!age) {
+      return "";
+    }
 
+
+    const number =
+      Number(age);
+
+
+    if (
+      !number ||
+      number < 1
+    ) {
+
+      return age;
+    }
+
+
+    return (
+      numberToKanji(
+        number
+      ) +
+      "歳"
+    );
+
+  }
+
+
+  /*
+    ========================================
+    HTMLエスケープ
+    ========================================
+  */
+
+  function escapeHtml(
+    text
+  ) {
+
+    return String(text)
+
+      .replaceAll(
+        "&",
+        "&amp;"
+      )
+
+      .replaceAll(
+        "<",
+        "&lt;"
+      )
+
+      .replaceAll(
+        ">",
+        "&gt;"
+      )
+
+      .replaceAll(
+        '"',
+        "&quot;"
+      )
+
+      .replaceAll(
+        "'",
+        "&#039;"
+      );
+
+  }
+
+
+  /*
+    ========================================
+    位牌
+    ========================================
+  */
+
+  const ihaiDate =
+    document.getElementById(
+      "ihaiDate"
+    );
+
+
+  ihaiDate.textContent =
+    japaneseDateToKanji(
+      data.deathDateJapanese
+    );
+
+
+  const ihaiMain =
+    document.getElementById(
+      "ihaiMain"
+    );
+
+
+  const ihaiLeft =
+    document.getElementById(
+      "ihaiLeft"
+    );
+
+
+  /*
+    戒名あり
+  */
+
+  if (
+    data.kaimyo &&
+    data.kaimyo.trim()
+  ) {
+
+    ihaiMain.textContent =
+      data.kaimyo.trim();
+
+
+    let leftText = "";
+
+
+    if (
+      data.name &&
+      data.name.trim()
+    ) {
+
+      leftText +=
+        "俗名　" +
+        data.name.trim();
+    }
+
+
+    if (
+      data.age &&
+      String(data.age).trim()
+    ) {
+
+      if (leftText) {
+        leftText += "　";
+      }
+
+
+      leftText +=
+        "行年　" +
+        ageToKanji(
+          data.age
+        );
+    }
+
+
+    ihaiLeft.textContent =
+      leftText;
+
+  }
+
+
+  /*
+    戒名なし
+  */
+
+  else {
+
+    const name =
+      data.name &&
+      data.name.trim()
+        ? data.name.trim()
+        : "";
+
+
+    ihaiMain.innerHTML = `
+
+      <span
+        style="
+          font-size:0.58em;
+        "
+      >
+        俗名
+      </span>
+
+      <span
+        style="
+          font-size:1.15em;
+        "
+      >
+        ${escapeHtml(name)}
+      </span>
+
+      <span
+        style="
+          font-size:0.58em;
+        "
+      >
+        之精霊位
+      </span>
+
+    `;
+
+
+    if (
+      data.age &&
+      String(data.age).trim()
+    ) {
+
+      ihaiLeft.textContent =
+        "行年　" +
+        ageToKanji(
+          data.age
+        );
+
+    } else {
+
+      ihaiLeft.textContent =
+        "";
+    }
+
+  }
+
+
+  /*
+    ========================================
+    中陰表
+    右から左へ
+
+    data.chuin は
+    初七日 → 百か日の順なので
+    CSS上の左→右配置に合わせて反転
+    ========================================
+  */
+
+  const chuinTable =
+    document.getElementById(
+      "chuinTable"
+    );
+
+
+  chuinTable.innerHTML =
+    "";
+
+
+  const chuinForPrint =
+    [...data.chuin]
+      .reverse();
+
+
+  chuinForPrint.forEach(
+    function (item) {
+
+      const column =
+        document.createElement(
+          "div"
+        );
+
+
+      column.className =
+        "chuin-column";
+
+
+      column.innerHTML = `
+
+        <div
+          class="chuin-cell"
+        >
+
+          <div
+            class="chuin-name"
+          >
+            ${escapeHtml(
+              item.name
+            )}
           </div>
 
+        </div>
 
-          <div class="nenkai-cell">
 
-            <div class="nenkai-year">
-              ${item.year}
-            </div>
+        <div
+          class="chuin-cell"
+        >
 
+          <div
+            class="old-name"
+          >
+            &nbsp;
           </div>
 
-        `;
+        </div>
 
 
-        nenkaiTable.appendChild(
+        <div
+          class="chuin-cell"
+        >
+
+          <div
+            class="chuin-date"
+          >
+            ${escapeHtml(
+              item.date
+            )}
+          </div>
+
+        </div>
+
+      `;
+
+
+      chuinTable
+        .appendChild(
           column
         );
 
-      }
+    }
+  );
+
+
+  /*
+    ========================================
+    年回表
+
+    data.nenkai は
+    一周忌 → 五十回忌
+
+    縦書きで右から一周忌になるよう
+    左→右配置では逆順
+    ========================================
+  */
+
+  const nenkaiTable =
+    document.getElementById(
+      "nenkaiTable"
     );
 
-  </script>
 
+  nenkaiTable.innerHTML =
+    "";
+
+
+  const nenkaiForPrint =
+    [...data.nenkai]
+      .reverse();
+
+
+  nenkaiForPrint.forEach(
+    function (item) {
+
+      const column =
+        document.createElement(
+          "div"
+        );
+
+
+      column.className =
+        "nenkai-column";
+
+
+      column.innerHTML = `
+
+        <div
+          class="nenkai-cell"
+        >
+
+          <div
+            class="nenkai-name"
+          >
+            ${escapeHtml(
+              item.name
+            )}
+          </div>
+
+        </div>
+
+
+        <div
+          class="nenkai-cell"
+        >
+
+          <div
+            class="nenkai-year"
+          >
+            ${escapeHtml(
+              item.year
+            )}
+          </div>
+
+        </div>
+
+      `;
+
+
+      nenkaiTable
+        .appendChild(
+          column
+        );
+
+    }
+  );
+
+
+  /*
+    ========================================
+    寺院情報
+    ========================================
+  */
+
+  const templeName =
+    document.querySelector(
+      ".temple-name"
+    );
+
+
+  const templeAddress =
+    document.querySelector(
+      ".temple-address"
+    );
+
+
+  if (templeName) {
+
+    templeName.textContent =
+      data.temple.name;
+
+  }
+
+
+  if (templeAddress) {
+
+    templeAddress.innerHTML = `
+
+      ${escapeHtml(
+        data.temple.postal
+      )}
+
+      ${escapeHtml(
+        data.temple.address
+      )}
+
+      電話
+
+      ${escapeHtml(
+        data.temple.tel
+      )}
+
+    `;
+
+  }
+
+</script>
 </body>
 </html>
