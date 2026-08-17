@@ -204,100 +204,223 @@
 
     /* ========================================
        寺院情報
-       細身の独立モジュール
+       細身の独立モジュール。
+       右に「曹洞宗」、左に「松久山」。
+       その中央下に大きく縦書きで「禅昌寺」。
     ======================================== */
 
     .temple-info {
       position: absolute;
+
       left: 9mm;
       top: 24mm;
+
       width: 27mm;
       height: 130mm;
+
       border-left: 1px solid #999;
       border-right: 1px solid #999;
+
       background: #fff;
+
       overflow: hidden;
     }
 
     .temple-identity {
       position: absolute;
+
       left: 0;
       top: 0;
+
       width: 100%;
-      height: 43mm;
+      height: 48mm;
+
       border-bottom: 1px solid #aaa;
-      writing-mode: horizontal-tb;
     }
 
-    .temple-affiliation {
+    /*
+      上段の2列
+    */
+    .temple-affiliation-pair {
       position: absolute;
-      left: 2mm;
-      top: 5mm;
-      width: 23mm;
-      height: 8mm;
-      writing-mode: horizontal-tb !important;
-      -webkit-writing-mode: horizontal-tb !important;
-      font-family: "Yu Mincho","YuMincho","Hiragino Mincho ProN",serif;
-      font-size: 10.5pt;
+
+      left: 0;
+      top: 4mm;
+
+      width: 100%;
+      height: 17mm;
+    }
+
+    .temple-sect,
+    .temple-mountain {
+      position: absolute;
+
+      top: 0;
+
+      width: 7mm;
+      height: 17mm;
+
+      writing-mode: vertical-rl !important;
+      -webkit-writing-mode: vertical-rl !important;
+      text-orientation: upright !important;
+
+      font-family:
+        "Yu Mincho",
+        "YuMincho",
+        "Hiragino Mincho ProN",
+        serif;
+
+      font-size: 11pt;
       line-height: 1;
+
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
+
+      text-align: center;
       white-space: nowrap;
-      letter-spacing: .04em;
     }
 
+    /*
+      右：曹洞宗
+    */
+    .temple-sect {
+      right: 4mm;
+    }
+
+    /*
+      左：松久山
+    */
+    .temple-mountain {
+      left: 4mm;
+    }
+
+    /*
+      2列の中央下に禅昌寺
+    */
     .temple-main-title {
       position: absolute;
-      left: 2mm;
-      top: 15mm;
-      width: 23mm;
-      height: 20mm;
-      writing-mode: horizontal-tb !important;
-      -webkit-writing-mode: horizontal-tb !important;
-      font-family: "Yu Mincho","YuMincho","Hiragino Mincho ProN",serif;
+
+      left: 50%;
+      top: 20mm;
+
+      width: 9mm;
+      height: 25mm;
+
+      transform: translateX(-50%);
+
+      writing-mode: vertical-rl !important;
+      -webkit-writing-mode: vertical-rl !important;
+      text-orientation: upright !important;
+
+      font-family:
+        "Yu Mincho",
+        "YuMincho",
+        "Hiragino Mincho ProN",
+        serif;
+
       font-size: 20pt;
       font-weight: 600;
       line-height: 1;
+
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
+
+      text-align: center;
       white-space: nowrap;
-      letter-spacing: .12em;
+
+      letter-spacing: 0.08em;
     }
 
+    /*
+      下段：住所と電話を縦2列
+    */
     .temple-contact {
       position: absolute;
+
       left: 0;
-      top: 43mm;
+      top: 48mm;
+
       width: 100%;
-      height: 87mm;
+      height: 82mm;
+
       display: flex;
       flex-direction: row-reverse;
       align-items: flex-start;
       justify-content: center;
+
       gap: 1.5mm;
-      padding: 4mm 2mm 2mm;
+
+      padding: 2mm 2mm 1mm;
     }
 
     .temple-contact-column {
       width: 9mm;
       height: 79mm;
+
       overflow: hidden;
-      font-family: "Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
-      font-size: 9pt;
+
+      font-family:
+        "Yu Gothic",
+        "Hiragino Kaku Gothic ProN",
+        "Meiryo",
+        sans-serif;
+
+      /*
+        重なり防止：
+        文字サイズより文字送りを明確に大きくする。
+      */
+      font-size: 8pt;
+
       text-align: center;
     }
 
-    .temple-address-char,.temple-address-digit {
-      display:flex;width:100%;height:3mm;align-items:center;justify-content:center;line-height:1;
+    .temple-address-char,
+    .temple-address-digit {
+      display: flex;
+
+      width: 100%;
+      height: 3.15mm;
+
+      align-items: center;
+      justify-content: center;
+
+      line-height: 1;
     }
 
-    .temple-address-hyphen {position:relative;display:block;width:100%;height:3mm;}
-    .temple-address-hyphen::before {
-      content:"";position:absolute;left:50%;top:9%;bottom:9%;width:1px;background:#111;transform:translateX(-50%);
+    .temple-address-hyphen {
+      position: relative;
+
+      display: block;
+
+      width: 100%;
+      height: 3.15mm;
     }
-    .temple-address-space {display:block;width:100%;height:2mm;}
+
+    .temple-address-hyphen::before {
+      content: "";
+
+      position: absolute;
+
+      left: 50%;
+      top: 8%;
+      bottom: 8%;
+
+      width: 1px;
+
+      background: #111;
+
+      transform: translateX(-50%);
+    }
+
+    .temple-address-space {
+      display: block;
+
+      width: 100%;
+      height: 2mm;
+    }
+
 
     /* ========================================
        中陰表
@@ -623,40 +746,62 @@
 
     .ihai-date {
       position: absolute;
-      /* 戒名正中から左右完全対称 */
+
+      /*
+        戒名の正中から左右とも完全に同距離。
+        ボックス幅を1文字相当にして、
+        縦書き文字そのものの軸も左右対称にする。
+      */
       left: calc(50% + 12.5mm);
       top: 50%;
-      width: 8.5mm;
+
+      width: 1.08em;
       height: auto;
       max-height: 126mm;
+
       transform: translate(-50%, -50%);
+
       writing-mode: vertical-rl !important;
       -webkit-writing-mode: vertical-rl !important;
       text-orientation: upright !important;
+
       font-size: var(--ihai-side-size);
-      line-height: 1.35;
+      line-height: 1;
+
       text-align: center;
       white-space: nowrap;
-      overflow: hidden;
+
+      overflow: visible;
     }
 
     .ihai-left {
       position: absolute;
-      /* 戒名正中から左右完全対称 */
+
+      /*
+        戒名の正中から左右とも完全に同距離。
+        ボックス幅を1文字相当にして、
+        縦書き文字そのものの軸も左右対称にする。
+      */
       left: calc(50% - 12.5mm);
       top: 50%;
-      width: 8.5mm;
+
+      width: 1.08em;
       height: auto;
       max-height: 126mm;
+
       transform: translate(-50%, -50%);
+
       writing-mode: vertical-rl !important;
       -webkit-writing-mode: vertical-rl !important;
       text-orientation: upright !important;
+
       font-size: var(--ihai-side-size);
-      line-height: 1.35;
+      line-height: 1;
+
       text-align: center;
       white-space: nowrap;
-      overflow: hidden;
+
+      overflow: visible;
     }
 
 
@@ -1037,10 +1182,19 @@
 
         <div class="temple-identity">
 
-          <div
-            class="temple-affiliation"
-            id="templeAffiliation"
-          ></div>
+          <div class="temple-affiliation-pair">
+
+            <div
+              class="temple-sect"
+              id="templeSect"
+            ></div>
+
+            <div
+              class="temple-mountain"
+              id="templeMountain"
+            ></div>
+
+          </div>
 
           <div
             class="temple-main-title"
@@ -1969,7 +2123,7 @@
         1. CSSで左右列をそれぞれ縦中央揃えする。
         2. 実際に描画された2列のうち、頭が高い方を取得。
         3. 低い方も同じ高さへ揃える。
-        左右のX距離は戒名中心から±12.5mmで完全対称。
+        左右の文字軸は戒名中心から±12.5mmで完全対称。
       */
 
       const ihai =
@@ -2090,10 +2244,18 @@
 
         document
           .getElementById(
-            "templeAffiliation"
+            "templeSect"
           )
           .textContent =
-          "曹洞宗　松久山";
+          "曹洞宗";
+
+
+        document
+          .getElementById(
+            "templeMountain"
+          )
+          .textContent =
+          "松久山";
 
 
         document
@@ -2550,6 +2712,14 @@
       alignIhaiSideColumnTops();
 
     }
+
+
+    /*
+      ========================================
+      ここから下はPDF生成用。
+      今回（ブラウザ確認段階）の修正では変更していない。
+      ========================================
+    */
 
 
     /*
