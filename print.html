@@ -210,7 +210,7 @@
       position: absolute;
 
       left: 3mm;
-      top: 8mm;
+      top: 6mm;
 
       width: 43mm;
       height: 194mm;
@@ -226,7 +226,7 @@
       position: absolute;
 
       left: 24mm;
-      top: 3mm;
+      top: 0mm;
 
       width: 10mm;
       height: 184mm;
@@ -234,7 +234,7 @@
       writing-mode: vertical-rl;
       text-orientation: upright;
 
-      font-size: 15.5pt;
+      font-size: var(--temple-name-size);
       line-height: 1.35;
 
       display: block;
@@ -242,7 +242,7 @@
     }
 
     .temple-name .sect-name {
-      font-size: 0.88em;
+      font-size: var(--temple-sect-size);
     }
 
     .temple-name .temple-main-name {
@@ -262,7 +262,7 @@
       position: absolute;
 
       left: 11mm;
-      top: 3mm;
+      top: 0mm;
 
       width: 8mm;
       height: 184mm;
@@ -273,7 +273,7 @@
         "Meiryo",
         sans-serif;
 
-      font-size: 10pt;
+      font-size: var(--temple-address-size);
 
       text-align: center;
     }
@@ -468,7 +468,7 @@
       writing-mode: vertical-rl;
       text-orientation: upright;
 
-      font-size: 12.5pt;
+      font-size: var(--chuin-note-size);
 
       line-height: 1.05;
 
@@ -490,7 +490,7 @@
       writing-mode: vertical-rl;
       text-orientation: upright;
 
-      font-size: 13.5pt;
+      font-size: var(--chuin-date-size);
 
       line-height: 1.15;
 
@@ -654,7 +654,7 @@
       writing-mode: vertical-rl;
       text-orientation: upright;
 
-      font-size: 24pt;
+      font-size: var(--ihai-kaimyo-size);
       font-weight: 600;
 
       letter-spacing: 0.10em;
@@ -680,7 +680,7 @@
       writing-mode: vertical-rl;
       text-orientation: upright;
 
-      font-size: 11.5pt;
+      font-size: var(--ihai-side-size);
 
       display: flex;
       align-items: center;
@@ -703,7 +703,7 @@
       writing-mode: vertical-rl;
       text-orientation: upright;
 
-      font-size: 14.5pt;
+      font-size: var(--ihai-side-size);
 
       line-height: 1.65;
 
@@ -757,7 +757,7 @@
       top: 18mm;
 
       width: 100%;
-      height: 150mm;
+      height: 130mm;
 
       border: 1px solid #333;
 
@@ -798,7 +798,7 @@
       writing-mode: vertical-rl;
       text-orientation: upright;
 
-      font-size: 14.5pt;
+      font-size: var(--nenkai-name-size);
 
       font-weight: 600;
     }
@@ -807,7 +807,7 @@
       writing-mode: vertical-rl;
       text-orientation: upright;
 
-      font-size: 14.5pt;
+      font-size: var(--nenkai-year-size);
 
       line-height: 1.15;
     }
@@ -816,7 +816,7 @@
       writing-mode: vertical-rl;
       text-orientation: upright;
 
-      font-size: 12pt;
+      font-size: var(--nenkai-buddha-size);
 
       color: #333;
     }
@@ -827,9 +827,9 @@
 
       left: 0;
       right: 0;
-      top: 173mm;
+      top: 151mm;
 
-      min-height: 20mm;
+      min-height: 42mm;
 
       padding: 3mm 3mm;
 
@@ -936,7 +936,71 @@
 
     }
 
-  </style>
+  
+    :root {
+      --chuin-main-size: 11.5pt;
+      --chuin-old-size: 9pt;
+      --chuin-date-size: 11pt;
+      --chuin-buddha-size: 9pt;
+      --chuin-note-size: 7.8pt;
+
+      --nenkai-name-size: 11.5pt;
+      --nenkai-year-size: 11pt;
+      --nenkai-buddha-size: 9pt;
+
+      --ihai-kaimyo-size: 24pt;
+      --ihai-side-size: 13.5pt;
+
+      --temple-sect-size: 13.5pt;
+      --temple-name-size: 15.5pt;
+      --temple-address-size: 10pt;
+    }
+
+
+    .chuin-name-wrap {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .chuin-name-wrap .chuin-name {
+      position: absolute;
+      right: 10%;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 88%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chuin-name-wrap .chuin-sub-name {
+      position: absolute;
+      left: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 88%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      line-height: 1.05;
+    }
+
+    .nenkai-table {
+      grid-template-rows:
+        1fr
+        1fr !important;
+    }
+
+    .nenkai-table.with-buddha {
+      grid-template-rows:
+        0.34fr
+        0.34fr
+        0.32fr !important;
+    }
+</style>
 </head>
 
 
@@ -3393,12 +3457,12 @@
       );
 
       ctx.moveTo(
-        left + mm(10),
+        left + width / 2 - mm(15),
         top + height - mm(9)
       );
 
       ctx.lineTo(
-        left + width - mm(10),
+        left + width / 2 + mm(15),
         top + height - mm(9)
       );
 
@@ -3427,10 +3491,10 @@
         safeHeight,
         {
           size:
-            mm(4.25),
+            mm(4.8),
 
           gap:
-            mm(4.75),
+            mm(5.0),
 
           extraDateGap:
             mm(1.45),
@@ -3454,10 +3518,10 @@
           safeHeight,
           {
             size:
-              mm(7.0),
+              mm(7.35),
 
             gap:
-              mm(7.55),
+              mm(7.9),
 
             weight:
               "600"
@@ -3506,22 +3570,22 @@
 
           const leftText =
             leftParts.join(
-              "　　"
+              "　　　　　　"
             );
 
 
           drawVerticalTextCentered(
             ctx,
             leftText,
-            left + mm(10),
+            left + width / 2 - mm(15),
             safeTop,
             safeHeight,
             {
               size:
-                mm(4.05),
+                mm(4.35),
 
               gap:
-                mm(4.55)
+                mm(4.8)
             }
           );
 
@@ -3650,7 +3714,7 @@
             ctx,
             sect,
             mm(33),
-            mm(18),
+            mm(10),
             {
               size:
                 mm(4.2),
@@ -3671,8 +3735,8 @@
           mainTempleName,
           mm(33),
           sect
-            ? mm(47)
-            : mm(18),
+            ? mm(31)
+            : mm(10),
           {
             size:
               mm(4.8),
@@ -3701,7 +3765,7 @@
           "　電話" +
           data.temple.tel,
           mm(20),
-          mm(15),
+          mm(10),
           {
             size:
               mm(3.15),
@@ -4229,7 +4293,7 @@
         mm(213);
 
       const tableH =
-        mm(150);
+        mm(130);
 
 
       const nenkai =
@@ -4459,7 +4523,7 @@
       ctx.fillText(
         "法事とは",
         mm(81),
-        mm(181)
+        mm(162)
       );
 
 
@@ -4473,7 +4537,7 @@
       ctx.fillText(
         "※説明文は、曹洞宗の資料等を確認のうえ後ほど正式に校正します。",
         mm(81),
-        mm(189)
+        mm(171)
       );
 
 
