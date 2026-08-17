@@ -218,8 +218,7 @@
       width: 22mm;
       height: 130mm;
 
-      border-left: 1px solid #999;
-      border-right: 1px solid #999;
+      border: 1px solid #999;
 
       background: #fff;
 
@@ -233,7 +232,7 @@
       top: 0;
 
       width: 100%;
-      height: 48mm;
+      height: 50mm;
 
       border-bottom: 1px solid #aaa;
     }
@@ -346,24 +345,24 @@
       position: absolute;
 
       left: 0;
-      top: 48mm;
+      top: 50mm;
 
       width: 100%;
-      height: 82mm;
+      height: 80mm;
 
       display: flex;
       flex-direction: row-reverse;
       align-items: flex-start;
       justify-content: center;
 
-      gap: 0.5mm;
+      gap: 0.8mm;
 
-      padding: 2mm 1.5mm 1mm;
+      padding: 4mm 1.2mm 3mm;
     }
 
     .temple-contact-column {
-      width: 7.5mm;
-      height: 79mm;
+      width: 8.2mm;
+      height: 72mm;
 
       overflow: hidden;
 
@@ -1119,6 +1118,27 @@
         0.32fr !important;
     }
 
+
+    .temple-contact::after {
+      content: "";
+
+      position: absolute;
+
+      left: 50%;
+      top: 3mm;
+      bottom: 3mm;
+
+      width: 1px;
+
+      background: #bbb;
+
+      transform: translateX(-50%);
+    }
+
+    .temple-contact-column {
+      position: relative;
+      z-index: 1;
+    }
 </style>
 </head>
 
