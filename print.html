@@ -163,11 +163,6 @@
       left: 198mm;
     }
 
-    .vertical {
-      writing-mode: vertical-rl;
-      text-orientation: upright;
-    }
-
 
     /* ========================================
        縦中横
@@ -204,56 +199,11 @@
 
       width: 1px;
       height: 0.42em;
-
-      vertical-align: top;
-    }
-
-
-    /* ========================================
-       縦書き用ハイフン
-
-       数字と同じ1em幅を持たせ、
-       同じ中心軸に縦線を描く
-    ======================================== */
-
-    .vertical-hyphen {
-      display: inline-block;
-
-      position: relative;
-
-      width: 1em;
-      height: 1em;
-
-      flex: 0 0 1em;
-
-      vertical-align: top;
-    }
-
-    .vertical-hyphen::before {
-      content: "";
-
-      position: absolute;
-
-      left: 50%;
-      top: 8%;
-      bottom: 8%;
-
-      width: 1px;
-
-      background: currentColor;
-
-      transform:
-        translateX(-50%);
     }
 
 
     /* ========================================
        寺院情報
-
-       右列：寺院名
-       左列：住所・電話
-
-       列を近接させる
     ======================================== */
 
     .temple-info {
@@ -267,12 +217,13 @@
     }
 
 
+    /*
+      右列
+      寺院名
+    */
+
     .temple-name {
       position: absolute;
-
-      /*
-        右列
-      */
 
       left: 24mm;
       top: 5mm;
@@ -280,41 +231,117 @@
       width: 8mm;
       height: 165mm;
 
-      writing-mode:
-        vertical-rl;
-
-      text-orientation:
-        upright;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
 
       font-size: 11pt;
       line-height: 1.45;
     }
 
 
+    /*
+      左列
+      住所・電話番号
+
+      writing-modeには任せず
+      1文字ずつ積み上げる
+    */
+
     .temple-address {
       position: absolute;
 
-      /*
-        左列
-        寺名との間隔を約8mm程度に
-      */
-
-      left: 10mm;
+      left: 12mm;
       top: 5mm;
 
-      width: 8mm;
+      width: 7mm;
       height: 165mm;
 
-      writing-mode:
-        vertical-rl;
-
-      text-orientation:
-        upright;
+      font-family:
+        "Yu Gothic",
+        "Hiragino Kaku Gothic ProN",
+        "Meiryo",
+        sans-serif;
 
       font-size: 7.4pt;
-      line-height: 1.35;
 
-      white-space: nowrap;
+      text-align: center;
+    }
+
+
+    .temple-address-char {
+      display: flex;
+
+      width: 100%;
+      height: 2.75mm;
+
+      align-items: center;
+      justify-content: center;
+
+      line-height: 1;
+    }
+
+
+    /*
+      数字も同じ中心軸
+    */
+
+    .temple-address-digit {
+      display: flex;
+
+      width: 100%;
+      height: 2.75mm;
+
+      align-items: center;
+      justify-content: center;
+
+      line-height: 1;
+    }
+
+
+    /*
+      ハイフン専用枠
+
+      数字と同じ幅・高さ。
+      そのど真ん中に縦線を描く。
+    */
+
+    .temple-address-hyphen {
+      position: relative;
+
+      display: block;
+
+      width: 100%;
+      height: 2.75mm;
+    }
+
+
+    .temple-address-hyphen::before {
+      content: "";
+
+      position: absolute;
+
+      left: 50%;
+      top: 9%;
+      bottom: 9%;
+
+      width: 1px;
+
+      background: #111;
+
+      transform:
+        translateX(-50%);
+    }
+
+
+    /*
+      住所内の区切り用空白
+    */
+
+    .temple-address-space {
+      display: block;
+
+      width: 100%;
+      height: 2.5mm;
     }
 
 
@@ -823,8 +850,7 @@
     (max-width: 600px) {
 
       .toolbar-buttons {
-        flex-direction:
-          column;
+        flex-direction: column;
       }
 
       .toolbar button {
@@ -889,6 +915,8 @@
 
   <div class="page-wrapper">
 
+
+    <!-- 表面 -->
 
     <section class="page front">
 
@@ -970,6 +998,8 @@
 
 
 
+    <!-- 裏面 -->
+
     <section class="page back">
 
       <div class="screen-fold fold-1"></div>
@@ -1003,6 +1033,12 @@
 
     "use strict";
 
+
+    /*
+      ========================================
+      データ
+    ========================================
+    */
 
     const stored =
       sessionStorage.getItem(
@@ -1048,6 +1084,12 @@
     const showTempleInfo =
       pdfOptions.showTempleInfo !== false;
 
+
+    /*
+      ========================================
+      十三仏
+    ========================================
+    */
 
     const thirteenBuddhas = {
 
@@ -1106,6 +1148,12 @@
     }
 
 
+    /*
+      ========================================
+      忌日名分離
+    ========================================
+    */
+
     function splitChuinName(
       name
     ) {
@@ -1118,6 +1166,7 @@
         return {
           main:
             "五七日",
+
           sub:
             "（三十五日）"
         };
@@ -1133,6 +1182,7 @@
         return {
           main:
             "七七日",
+
           sub:
             "（四十九日）"
         };
@@ -1143,12 +1193,19 @@
       return {
         main:
           name,
+
         sub:
           ""
       };
 
     }
 
+
+    /*
+      ========================================
+      HTMLエスケープ
+    ========================================
+    */
 
     function escapeHtml(
       text
@@ -1165,6 +1222,129 @@
     }
 
 
+    /*
+      ========================================
+      寺院情報専用HTML
+
+      1文字ずつ同じ中心軸へ積む。
+      ハイフンだけ専用縦線。
+    ========================================
+    */
+
+    function templeVerticalHtml(
+      text
+    ) {
+
+      const characters =
+        Array.from(
+          String(text)
+        );
+
+
+      let html =
+        "";
+
+
+      characters.forEach(
+
+        function (
+          char
+        ) {
+
+
+          /*
+            全角・半角空白
+          */
+
+          if (
+            char === " " ||
+            char === "　"
+          ) {
+
+            html +=
+              '<span class="temple-address-space"></span>';
+
+            return;
+
+          }
+
+
+          /*
+            ハイフン類
+          */
+
+          if (
+            char === "-" ||
+            char === "－" ||
+            char === "‐" ||
+            char === "―" ||
+            char === "–" ||
+            char === "—"
+          ) {
+
+            html +=
+              '<span class="temple-address-hyphen"></span>';
+
+            return;
+
+          }
+
+
+          /*
+            数字
+          */
+
+          if (
+            /^[0-9]$/.test(
+              char
+            )
+          ) {
+
+            html +=
+
+              '<span class="temple-address-digit">' +
+
+              escapeHtml(
+                char
+              ) +
+
+              "</span>";
+
+            return;
+
+          }
+
+
+          /*
+            通常文字
+          */
+
+          html +=
+
+            '<span class="temple-address-char">' +
+
+            escapeHtml(
+              char
+            ) +
+
+            "</span>";
+
+        }
+
+      );
+
+
+      return html;
+
+    }
+
+
+    /*
+      ========================================
+      一般縦書きHTML
+    ========================================
+    */
+
     function verticalHtml(
       text,
       options = {}
@@ -1172,10 +1352,6 @@
 
       const addDateSpacing =
         options.dateSpacing === true;
-
-
-      const verticalHyphen =
-        options.verticalHyphen === true;
 
 
       const characters =
@@ -1268,26 +1444,6 @@
           flushNumbers();
 
 
-          if (
-            verticalHyphen &&
-            (
-              char === "-" ||
-              char === "－" ||
-              char === "‐" ||
-              char === "―" ||
-              char === "–" ||
-              char === "—"
-            )
-          ) {
-
-            html +=
-              '<span class="vertical-hyphen"></span>';
-
-            return;
-
-          }
-
-
           html +=
             escapeHtml(
               char
@@ -1319,6 +1475,12 @@
 
     }
 
+
+    /*
+      ========================================
+      漢数字
+    ========================================
+    */
 
     function numberToKanji(
       n
@@ -1439,12 +1601,8 @@
           );
 
 
-      if (
-        !match
-      ) {
-
+      if (!match) {
         return text;
-
       }
 
 
@@ -1510,6 +1668,12 @@
     }
 
 
+    /*
+      ========================================
+      表の段構成
+    ========================================
+    */
+
     function getChuinGridRows() {
 
       if (
@@ -1573,8 +1737,18 @@
     }
 
 
+    /*
+      ========================================
+      HTMLプレビュー
+    ========================================
+    */
+
     function buildPreview() {
 
+
+      /*
+        寺院情報
+      */
 
       const templeInfo =
         document.querySelector(
@@ -1603,18 +1777,13 @@
             ".temple-address"
           )
           .innerHTML =
-          verticalHtml(
+          templeVerticalHtml(
 
             data.temple.postal +
             "　" +
             data.temple.address +
             "　電話" +
-            data.temple.tel,
-
-            {
-              verticalHyphen:
-                true
-            }
+            data.temple.tel
 
           );
 
@@ -1627,6 +1796,10 @@
 
       }
 
+
+      /*
+        位牌
+      */
 
       document
         .getElementById(
@@ -1683,7 +1856,8 @@
             text
           ) {
 
-            text += "　";
+            text +=
+              "　";
 
           }
 
@@ -1754,6 +1928,10 @@
 
       }
 
+
+      /*
+        中陰表
+      */
 
       const chuinTable =
         document.getElementById(
@@ -1912,6 +2090,10 @@
         );
 
 
+      /*
+        年回表
+      */
+
       const nenkaiTable =
         document.getElementById(
           "nenkaiTable"
@@ -2013,6 +2195,12 @@
 
     }
 
+
+    /*
+      ========================================
+      Canvas基本
+    ========================================
+    */
 
     const PDF_SCALE =
       10;
@@ -2197,6 +2385,119 @@
     }
 
 
+    /*
+      ========================================
+      Canvas縦括弧
+
+      フォント文字を使用せず、
+      縦組み用の弧を直接描く。
+    ========================================
+    */
+
+    function drawVerticalParenthesis(
+      ctx,
+      x,
+      y,
+      size,
+      type
+    ) {
+
+      ctx.save();
+
+
+      ctx.beginPath();
+
+
+      ctx.lineWidth =
+        Math.max(
+          1,
+          size *
+          0.075
+        );
+
+
+      /*
+        開き括弧
+        上側の弧
+      */
+
+      if (
+        type === "open"
+      ) {
+
+        ctx.moveTo(
+          x -
+          size *
+          0.34,
+          y +
+          size *
+          0.60
+        );
+
+
+        ctx.quadraticCurveTo(
+          x,
+          y +
+          size *
+          0.12,
+          x +
+          size *
+          0.34,
+          y +
+          size *
+          0.60
+        );
+
+      }
+
+
+      /*
+        閉じ括弧
+        下側の弧
+      */
+
+      else {
+
+        ctx.moveTo(
+          x -
+          size *
+          0.34,
+          y +
+          size *
+          0.40
+        );
+
+
+        ctx.quadraticCurveTo(
+          x,
+          y +
+          size *
+          0.88,
+          x +
+          size *
+          0.34,
+          y +
+          size *
+          0.40
+        );
+
+      }
+
+
+      ctx.stroke();
+
+
+      ctx.restore();
+
+    }
+
+
+    /*
+      ========================================
+      PDF縦書き
+    ========================================
+    */
+
     function drawVerticalText(
       ctx,
       text,
@@ -2231,10 +2532,6 @@
         "serif";
 
 
-      const rotateParentheses =
-        options.rotateParentheses !== false;
-
-
       const dateSpacing =
         options.dateSpacing === true;
 
@@ -2243,6 +2540,17 @@
         options.extraDateGap ||
         size *
         0.42;
+
+
+      /*
+        （三十五日）（四十九日）専用
+
+        trueの場合、括弧をCanvasで
+        縦組み用に直接描画する。
+      */
+
+      const verticalParentheses =
+        options.verticalParentheses === true;
 
 
       const tokens =
@@ -2270,6 +2578,10 @@
 
         }
 
+
+        /*
+          1～2桁数字
+        */
 
         if (
           /^\d{1,2}$/.test(
@@ -2356,6 +2668,10 @@
         }
 
 
+        /*
+          3桁以上数字
+        */
+
         if (
           /^\d+$/.test(
             token
@@ -2415,6 +2731,10 @@
         }
 
 
+        /*
+          括弧
+        */
+
         if (
           token === "(" ||
           token === "（" ||
@@ -2422,9 +2742,35 @@
           token === "）"
         ) {
 
+          /*
+            （三十五日）（四十九日）は
+            Canvasで縦括弧を直接描く
+          */
+
           if (
-            rotateParentheses
+            verticalParentheses
           ) {
+
+            drawVerticalParenthesis(
+              ctx,
+              x,
+              yy,
+              size,
+              (
+                token === "(" ||
+                token === "（"
+              )
+                ? "open"
+                : "close"
+            );
+
+          }
+
+          else {
+
+            /*
+              その他の括弧は通常の縦組み処理
+            */
 
             ctx.save();
 
@@ -2473,32 +2819,6 @@
 
           }
 
-          else {
-
-            setFont(
-              ctx,
-              size,
-              weight,
-              family
-            );
-
-
-            ctx.textAlign =
-              "center";
-
-
-            ctx.textBaseline =
-              "top";
-
-
-            ctx.fillText(
-              token,
-              x,
-              yy
-            );
-
-          }
-
 
           yy +=
             gap;
@@ -2509,6 +2829,13 @@
         }
 
 
+        /*
+          ハイフン
+
+          PDF側は既に正常なので
+          同じ中心軸処理を維持
+        */
+
         if (
           token === "-" ||
           token === "－" ||
@@ -2518,10 +2845,6 @@
           token === "–" ||
           token === "—"
         ) {
-
-          /*
-            数字とまったく同じx座標を中心軸にする
-          */
 
           ctx.save();
 
@@ -2567,6 +2890,10 @@
 
         }
 
+
+        /*
+          通常文字
+        */
 
         setFont(
           ctx,
@@ -2647,6 +2974,12 @@
 
     }
 
+
+    /*
+      ========================================
+      位牌
+    ========================================
+    */
 
     function drawIhaiCanvas(
       ctx
@@ -2953,6 +3286,12 @@
     }
 
 
+    /*
+      ========================================
+      表面PDF
+    ========================================
+    */
+
     function renderFrontCanvas() {
 
       const {
@@ -2964,8 +3303,6 @@
 
       /*
         寺院情報
-
-        PDF側も近接した2列にする
       */
 
       if (
@@ -2973,7 +3310,7 @@
       ) {
 
         /*
-          右：寺名
+          右：寺院名
         */
 
         drawVerticalText(
@@ -2996,8 +3333,6 @@
 
         /*
           左：住所・電話
-
-          寺名との差を約10mm程度に
         */
 
         drawVerticalText(
@@ -3233,6 +3568,10 @@
             0;
 
 
+          /*
+            旧呼称
+          */
+
           if (
             showOldNames
           ) {
@@ -3272,6 +3611,10 @@
 
           }
 
+
+          /*
+            忌日
+          */
 
           const splitName =
             splitChuinName(
@@ -3319,6 +3662,10 @@
           );
 
 
+          /*
+            （三十五日）（四十九日）
+          */
+
           if (
             splitName.sub
           ) {
@@ -3350,8 +3697,12 @@
                   mainRowHeight -
                   mm(7),
 
-                rotateParentheses:
-                  false
+                /*
+                  ★今回の重要修正
+                */
+
+                verticalParentheses:
+                  true
               }
             );
 
@@ -3360,6 +3711,10 @@
 
           rowIndex++;
 
+
+          /*
+            日付
+          */
 
           drawVerticalText(
             ctx,
@@ -3394,6 +3749,10 @@
 
           rowIndex++;
 
+
+          /*
+            十三仏
+          */
 
           if (
             showThirteenBuddhas
@@ -3441,6 +3800,10 @@
 
       );
 
+
+      /*
+        中陰とは
+      */
 
       setFont(
         ctx,
@@ -3516,6 +3879,12 @@
 
     }
 
+
+    /*
+      ========================================
+      裏面PDF
+    ========================================
+    */
 
     function renderBackCanvas() {
 
@@ -3785,6 +4154,12 @@
 
     }
 
+
+    /*
+      ========================================
+      PDF保存
+    ========================================
+    */
 
     async function savePdf() {
 
