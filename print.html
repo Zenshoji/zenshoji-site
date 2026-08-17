@@ -210,10 +210,10 @@
       position: absolute;
 
       left: 3mm;
-      top: 6mm;
+      top: 24mm;
 
-      width: 43mm;
-      height: 194mm;
+      width: 40mm;
+      height: 130mm;
     }
 
 
@@ -225,20 +225,22 @@
     .temple-name {
       position: absolute;
 
-      left: 24mm;
-      top: 0mm;
+      left: 22mm;
+      top: 0;
 
       width: 10mm;
-      height: 184mm;
+      height: 130mm;
 
-      writing-mode: vertical-rl;
-      text-orientation: upright;
+      font-family:
+        "Yu Mincho",
+        "YuMincho",
+        "Hiragino Mincho ProN",
+        serif;
 
       font-size: var(--temple-name-size);
-      line-height: 1.35;
+      line-height: 1;
 
-      display: block;
-      text-align: start;
+      text-align: center;
     }
 
     .temple-name .sect-name {
@@ -246,7 +248,7 @@
     }
 
     .temple-name .temple-main-name {
-      font-size: 1em;
+      font-size: var(--temple-name-size);
     }
 
 
@@ -261,11 +263,11 @@
     .temple-address {
       position: absolute;
 
-      left: 11mm;
-      top: 0mm;
+      left: 6mm;
+      top: 0;
 
-      width: 8mm;
-      height: 184mm;
+      width: 10mm;
+      height: 130mm;
 
       font-family:
         "Yu Gothic",
@@ -283,7 +285,7 @@
       display: flex;
 
       width: 100%;
-      height: 3.35mm;
+      height: 3.8mm;
 
       align-items: center;
       justify-content: center;
@@ -300,7 +302,7 @@
       display: flex;
 
       width: 100%;
-      height: 3.35mm;
+      height: 3.8mm;
 
       align-items: center;
       justify-content: center;
@@ -322,7 +324,7 @@
       display: block;
 
       width: 100%;
-      height: 3.35mm;
+      height: 3.8mm;
     }
 
 
@@ -434,7 +436,6 @@
 
     .chuin-name-wrap {
       position: relative;
-
       width: 100%;
       height: 100%;
     }
@@ -445,32 +446,39 @@
       left: 50%;
       top: 50%;
 
-      transform:
-        translate(-50%, -50%);
+      transform: translate(-50%, -50%);
 
       writing-mode: vertical-rl;
       text-orientation: upright;
 
-      font-size: 16pt;
+      font-size: var(--chuin-main-size);
       font-weight: 600;
 
-      line-height: 1.25;
+      line-height: 1.0;
 
       text-align: center;
+    }
+
+    .chuin-name-wrap.has-sub .chuin-main-name {
+      left: 64%;
     }
 
     .chuin-sub-name {
       position: absolute;
 
-      left: 24%;
-      top: 37%;
+      left: 18%;
+      top: 50%;
+
+      transform: translate(-50%, -50%);
+
+      height: 88%;
 
       writing-mode: vertical-rl;
       text-orientation: upright;
 
       font-size: var(--chuin-note-size);
 
-      line-height: 1.05;
+      line-height: 1.0;
 
       color: #444;
 
@@ -481,7 +489,7 @@
       writing-mode: vertical-rl;
       text-orientation: upright;
 
-      font-size: 9.2pt;
+      font-size: var(--chuin-old-size);
 
       color: #555;
     }
@@ -501,7 +509,7 @@
       writing-mode: vertical-rl;
       text-orientation: upright;
 
-      font-size: 12pt;
+      font-size: var(--chuin-buddha-size);
 
       color: #333;
     }
@@ -669,22 +677,18 @@
     .ihai-date {
       position: absolute;
 
-      top: 50%;
+      top: 25mm;
       left: calc(50% + 15mm);
 
       width: 9mm;
       height: 132mm;
 
-      transform: translate(-50%, -50%);
+      transform: translateX(-50%);
 
       writing-mode: vertical-rl;
       text-orientation: upright;
 
       font-size: var(--ihai-side-size);
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
 
       text-align: center;
     }
@@ -692,24 +696,20 @@
     .ihai-left {
       position: absolute;
 
-      top: 50%;
+      top: 25mm;
       left: calc(50% - 15mm);
 
       width: 9mm;
       height: 132mm;
 
-      transform: translate(-50%, -50%);
+      transform: translateX(-50%);
 
       writing-mode: vertical-rl;
       text-orientation: upright;
 
       font-size: var(--ihai-side-size);
 
-      line-height: 1.65;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      line-height: 1.55;
 
       text-align: center;
     }
@@ -757,7 +757,7 @@
       top: 18mm;
 
       width: 100%;
-      height: 130mm;
+      height: 108mm;
 
       border: 1px solid #333;
 
@@ -795,12 +795,40 @@
     }
 
     .nenkai-name {
-      writing-mode: vertical-rl;
+      width: 100%;
+      height: 100%;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      writing-mode: horizontal-tb;
       text-orientation: upright;
 
       font-size: var(--nenkai-name-size);
-
       font-weight: 600;
+    }
+
+    .nenkai-name-slots {
+      width: 100%;
+      height: 88%;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nenkai-name-char {
+      display: flex;
+      width: 100%;
+      height: 1em;
+
+      align-items: center;
+      justify-content: center;
+
+      line-height: 1;
     }
 
     .nenkai-year {
@@ -827,9 +855,9 @@
 
       left: 0;
       right: 0;
-      top: 151mm;
+      top: 129mm;
 
-      min-height: 42mm;
+      min-height: 64mm;
 
       padding: 3mm 3mm;
 
@@ -938,22 +966,22 @@
 
   
     :root {
-      --chuin-main-size: 11.5pt;
-      --chuin-old-size: 9pt;
-      --chuin-date-size: 11pt;
-      --chuin-buddha-size: 9pt;
-      --chuin-note-size: 7.8pt;
+      --chuin-main-size: 24pt;
+      --chuin-old-size: 24pt;
+      --chuin-date-size: 24pt;
+      --chuin-buddha-size: 14pt;
+      --chuin-note-size: 9pt;
 
-      --nenkai-name-size: 11.5pt;
-      --nenkai-year-size: 11pt;
-      --nenkai-buddha-size: 9pt;
+      --nenkai-name-size: 24pt;
+      --nenkai-year-size: 18pt;
+      --nenkai-buddha-size: 14pt;
 
       --ihai-kaimyo-size: 24pt;
-      --ihai-side-size: 13.5pt;
+      --ihai-side-size: 14pt;
 
-      --temple-sect-size: 13.5pt;
-      --temple-name-size: 15.5pt;
-      --temple-address-size: 10pt;
+      --temple-sect-size: 15pt;
+      --temple-name-size: 17pt;
+      --temple-address-size: 11pt;
     }
 
 
@@ -988,17 +1016,59 @@
       line-height: 1.05;
     }
 
-    .nenkai-table {
-      grid-template-rows:
-        1fr
-        1fr !important;
-    }
-
-    .nenkai-table.with-buddha {
+.nenkai-table.with-buddha {
       grid-template-rows:
         0.34fr
         0.34fr
         0.32fr !important;
+    }
+
+    .temple-name-stack {
+      width: 100%;
+      height: 100%;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .temple-name-group {
+      width: 100%;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .temple-name-group.main {
+      margin-top: 2.2mm;
+    }
+
+    .temple-name-char {
+      display: flex;
+      width: 100%;
+      height: 5.6mm;
+
+      align-items: center;
+      justify-content: center;
+
+      line-height: 1;
+    }
+
+    .temple-name-group.sect .temple-name-char {
+      height: 5.0mm;
+    }
+
+    .temple-divider {
+      position: absolute;
+
+      left: 20mm;
+      top: 0;
+
+      width: 1px;
+      height: 130mm;
+
+      background: #aaa;
     }
 </style>
 </head>
@@ -1070,6 +1140,8 @@
         <div
           class="temple-name"
         ></div>
+
+        <div class="temple-divider"></div>
 
         <div
           class="temple-address"
@@ -1376,24 +1448,103 @@
     }
 
 
+    function distributedVerticalNameHtml(
+      value
+    ) {
+
+      return (
+        '<div class="nenkai-name-slots">' +
+        Array.from(
+          String(value || "")
+        )
+          .map(
+            function(char) {
+              return (
+                '<span class="nenkai-name-char">' +
+                escapeHtml(char) +
+                '</span>'
+              );
+            }
+          )
+          .join("") +
+        '</div>'
+      );
+
+    }
+
+
     function formatTempleNameHtml(
       name
     ) {
 
-      const safe =
-        escapeHtml(
+      const raw =
+        String(
           name || ""
-        );
+        )
+          .replace(/\s+/g, " ")
+          .trim();
 
-      return safe.replace(
-        "曹洞宗",
-        '<span class="sect-name">曹洞宗</span>'
-      ).replace(
-        "松久山 禅昌寺",
-        '<span class="temple-main-name">松久山 禅昌寺</span>'
-      ).replace(
-        "松久山　禅昌寺",
-        '<span class="temple-main-name">松久山　禅昌寺</span>'
+
+      const sect =
+        raw.includes("曹洞宗")
+          ? "曹洞宗"
+          : "";
+
+
+      const rest =
+        raw
+          .replace("曹洞宗", "")
+          .trim();
+
+
+      const parts =
+        rest
+          .split(/\s+/)
+          .filter(Boolean);
+
+
+      const mountain =
+        parts[0] || "松久山";
+
+
+      const temple =
+        parts.slice(1).join("") || "禅昌寺";
+
+
+      function chars(
+        value
+      ) {
+
+        return Array.from(
+          value
+        )
+          .map(
+            function(char) {
+              return (
+                '<span class="temple-name-char">' +
+                escapeHtml(char) +
+                '</span>'
+              );
+            }
+          )
+          .join("");
+
+      }
+
+
+      return (
+        '<div class="temple-name-stack">' +
+
+          '<div class="temple-name-group sect">' +
+            chars(sect) +
+          '</div>' +
+
+          '<div class="temple-name-group main">' +
+            chars(mountain) +
+            chars(temple) +
+          '</div>' +
+
+        '</div>'
       );
 
     }
@@ -1857,39 +2008,22 @@
         showOldNames &&
         showThirteenBuddhas
       ) {
-
-        return (
-          "17% 29% 34% 20%"
-        );
-
+        return "20% 23% 39% 18%";
       }
-
 
       if (
         showOldNames
       ) {
-
-        return (
-          "22% 33% 45%"
-        );
-
+        return "22% 24% 54%";
       }
-
 
       if (
         showThirteenBuddhas
       ) {
-
-        return (
-          "31% 43% 26%"
-        );
-
+        return "26% 49% 25%";
       }
 
-
-      return (
-        "42% 58%"
-      );
+      return "31% 69%";
 
     }
 
@@ -1899,17 +2033,10 @@
       if (
         showThirteenBuddhas
       ) {
-
-        return (
-          "36% 40% 24%"
-        );
-
+        return "35% 38% 27%";
       }
 
-
-      return (
-        "46% 54%"
-      );
+      return "44% 56%";
 
     }
 
@@ -2188,7 +2315,7 @@
 
               <div class="chuin-cell">
 
-                <div class="chuin-name-wrap">
+                <div class="chuin-name-wrap ${splitName.sub ? "has-sub" : ""}">
 
                   <div class="chuin-main-name">
                     ${escapeHtml(
@@ -2319,7 +2446,7 @@
               <div class="nenkai-cell">
 
                 <div class="nenkai-name">
-                  ${escapeHtml(
+                  ${distributedVerticalNameHtml(
                     item.name
                   )}
                 </div>
@@ -3349,6 +3476,87 @@
     }
 
 
+
+    function drawVerticalDistributed(
+      ctx,
+      value,
+      x,
+      areaTop,
+      areaHeight,
+      options = {}
+    ) {
+
+      const chars =
+        Array.from(
+          String(value || "")
+        );
+
+
+      const size =
+        options.size ||
+        mm(8.45);
+
+
+      const weight =
+        options.weight ||
+        "600";
+
+
+      const usable =
+        areaHeight * 0.84;
+
+
+      const start =
+        areaTop +
+        (
+          areaHeight -
+          usable
+        ) / 2;
+
+
+      const actualGap =
+        chars.length > 1
+          ? usable / (chars.length - 1)
+          : 0;
+
+
+      setFont(
+        ctx,
+        size,
+        weight,
+        "serif"
+      );
+
+
+      ctx.textAlign =
+        "center";
+
+
+      ctx.textBaseline =
+        "middle";
+
+
+      chars.forEach(
+        function(char, index) {
+
+          const yy =
+            chars.length === 1
+              ? areaTop + areaHeight / 2
+              : start + actualGap * index;
+
+
+          ctx.fillText(
+            char,
+            x,
+            yy
+          );
+
+        }
+      );
+
+    }
+
+
     function drawCenteredText(
       ctx,
       text,
@@ -3481,26 +3689,19 @@
         mm(126);
 
 
-      drawVerticalTextCentered(
+      drawVerticalText(
         ctx,
         japaneseDateToKanji(
           data.deathDateJapanese
         ),
-        left + width - mm(10),
+        left + width / 2 + mm(15),
         safeTop,
-        safeHeight,
         {
-          size:
-            mm(4.8),
-
-          gap:
-            mm(5.0),
-
-          extraDateGap:
-            mm(1.45),
-
-          dateSpacing:
-            true
+          size: mm(5.0),
+          gap: mm(5.35),
+          extraDateGap: mm(1.35),
+          dateSpacing: true,
+          maxHeight: safeHeight
         }
       );
 
@@ -3518,10 +3719,10 @@
           safeHeight,
           {
             size:
-              mm(7.35),
+              mm(8.45),
 
             gap:
-              mm(7.9),
+              mm(8.7),
 
             weight:
               "600"
@@ -3570,22 +3771,19 @@
 
           const leftText =
             leftParts.join(
-              "　　　　　　"
+              "　　　　　　　　　"
             );
 
 
-          drawVerticalTextCentered(
+          drawVerticalText(
             ctx,
             leftText,
             left + width / 2 - mm(15),
             safeTop,
-            safeHeight,
             {
-              size:
-                mm(4.35),
-
-              gap:
-                mm(4.8)
+              size: mm(5.0),
+              gap: mm(5.35),
+              maxHeight: safeHeight
             }
           );
 
@@ -3684,78 +3882,46 @@
         showTempleInfo
       ) {
 
-        /*
-          右：寺院名
-        */
-
-        const templeName =
-          String(
-            data.temple.name || ""
-          );
-
-
-        const sect =
-          templeName.includes("曹洞宗")
-            ? "曹洞宗"
-            : "";
-
-
-        const mainTempleName =
-          templeName
-            .replace("曹洞宗", "")
-            .trim();
-
-
-        if (
-          sect
-        ) {
-
-          drawVerticalText(
-            ctx,
-            sect,
-            mm(33),
-            mm(10),
-            {
-              size:
-                mm(4.2),
-
-              gap:
-                mm(4.65),
-
-              maxHeight:
-                mm(30)
-            }
-          );
-
-        }
+        const templeX =
+          mm(33);
 
 
         drawVerticalText(
           ctx,
-          mainTempleName,
-          mm(33),
-          sect
-            ? mm(31)
-            : mm(10),
+          "曹洞宗",
+          templeX,
+          mm(24),
           {
-            size:
-              mm(4.8),
-
-            gap:
-              mm(5.25),
-
-            maxHeight:
-              mm(140),
-
-            weight:
-              "600"
+            size: mm(5.3),
+            gap: mm(5.6),
+            maxHeight: mm(22)
           }
         );
 
 
-        /*
-          左：住所・電話
-        */
+        drawVerticalText(
+          ctx,
+          "松久山禅昌寺",
+          templeX,
+          mm(46),
+          {
+            size: mm(6.0),
+            gap: mm(6.15),
+            maxHeight: mm(90),
+            weight: "600"
+          }
+        );
+
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.lineWidth = mm(0.12);
+        ctx.strokeStyle = "#888";
+        ctx.moveTo(mm(23), mm(24));
+        ctx.lineTo(mm(23), mm(154));
+        ctx.stroke();
+        ctx.restore();
+
 
         drawVerticalText(
           ctx,
@@ -3764,20 +3930,13 @@
           data.temple.address +
           "　電話" +
           data.temple.tel,
-          mm(20),
-          mm(10),
+          mm(16),
+          mm(24),
           {
-            size:
-              mm(3.15),
-
-            gap:
-              mm(3.7),
-
-            maxHeight:
-              mm(180),
-
-            family:
-              "sans"
+            size: mm(3.9),
+            gap: mm(4.1),
+            maxHeight: mm(130),
+            family: "sans"
           }
         );
 
@@ -3804,7 +3963,7 @@
         mm(149);
 
       const tableH =
-        mm(130);
+        mm(108);
 
       const columnCount =
         8;
@@ -4002,16 +4161,15 @@
               item.oldName
             ) {
 
-              drawVerticalTextFitCentered(
+              drawVerticalTextCentered(
                 ctx,
                 item.oldName,
                 cx,
                 rowStarts[rowIndex],
-                columnW,
                 tableH * rowRatios[rowIndex],
                 {
-                  widthRatio: 0.78,
-                  maxSize: columnW * 0.78
+                  size: mm(8.45),
+                  gap: mm(8.65)
                 }
               );
 
@@ -4051,16 +4209,15 @@
             mm(5);
 
 
-          drawVerticalTextFitCentered(
+          drawVerticalTextCentered(
             ctx,
             splitName.main,
-            cx,
+            cx + (splitName.sub ? mm(2.7) : 0),
             mainRowTop,
-            columnW,
             mainRowHeight,
             {
-              widthRatio: 0.82,
-              maxSize: columnW * 0.82,
+              size: mm(8.45),
+              gap: mm(8.65),
               weight: "600"
             }
           );
@@ -4085,28 +4242,16 @@
               mm(3.35);
 
 
-            drawVerticalText(
+            drawVerticalTextCentered(
               ctx,
               splitName.sub,
-              subX,
-              subY,
+              cx - mm(3.5),
+              mainRowTop,
+              mainRowHeight,
               {
-                size:
-                  mm(2.45),
-
-                gap:
-                  mm(2.72),
-
-                maxHeight:
-                  mainRowHeight -
-                  mm(7),
-
-                /*
-                  ★今回の重要修正
-                */
-
-                verticalParentheses:
-                  true
+                size: mm(3.15),
+                gap: mm(3.4),
+                verticalParentheses: true
               }
             );
 
@@ -4120,18 +4265,17 @@
             日付
           */
 
-          drawVerticalTextFitCentered(
+          drawVerticalTextCentered(
             ctx,
             item.date,
             cx,
             rowStarts[rowIndex],
-            columnW,
             tableH * rowRatios[rowIndex],
             {
-              widthRatio: 0.80,
-              maxSize: columnW * 0.80,
+              size: mm(8.45),
+              gap: mm(8.15),
               dateSpacing: true,
-              extraGapRatio: 0.34
+              extraDateGap: mm(1.2)
             }
           );
 
@@ -4157,16 +4301,15 @@
               buddha
             ) {
 
-              drawVerticalTextFitCentered(
+              drawVerticalTextCentered(
                 ctx,
                 buddha,
                 cx,
                 rowStarts[rowIndex],
-                columnW,
                 tableH * rowRatios[rowIndex],
                 {
-                  widthRatio: 0.78,
-                  maxSize: columnW * 0.78
+                  size: mm(4.95),
+                  gap: mm(5.2)
                 }
               );
 
@@ -4293,7 +4436,7 @@
         mm(213);
 
       const tableH =
-        mm(130);
+        mm(108);
 
 
       const nenkai =
@@ -4313,15 +4456,8 @@
 
       const rowRatios =
         showThirteenBuddhas
-          ? [
-              0.36,
-              0.40,
-              0.24
-            ]
-          : [
-              0.46,
-              0.54
-            ];
+          ? [0.35, 0.38, 0.27]
+          : [0.44, 0.56];
 
 
       const rowStarts =
@@ -4440,31 +4576,28 @@
             2;
 
 
-          drawVerticalTextFitCentered(
+          drawVerticalDistributed(
             ctx,
             item.name,
             cx,
             rowStarts[0],
-            columnW,
             tableH * rowRatios[0],
             {
-              widthRatio: 0.82,
-              maxSize: columnW * 0.82,
+              size: mm(8.45),
               weight: "600"
             }
           );
 
 
-          drawVerticalTextFitCentered(
+          drawVerticalTextCentered(
             ctx,
             item.year,
             cx,
             rowStarts[1],
-            columnW,
             tableH * rowRatios[1],
             {
-              widthRatio: 0.82,
-              maxSize: columnW * 0.82
+              size: mm(6.35),
+              gap: mm(6.6)
             }
           );
 
@@ -4483,16 +4616,15 @@
               buddha
             ) {
 
-              drawVerticalTextFitCentered(
+              drawVerticalTextCentered(
                 ctx,
                 buddha,
                 cx,
                 rowStarts[2],
-                columnW,
                 tableH * rowRatios[2],
                 {
-                  widthRatio: 0.78,
-                  maxSize: columnW * 0.78
+                  size: mm(4.95),
+                  gap: mm(5.2)
                 }
               );
 
@@ -4523,7 +4655,7 @@
       ctx.fillText(
         "法事とは",
         mm(81),
-        mm(162)
+        mm(141)
       );
 
 
@@ -4537,7 +4669,7 @@
       ctx.fillText(
         "※説明文は、曹洞宗の資料等を確認のうえ後ほど正式に校正します。",
         mm(81),
-        mm(171)
+        mm(150)
       );
 
 
