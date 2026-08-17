@@ -212,10 +212,10 @@
     .temple-info {
       position: absolute;
 
-      left: 9mm;
+      left: 11.5mm;
       top: 24mm;
 
-      width: 27mm;
+      width: 22mm;
       height: 130mm;
 
       border-left: 1px solid #999;
@@ -257,8 +257,8 @@
 
       top: 0;
 
-      width: 7mm;
-      height: 17mm;
+      width: 5.5mm;
+      height: 20mm;
 
       writing-mode: vertical-rl !important;
       -webkit-writing-mode: vertical-rl !important;
@@ -279,20 +279,26 @@
 
       text-align: center;
       white-space: nowrap;
+
+      /*
+        3文字が詰まりすぎない程度に、
+        縦方向の文字送りだけ少し広げる。
+      */
+      letter-spacing: 0.18em;
     }
 
     /*
       右：曹洞宗
     */
     .temple-sect {
-      right: 4mm;
+      right: 5mm;
     }
 
     /*
       左：松久山
     */
     .temple-mountain {
-      left: 4mm;
+      left: 5mm;
     }
 
     /*
@@ -304,7 +310,7 @@
       left: 50%;
       top: 20mm;
 
-      width: 9mm;
+      width: 8mm;
       height: 25mm;
 
       transform: translateX(-50%);
@@ -350,13 +356,13 @@
       align-items: flex-start;
       justify-content: center;
 
-      gap: 1.5mm;
+      gap: 0.5mm;
 
-      padding: 2mm 2mm 1mm;
+      padding: 2mm 1.5mm 1mm;
     }
 
     .temple-contact-column {
-      width: 9mm;
+      width: 7.5mm;
       height: 79mm;
 
       overflow: hidden;
@@ -1062,8 +1068,8 @@
       --chuin-buddha-size: 14pt;
       --chuin-note-size: 9pt;
 
-      --nenkai-name-size: 24pt;
-      --nenkai-year-size: 18pt;
+      --nenkai-name-size: 20pt;
+      --nenkai-year-size: 20pt;
       --nenkai-buddha-size: 14pt;
 
       --ihai-kaimyo-size: 24pt;
