@@ -373,10 +373,12 @@
         sans-serif;
 
       /*
-        重なり防止：
-        文字サイズより文字送りを明確に大きくする。
+        住所・電話は内容量に応じてJS側で最大化する。
+        上限は「曹洞宗」「松久山」と同じ11pt。
       */
-      font-size: 8pt;
+      font-size: 11pt;
+      --temple-contact-step: 4mm;
+      --temple-contact-space: 2.4mm;
 
       text-align: center;
     }
@@ -386,7 +388,7 @@
       display: flex;
 
       width: 100%;
-      height: 3.15mm;
+      height: var(--temple-contact-step);
 
       align-items: center;
       justify-content: center;
@@ -400,7 +402,7 @@
       display: block;
 
       width: 100%;
-      height: 3.15mm;
+      height: var(--temple-contact-step);
     }
 
     .temple-address-hyphen::before {
@@ -423,7 +425,7 @@
       display: block;
 
       width: 100%;
-      height: 2mm;
+      height: var(--temple-contact-space);
     }
 
 
@@ -1658,6 +1660,94 @@
     ========================================
     */
 
+    /*
+      ========================================
+      寺院情報：住所・電話の自動最大化
+
+      有効高102mmに必ず収めながら、
+      住所・電話をそれぞれ可能な限り大きくする。
+      上限は「曹洞宗」「松久山」と同じ11pt。
+    ========================================
+    */
+    function fitTempleContactColumn(
+      element
+    ) {
+
+      if (!element) return;
+
+      const normalItems =
+        element.querySelectorAll(
+          ".temple-address-char, .temple-address-digit, .temple-address-hyphen"
+        ).length;
+
+      const spaceItems =
+        element.querySelectorAll(
+          ".temple-address-space"
+        ).length;
+
+      if (
+        normalItems === 0 &&
+        spaceItems === 0
+      ) {
+        return;
+      }
+
+      const availableMm = 102;
+      const maxFontPt = 11;
+      const ptToMm = 0.352778;
+
+      /*
+        通常文字はフォント高の約1.08倍、
+        空白は通常文字送りの約60%として計算。
+      */
+      const effectiveUnits =
+        normalItems +
+        spaceItems * 0.60;
+
+      const maxStepMm =
+        maxFontPt *
+        ptToMm *
+        1.08;
+
+      const stepMm =
+        Math.min(
+          maxStepMm,
+          availableMm / effectiveUnits
+        );
+
+      /*
+        念のためごく小さい安全余白を取り、
+        ブラウザ差で最下部が切れないようにする。
+      */
+      const safeStepMm =
+        stepMm * 0.985;
+
+      const fontPt =
+        Math.min(
+          maxFontPt,
+          safeStepMm /
+            (ptToMm * 1.08)
+        );
+
+      element.style.fontSize =
+        fontPt.toFixed(2) +
+        "pt";
+
+      element.style.setProperty(
+        "--temple-contact-step",
+        safeStepMm.toFixed(3) +
+        "mm"
+      );
+
+      element.style.setProperty(
+        "--temple-contact-space",
+        (safeStepMm * 0.60).toFixed(3) +
+        "mm"
+      );
+
+    }
+
+
     function templeVerticalHtml(
       text
     ) {
@@ -2320,6 +2410,23 @@
             data.temple.tel
 
           );
+
+
+        /*
+          住所・電話は各列ごとに、
+          セルからはみ出さない最大サイズへ調整。
+        */
+        fitTempleContactColumn(
+          document.getElementById(
+            "templeAddress"
+          )
+        );
+
+        fitTempleContactColumn(
+          document.getElementById(
+            "templePhone"
+          )
+        );
 
       }
 
