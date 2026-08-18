@@ -2853,7 +2853,7 @@
     /*
       ========================================
       ここから下はPDF生成用。
-      今回（ブラウザ確認段階）の修正では変更していない。
+      ブラウザ確定版の見た目へ同期済み。
       ========================================
     */
 
@@ -3853,7 +3853,8 @@
 
 
       const usable =
-        areaHeight * 0.84;
+        areaHeight *
+        (options.usableRatio || 0.84);
 
 
       const start =
@@ -3948,113 +3949,560 @@
     ========================================
     */
 
+    function drawTempleVerticalTextCanvas(
+      ctx,
+      text,
+      x,
+      y,
+      availableHeightMm = 102
+    ) {
+
+      const chars =
+        Array.from(
+          String(text || "")
+        );
+
+      const normalItems =
+        chars.filter(
+          function(char) {
+            return !(
+              char === " " ||
+              char === "　"
+            );
+          }
+        ).length;
+
+      const spaceItems =
+        chars.length -
+        normalItems;
+
+      if (
+        normalItems === 0 &&
+        spaceItems === 0
+      ) {
+        return;
+      }
+
+      const ptToMm =
+        25.4 / 72;
+
+      const maxFontPt =
+        11;
+
+      const effectiveUnits =
+        normalItems +
+        spaceItems * 0.60;
+
+      const maxStepMm =
+        maxFontPt *
+        ptToMm *
+        1.08;
+
+      const stepMm =
+        Math.min(
+          maxStepMm,
+          availableHeightMm /
+            effectiveUnits
+        );
+
+      const safeStepMm =
+        stepMm * 0.985;
+
+      const fontPt =
+        Math.min(
+          maxFontPt,
+          safeStepMm /
+            (ptToMm * 1.08)
+        );
+
+      const fontMm =
+        fontPt *
+        ptToMm;
+
+      const spaceMm =
+        safeStepMm * 0.60;
+
+      let yy =
+        y;
+
+      chars.forEach(
+        function(char) {
+
+          if (
+            char === " " ||
+            char === "　"
+          ) {
+            yy +=
+              mm(spaceMm);
+            return;
+          }
+
+          if (
+            char === "-" ||
+            char === "－" ||
+            char === "‐" ||
+            char === "―" ||
+            char === "–" ||
+            char === "—"
+          ) {
+
+            ctx.save();
+
+            ctx.beginPath();
+
+            ctx.lineWidth =
+              Math.max(
+                1,
+                mm(fontMm) * 0.065
+              );
+
+            ctx.moveTo(
+              x,
+              yy +
+              mm(safeStepMm) * 0.08
+            );
+
+            ctx.lineTo(
+              x,
+              yy +
+              mm(safeStepMm) * 0.92
+            );
+
+            ctx.stroke();
+
+            ctx.restore();
+
+          }
+
+          else {
+
+            setFont(
+              ctx,
+              mm(fontMm),
+              "normal",
+              "sans"
+            );
+
+            ctx.textAlign =
+              "center";
+
+            ctx.textBaseline =
+              "middle";
+
+            ctx.fillText(
+              char,
+              x,
+              yy +
+              mm(safeStepMm) / 2
+            );
+
+          }
+
+          yy +=
+            mm(safeStepMm);
+
+        }
+      );
+
+    }
+
+
+    function drawVerticalSegmentedCentered(
+      ctx,
+      segments,
+      x,
+      areaTop,
+      areaHeight
+    ) {
+
+      const prepared =
+        segments
+          .map(
+            function(segment) {
+
+              const chars =
+                Array.from(
+                  String(segment.text || "")
+                );
+
+              const size =
+                segment.size;
+
+              const gap =
+                segment.gap ||
+                size;
+
+              return {
+                ...segment,
+                chars,
+                gap,
+                height:
+                  chars.length *
+                  gap
+              };
+
+            }
+          )
+          .filter(
+            function(segment) {
+              return segment.chars.length > 0;
+            }
+          );
+
+      const totalHeight =
+        prepared.reduce(
+          function(sum, segment) {
+            return sum +
+              segment.height;
+          },
+          0
+        );
+
+      let yy =
+        areaTop +
+        Math.max(
+          0,
+          (
+            areaHeight -
+            totalHeight
+          ) / 2
+        );
+
+      prepared.forEach(
+        function(segment) {
+
+          setFont(
+            ctx,
+            segment.size,
+            segment.weight || "600",
+            "serif"
+          );
+
+          ctx.textAlign =
+            "center";
+
+          ctx.textBaseline =
+            "top";
+
+          segment.chars.forEach(
+            function(char) {
+
+              ctx.fillText(
+                char,
+                x,
+                yy
+              );
+
+              yy +=
+                segment.gap;
+
+            }
+          );
+
+        }
+      );
+
+    }
+
+
+    /*
+      ========================================
+      位牌
+      ブラウザ確定版の寸法・文字サイズへ同期。
+    ========================================
+    */
+
     function drawIhaiCanvas(
       ctx
     ) {
 
       /*
-        位牌の左右位置は従来値を維持。
-        三つ折り時の中央位置を動かさない。
+        .ihai-area = left:201mm / top:10mm / 86×190mm
+        .ihai      = 60×184mm を中央配置
+        → 実座標 left:214mm / top:13mm
       */
 
       const left =
         mm(214);
 
       const top =
-        mm(14);
+        mm(13);
 
       const width =
         mm(60);
 
       const height =
-        mm(182);
+        mm(184);
 
+      const borderWidth =
+        mm(0.344);
+
+      ctx.save();
 
       ctx.lineWidth =
-        mm(0.25);
+        borderWidth;
 
+      ctx.strokeStyle =
+        "#222";
 
-      ctx.strokeRect(
-        left + mm(7),
-        top + mm(19),
-        width - mm(14),
-        height - mm(39)
-      );
+      /* 位牌本体：left/right 7mm, top/bottom 20mm */
+      const bodyX =
+        left +
+        mm(7);
 
+      const bodyY =
+        top +
+        mm(20);
+
+      const bodyW =
+        width -
+        mm(14);
+
+      const bodyH =
+        height -
+        mm(40);
+
+      if (
+        typeof ctx.roundRect ===
+        "function"
+      ) {
+
+        ctx.beginPath();
+
+        ctx.roundRect(
+          bodyX,
+          bodyY,
+          bodyW,
+          bodyH,
+          [
+            mm(7),
+            mm(7),
+            mm(3),
+            mm(3)
+          ]
+        );
+
+        ctx.stroke();
+
+      }
+
+      else {
+
+        ctx.strokeRect(
+          bodyX,
+          bodyY,
+          bodyW,
+          bodyH
+        );
+
+      }
+
+      /*
+        上部飾り：ブラウザ .ihai-top をそのまま幾何変換。
+        24×27mmの「上・左・右」3辺を中心回転45deg。
+      */
+      const topBoxX =
+        left +
+        mm(18);
+
+      const topBoxY =
+        top +
+        mm(3);
+
+      const topBoxW =
+        mm(24);
+
+      const topBoxH =
+        mm(27);
+
+      const topCx =
+        topBoxX +
+        topBoxW / 2;
+
+      const topCy =
+        topBoxY +
+        topBoxH / 2;
+
+      function rotateIhaiTopPoint(
+        px,
+        py
+      ) {
+
+        const dx =
+          px -
+          topCx;
+
+        const dy =
+          py -
+          topCy;
+
+        const c =
+          Math.SQRT1_2;
+
+        const s =
+          Math.SQRT1_2;
+
+        return {
+          x:
+            topCx +
+            dx * c -
+            dy * s,
+          y:
+            topCy +
+            dx * s +
+            dy * c
+        };
+
+      }
+
+      const pTL =
+        rotateIhaiTopPoint(
+          topBoxX,
+          topBoxY
+        );
+
+      const pTR =
+        rotateIhaiTopPoint(
+          topBoxX +
+          topBoxW,
+          topBoxY
+        );
+
+      const pBL =
+        rotateIhaiTopPoint(
+          topBoxX,
+          topBoxY +
+          topBoxH
+        );
+
+      const pBR =
+        rotateIhaiTopPoint(
+          topBoxX +
+          topBoxW,
+          topBoxY +
+          topBoxH
+        );
 
       ctx.beginPath();
 
+      /* border-top */
       ctx.moveTo(
-        left + mm(18),
-        top + mm(19)
+        pTL.x,
+        pTL.y
       );
 
       ctx.lineTo(
-        left + width / 2,
-        top + mm(5)
+        pTR.x,
+        pTR.y
+      );
+
+      /* border-left */
+      ctx.moveTo(
+        pTL.x,
+        pTL.y
       );
 
       ctx.lineTo(
-        left + width - mm(18),
-        top + mm(19)
+        pBL.x,
+        pBL.y
+      );
+
+      /* border-right */
+      ctx.moveTo(
+        pTR.x,
+        pTR.y
+      );
+
+      ctx.lineTo(
+        pBR.x,
+        pBR.y
       );
 
       ctx.stroke();
 
-
+      /* 台座 */
       ctx.beginPath();
 
       ctx.moveTo(
-        left + mm(4),
-        top + height - mm(15)
+        left +
+        mm(4),
+        top +
+        height -
+        mm(14)
       );
 
       ctx.lineTo(
-        left + width - mm(4),
-        top + height - mm(15)
+        left +
+        width -
+        mm(4),
+        top +
+        height -
+        mm(14)
       );
 
       ctx.moveTo(
-        left + width / 2 - mm(12.5),
-        top + height - mm(9)
+        left +
+        mm(9),
+        top +
+        height -
+        mm(9)
       );
 
       ctx.lineTo(
-        left + width / 2 + mm(12.5),
-        top + height - mm(9)
+        left +
+        width -
+        mm(9),
+        top +
+        height -
+        mm(9)
       );
 
       ctx.stroke();
+
+      ctx.restore();
 
 
       /*
-        将来の位牌挿絵を想定した文字安全領域。
-        3列ともこの範囲の縦中央へ配置する。
+        戒名：ブラウザ24pt、height 132mm、正中固定。
       */
+      const mainAreaTop =
+        top +
+        (
+          height -
+          mm(132)
+        ) / 2;
 
-      const safeTop =
-        top + mm(27);
+      const mainAreaHeight =
+        mm(132);
 
-      const safeHeight =
-        mm(126);
+      const mainSize =
+        mm(
+          24 *
+          25.4 /
+          72
+        );
 
+      const mainGap =
+        mainSize *
+        1.10;
 
-      drawVerticalText(
-        ctx,
+      const sideSize =
+        mm(
+          14 *
+          25.4 /
+          72
+        );
+
+      const sideGap =
+        sideSize;
+
+      const dateText =
         japaneseDateToKanji(
           data.deathDateJapanese
-        ),
-        left + width / 2 + mm(12.5),
-        safeTop,
-        {
-          size: mm(5.0),
-          gap: mm(5.35),
-          extraDateGap: mm(1.35),
-          dateSpacing: true,
-          maxHeight: safeHeight
-        }
-      );
+        );
 
+      let leftText =
+        "";
 
       if (
         data.kaimyo &&
@@ -4064,78 +4512,47 @@
         drawVerticalTextCentered(
           ctx,
           data.kaimyo.trim(),
-          left + width / 2,
-          safeTop,
-          safeHeight,
+          left +
+          width / 2,
+          mainAreaTop,
+          mainAreaHeight,
           {
             size:
-              mm(8.45),
-
+              mainSize,
             gap:
-              mm(8.7),
-
+              mainGap,
             weight:
               "600"
           }
         );
-
-
-        const leftParts = [];
-
 
         if (
           data.name &&
           data.name.trim()
         ) {
 
-          leftParts.push(
+          leftText =
             "俗名　" +
-            data.name.trim()
-          );
+            data.name.trim();
 
         }
-
 
         if (
           data.age
         ) {
 
-          leftParts.push(
+          if (
+            leftText
+          ) {
+            leftText +=
+              "　";
+          }
+
+          leftText +=
             "行年　" +
             ageToKanji(
               data.age
-            )
-          );
-
-        }
-
-
-        if (
-          leftParts.length
-        ) {
-
-          /*
-            俗名と行年は同じ縦列内に上下配置。
-            項目名と内容の間には全角空白を入れる。
-          */
-
-          const leftText =
-            leftParts.join(
-              "　　　　　　　　　"
             );
-
-
-          drawVerticalText(
-            ctx,
-            leftText,
-            left + width / 2 - mm(12.5),
-            safeTop,
-            {
-              size: mm(5.0),
-              gap: mm(5.35),
-              maxHeight: safeHeight
-            }
-          );
 
         }
 
@@ -4148,70 +4565,143 @@
             ? data.name.trim()
             : "";
 
-
-        const cx =
-          left +
-          width /
-          2;
-
-
-        const mainText =
-          "俗名　" +
-          name +
-          "　之精霊位";
-
-
-        drawVerticalTextCentered(
+        /*
+          ブラウザの 0.58em / 1.15em / 0.58em を再現。
+        */
+        drawVerticalSegmentedCentered(
           ctx,
-          mainText,
-          cx,
-          safeTop,
-          safeHeight,
-          {
-            size:
-              mm(5.3),
-
-            gap:
-              mm(5.85),
-
-            weight:
-              "600"
-          }
+          [
+            {
+              text: "俗名",
+              size: mainSize * 0.58,
+              gap: mainSize * 0.58 * 1.10
+            },
+            {
+              text: name,
+              size: mainSize * 1.15,
+              gap: mainSize * 1.15 * 1.10
+            },
+            {
+              text: "之精霊位",
+              size: mainSize * 0.58,
+              gap: mainSize * 0.58 * 1.10
+            }
+          ],
+          left +
+          width / 2,
+          mainAreaTop,
+          mainAreaHeight
         );
-
 
         if (
           data.age
         ) {
 
-          drawVerticalTextCentered(
-            ctx,
+          leftText =
             "行年　" +
             ageToKanji(
               data.age
-            ),
-            left +
-            mm(10),
-            safeTop,
-            safeHeight,
-            {
-              size:
-                mm(3.45),
-
-              gap:
-                mm(3.95)
-            }
-          );
+            );
 
         }
 
       }
 
+
+      /*
+        左右列はブラウザ同様、まず個別に中央配置したときの
+        「高い方」の頭へ両方を揃える。
+      */
+      const sideCenterY =
+        top +
+        height / 2;
+
+      const dateHeight =
+        measureVerticalTextHeight(
+          dateText,
+          {
+            size:
+              sideSize,
+            gap:
+              sideGap,
+            dateSpacing:
+              true,
+            extraDateGap:
+              sideSize * 0.42
+          }
+        );
+
+      const leftHeight =
+        leftText
+          ? measureVerticalTextHeight(
+              leftText,
+              {
+                size:
+                  sideSize,
+                gap:
+                  sideGap
+              }
+            )
+          : 0;
+
+      const commonTop =
+        sideCenterY -
+        Math.max(
+          dateHeight,
+          leftHeight
+        ) / 2;
+
+      drawVerticalText(
+        ctx,
+        dateText,
+        left +
+        width / 2 +
+        mm(12.5),
+        commonTop,
+        {
+          size:
+            sideSize,
+          gap:
+            sideGap,
+          dateSpacing:
+            true,
+          extraDateGap:
+            sideSize * 0.42,
+          maxHeight:
+            mm(126)
+        }
+      );
+
+      if (
+        leftText
+      ) {
+
+        drawVerticalText(
+          ctx,
+          leftText,
+          left +
+          width / 2 -
+          mm(12.5),
+          commonTop,
+          {
+            size:
+              sideSize,
+            gap:
+              sideGap,
+            maxHeight:
+              mm(126)
+          }
+        );
+
+      }
+
     }
+
 
     /*
       ========================================
       表面PDF
+      ブラウザ確定版の寸法・文字サイズを基準に同期。
     ========================================
     */
 
@@ -4226,44 +4716,217 @@
 
       /*
         寺院情報
+        browser: left 11.5 / top 24 / 22×160mm
       */
-
       if (
         showTempleInfo
       ) {
-        const boxX=mm(9), boxY=mm(24), boxW=mm(27), boxH=mm(130);
-        const splitY=boxY+mm(43);
+
+        const boxX =
+          mm(11.5);
+
+        const boxY =
+          mm(24);
+
+        const boxW =
+          mm(22);
+
+        const boxH =
+          mm(160);
+
+        const splitY =
+          boxY +
+          mm(50);
 
         ctx.save();
-        ctx.lineWidth=mm(0.14);
-        ctx.strokeStyle="#888";
+
+        ctx.lineWidth =
+          mm(0.265);
+
+        ctx.strokeStyle =
+          "#999";
+
+        /* 四辺罫線 */
+        ctx.strokeRect(
+          boxX,
+          boxY,
+          boxW,
+          boxH
+        );
+
+        /* 上段／下段 */
         ctx.beginPath();
-        ctx.moveTo(boxX,boxY); ctx.lineTo(boxX,boxY+boxH);
-        ctx.moveTo(boxX+boxW,boxY); ctx.lineTo(boxX+boxW,boxY+boxH);
+
+        ctx.moveTo(
+          boxX,
+          splitY
+        );
+
+        ctx.lineTo(
+          boxX +
+          boxW,
+          splitY
+        );
+
         ctx.stroke();
+
+        /*
+          下段中央の細い縦罫線。
+          ブラウザ .temple-contact::after と同じく
+          上下3mmだけ空ける。
+        */
+        ctx.lineWidth =
+          mm(0.265);
+
+        ctx.strokeStyle =
+          "#bbb";
+
         ctx.beginPath();
-        ctx.moveTo(boxX,splitY); ctx.lineTo(boxX+boxW,splitY);
+
+        ctx.moveTo(
+          boxX +
+          boxW / 2,
+          splitY +
+          mm(3)
+        );
+
+        ctx.lineTo(
+          boxX +
+          boxW / 2,
+          boxY +
+          boxH -
+          mm(3)
+        );
+
         ctx.stroke();
+
         ctx.restore();
 
-        drawCenteredText(ctx,"曹洞宗　松久山",boxX+boxW/2,boxY+mm(9),{size:mm(3.7),weight:"400"});
-        drawCenteredText(ctx,"禅昌寺",boxX+boxW/2,boxY+mm(24),{size:mm(7.0),weight:"600"});
 
-        drawVerticalText(ctx,data.temple.postal+"　"+data.temple.address,boxX+mm(18),splitY+mm(4),{
-          size:mm(3.15),gap:mm(3.35),maxHeight:mm(79),family:"sans"
-        });
-        drawVerticalText(ctx,"電話　"+data.temple.tel,boxX+mm(8),splitY+mm(4),{
-          size:mm(3.15),gap:mm(3.35),maxHeight:mm(79),family:"sans"
-        });
+        /* 上部：左 松久山／右 曹洞宗 */
+        const smallTempleSize =
+          mm(
+            11 *
+            25.4 /
+            72
+          );
+
+        const smallTempleGap =
+          smallTempleSize *
+          1.18;
+
+        drawVerticalText(
+          ctx,
+          "松久山",
+          boxX +
+          mm(7.75),
+          boxY +
+          mm(4),
+          {
+            size:
+              smallTempleSize,
+            gap:
+              smallTempleGap,
+            maxHeight:
+              mm(20)
+          }
+        );
+
+        drawVerticalText(
+          ctx,
+          "曹洞宗",
+          boxX +
+          mm(14.25),
+          boxY +
+          mm(4),
+          {
+            size:
+              smallTempleSize,
+            gap:
+              smallTempleGap,
+            maxHeight:
+              mm(20)
+          }
+        );
+
+
+        /* 中央下：禅昌寺 20pt */
+        const templeMainSize =
+          mm(
+            20 *
+            25.4 /
+            72
+          );
+
+        drawVerticalText(
+          ctx,
+          "禅昌寺",
+          boxX +
+          boxW / 2,
+          boxY +
+          mm(20),
+          {
+            size:
+              templeMainSize,
+            gap:
+              templeMainSize * 1.08,
+            weight:
+              "600",
+            maxHeight:
+              mm(25)
+          }
+        );
+
+
+        /*
+          下段はブラウザと同じ102mm有効高。
+          flex row-reverse の結果、住所が右・電話が左。
+        */
+        const contactY =
+          splitY +
+          mm(4);
+
+        const phoneX =
+          boxX +
+          mm(6.5);
+
+        const addressX =
+          boxX +
+          mm(15.5);
+
+        drawTempleVerticalTextCanvas(
+          ctx,
+          "電話　" +
+          data.temple.tel,
+          phoneX,
+          contactY,
+          102
+        );
+
+        drawTempleVerticalTextCanvas(
+          ctx,
+          data.temple.postal +
+          "　" +
+          data.temple.address,
+          addressX,
+          contactY,
+          102
+        );
+
       }
 
 
+      /* 中陰表タイトル：22pt / area top 6mm */
       drawCenteredText(
         ctx,
         "中　陰　表",
         mm(119.5),
-        mm(7),
-        mm(7.3),
+        mm(6),
+        mm(
+          22 *
+          25.4 /
+          72
+        ),
         "600"
       );
 
@@ -4278,7 +4941,7 @@
         mm(149);
 
       const tableH =
-        mm(108);
+        mm(130);
 
       const columnCount =
         8;
@@ -4290,17 +4953,16 @@
 
       let rowRatios;
 
-
       if (
         showOldNames &&
         showThirteenBuddhas
       ) {
 
         rowRatios = [
-          0.17,
-          0.29,
-          0.34,
-          0.20
+          0.20,
+          0.23,
+          0.39,
+          0.18
         ];
 
       }
@@ -4311,8 +4973,8 @@
 
         rowRatios = [
           0.22,
-          0.33,
-          0.45
+          0.24,
+          0.54
         ];
 
       }
@@ -4322,9 +4984,9 @@
       ) {
 
         rowRatios = [
-          0.31,
-          0.43,
-          0.26
+          0.26,
+          0.49,
+          0.25
         ];
 
       }
@@ -4332,8 +4994,8 @@
       else {
 
         rowRatios = [
-          0.42,
-          0.58
+          0.31,
+          0.69
         ];
 
       }
@@ -4343,10 +5005,8 @@
         tableY
       ];
 
-
       let cumulative =
         0;
-
 
       for (
         let i = 0;
@@ -4359,7 +5019,6 @@
         cumulative +=
           rowRatios[i];
 
-
         rowStarts.push(
           tableY +
           tableH *
@@ -4370,8 +5029,7 @@
 
 
       ctx.lineWidth =
-        mm(0.18);
-
+        mm(0.265);
 
       ctx.strokeRect(
         tableX,
@@ -4380,9 +5038,7 @@
         tableH
       );
 
-
       ctx.beginPath();
-
 
       for (
         let i = 1;
@@ -4395,12 +5051,10 @@
           columnW *
           i;
 
-
         ctx.moveTo(
           x,
           tableY
         );
-
 
         ctx.lineTo(
           x,
@@ -4410,20 +5064,15 @@
 
       }
 
-
       rowStarts
         .slice(1)
         .forEach(
-
-          function (
-            y
-          ) {
+          function(y) {
 
             ctx.moveTo(
               tableX,
               y
             );
-
 
             ctx.lineTo(
               tableX +
@@ -4432,9 +5081,7 @@
             );
 
           }
-
         );
-
 
       ctx.stroke();
 
@@ -4444,30 +5091,51 @@
           ...data.chuin
         ].reverse();
 
+      const mainSize =
+        mm(
+          20 *
+          25.4 /
+          72
+        );
+
+      const dateSize =
+        mm(
+          18 *
+          25.4 /
+          72
+        );
+
+      const noteSize =
+        mm(
+          9 *
+          25.4 /
+          72
+        );
+
+      const buddhaSize =
+        mm(
+          14 *
+          25.4 /
+          72
+        );
 
       chuin.forEach(
+        function(item, index) {
 
-        function (
-          item,
-          index
-        ) {
-
-          const cx =
+          const cellLeft =
             tableX +
             columnW *
-            index +
-            columnW /
-            2;
+            index;
 
+          const cx =
+            cellLeft +
+            columnW / 2;
 
           let rowIndex =
             0;
 
 
-          /*
-            旧呼称
-          */
-
+          /* 旧呼称 20pt */
           if (
             showOldNames
           ) {
@@ -4481,48 +5149,39 @@
                 item.oldName,
                 cx,
                 rowStarts[rowIndex],
-                tableH * rowRatios[rowIndex],
+                tableH *
+                rowRatios[rowIndex],
                 {
-                  size: mm(7.05),
-                  gap: mm(7.35)
+                  size:
+                    mainSize,
+                  gap:
+                    mainSize
                 }
               );
 
             }
-
 
             rowIndex++;
 
           }
 
 
-          /*
-            忌日
-          */
-
+          /* 忌日 20pt */
           const splitName =
             splitChuinName(
               item.name
             );
-
 
           const mainRowTop =
             rowStarts[
               rowIndex
             ];
 
-
           const mainRowHeight =
             tableH *
             rowRatios[
               rowIndex
             ];
-
-
-          const mainStartY =
-            mainRowTop +
-            mm(5);
-
 
           drawVerticalTextCentered(
             ctx,
@@ -4531,76 +5190,69 @@
             mainRowTop,
             mainRowHeight,
             {
-              size: mm(7.05),
-              gap: mm(7.35),
-              weight: "600"
+              size:
+                mainSize,
+              gap:
+                mainSize,
+              weight:
+                "600"
             }
           );
 
 
-          /*
-            （三十五日）（四十九日）
-          */
-
+          /* 補足は本体を動かさず、左13%位置 */
           if (
             splitName.sub
           ) {
 
             const subX =
-              cx -
+              cellLeft +
               columnW *
-              0.24;
-
-
-            const subY =
-              mainStartY +
-              mm(3.35);
-
+              0.13;
 
             drawVerticalTextCentered(
               ctx,
               splitName.sub,
-              cx - mm(4.0),
+              subX,
               mainRowTop,
               mainRowHeight,
               {
-                size: mm(3.15),
-                gap: mm(3.4),
-                verticalParentheses: true
+                size:
+                  noteSize,
+                gap:
+                  noteSize,
+                verticalParentheses:
+                  true
               }
             );
 
           }
 
-
           rowIndex++;
 
 
-          /*
-            日付
-          */
-
+          /* 日付 18pt / line-height 1.08 / 年月後0.42em */
           drawVerticalTextCentered(
             ctx,
             item.date,
             cx,
             rowStarts[rowIndex],
-            tableH * rowRatios[rowIndex],
+            tableH *
+            rowRatios[rowIndex],
             {
-              size: mm(6.35),
-              gap: mm(6.7),
-              dateSpacing: true,
-              extraDateGap: mm(1.1)
+              size:
+                dateSize,
+              gap:
+                dateSize * 1.08,
+              dateSpacing:
+                true,
+              extraDateGap:
+                dateSize * 0.42
             }
           );
 
-
           rowIndex++;
 
-
-          /*
-            十三仏
-          */
 
           if (
             showThirteenBuddhas
@@ -4611,7 +5263,6 @@
                 item.name
               );
 
-
             if (
               buddha
             ) {
@@ -4621,10 +5272,13 @@
                 buddha,
                 cx,
                 rowStarts[rowIndex],
-                tableH * rowRatios[rowIndex],
+                tableH *
+                rowRatios[rowIndex],
                 {
-                  size: mm(4.95),
-                  gap: mm(5.2)
+                  size:
+                    buddhaSize,
+                  gap:
+                    buddhaSize
                 }
               );
 
@@ -4633,83 +5287,80 @@
           }
 
         }
-
       );
 
 
       /*
         中陰とは
+        browser: area top6 + description top151 + padding3 = 160mm
       */
-
       setFont(
         ctx,
-        mm(3.7),
+        mm(
+          14 *
+          25.4 /
+          72
+        ),
         "600",
-        "sans"
+        "serif"
       );
-
 
       ctx.textAlign =
         "left";
 
+      ctx.textBaseline =
+        "top";
 
       ctx.fillText(
         "中陰とは",
-        mm(48),
+        mm(50),
         mm(160)
       );
 
-
       setFont(
         ctx,
-        mm(2.75),
+        mm(
+          9.5 *
+          25.4 /
+          72
+        ),
         "normal",
         "sans"
       );
 
-
       ctx.textAlign =
         "left";
 
+      ctx.textBaseline =
+        "top";
 
       const descriptionLines = [
-
         "ご命日から四十九日までの期間を「中陰」といいます。",
-
         "この間、初七日から七七日（四十九日）まで、",
-
         "七日ごとに忌日を迎え、故人を偲びご供養を勤めます。"
-
       ];
-
 
       descriptionLines
         .forEach(
-
-          function (
-            line,
-            index
-          ) {
+          function(line, index) {
 
             ctx.fillText(
               line,
-              mm(48),
+              mm(50),
               mm(
                 168 +
                 index *
-                6.5
+                5.2
               )
             );
 
           }
-
         );
 
 
       drawIhaiCanvas(
         ctx
       );
-
 
       return canvas;
 
@@ -4731,12 +5382,17 @@
         createPageCanvas();
 
 
+      /* 年回表タイトル：22pt / area top 6mm */
       drawCenteredText(
         ctx,
         "年　回　表",
         mm(184.5),
-        mm(7),
-        mm(7.3),
+        mm(6),
+        mm(
+          22 *
+          25.4 /
+          72
+        ),
         "600"
       );
 
@@ -4759,31 +5415,24 @@
           ...data.nenkai
         ].reverse();
 
-
       const count =
         nenkai.length;
-
 
       const columnW =
         tableW /
         count;
-
 
       const rowRatios =
         showThirteenBuddhas
           ? [0.35, 0.38, 0.27]
           : [0.44, 0.56];
 
-
-      const rowStarts =
-        [
-          tableY
-        ];
-
+      const rowStarts = [
+        tableY
+      ];
 
       let cumulative =
         0;
-
 
       for (
         let i = 0;
@@ -4796,7 +5445,6 @@
         cumulative +=
           rowRatios[i];
 
-
         rowStarts.push(
           tableY +
           tableH *
@@ -4807,8 +5455,7 @@
 
 
       ctx.lineWidth =
-        mm(0.18);
-
+        mm(0.265);
 
       ctx.strokeRect(
         tableX,
@@ -4817,9 +5464,7 @@
         tableH
       );
 
-
       ctx.beginPath();
-
 
       for (
         let i = 1;
@@ -4832,12 +5477,10 @@
           columnW *
           i;
 
-
         ctx.moveTo(
           x,
           tableY
         );
-
 
         ctx.lineTo(
           x,
@@ -4847,20 +5490,15 @@
 
       }
 
-
       rowStarts
         .slice(1)
         .forEach(
-
-          function (
-            y
-          ) {
+          function(y) {
 
             ctx.moveTo(
               tableX,
               y
             );
-
 
             ctx.lineTo(
               tableX +
@@ -4869,37 +5507,59 @@
             );
 
           }
-
         );
-
 
       ctx.stroke();
 
 
-      nenkai.forEach(
+      const nenkaiNameSize =
+        mm(
+          20 *
+          25.4 /
+          72
+        );
 
-        function (
-          item,
-          index
-        ) {
+      const nenkaiYearSize =
+        mm(
+          20 *
+          25.4 /
+          72
+        );
+
+      const nenkaiBuddhaSize =
+        mm(
+          14 *
+          25.4 /
+          72
+        );
+
+      nenkai.forEach(
+        function(item, index) {
 
           const cx =
             tableX +
             columnW *
             index +
-            columnW /
-            2;
+            columnW / 2;
 
 
+          /*
+            ブラウザ：20pt固定、5文字を基準に88%高へ均等割付。
+          */
           drawVerticalDistributed(
             ctx,
             item.name,
             cx,
             rowStarts[0],
-            tableH * rowRatios[0],
+            tableH *
+            rowRatios[0],
             {
-              size: mm(8.45),
-              weight: "600"
+              size:
+                nenkaiNameSize,
+              weight:
+                "600",
+              usableRatio:
+                0.88
             }
           );
 
@@ -4909,10 +5569,13 @@
             item.year,
             cx,
             rowStarts[1],
-            tableH * rowRatios[1],
+            tableH *
+            rowRatios[1],
             {
-              size: mm(6.35),
-              gap: mm(6.6)
+              size:
+                nenkaiYearSize,
+              gap:
+                nenkaiYearSize * 1.15
             }
           );
 
@@ -4926,7 +5589,6 @@
                 item.name
               );
 
-
             if (
               buddha
             ) {
@@ -4936,10 +5598,13 @@
                 buddha,
                 cx,
                 rowStarts[2],
-                tableH * rowRatios[2],
+                tableH *
+                rowRatios[2],
                 {
-                  size: mm(4.95),
-                  gap: mm(5.2)
+                  size:
+                    nenkaiBuddhaSize,
+                  gap:
+                    nenkaiBuddhaSize
                 }
               );
 
@@ -4948,35 +5613,44 @@
           }
 
         }
-
       );
 
 
       /*
         法事とは
-        本文は後ほど曹洞宗資料等を確認して正式校正する。
+        browser: area top6 + top129 + padding3 = 138mm
       */
-
       setFont(
         ctx,
-        mm(3.7),
+        mm(
+          11.5 *
+          25.4 /
+          72
+        ),
         "600",
-        "sans"
+        "serif"
       );
 
       ctx.textAlign =
         "left";
 
+      ctx.textBaseline =
+        "top";
+
       ctx.fillText(
         "法事とは",
         mm(81),
-        mm(141)
+        mm(138)
       );
 
 
       setFont(
         ctx,
-        mm(2.75),
+        mm(
+          9.5 *
+          25.4 /
+          72
+        ),
         "normal",
         "sans"
       );
@@ -4984,7 +5658,7 @@
       ctx.fillText(
         "※説明文は、曹洞宗の資料等を確認のうえ後ほど正式に校正します。",
         mm(81),
-        mm(150)
+        mm(147)
       );
 
 
