@@ -984,6 +984,14 @@
       font-size: 14pt;
     }
 
+    .houji-description .subheading {
+      margin-top: 3mm;
+    }
+
+    .description-copy {
+      margin: 0;
+    }
+
 
     /* ========================================
        印刷
@@ -1270,10 +1278,7 @@
             中陰とは
           </strong>
 
-          ご命日から四十九日までの期間を「中陰」といいます。<br>
-
-          この間、初七日から七七日（四十九日）まで、
-          七日ごとに忌日を迎え、故人を偲びご供養を勤めます。
+          中陰とは、亡くなられてから四十九日を迎えるまでの期間をいいます。七日ごとの忌日には、亡き方を偲び、まごころをもって供養を勤めます。その営みは、亡き方とのご縁に感謝するとともに、私たち自身がいのちの尊さを見つめる機会でもあります。
 
         </div>
 
@@ -1342,9 +1347,17 @@
             法事とは
           </strong>
 
-          <span>
-            ※説明文は、曹洞宗の資料等を確認のうえ後ほど正式に校正します。
-          </span>
+          <div class="description-copy">
+            法事とは、年回忌などの節目に、亡き方を偲び、供養を勤める仏事です。亡き方に手を合わせ、その方とのご縁をあらためて受けとめるとともに、今を生きる私たち自身のいのちを見つめる機会でもあります。
+          </div>
+
+          <strong class="subheading">
+            祥月命日とは
+          </strong>
+
+          <div class="description-copy">
+            祥月命日とは、亡くなられた月日と同じ月日のことです。年回忌にあたらない年も、毎年の命日には亡き方を偲び、手を合わせる大切なご供養の機会です。
+          </div>
 
         </div>
 
@@ -3150,6 +3163,89 @@
 
 
       ctx.restore();
+
+    }
+
+
+    /*
+      ========================================
+      PDF横書き自動折返し
+    ========================================
+    */
+
+    function drawWrappedJapaneseText(
+      ctx,
+      text,
+      x,
+      y,
+      maxWidth,
+      lineHeight
+    ) {
+
+      const chars =
+        Array.from(
+          String(text || "")
+        );
+
+      let line =
+        "";
+
+      let yy =
+        y;
+
+      chars.forEach(
+        function(char) {
+
+          const test =
+            line + char;
+
+          if (
+            line &&
+            ctx.measureText(
+              test
+            ).width >
+              maxWidth
+          ) {
+
+            ctx.fillText(
+              line,
+              x,
+              yy
+            );
+
+            yy +=
+              lineHeight;
+
+            line =
+              char;
+
+          }
+          else {
+
+            line =
+              test;
+
+          }
+
+        }
+      );
+
+      if (
+        line
+      ) {
+
+        ctx.fillText(
+          line,
+          x,
+          yy
+        );
+
+        yy +=
+          lineHeight;
+
+      }
+
+      return yy;
 
     }
 
@@ -5350,29 +5446,14 @@
       ctx.textBaseline =
         "top";
 
-      const descriptionLines = [
-        "ご命日から四十九日までの期間を「中陰」といいます。",
-        "この間、初七日から七七日（四十九日）まで、",
-        "七日ごとに忌日を迎え、故人を偲びご供養を勤めます。"
-      ];
-
-      descriptionLines
-        .forEach(
-          function(line, index) {
-
-            ctx.fillText(
-              line,
-              mm(50),
-              mm(
-                168 +
-                index *
-                5.2
-              )
-            );
-
-          }
-        );
-
+      drawWrappedJapaneseText(
+        ctx,
+        "中陰とは、亡くなられてから四十九日を迎えるまでの期間をいいます。七日ごとの忌日には、亡き方を偲び、まごころをもって供養を勤めます。その営みは、亡き方とのご縁に感謝するとともに、私たち自身がいのちの尊さを見つめる機会でもあります。",
+        mm(50),
+        mm(168),
+        mm(137),
+        mm(5.2)
+      );
 
       drawIhaiCanvas(
         ctx
@@ -5633,7 +5714,7 @@
 
 
       /*
-        法事とは
+        法事とは・祥月命日とは
         browser: area top6 + top129 + padding3 = 138mm
       */
       setFont(
@@ -5659,6 +5740,49 @@
         mm(138)
       );
 
+      setFont(
+        ctx,
+        mm(
+          9.5 *
+          25.4 /
+          72
+        ),
+        "normal",
+        "sans"
+      );
+
+      let descriptionY =
+        drawWrappedJapaneseText(
+          ctx,
+          "法事とは、年回忌などの節目に、亡き方を偲び、供養を勤める仏事です。亡き方に手を合わせ、その方とのご縁をあらためて受けとめるとともに、今を生きる私たち自身のいのちを見つめる機会でもあります。",
+          mm(81),
+          mm(147),
+          mm(207),
+          mm(5.2)
+        );
+
+      descriptionY +=
+        mm(2.5);
+
+      setFont(
+        ctx,
+        mm(
+          14 *
+          25.4 /
+          72
+        ),
+        "600",
+        "serif"
+      );
+
+      ctx.fillText(
+        "祥月命日とは",
+        mm(81),
+        descriptionY
+      );
+
+      descriptionY +=
+        mm(9);
 
       setFont(
         ctx,
@@ -5671,12 +5795,14 @@
         "sans"
       );
 
-      ctx.fillText(
-        "※説明文は、曹洞宗の資料等を確認のうえ後ほど正式に校正します。",
+      drawWrappedJapaneseText(
+        ctx,
+        "祥月命日とは、亡くなられた月日と同じ月日のことです。年回忌にあたらない年も、毎年の命日には亡き方を偲び、手を合わせる大切なご供養の機会です。",
         mm(81),
-        mm(147)
+        descriptionY,
+        mm(207),
+        mm(5.2)
       );
-
 
       return canvas;
 
