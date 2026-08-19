@@ -4176,7 +4176,13 @@
               直前文字へ食い込まず、かつ間延びしない位置にする。
             */
             const commaX = x + size * 0.29;
-            const commaY = yy + size * 0.16;
+
+            /*
+              読点は独立した1文字セルの中に置く。
+              size基準で上寄せすると、直前文字の字形の下張り出し量により
+              重なり方が変わるため、文字送り量gapを基準に中央寄りへ配置する。
+            */
+            const commaY = yy + gap * 0.43;
 
             ctx.save();
             ctx.translate(commaX, commaY);
