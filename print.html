@@ -758,8 +758,8 @@
       width: 134mm;
     }
 
-    .back.hide-back-nenkai .nenkai-area,
-    .back.hide-back-nenkai .back-extra {
+    /* 表面に年回表を出す場合は、ブラウザプレビューも1ページだけにする */
+    .back.hide-back-nenkai {
       display: none;
     }
 
@@ -1127,6 +1127,34 @@
       font-size: calc(var(--chuin-old-size) * 0.52);
       line-height: 0.95;
       white-space: nowrap;
+    }
+
+    /* 年回表で旧呼称を表示する場合は、旧呼称と年回忌名の基準サイズを統一する。
+       清浄本然忌だけは5文字のため例外的に縮小する。 */
+    .nenkai-table.oldnames-on .old-name,
+    .nenkai-table.oldnames-on .nenkai-name {
+      font-size: 17pt;
+    }
+
+    .nenkai-table.oldnames-on .nenkai-name-long,
+    .front-nenkai-area .nenkai-table.oldnames-on .nenkai-name-long {
+      font-size: 17pt;
+    }
+
+    .nenkai-table.oldnames-on .old-name-long,
+    .front-nenkai-area .nenkai-table.oldnames-on .old-name-long {
+      font-size: 12.5pt;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    /* 6文字の二十三・二十七・三十三回忌でも、文字を縮めずセル中央に収める。 */
+    .nenkai-table.oldnames-on .nenkai-name-slots {
+      height: 94%;
+    }
+
+    .nenkai-table.oldnames-on .nenkai-name-char {
+      flex: 0 0 1em;
     }
 
     .nenkai-year {
@@ -3393,6 +3421,11 @@
       nenkaiTable.innerHTML =
         "";
 
+      nenkaiTable.classList.toggle(
+        "oldnames-on",
+        showNenkaiOldNames && hasNenkaiOldNameData
+      );
+
 
       [
         ...data.nenkai
@@ -3475,6 +3508,10 @@
       if (frontNenkaiTable) {
         frontNenkaiTable.innerHTML =
           nenkaiTable.innerHTML;
+        frontNenkaiTable.classList.toggle(
+          "oldnames-on",
+          showNenkaiOldNames && hasNenkaiOldNameData
+        );
       }
 
 
@@ -5578,9 +5615,11 @@
       ctx.stroke();
       ctx.restore();
 
-      const baseNameSize = mm(20 * 25.4 / 72);
+      const oldNamesOn =
+        showNenkaiOldNames && hasNenkaiOldNameData;
+      const baseNameSize = mm((oldNamesOn ? 17 : 20) * 25.4 / 72);
       const yearSize = mm(20 * 25.4 / 72);
-      const oldNameBaseSize = mm(13 * 25.4 / 72);
+      const oldNameBaseSize = mm(17 * 25.4 / 72);
 
       nenkai.forEach(function(item, index) {
         const cx = tableX + columnW * index + columnW / 2;
@@ -5589,7 +5628,7 @@
         if (showNenkaiOldNames && hasNenkaiOldNameData) {
           if (item.oldName) {
             const oldLen = Array.from(String(item.oldName || "")).length;
-            const oldSize = oldNameBaseSize * (oldLen > 3 ? 0.52 : 1.0);
+            const oldSize = oldNameBaseSize * (oldLen > 3 ? (12.5 / 17) : 1.0);
             drawVerticalTextCentered(
               ctx,
               item.oldName,
@@ -5598,7 +5637,7 @@
               tableH * rowRatios[rowIndex],
               {
                 size: oldSize,
-                gap: oldSize * 1.02
+                gap: oldSize * 1.06
               }
             );
           }
@@ -5607,10 +5646,9 @@
 
         const nameLen = Array.from(String(item.name || "")).length;
         const isLong =
-          showNenkaiOldNames &&
-          hasNenkaiOldNameData &&
+          oldNamesOn &&
           nameLen >= 6;
-        const nameSize = baseNameSize * (isLong ? 0.82 : 1.0);
+        const nameSize = baseNameSize;
 
         drawVerticalDistributed(
           ctx,
@@ -5621,7 +5659,7 @@
           {
             size: nameSize,
             weight: "600",
-            usableRatio: isLong ? 0.70 : 0.78
+            usableRatio: oldNamesOn ? 0.94 : 0.84
           }
         );
         rowIndex++;
@@ -6673,9 +6711,19 @@
       ctx.stroke();
 
 
+      const oldNamesOn =
+        showNenkaiOldNames && hasNenkaiOldNameData;
+
       const nenkaiNameSize =
         mm(
-          20 *
+          (oldNamesOn ? 17 : 20) *
+          25.4 /
+          72
+        );
+
+      const nenkaiOldNameSize =
+        mm(
+          17 *
           25.4 /
           72
         );
@@ -6708,11 +6756,11 @@
                 tableH * rowRatios[rowIndex],
                 {
                   size:
-                    nenkaiNameSize *
-                    (Array.from(String(item.oldName || "")).length > 3 ? 0.60 : 1.0),
+                    nenkaiOldNameSize *
+                    (Array.from(String(item.oldName || "")).length > 3 ? (12.5 / 17) : 1.0),
                   gap:
-                    nenkaiNameSize *
-                    (Array.from(String(item.oldName || "")).length > 3 ? 0.60 : 1.0)
+                    nenkaiOldNameSize *
+                    (Array.from(String(item.oldName || "")).length > 3 ? (12.5 / 17) : 1.0) * 1.06
                 }
               );
             }
@@ -6728,11 +6776,10 @@
             tableH * rowRatios[rowIndex],
             {
               size:
-                nenkaiNameSize *
-                (showNenkaiOldNames && hasNenkaiOldNameData && Array.from(String(item.name || "")).length >= 6 ? 0.88 : 1.0),
+                nenkaiNameSize,
               weight: "600",
               usableRatio:
-                showNenkaiOldNames && hasNenkaiOldNameData && Array.from(String(item.name || "")).length >= 6 ? 0.78 : 0.84
+                oldNamesOn ? 0.94 : 0.84
             }
           );
           rowIndex++;
