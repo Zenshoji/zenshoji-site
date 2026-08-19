@@ -179,7 +179,8 @@
 
 
     input,
-    select {
+    select,
+    textarea {
       display: block;
 
       width: 100%;
@@ -401,6 +402,152 @@
       font-size: 12px;
     }
 
+
+    /*
+      ========================================
+      戒名説明 可変ブロック
+      ========================================
+    */
+
+    .kaimyo-editor {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid #d8d8d5;
+    }
+
+    .kaimyo-editor h3 {
+      margin: 0 0 6px;
+      font-size: 17px;
+    }
+
+    .kaimyo-editor-note {
+      margin: 0 0 16px;
+      color: #666;
+      font-size: 12px;
+    }
+
+    .kaimyo-block-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .kaimyo-block-card {
+      padding: 16px;
+      border: 1px solid #d8d8d5;
+      border-radius: 7px;
+      background: #fff;
+    }
+
+    .kaimyo-block-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .kaimyo-block-number {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .kaimyo-block-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .kaimyo-small-button {
+      width: auto;
+      padding: 6px 10px;
+      border: 1px solid #bbb;
+      border-radius: 5px;
+      background: #fff;
+      color: #333;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .kaimyo-small-button:hover {
+      background: #f1f1ef;
+    }
+
+    .kaimyo-small-button:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    .kaimyo-block-card .field {
+      margin-bottom: 13px;
+    }
+
+    .kaimyo-block-card .field:last-child {
+      margin-bottom: 0;
+    }
+
+    textarea {
+      min-height: 112px;
+      resize: vertical;
+      line-height: 1.7;
+    }
+
+    .kaimyo-visible-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 4px;
+      font-size: 13px;
+    }
+
+    .kaimyo-visible-row input {
+      width: auto;
+      margin: 0;
+      transform: scale(1.15);
+    }
+
+    .kaimyo-add-row {
+      margin-top: 14px;
+    }
+
+    .kaimyo-add-button {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px dashed #aaa;
+      background: #fff;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .kaimyo-add-button:hover {
+      background: #f4f4f2;
+    }
+
+    .kaimyo-column-status {
+      margin-top: 14px;
+      color: #555;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .kaimyo-error {
+      display: none;
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 5px;
+      background: #fff0f0;
+      color: #a40000;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .kaimyo-error.show {
+      display: block;
+    }
+
+    .pdf-button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
 
     .button-area {
       margin-top:
@@ -1069,35 +1216,6 @@
 
           <input
             type="checkbox"
-            id="showOldNames"
-            checked
-          >
-
-
-          <div class="option-content">
-
-            <label
-              for="showOldNames"
-              class="option-title"
-            >
-              旧呼称を表示
-            </label>
-
-            <div class="option-description">
-              初願忌・以芳忌などを中陰表に表示します。
-            </div>
-
-          </div>
-
-
-        </div>
-
-
-        <div class="option-row">
-
-
-          <input
-            type="checkbox"
             id="showThirteenBuddhas"
           >
 
@@ -1149,6 +1267,44 @@
 
         </div>
 
+
+        <div class="kaimyo-editor">
+
+          <h3>
+            戒名についての説明
+          </h3>
+
+          <p class="kaimyo-editor-note">
+            見出しと内容を最大4項目まで設定できます。見出しは1列、本文は約43文字で1列として計算します。
+          </p>
+
+          <div
+            class="kaimyo-block-list"
+            id="kaimyoBlockList"
+          ></div>
+
+          <div class="kaimyo-add-row">
+            <button
+              type="button"
+              class="kaimyo-add-button"
+              id="addKaimyoBlockButton"
+            >
+              ＋ 項目を追加
+            </button>
+          </div>
+
+          <div
+            class="kaimyo-column-status"
+            id="kaimyoColumnStatus"
+          ></div>
+
+          <div
+            class="kaimyo-error"
+            id="kaimyoError"
+            role="alert"
+          ></div>
+
+        </div>
 
       </section>
 
@@ -2476,6 +2632,369 @@
 
     /*
       ========================================
+      戒名説明 可変ブロック
+      ========================================
+    */
+
+    const KAIMYO_BODY_CHARS_PER_COLUMN = 43;
+    const KAIMYO_MAX_BLOCKS = 4;
+
+    let kaimyoBlocks = [
+      {
+        title: "戒名について",
+        body: "仏さまの教えを受けて仏弟子となったしるしとして授けられる名前を戒名といいます。",
+        visible: true
+      },
+      {
+        title: "戒名の由来・意味",
+        body: "",
+        visible: true
+      }
+    ];
+
+    function countBodyColumns(
+      body
+    ) {
+
+      const normalized =
+        String(body || "")
+          .replace(/\r\n/g, "\n")
+          .replace(/\r/g, "\n");
+
+      if (!normalized.trim()) {
+        return 0;
+      }
+
+      return normalized
+        .split("\n")
+        .reduce(
+          function(total, line) {
+
+            const length =
+              Array.from(line).length;
+
+            return total +
+              Math.max(
+                1,
+                Math.ceil(
+                  length /
+                  KAIMYO_BODY_CHARS_PER_COLUMN
+                )
+              );
+          },
+          0
+        );
+
+    }
+
+    function getKaimyoValidation() {
+
+      const showTemple =
+        document
+          .getElementById(
+            "showTempleInfo"
+          )
+          .checked;
+
+      const maxColumns =
+        showTemple ? 7 : 10;
+
+      let usedColumns = 0;
+      let headingTooLong = false;
+
+      kaimyoBlocks
+        .forEach(
+          function(block) {
+
+            if (!block.visible) {
+              return;
+            }
+
+            const titleLength =
+              Array.from(
+                String(block.title || "")
+              ).length;
+
+            if (
+              titleLength >
+              KAIMYO_BODY_CHARS_PER_COLUMN
+            ) {
+              headingTooLong = true;
+            }
+
+            if (titleLength > 0) {
+              usedColumns += 1;
+            }
+
+            usedColumns +=
+              countBodyColumns(
+                block.body
+              );
+          }
+        );
+
+      return {
+        maxColumns: maxColumns,
+        usedColumns: usedColumns,
+        headingTooLong: headingTooLong,
+        overflow: usedColumns > maxColumns
+      };
+
+    }
+
+    function updateKaimyoValidation() {
+
+      const validation =
+        getKaimyoValidation();
+
+      const status =
+        document
+          .getElementById(
+            "kaimyoColumnStatus"
+          );
+
+      const error =
+        document
+          .getElementById(
+            "kaimyoError"
+          );
+
+      const pdfButton =
+        document
+          .getElementById(
+            "pdfButton"
+          );
+
+      status.textContent =
+        "使用列数：" +
+        validation.usedColumns +
+        " / " +
+        validation.maxColumns +
+        "列";
+
+      let message = "";
+
+      if (validation.headingTooLong) {
+        message =
+          "見出しが1列に収まりません。見出しを短くしてください。";
+      }
+
+      else if (validation.overflow) {
+        message =
+          "戒名説明が表示可能な範囲を超えています。本文を短くするか、項目を非表示・削除してください。";
+      }
+
+      error.textContent =
+        message;
+
+      error.classList
+        .toggle(
+          "show",
+          Boolean(message)
+        );
+
+      pdfButton.disabled =
+        Boolean(message);
+
+      return !message;
+
+    }
+
+    function renderKaimyoBlocks() {
+
+      const list =
+        document
+          .getElementById(
+            "kaimyoBlockList"
+          );
+
+      list.innerHTML = "";
+
+      kaimyoBlocks
+        .forEach(
+          function(block, index) {
+
+            const card =
+              document
+                .createElement(
+                  "div"
+                );
+
+            card.className =
+              "kaimyo-block-card";
+
+            card.innerHTML = `
+              <div class="kaimyo-block-head">
+                <div class="kaimyo-block-number">項目 ${index + 1}</div>
+                <div class="kaimyo-block-actions">
+                  <button type="button" class="kaimyo-small-button" data-action="up" ${index === 0 ? "disabled" : ""}>↑ 上へ</button>
+                  <button type="button" class="kaimyo-small-button" data-action="down" ${index === kaimyoBlocks.length - 1 ? "disabled" : ""}>↓ 下へ</button>
+                  <button type="button" class="kaimyo-small-button" data-action="delete">削除</button>
+                </div>
+              </div>
+              <div class="field">
+                <label>見出し</label>
+                <input type="text" class="kaimyo-title-input" value="${escapeHtml(block.title)}">
+              </div>
+              <div class="field">
+                <label>内容</label>
+                <textarea class="kaimyo-body-input">${escapeHtml(block.body)}</textarea>
+              </div>
+              <label class="kaimyo-visible-row">
+                <input type="checkbox" class="kaimyo-visible-input" ${block.visible ? "checked" : ""}>
+                この項目を表示
+              </label>
+            `;
+
+            const titleInput =
+              card.querySelector(
+                ".kaimyo-title-input"
+              );
+
+            const bodyInput =
+              card.querySelector(
+                ".kaimyo-body-input"
+              );
+
+            const visibleInput =
+              card.querySelector(
+                ".kaimyo-visible-input"
+              );
+
+            titleInput
+              .addEventListener(
+                "input",
+                function() {
+                  kaimyoBlocks[index].title =
+                    this.value;
+                  updateKaimyoValidation();
+                }
+              );
+
+            bodyInput
+              .addEventListener(
+                "input",
+                function() {
+                  kaimyoBlocks[index].body =
+                    this.value;
+                  updateKaimyoValidation();
+                }
+              );
+
+            visibleInput
+              .addEventListener(
+                "change",
+                function() {
+                  kaimyoBlocks[index].visible =
+                    this.checked;
+                  updateKaimyoValidation();
+                }
+              );
+
+            card
+              .querySelectorAll(
+                "[data-action]"
+              )
+              .forEach(
+                function(button) {
+                  button.addEventListener(
+                    "click",
+                    function() {
+                      const action =
+                        this.dataset.action;
+
+                      if (action === "up" && index > 0) {
+                        [
+                          kaimyoBlocks[index - 1],
+                          kaimyoBlocks[index]
+                        ] = [
+                          kaimyoBlocks[index],
+                          kaimyoBlocks[index - 1]
+                        ];
+                      }
+
+                      if (
+                        action === "down" &&
+                        index < kaimyoBlocks.length - 1
+                      ) {
+                        [
+                          kaimyoBlocks[index],
+                          kaimyoBlocks[index + 1]
+                        ] = [
+                          kaimyoBlocks[index + 1],
+                          kaimyoBlocks[index]
+                        ];
+                      }
+
+                      if (action === "delete") {
+                        kaimyoBlocks.splice(
+                          index,
+                          1
+                        );
+                      }
+
+                      renderKaimyoBlocks();
+                    }
+                  );
+                }
+              );
+
+            list.appendChild(card);
+          }
+        );
+
+      const addButton =
+        document
+          .getElementById(
+            "addKaimyoBlockButton"
+          );
+
+      addButton.disabled =
+        kaimyoBlocks.length >=
+        KAIMYO_MAX_BLOCKS;
+
+      updateKaimyoValidation();
+
+    }
+
+    document
+      .getElementById(
+        "addKaimyoBlockButton"
+      )
+      .addEventListener(
+        "click",
+        function() {
+
+          if (
+            kaimyoBlocks.length >=
+            KAIMYO_MAX_BLOCKS
+          ) {
+            return;
+          }
+
+          kaimyoBlocks.push({
+            title: "",
+            body: "",
+            visible: true
+          });
+
+          renderKaimyoBlocks();
+        }
+      );
+
+    document
+      .getElementById(
+        "showTempleInfo"
+      )
+      .addEventListener(
+        "change",
+        updateKaimyoValidation
+      );
+
+    renderKaimyoBlocks();
+
+    /*
+      ========================================
       結果表示
       ========================================
     */
@@ -2790,6 +3309,20 @@
         function () {
 
 
+          if (!updateKaimyoValidation()) {
+
+            document
+              .getElementById(
+                "pdfMessage"
+              )
+              .textContent =
+              "戒名説明の内容を調整してからPDFを作成してください。";
+
+            return;
+
+          }
+
+
           const result =
             getDeathDate();
 
@@ -2943,15 +3476,26 @@
               nenkai,
 
 
+            kaimyoSections:
+              kaimyoBlocks
+                .filter(
+                  function(block) {
+                    return block.visible;
+                  }
+                )
+                .map(
+                  function(block) {
+                    return {
+                      title:
+                        String(block.title || "").trim(),
+                      body:
+                        String(block.body || "").trim()
+                    };
+                  }
+                ),
+
+
             options: {
-
-
-              showOldNames:
-                document
-                  .getElementById(
-                    "showOldNames"
-                  )
-                  .checked,
 
 
               showThirteenBuddhas:
