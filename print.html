@@ -2796,6 +2796,17 @@
         const name =
           normalizedName;
 
+        const personNameLength =
+          Array.from(
+            name.replace(
+              /\s/g,
+              ""
+            )
+          ).length;
+
+        const showSeireii =
+          personNameLength <= 7;
+
 
         ihaiMain.innerHTML = `
 
@@ -2810,17 +2821,19 @@
 
           <span
             class="ihai-main-name"
-            style="font-size:${Array.from(name.replace(/\s/g, "")).length > 7 ? "1.026em" : "1.08em"};"
+            style="font-size:${personNameLength > 7 ? "1.026em" : "1.08em"};"
           >${personNameHtml(name)}</span>
 
-          <span
-            class="ihai-main-spacer"
-            aria-hidden="true"
-          ></span>
+          ${showSeireii ? `
+            <span
+              class="ihai-main-spacer"
+              aria-hidden="true"
+            ></span>
 
-          <span
-            style="font-size:0.58em;"
-          >之精霊位</span>
+            <span
+              style="font-size:0.58em;"
+            >之精霊位</span>
+          ` : ""}
 
         `;
 
@@ -4873,8 +4886,7 @@
             personNameSize * 1.08
           );
 
-        drawVerticalSegmentedCentered(
-          ctx,
+        const centralNameSegments =
           [
             {
               text: "俗名",
@@ -4889,17 +4901,30 @@
                   afterGap:
                     index ===
                     personNameSegments.length - 1
-                      ? mainSize * 0.35
+                      ? (personNameLength <= 7
+                          ? mainSize * 0.35
+                          : 0)
                       : segment.afterGap
                 };
               }
-            ),
+            )
+          ];
+
+        if (
+          personNameLength <= 7
+        ) {
+          centralNameSegments.push(
             {
               text: "之精霊位",
               size: mainSize * 0.58,
               gap: mainSize * 0.58 * 1.10
             }
-          ],
+          );
+        }
+
+        drawVerticalSegmentedCentered(
+          ctx,
+          centralNameSegments,
           left +
           width / 2,
           mainAreaTop,
