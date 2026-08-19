@@ -672,7 +672,7 @@
 
     .kaimyo-notes-columns {
       position: absolute;
-      inset: 1.5mm 1.45mm;
+      inset: 1.5mm 1.8mm;
       display: flex;
       flex-direction: row-reverse;
       justify-content: flex-start;
@@ -1067,7 +1067,7 @@
       line-height: 1;
     }
 
-    .nenkai-name-long {
+    .nenkai-table .nenkai-name-long {
       font-size: calc(var(--nenkai-name-size) * 0.88);
     }
 
@@ -2394,8 +2394,8 @@
     function getNenkaiGridRows() {
 
       if (showNenkaiOldNames && hasNenkaiOldNameData) {
-        /* 旧呼称を少し広めに確保し、長い年回忌名が下へはみ出しにくくする */
-        return "20% 37% 43%";
+        /* 旧呼称の上下余白を確保し、年回忌名・年表示も収める */
+        return "24% 36% 40%";
       }
 
       return "44% 56%";
@@ -2771,7 +2771,7 @@
           fullWidthMm,
           Math.max(
             5,
-            noteColumns.length * 3.85 + 2.90
+            noteColumns.length * 3.85 + 3.60
           )
         );
 
@@ -4134,6 +4134,41 @@
         }
 
         /*
+          句読点
+          Canvasでは縦組みの句読点位置へ自動で寄らないため、
+          「。」「、」だけ文字枠の右上側へ配置する。
+        */
+        if (
+          token === "。" ||
+          token === "、"
+        ) {
+          setFont(
+            ctx,
+            size,
+            weight,
+            family
+          );
+
+          ctx.textAlign =
+            "center";
+
+          ctx.textBaseline =
+            "top";
+
+          ctx.fillText(
+            token,
+            x + size * 0.22,
+            yy - size * 0.05
+          );
+
+          yy +=
+            gap;
+
+          continue;
+        }
+
+
+        /*
           通常文字
         */
 
@@ -5290,10 +5325,10 @@
         mm(3.85);
 
       const rightPadding =
-        mm(1.45);
+        mm(1.8);
 
       const leftPadding =
-        mm(1.45);
+        mm(1.8);
 
       const usedWidth =
         Math.max(
@@ -5323,7 +5358,7 @@
       ctx.restore();
 
       let x =
-        rightRuleX - rightPadding;
+        rightRuleX - rightPadding - columnStep / 2;
 
       columns.forEach(
         function(item) {
@@ -6058,7 +6093,7 @@
 
       const rowRatios =
         showNenkaiOldNames && hasNenkaiOldNameData
-          ? [0.20, 0.37, 0.43]
+          ? [0.24, 0.36, 0.40]
           : [0.44, 0.56];
 
       const rowStarts = [
