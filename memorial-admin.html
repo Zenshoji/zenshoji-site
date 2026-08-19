@@ -1241,6 +1241,29 @@
 
         <div class="option-row">
 
+          <input
+            type="checkbox"
+            id="showNenkaiOldNames"
+            checked
+          >
+
+          <div class="option-content">
+            <label
+              for="showNenkaiOldNames"
+              class="option-title"
+            >
+              年回表の旧呼称を表示
+            </label>
+            <div class="option-description">
+              年回表に旧呼称データがある場合に表示します。中陰表の旧呼称は常に表示されます。
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="option-row">
+
 
           <input
             type="checkbox"
@@ -2579,51 +2602,61 @@
 
       {
         name: "一周忌",
+        oldName: "小祥忌",
         addYear: 1
       },
 
       {
         name: "三回忌",
+        oldName: "大祥忌",
         addYear: 2
       },
 
       {
         name: "七回忌",
+        oldName: "休広忌",
         addYear: 6
       },
 
       {
         name: "十三回忌",
+        oldName: "称名忌",
         addYear: 12
       },
 
       {
         name: "十七回忌",
+        oldName: "慈明忌",
         addYear: 16
       },
 
       {
         name: "二十三回忌",
+        oldName: "思実忌",
         addYear: 22
       },
 
       {
         name: "二十七回忌",
+        oldName: "忍光忌",
         addYear: 26
       },
 
       {
         name: "三十三回忌",
+        oldName: "清浄本然忌",
         addYear: 32
       },
 
       {
         name: "三十七回忌",
+        oldName: "",
         addYear: 36
       },
 
       {
         name: "五十回忌",
+        oldName: "阿円忌",
         addYear: 49
       }
 
@@ -2636,7 +2669,7 @@
       ========================================
     */
 
-    const KAIMYO_BODY_CHARS_PER_COLUMN = 43;
+    const KAIMYO_BODY_CHARS_PER_COLUMN = 40;
     const KAIMYO_MAX_BLOCKS = 4;
 
     let kaimyoBlocks = [
@@ -2949,9 +2982,13 @@
             "addKaimyoBlockButton"
           );
 
-      addButton.disabled =
+      const reachedMax =
         kaimyoBlocks.length >=
         KAIMYO_MAX_BLOCKS;
+
+      addButton.disabled = reachedMax;
+      addButton.style.display =
+        reachedMax ? "none" : "inline-block";
 
       updateKaimyoValidation();
 
@@ -3403,6 +3440,9 @@
                     name:
                       item.name,
 
+                    oldName:
+                      item.oldName || "",
+
                     year:
                       (
                         deathYear +
@@ -3486,6 +3526,8 @@
                 .map(
                   function(block) {
                     return {
+                      heading:
+                        String(block.title || "").trim(),
                       title:
                         String(block.title || "").trim(),
                       body:
@@ -3502,6 +3544,14 @@
                 document
                   .getElementById(
                     "showThirteenBuddhas"
+                  )
+                  .checked,
+
+
+              showNenkaiOldNames:
+                document
+                  .getElementById(
+                    "showNenkaiOldNames"
                   )
                   .checked,
 
