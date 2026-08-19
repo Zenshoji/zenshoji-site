@@ -727,6 +727,44 @@
 
 
     /* ========================================
+       百か日経過後：表面年回表
+       中陰表と同じ配置領域へ年回表セットを移す。
+    ======================================== */
+
+    .front-nenkai-area {
+      position: absolute;
+      left: 45mm;
+      top: 6mm;
+      width: 149mm;
+      height: 198mm;
+      display: none;
+    }
+
+    .front.show-front-nenkai .front-nenkai-area {
+      display: block;
+    }
+
+    .front.show-front-nenkai .chuin-area {
+      display: none;
+    }
+
+    .front.show-front-nenkai.has-kaimyo-notes.has-temple-info .front-nenkai-area {
+      left: 45mm;
+      width: 116mm;
+    }
+
+    .front.show-front-nenkai.has-kaimyo-notes.no-temple-info .front-nenkai-area {
+      left: 18mm;
+      width: 134mm;
+    }
+
+    .back.hide-back-nenkai .nenkai-area,
+    .back.hide-back-nenkai .back-extra {
+      display: none;
+    }
+
+
+    /* ========================================
        位牌
     ======================================== */
 
@@ -1429,6 +1467,35 @@
 
 
       <div
+        class="front-nenkai-area"
+        id="frontNenkaiArea"
+      >
+
+        <div class="nenkai-title">
+          年　回　表
+        </div>
+
+        <div
+          class="nenkai-table"
+          id="frontNenkaiTable"
+        ></div>
+
+        <div class="houji-description">
+          <strong>法事とは</strong>
+          <p class="description-copy">
+            年回忌などの節目に、亡き方を偲び、供養を勤める仏事です。亡き方に手を合わせ、その方とのご縁をあらためて受けとめるとともに、今を生きる私たち自身のいのちを見つめる機会でもあります。
+          </p>
+
+          <strong class="subheading">祥月命日とは</strong>
+          <p class="description-copy">
+            毎年、亡くなられた月日と同じ日にあたるご命日のことです。年回忌にあたらない年も、毎年の命日には亡き方を偲び、手を合わせる大切なご供養の機会です。
+          </p>
+        </div>
+
+      </div>
+
+
+      <div
         class="kaimyo-notes-area"
         id="kaimyoNotesArea"
         aria-label="戒名について"
@@ -1611,6 +1678,58 @@
     /* 年回表の旧呼称は管理者側で表示／非表示を選択 */
     const showNenkaiOldNames =
       pdfOptions.showNenkaiOldNames !== false;
+
+    const requestedFrontTableMode =
+      (
+        pdfOptions.frontTableMode === "chuin" ||
+        pdfOptions.frontTableMode === "nenkai"
+      )
+        ? pdfOptions.frontTableMode
+        : "auto";
+
+    function resolveFrontTableMode() {
+      if (requestedFrontTableMode !== "auto") {
+        return requestedFrontTableMode;
+      }
+
+      const iso =
+        String(data && data.deathDateIso ? data.deathDateIso : "");
+
+      const match =
+        /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+
+      if (!match) {
+        return "chuin";
+      }
+
+      const death =
+        new Date(
+          Number(match[1]),
+          Number(match[2]) - 1,
+          Number(match[3])
+        );
+
+      const now = new Date();
+      const today =
+        new Date(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate()
+        );
+
+      const diffDays =
+        Math.floor(
+          (today.getTime() - death.getTime()) / 86400000
+        );
+
+      /* 亡日を1日目とするため、death+99日が百か日、+100日から101日目。 */
+      return diffDays >= 100
+        ? "nenkai"
+        : "chuin";
+    }
+
+    const frontTableMode =
+      resolveFrontTableMode();
 
     const hasNenkaiOldNameData =
       data &&
@@ -2754,6 +2873,21 @@
         showKaimyoNotes
       );
 
+      front.classList.toggle(
+        "show-front-nenkai",
+        frontTableMode === "nenkai"
+      );
+
+      const backPage =
+        document.querySelector(".page.back");
+
+      if (backPage) {
+        backPage.classList.toggle(
+          "hide-back-nenkai",
+          frontTableMode === "nenkai"
+        );
+      }
+
       if (!showKaimyoNotes) {
         area.style.display =
           "none";
@@ -3320,6 +3454,17 @@
           }
 
         );
+
+
+      const frontNenkaiTable =
+        document.getElementById(
+          "frontNenkaiTable"
+        );
+
+      if (frontNenkaiTable) {
+        frontNenkaiTable.innerHTML =
+          nenkaiTable.innerHTML;
+      }
 
 
       /*
@@ -5353,6 +5498,71 @@
     */
 
 
+    let frontNenkaiRaster = null;
+
+    async function prepareFrontNenkaiRaster() {
+      frontNenkaiRaster = null;
+
+      if (frontTableMode !== "nenkai") {
+        return;
+      }
+
+      if (typeof window.html2canvas !== "function") {
+        throw new Error("html2canvasが読み込まれていません。");
+      }
+
+      const area =
+        document.getElementById("frontNenkaiArea");
+
+      const frontPage =
+        document.querySelector(".page.front");
+
+      if (!area || !frontPage) {
+        throw new Error("表面年回表の表示領域を取得できません。");
+      }
+
+      const areaRect = area.getBoundingClientRect();
+      const pageRect = frontPage.getBoundingClientRect();
+
+      const raster =
+        await window.html2canvas(
+          area,
+          {
+            backgroundColor: null,
+            scale: 4,
+            logging: false,
+            useCORS: true
+          }
+        );
+
+      frontNenkaiRaster = {
+        canvas: raster,
+        xMm: (areaRect.left - pageRect.left) / pageRect.width * 297,
+        yMm: (areaRect.top - pageRect.top) / pageRect.height * 210,
+        widthMm: areaRect.width / pageRect.width * 297,
+        heightMm: areaRect.height / pageRect.height * 210
+      };
+    }
+
+    function drawFrontNenkaiCanvas(ctx) {
+      if (
+        frontTableMode !== "nenkai" ||
+        !frontNenkaiRaster ||
+        !frontNenkaiRaster.canvas
+      ) {
+        return;
+      }
+
+      ctx.drawImage(
+        frontNenkaiRaster.canvas,
+        mm(frontNenkaiRaster.xMm),
+        mm(frontNenkaiRaster.yMm),
+        mm(frontNenkaiRaster.widthMm),
+        mm(frontNenkaiRaster.heightMm)
+      );
+    }
+
+
     let kaimyoNotesRaster = null;
 
     async function prepareKaimyoNotesRaster() {
@@ -5767,6 +5977,23 @@
           102
         );
 
+      }
+
+
+      if (frontTableMode === "nenkai") {
+        drawFrontNenkaiCanvas(
+          ctx
+        );
+
+        drawKaimyoNotesCanvas(
+          ctx
+        );
+
+        drawIhaiCanvas(
+          ctx
+        );
+
+        return canvas;
       }
 
 
@@ -6191,6 +6418,10 @@
       } =
         createPageCanvas();
 
+      if (frontTableMode === "nenkai") {
+        return canvas;
+      }
+
 
       /* 年回表タイトル：22pt / area top 6mm */
       drawCenteredText(
@@ -6550,6 +6781,7 @@
         ]);
 
         await prepareKaimyoNotesRaster();
+        await prepareFrontNenkaiRaster();
 
 
         if (
