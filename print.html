@@ -567,7 +567,7 @@
     }
 
     .nenkai-table .old-name-long {
-      font-size: calc(var(--chuin-old-size) * 0.72);
+      font-size: calc(var(--chuin-old-size) * 0.60);
       line-height: 1;
       white-space: nowrap;
     }
@@ -645,7 +645,7 @@
     .kaimyo-notes-area {
       position: absolute;
       top: 24mm;
-      height: 170mm;
+      height: 172mm;
       overflow: hidden;
       display: none;
       border-left: 1px solid #aaa;
@@ -666,25 +666,25 @@
     }
 
     .front.no-temple-info .kaimyo-notes-area {
-      left: 157mm;
-      width: 39mm;
+      left: 154mm;
+      width: 42mm;
     }
 
     .kaimyo-notes-columns {
       position: absolute;
-      inset: 2mm 1.4mm;
+      inset: 1.5mm 1.45mm;
       display: flex;
       flex-direction: row-reverse;
       justify-content: flex-start;
       align-items: stretch;
-      gap: 0.55mm;
+      gap: 0;
       overflow: hidden;
     }
 
     .kaimyo-note-column {
-      flex: 0 0 4.15mm;
-      width: 4.15mm;
-      height: 166mm;
+      flex: 0 0 3.85mm;
+      width: 3.85mm;
+      height: 100%;
       writing-mode: vertical-rl !important;
       -webkit-writing-mode: vertical-rl !important;
       text-orientation: mixed !important;
@@ -693,7 +693,7 @@
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      padding-top: 1.4mm;
+      padding-top: 0.4mm;
       letter-spacing: 0.02em;
     }
 
@@ -702,7 +702,7 @@
     }
 
     .kaimyo-note-column.body.paragraph-start {
-      padding-top: calc(1.4mm + 1em);
+      padding-top: calc(0.4mm + 1em);
     }
 
     /* 戒名説明を出すときは中陰表セットの幅を調整 */
@@ -1077,7 +1077,7 @@
 
       font-size: var(--nenkai-year-size);
 
-      line-height: 1.15;
+      line-height: 1.05;
     }
 
 
@@ -2395,7 +2395,7 @@
 
       if (showNenkaiOldNames && hasNenkaiOldNameData) {
         /* 旧呼称を少し広めに確保し、長い年回忌名が下へはみ出しにくくする */
-        return "27% 36% 37%";
+        return "20% 37% 43%";
       }
 
       return "44% 56%";
@@ -2694,7 +2694,7 @@
             if (body) {
               splitKaimyoBodyIntoColumns(
                 body,
-                34
+                40
               )
                 .forEach(
                   function(text, bodyIndex) {
@@ -2763,15 +2763,15 @@
 
       /* 右端は固定し、左端だけ実際の使用列数に合わせて詰める */
       const fullLeftMm =
-        showTempleInfo ? 166 : 157;
+        showTempleInfo ? 166 : 154;
       const fullWidthMm =
-        showTempleInfo ? 30 : 39;
+        showTempleInfo ? 30 : 42;
       const usedWidthMm =
         Math.min(
           fullWidthMm,
           Math.max(
             5,
-            noteColumns.length * 4.70 + 5.0
+            noteColumns.length * 3.85 + 2.90
           )
         );
 
@@ -3279,7 +3279,7 @@
 
               <div class="nenkai-cell">
 
-                <div class="nenkai-name ${Array.from(String(item.name || "")).length >= 6 ? "nenkai-name-long" : ""}">
+                <div class="nenkai-name ${(showNenkaiOldNames && hasNenkaiOldNameData && Array.from(String(item.name || "")).length >= 6) ? "nenkai-name-long" : ""}">
                   ${distributedVerticalNameHtml(
                     item.name
                   )}
@@ -5265,18 +5265,18 @@
       const areaX =
         showTempleInfo
           ? mm(166)
-          : mm(157);
+          : mm(154);
 
       const areaW =
         showTempleInfo
           ? mm(30)
-          : mm(39);
+          : mm(42);
 
       const top =
-        mm(26);
+        mm(25.9);
 
       const bottom =
-        mm(192);
+        mm(194.5);
 
       /* 縦組みでは11ptを使用し、中陰説明本文と同じゴシック系書体に統一 */
       const textSize =
@@ -5287,13 +5287,13 @@
         );
 
       const columnStep =
-        mm(4.70);
+        mm(3.85);
 
       const rightPadding =
-        mm(2.8);
+        mm(1.45);
 
       const leftPadding =
-        mm(2.2);
+        mm(1.45);
 
       const usedWidth =
         Math.max(
@@ -5316,9 +5316,9 @@
       ctx.lineWidth = mm(0.265);
       ctx.beginPath();
       ctx.moveTo(leftRuleX, mm(24));
-      ctx.lineTo(leftRuleX, mm(194));
+      ctx.lineTo(leftRuleX, mm(196));
       ctx.moveTo(rightRuleX, mm(24));
-      ctx.lineTo(rightRuleX, mm(194));
+      ctx.lineTo(rightRuleX, mm(196));
       ctx.stroke();
       ctx.restore();
 
@@ -6058,7 +6058,7 @@
 
       const rowRatios =
         showNenkaiOldNames && hasNenkaiOldNameData
-          ? [0.27, 0.36, 0.37]
+          ? [0.20, 0.37, 0.43]
           : [0.44, 0.56];
 
       const rowStarts = [
@@ -6182,10 +6182,10 @@
                 {
                   size:
                     nenkaiNameSize *
-                    (Array.from(String(item.oldName || "")).length > 3 ? 0.68 : 1.0),
+                    (Array.from(String(item.oldName || "")).length > 3 ? 0.60 : 1.0),
                   gap:
                     nenkaiNameSize *
-                    (Array.from(String(item.oldName || "")).length > 3 ? 0.68 : 1.0)
+                    (Array.from(String(item.oldName || "")).length > 3 ? 0.60 : 1.0)
                 }
               );
             }
@@ -6202,10 +6202,10 @@
             {
               size:
                 nenkaiNameSize *
-                (Array.from(String(item.name || "")).length >= 6 ? 0.88 : 1.0),
+                (showNenkaiOldNames && hasNenkaiOldNameData && Array.from(String(item.name || "")).length >= 6 ? 0.88 : 1.0),
               weight: "600",
               usableRatio:
-                Array.from(String(item.name || "")).length >= 6 ? 0.78 : 0.84
+                showNenkaiOldNames && hasNenkaiOldNameData && Array.from(String(item.name || "")).length >= 6 ? 0.78 : 0.84
             }
           );
           rowIndex++;
@@ -6218,7 +6218,7 @@
             tableH * rowRatios[rowIndex],
             {
               size: nenkaiYearSize,
-              gap: nenkaiYearSize * 1.15
+              gap: nenkaiYearSize * 1.05
             }
           );
           rowIndex++;
