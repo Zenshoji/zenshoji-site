@@ -4172,11 +4172,11 @@
             /*
               縦書きの読点「、」。
               曲線ではなく、直前文字の右下へ小さな斜め筆点を置く。
-              現在の文字セル上端より少し上へ戻すことで、
-              直前文字との間に不自然な空白を作らない。
+              現在の文字セル内の上寄りに置き、
+              直前文字へ食い込まず、かつ間延びしない位置にする。
             */
             const commaX = x + size * 0.29;
-            const commaY = yy - size * 0.06;
+            const commaY = yy + size * 0.16;
 
             ctx.save();
             ctx.translate(commaX, commaY);
