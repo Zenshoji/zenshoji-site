@@ -1209,33 +1209,6 @@
         <p class="option-intro">
           必要な項目を選択してください。
         </p>
-
-
-        <div class="option-row">
-
-
-          <input
-            type="checkbox"
-            id="showThirteenBuddhas"
-          >
-
-
-          <div class="option-content">
-
-            <label
-              for="showThirteenBuddhas"
-              class="option-title"
-            >
-              十三仏を表示
-            </label>
-
-            <div class="option-description">
-              各忌日・年回忌に対応する十三仏を表示します。
-            </div>
-
-          </div>
-
-
         </div>
 
 
@@ -2649,12 +2622,6 @@
       },
 
       {
-        name: "三十七回忌",
-        oldName: "",
-        addYear: 36
-      },
-
-      {
         name: "五十回忌",
         oldName: "阿円忌",
         addYear: 49
@@ -2669,7 +2636,7 @@
       ========================================
     */
 
-    const KAIMYO_BODY_CHARS_PER_COLUMN = 40;
+    const KAIMYO_BODY_CHARS_PER_COLUMN = 34;
     const KAIMYO_MAX_BLOCKS = 4;
 
     let kaimyoBlocks = [
@@ -3538,16 +3505,6 @@
 
 
             options: {
-
-
-              showThirteenBuddhas:
-                document
-                  .getElementById(
-                    "showThirteenBuddhas"
-                  )
-                  .checked,
-
-
               showNenkaiOldNames:
                 document
                   .getElementById(
