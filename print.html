@@ -566,6 +566,12 @@
       color: #555;
     }
 
+    .nenkai-table .old-name-long {
+      font-size: calc(var(--chuin-old-size) * 0.72);
+      line-height: 1;
+      white-space: nowrap;
+    }
+
     .chuin-date {
       writing-mode: vertical-rl !important;
       -webkit-writing-mode: vertical-rl !important;
@@ -581,15 +587,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    .thirteen-buddha {
-      writing-mode: vertical-rl;
-      text-orientation: upright;
-
-      font-size: var(--chuin-buddha-size);
-
-      color: #333;
     }
 
 
@@ -659,7 +656,7 @@
         "Yu Gothic",
         "Meiryo",
         sans-serif;
-      font-size: 9.5pt;
+      font-size: 11pt;
       line-height: 1;
     }
 
@@ -675,18 +672,18 @@
 
     .kaimyo-notes-columns {
       position: absolute;
-      inset: 2mm 0.6mm;
+      inset: 2mm 1.4mm;
       display: flex;
       flex-direction: row-reverse;
       justify-content: flex-start;
       align-items: stretch;
-      gap: 0.35mm;
+      gap: 0.55mm;
       overflow: hidden;
     }
 
     .kaimyo-note-column {
-      flex: 0 0 3.55mm;
-      width: 3.55mm;
+      flex: 0 0 4.15mm;
+      width: 4.15mm;
       height: 166mm;
       writing-mode: vertical-rl !important;
       -webkit-writing-mode: vertical-rl !important;
@@ -696,12 +693,16 @@
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      padding-top: 1mm;
+      padding-top: 1.4mm;
       letter-spacing: 0.02em;
     }
 
     .kaimyo-note-column.heading {
       font-weight: 700;
+    }
+
+    .kaimyo-note-column.body.paragraph-start {
+      padding-top: calc(1.4mm + 1em);
     }
 
     /* 戒名説明を出すときは中陰表セットの幅を調整 */
@@ -999,7 +1000,7 @@
       display: grid;
 
       grid-template-columns:
-        repeat(10, 1fr);
+        repeat(9, 1fr);
     }
 
     .nenkai-column {
@@ -1047,7 +1048,7 @@
 
     .nenkai-name-slots {
       width: 100%;
-      height: 88%;
+      height: 82%;
 
       display: flex;
       flex-direction: column;
@@ -1066,6 +1067,10 @@
       line-height: 1;
     }
 
+    .nenkai-name-long {
+      font-size: calc(var(--nenkai-name-size) * 0.88);
+    }
+
     .nenkai-year {
       writing-mode: vertical-rl;
       text-orientation: upright;
@@ -1073,15 +1078,6 @@
       font-size: var(--nenkai-year-size);
 
       line-height: 1.15;
-    }
-
-    .nenkai-buddha {
-      writing-mode: vertical-rl;
-      text-orientation: upright;
-
-      font-size: var(--nenkai-buddha-size);
-
-      color: #333;
     }
 
 
@@ -1603,11 +1599,6 @@
 
     const showKaimyoNotes =
       kaimyoSections.length > 0;
-
-
-    const showThirteenBuddhas =
-      pdfOptions.showThirteenBuddhas === true;
-
     /* 年回表の旧呼称は管理者側で表示／非表示を選択 */
     const showNenkaiOldNames =
       pdfOptions.showNenkaiOldNames !== false;
@@ -1676,71 +1667,6 @@
         }
       );
     }
-
-
-    /*
-      ========================================
-      十三仏
-    ========================================
-    */
-
-    const thirteenBuddhas = {
-
-      "初七日":
-        "不動明王",
-
-      "二七日":
-        "釈迦如来",
-
-      "三七日":
-        "文殊菩薩",
-
-      "四七日":
-        "普賢菩薩",
-
-      "五七日（三十五日）":
-        "地蔵菩薩",
-
-      "六七日":
-        "弥勒菩薩",
-
-      "七七日（四十九日）":
-        "薬師如来",
-
-      "百か日":
-        "観世音菩薩",
-
-      "一周忌":
-        "勢至菩薩",
-
-      "三回忌":
-        "阿弥陀如来",
-
-      "七回忌":
-        "阿閦如来",
-
-      "十三回忌":
-        "大日如来",
-
-      "三十三回忌":
-        "虚空蔵菩薩"
-
-    };
-
-
-    function getThirteenBuddha(
-      name
-    ) {
-
-      return (
-        thirteenBuddhas[
-          name
-        ] || ""
-      );
-
-    }
-
-
     /*
       ========================================
       忌日名分離
@@ -2459,42 +2385,17 @@
 
     function getChuinGridRows() {
 
-      if (
-        showOldNames &&
-        showThirteenBuddhas
-      ) {
-        return "20% 23% 39% 18%";
-      }
-
-      if (
-        showOldNames
-      ) {
-        return "22% 24% 54%";
-      }
-
-      if (
-        showThirteenBuddhas
-      ) {
-        return "26% 49% 25%";
-      }
-
-      return "31% 69%";
+      /* 旧呼称は中陰表に常設 */
+      return "22% 24% 54%";
 
     }
 
 
     function getNenkaiGridRows() {
 
-      if (showNenkaiOldNames && hasNenkaiOldNameData && showThirteenBuddhas) {
-        return "20% 27% 31% 22%";
-      }
-
       if (showNenkaiOldNames && hasNenkaiOldNameData) {
-        return "24% 32% 44%";
-      }
-
-      if (showThirteenBuddhas) {
-        return "35% 38% 27%";
+        /* 旧呼称を少し広めに確保し、長い年回忌名が下へはみ出しにくくする */
+        return "27% 36% 37%";
       }
 
       return "44% 56%";
@@ -2793,13 +2694,15 @@
             if (body) {
               splitKaimyoBodyIntoColumns(
                 body,
-                40
+                34
               )
                 .forEach(
-                  function(text) {
+                  function(text, bodyIndex) {
                     columns.push({
                       type: "body",
-                      text: text
+                      text: text,
+                      paragraphStart:
+                        bodyIndex === 0
                     });
                   }
                 );
@@ -2855,7 +2758,29 @@
       holder.innerHTML =
         "";
 
-      getKaimyoNoteColumns()
+      const noteColumns =
+        getKaimyoNoteColumns();
+
+      /* 右端は固定し、左端だけ実際の使用列数に合わせて詰める */
+      const fullLeftMm =
+        showTempleInfo ? 166 : 157;
+      const fullWidthMm =
+        showTempleInfo ? 30 : 39;
+      const usedWidthMm =
+        Math.min(
+          fullWidthMm,
+          Math.max(
+            5,
+            noteColumns.length * 4.70 + 5.0
+          )
+        );
+
+      area.style.left =
+        (fullLeftMm + fullWidthMm - usedWidthMm) + "mm";
+      area.style.width =
+        usedWidthMm + "mm";
+
+      noteColumns
         .forEach(
           function(item) {
             const column =
@@ -2868,7 +2793,10 @@
               (
                 item.type === "heading"
                   ? "heading"
-                  : "body"
+                  : (
+                      "body" +
+                      (item.paragraphStart ? " paragraph-start" : "")
+                    )
               );
 
             column.textContent =
@@ -3284,33 +3212,6 @@
               </div>
 
             `;
-
-
-            if (
-              showThirteenBuddhas
-            ) {
-
-              html += `
-
-                <div class="chuin-cell">
-
-                  <div class="thirteen-buddha">
-
-                    ${escapeHtml(
-                      getThirteenBuddha(
-                        item.name
-                      )
-                    )}
-
-                  </div>
-
-                </div>
-
-              `;
-
-            }
-
-
             column.innerHTML =
               html;
 
@@ -3369,7 +3270,7 @@
             if (showNenkaiOldNames && hasNenkaiOldNameData) {
               html += `
                 <div class="nenkai-cell">
-                  <div class="old-name">${escapeHtml(item.oldName || "")}</div>
+                  <div class="old-name ${String(item.oldName || "").length > 3 ? "old-name-long" : ""}">${escapeHtml(item.oldName || "")}</div>
                 </div>
               `;
             }
@@ -3378,7 +3279,7 @@
 
               <div class="nenkai-cell">
 
-                <div class="nenkai-name">
+                <div class="nenkai-name ${Array.from(String(item.name || "")).length >= 6 ? "nenkai-name-long" : ""}">
                   ${distributedVerticalNameHtml(
                     item.name
                   )}
@@ -3398,33 +3299,6 @@
               </div>
 
             `;
-
-
-            if (
-              showThirteenBuddhas
-            ) {
-
-              html += `
-
-                <div class="nenkai-cell">
-
-                  <div class="nenkai-buddha">
-
-                    ${escapeHtml(
-                      getThirteenBuddha(
-                        item.name
-                      )
-                    )}
-
-                  </div>
-
-                </div>
-
-              `;
-
-            }
-
-
             column.innerHTML =
               html;
 
@@ -5404,62 +5278,84 @@
       const bottom =
         mm(192);
 
-      /* 9.5ptを中陰説明本文と同じ書体で使用 */
-      const columnStep =
-        mm(3.90);
+      /* 縦組みでは11ptを使用し、中陰説明本文と同じゴシック系書体に統一 */
+      const textSize =
+        mm(
+          11 *
+          25.4 /
+          72
+        );
 
-      /* モジュール境界：中陰表と位牌の縦組みが混ざらないよう左右に罫線 */
+      const columnStep =
+        mm(4.70);
+
+      const rightPadding =
+        mm(2.8);
+
+      const leftPadding =
+        mm(2.2);
+
+      const usedWidth =
+        Math.max(
+          mm(4.5),
+          columns.length * columnStep + leftPadding + rightPadding
+        );
+
+      /* 右罫線は固定。左罫線は実際に使用する列数に合わせて詰める。 */
+      const rightRuleX =
+        areaX + areaW;
+
+      const leftRuleX =
+        Math.max(
+          areaX,
+          rightRuleX - usedWidth
+        );
+
       ctx.save();
       ctx.strokeStyle = "#aaa";
       ctx.lineWidth = mm(0.265);
       ctx.beginPath();
-      ctx.moveTo(areaX, mm(24));
-      ctx.lineTo(areaX, mm(194));
-      ctx.moveTo(areaX + areaW, mm(24));
-      ctx.lineTo(areaX + areaW, mm(194));
+      ctx.moveTo(leftRuleX, mm(24));
+      ctx.lineTo(leftRuleX, mm(194));
+      ctx.moveTo(rightRuleX, mm(24));
+      ctx.lineTo(rightRuleX, mm(194));
       ctx.stroke();
       ctx.restore();
 
       let x =
-        areaX +
-        areaW -
-        mm(2.2);
+        rightRuleX - rightPadding;
 
       columns.forEach(
         function(item) {
-          setFont(
-            ctx,
-            mm(
-              9.5 *
-              25.4 /
-              72
-            ),
-            item.type === "heading"
-              ? "700"
-              : "normal",
-            "sans"
-          );
+          const isHeading =
+            item.type === "heading";
 
           drawVerticalText(
             ctx,
             item.text,
             x,
-            top,
-            {
-              size:
-                mm(
-                  9.5 *
-                  25.4 /
-                  72
+            isHeading
+              ? top
+              : (
+                  item.paragraphStart
+                    ? top + textSize
+                    : top
                 ),
-              gap:
-                mm(
-                  9.5 *
-                  25.4 /
-                  72
-                ) * 1.02,
+            {
+              size: textSize,
+              gap: textSize * 1.04,
               maxHeight:
-                bottom - top
+                bottom - top -
+                (
+                  !isHeading && item.paragraphStart
+                    ? textSize
+                    : 0
+                ),
+              weight:
+                isHeading
+                  ? "bold"
+                  : "normal",
+              family: "sans"
             }
           );
 
@@ -5750,56 +5646,11 @@
         tableW /
         columnCount;
 
-
-      let rowRatios;
-
-      if (
-        showOldNames &&
-        showThirteenBuddhas
-      ) {
-
-        rowRatios = [
-          0.20,
-          0.23,
-          0.39,
-          0.18
-        ];
-
-      }
-
-      else if (
-        showOldNames
-      ) {
-
-        rowRatios = [
-          0.22,
-          0.24,
-          0.54
-        ];
-
-      }
-
-      else if (
-        showThirteenBuddhas
-      ) {
-
-        rowRatios = [
-          0.26,
-          0.49,
-          0.25
-        ];
-
-      }
-
-      else {
-
-        rowRatios = [
-          0.31,
-          0.69
-        ];
-
-      }
-
+      const rowRatios = [
+        0.22,
+        0.24,
+        0.54
+      ];
 
       const rowStarts = [
         tableY
@@ -5911,14 +5762,6 @@
           25.4 /
           72
         );
-
-      const buddhaSize =
-        mm(
-          14 *
-          25.4 /
-          72
-        );
-
       chuin.forEach(
         function(item, index) {
 
@@ -6052,39 +5895,6 @@
           );
 
           rowIndex++;
-
-
-          if (
-            showThirteenBuddhas
-          ) {
-
-            const buddha =
-              getThirteenBuddha(
-                item.name
-              );
-
-            if (
-              buddha
-            ) {
-
-              drawVerticalTextCentered(
-                ctx,
-                buddha,
-                cx,
-                rowStarts[rowIndex],
-                tableH *
-                rowRatios[rowIndex],
-                {
-                  size:
-                    buddhaSize,
-                  gap:
-                    buddhaSize
-                }
-              );
-
-            }
-
-          }
 
         }
       );
@@ -6247,13 +6057,9 @@
         count;
 
       const rowRatios =
-        showNenkaiOldNames && hasNenkaiOldNameData && showThirteenBuddhas
-          ? [0.20, 0.27, 0.31, 0.22]
-          : showNenkaiOldNames && hasNenkaiOldNameData
-            ? [0.24, 0.32, 0.44]
-            : showThirteenBuddhas
-              ? [0.35, 0.38, 0.27]
-              : [0.44, 0.56];
+        showNenkaiOldNames && hasNenkaiOldNameData
+          ? [0.27, 0.36, 0.37]
+          : [0.44, 0.56];
 
       const rowStarts = [
         tableY
@@ -6353,14 +6159,6 @@
           25.4 /
           72
         );
-
-      const nenkaiBuddhaSize =
-        mm(
-          14 *
-          25.4 /
-          72
-        );
-
       nenkai.forEach(
         function(item, index) {
 
@@ -6382,8 +6180,12 @@
                 rowStarts[rowIndex],
                 tableH * rowRatios[rowIndex],
                 {
-                  size: nenkaiNameSize * 0.72,
-                  gap: nenkaiNameSize * 0.72
+                  size:
+                    nenkaiNameSize *
+                    (Array.from(String(item.oldName || "")).length > 3 ? 0.68 : 1.0),
+                  gap:
+                    nenkaiNameSize *
+                    (Array.from(String(item.oldName || "")).length > 3 ? 0.68 : 1.0)
                 }
               );
             }
@@ -6398,9 +6200,12 @@
             rowStarts[rowIndex],
             tableH * rowRatios[rowIndex],
             {
-              size: nenkaiNameSize,
+              size:
+                nenkaiNameSize *
+                (Array.from(String(item.name || "")).length >= 6 ? 0.88 : 1.0),
               weight: "600",
-              usableRatio: 0.88
+              usableRatio:
+                Array.from(String(item.name || "")).length >= 6 ? 0.78 : 0.84
             }
           );
           rowIndex++;
@@ -6417,23 +6222,6 @@
             }
           );
           rowIndex++;
-
-          if (showThirteenBuddhas) {
-            const buddha = getThirteenBuddha(item.name);
-            if (buddha) {
-              drawVerticalTextCentered(
-                ctx,
-                buddha,
-                cx,
-                rowStarts[rowIndex],
-                tableH * rowRatios[rowIndex],
-                {
-                  size: nenkaiBuddhaSize,
-                  gap: nenkaiBuddhaSize
-                }
-              );
-            }
-          }
 
         }
       );
