@@ -672,18 +672,22 @@
 
     .kaimyo-notes-columns {
       position: absolute;
-      inset: 1.5mm 1.8mm;
+      /*
+        11pt本文の字面が列の左右で欠けないよう、
+        横方向の余白を小さく確保しつつ列幅を広げる。
+      */
+      inset: 1.5mm 0.5mm;
       display: flex;
       flex-direction: row-reverse;
       justify-content: flex-start;
       align-items: stretch;
-      gap: 0;
+      gap: 0.1mm;
       overflow: hidden;
     }
 
     .kaimyo-note-column {
-      flex: 0 0 3.85mm;
-      width: 3.85mm;
+      flex: 0 0 4mm;
+      width: 4mm;
       height: 100%;
       writing-mode: vertical-rl !important;
       -webkit-writing-mode: vertical-rl !important;
@@ -2771,7 +2775,7 @@
           fullWidthMm,
           Math.max(
             5,
-            noteColumns.length * 3.85 + 3.60
+            noteColumns.length * 4.10 + 1.00
           )
         );
 
@@ -4135,31 +4139,61 @@
 
         /*
           句読点
-          Canvasでは縦組みの句読点位置へ自動で寄らないため、
-          「。」「、」だけ文字枠の右上側へ配置する。
+
+          Canvasの全角「。」「、」は字形自体に横書き用の余白を持つため、
+          fillTextの座標だけを動かすと縦組みで左下へずれて見える。
+          そこで字形を使わず、縦書きの1文字枠の右上側へ直接描画する。
+          見た目としては直前の文字のすぐ右下に続く位置になる。
         */
         if (
           token === "。" ||
           token === "、"
         ) {
-          setFont(
-            ctx,
-            size,
-            weight,
-            family
-          );
+          ctx.save();
 
-          ctx.textAlign =
-            "center";
+          ctx.strokeStyle =
+            ctx.fillStyle;
 
-          ctx.textBaseline =
-            "top";
+          ctx.lineWidth =
+            Math.max(
+              1,
+              size * 0.075
+            );
 
-          ctx.fillText(
-            token,
-            x + size * 0.22,
-            yy - size * 0.05
-          );
+          const markX =
+            x + size * 0.27;
+
+          const markY =
+            yy + size * 0.16;
+
+          if (
+            token === "。"
+          ) {
+            ctx.beginPath();
+            ctx.arc(
+              markX,
+              markY,
+              size * 0.105,
+              0,
+              Math.PI * 2
+            );
+            ctx.stroke();
+          }
+          else {
+            /* 「、」は右上から左下へ短く払う */
+            ctx.beginPath();
+            ctx.moveTo(
+              markX + size * 0.045,
+              markY - size * 0.055
+            );
+            ctx.lineTo(
+              markX - size * 0.070,
+              markY + size * 0.095
+            );
+            ctx.stroke();
+          }
+
+          ctx.restore();
 
           yy +=
             gap;
