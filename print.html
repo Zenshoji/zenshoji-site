@@ -15,6 +15,10 @@
     src="https://cdn.jsdelivr.net/npm/jspdf@4.0.0/dist/jspdf.umd.min.js"
   ></script>
 
+  <script
+    src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"
+  ></script>
+
   <style>
 
     * {
@@ -5349,6 +5353,64 @@
     */
 
 
+    let kaimyoNotesRaster = null;
+
+    async function prepareKaimyoNotesRaster() {
+      kaimyoNotesRaster = null;
+
+      if (!showKaimyoNotes) {
+        return;
+      }
+
+      if (typeof window.html2canvas !== "function") {
+        throw new Error("html2canvasが読み込まれていません。");
+      }
+
+      const area =
+        document.getElementById("kaimyoNotesArea");
+
+      const frontPage =
+        document.querySelector(".page.front");
+
+      if (!area || !frontPage) {
+        throw new Error("戒名説明の表示領域を取得できません。");
+      }
+
+      const areaRect =
+        area.getBoundingClientRect();
+
+      const pageRect =
+        frontPage.getBoundingClientRect();
+
+      const raster =
+        await window.html2canvas(
+          area,
+          {
+            backgroundColor: null,
+            scale: 4,
+            logging: false,
+            useCORS: true
+          }
+        );
+
+      kaimyoNotesRaster = {
+        canvas: raster,
+        xMm:
+          (areaRect.left - pageRect.left) /
+          pageRect.width * 297,
+        yMm:
+          (areaRect.top - pageRect.top) /
+          pageRect.height * 210,
+        widthMm:
+          areaRect.width /
+          pageRect.width * 297,
+        heightMm:
+          areaRect.height /
+          pageRect.height * 210
+      };
+    }
+
+
     function drawKaimyoNotesCanvas(
       ctx
     ) {
@@ -5356,6 +5418,23 @@
         return;
       }
 
+      if (
+        kaimyoNotesRaster &&
+        kaimyoNotesRaster.canvas
+      ) {
+        ctx.drawImage(
+          kaimyoNotesRaster.canvas,
+          mm(kaimyoNotesRaster.xMm),
+          mm(kaimyoNotesRaster.yMm),
+          mm(kaimyoNotesRaster.widthMm),
+          mm(kaimyoNotesRaster.heightMm)
+        );
+        return;
+      }
+
+      /*
+        フォールバック。通常は上のDOMラスタ画像を使用する。
+      */
       const columns =
         getKaimyoNoteColumns();
 
@@ -6467,14 +6546,10 @@
           ),
           waitForImageLoad(
             ihaiBottomImage
-          ),
-          waitForImageLoad(
-            verticalCommaCellImage
-          ),
-          waitForImageLoad(
-            verticalPeriodCellImage
           )
         ]);
+
+        await prepareKaimyoNotesRaster();
 
 
         if (
