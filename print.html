@@ -787,6 +787,18 @@
       overflow-wrap: normal;
     }
 
+    /*
+      姓名の区切りは通常の空白文字を使わず、
+      0.35文字分だけ縦方向に空ける。
+      ブラウザとPDFで見た目を揃えるための固定ギャップ。
+    */
+    .ihai-person-name-gap {
+      display: inline-block;
+      width: 1em;
+      height: 0.35em;
+      flex: 0 0 0.35em;
+    }
+
     .ihai-main-spacer {
       display: inline-block;
       width: 0.55em;
@@ -2480,6 +2492,47 @@
     }
 
 
+    function splitPersonName(
+      value
+    ) {
+
+      const normalized =
+        normalizePersonName(
+          value
+        );
+
+      if (!normalized) {
+        return [];
+      }
+
+      return normalized
+        .split(" ")
+        .filter(Boolean);
+
+    }
+
+
+    function personNameHtml(
+      value
+    ) {
+
+      return splitPersonName(
+        value
+      )
+        .map(
+          function(part) {
+            return escapeHtml(
+              part
+            );
+          }
+        )
+        .join(
+          '<span class="ihai-person-name-gap" aria-hidden="true"></span>'
+        );
+
+    }
+
+
     function applyIhaiMainLayout(
       hasKaimyo,
       mainTextLength
@@ -2691,7 +2744,7 @@
         );
 
 
-        let text =
+        let leftHtml =
           "";
 
 
@@ -2699,9 +2752,11 @@
           normalizedName
         ) {
 
-          text +=
+          leftHtml +=
             "俗名　" +
-            normalizedName;
+            personNameHtml(
+              normalizedName
+            );
 
         }
 
@@ -2711,26 +2766,28 @@
         ) {
 
           if (
-            text
+            leftHtml
           ) {
 
-            text +=
+            leftHtml +=
               "　";
 
           }
 
 
-          text +=
+          leftHtml +=
             "行年　" +
-            ageToKanji(
-              data.age
+            escapeHtml(
+              ageToKanji(
+                data.age
+              )
             );
 
         }
 
 
-        ihaiLeft.textContent =
-          text;
+        ihaiLeft.innerHTML =
+          leftHtml;
 
       }
 
@@ -2754,7 +2811,7 @@
           <span
             class="ihai-main-name"
             style="font-size:1.08em;"
-          >${escapeHtml(name).replace(/ /g, "&nbsp;").replace(/　/g, "&#12288;")}</span>
+          >${personNameHtml(name)}</span>
 
           <span
             class="ihai-main-spacer"
@@ -3531,6 +3588,18 @@
         const token of tokens
       ) {
 
+        /*
+          氏名の姓・名区切り専用。
+          通常の空白文字を描かず、0.35文字分だけ送る。
+        */
+        if (
+          token === ""
+        ) {
+          yy +=
+            size * 0.35;
+          continue;
+        }
+
         if (
           yy -
           y +
@@ -3934,6 +4003,14 @@
 
       tokens.forEach(
         function(token) {
+
+          if (
+            token === ""
+          ) {
+            height +=
+              size * 0.35;
+            return;
+          }
 
           if (/^\d{3,}$/.test(token)) {
             height +=
@@ -4425,6 +4502,41 @@
     }
 
 
+    function buildPersonNameSegments(
+      name,
+      size,
+      gap
+    ) {
+
+      const parts =
+        splitPersonName(
+          name
+        );
+
+      const segments =
+        [];
+
+      parts.forEach(
+        function(part, index) {
+
+          segments.push({
+            text: part,
+            size: size,
+            gap: gap,
+            afterGap:
+              index < parts.length - 1
+                ? size * 0.35
+                : 0
+          });
+
+        }
+      );
+
+      return segments;
+
+    }
+
+
     function drawVerticalSegmentedCentered(
       ctx,
       segments,
@@ -4722,7 +4834,10 @@
 
           leftText =
             "俗名　" +
-            normalizedName;
+            normalizedName.replace(
+              / /g,
+              ""
+            );
 
         }
 
@@ -4755,6 +4870,16 @@
         /*
           ブラウザの 0.58em / 1.15em / 0.58em を再現。
         */
+        const personNameSize =
+          mainSize * 1.08;
+
+        const personNameSegments =
+          buildPersonNameSegments(
+            name,
+            personNameSize,
+            personNameSize * 1.08
+          );
+
         drawVerticalSegmentedCentered(
           ctx,
           [
@@ -4764,12 +4889,18 @@
               gap: mainSize * 0.58 * 1.08,
               afterGap: mainSize * 0.50
             },
-            {
-              text: name,
-              size: mainSize * 1.08,
-              gap: mainSize * 1.08 * 1.08,
-              afterGap: mainSize * 0.50
-            },
+            ...personNameSegments.map(
+              function(segment, index) {
+                return {
+                  ...segment,
+                  afterGap:
+                    index ===
+                    personNameSegments.length - 1
+                      ? mainSize * 0.50
+                      : segment.afterGap
+                };
+              }
+            ),
             {
               text: "之精霊位",
               size: mainSize * 0.58,
