@@ -3720,6 +3720,119 @@
     ========================================
     */
 
+
+
+    /*
+      ========================================
+      PDF縦書き用 句読点画像
+
+      本文と同じフォントで一度オフスクリーンCanvasへ描画し、
+      実際の字形だけを透明画像として切り出して再利用する。
+      手描き形状ではなく、本文フォントそのものの「、。」を使う。
+    ========================================
+    */
+
+    const verticalPunctuationSpriteCache = new Map();
+
+    function getVerticalPunctuationSprite(
+      token,
+      size,
+      weight = "normal",
+      family = "sans"
+    ) {
+      const key = [
+        token,
+        Math.round(size * 1000),
+        weight,
+        family
+      ].join("|");
+
+      if (verticalPunctuationSpriteCache.has(key)) {
+        return verticalPunctuationSpriteCache.get(key);
+      }
+
+      /* 高解像度で描き、アンチエイリアスされた字形をそのまま切り出す。 */
+      const scale = 4;
+      const pad = Math.ceil(size * scale * 1.2);
+      const side = Math.ceil(size * scale * 4 + pad * 2);
+      const canvas = document.createElement("canvas");
+      canvas.width = side;
+      canvas.height = side;
+      const c = canvas.getContext("2d");
+
+      c.clearRect(0, 0, side, side);
+      c.fillStyle = "#111111";
+      setFont(c, size * scale, weight, family);
+      c.textAlign = "left";
+      c.textBaseline = "top";
+      c.fillText(token, pad, pad);
+
+      const image = c.getImageData(0, 0, side, side);
+      const data = image.data;
+      let minX = side;
+      let minY = side;
+      let maxX = -1;
+      let maxY = -1;
+
+      for (let yy = 0; yy < side; yy++) {
+        for (let xx = 0; xx < side; xx++) {
+          const alpha = data[(yy * side + xx) * 4 + 3];
+          if (alpha > 8) {
+            if (xx < minX) minX = xx;
+            if (xx > maxX) maxX = xx;
+            if (yy < minY) minY = yy;
+            if (yy > maxY) maxY = yy;
+          }
+        }
+      }
+
+      if (maxX < minX || maxY < minY) {
+        const empty = {
+          canvas,
+          width: 0,
+          height: 0
+        };
+        verticalPunctuationSpriteCache.set(key, empty);
+        return empty;
+      }
+
+      /* 字形の端を切りすぎないよう1pxだけ余白を残す。 */
+      minX = Math.max(0, minX - 1);
+      minY = Math.max(0, minY - 1);
+      maxX = Math.min(side - 1, maxX + 1);
+      maxY = Math.min(side - 1, maxY + 1);
+
+      const cropW = maxX - minX + 1;
+      const cropH = maxY - minY + 1;
+      const spriteCanvas = document.createElement("canvas");
+      spriteCanvas.width = cropW;
+      spriteCanvas.height = cropH;
+      spriteCanvas
+        .getContext("2d")
+        .drawImage(
+          canvas,
+          minX,
+          minY,
+          cropW,
+          cropH,
+          0,
+          0,
+          cropW,
+          cropH
+        );
+
+      const sprite = {
+        canvas: spriteCanvas,
+        /* 元の文字サイズへ戻したときの実寸 */
+        width: cropW / scale,
+        height: cropH / scale
+      };
+
+      verticalPunctuationSpriteCache.set(key, sprite);
+      return sprite;
+    }
+
+
     function drawVerticalText(
       ctx,
       text,
@@ -4139,69 +4252,66 @@
         }
 
         /*
-          句読点（縦組み専用描画）
-          横書き用フォント字形の内蔵余白に依存すると位置がずれるため、
-          「。」は円、「、」は短い雫状の線を直接描く。
-          これにより、直前文字の右下へ安定して配置できる。
+          句読点（本文フォントの字形画像を使用）
+
+          手描きではなく、本文と同じフォントで作った透明画像を配置する。
+          右へ寄せすぎると隣の縦列へ侵入するため、自列内に収まる位置に固定する。
         */
         if (
           token === "。" ||
           token === "、"
         ) {
-          ctx.save();
-          ctx.strokeStyle = "#111";
-          ctx.fillStyle = "#111";
-          ctx.lineWidth = Math.max(1, size * 0.075);
-
-          /* 文字枠の右下寄り。次の文字送りは通常文字と同じ。 */
-          const px = x + size * 0.27;
-          const py = yy + size * 0.24;
-
-          if (token === "。") {
-            ctx.beginPath();
-            ctx.arc(
-              px,
-              py,
-              size * 0.105,
-              0,
-              Math.PI * 2
+          const sprite =
+            getVerticalPunctuationSprite(
+              token,
+              size,
+              weight,
+              family
             );
-            ctx.stroke();
-          }
-          else {
-            /*
-              縦書きの読点「、」。
-              曲線ではなく、直前文字の右下へ小さな斜め筆点を置く。
-              現在の文字セル内の上寄りに置き、
-              直前文字へ食い込まず、かつ間延びしない位置にする。
-            */
-            const commaX = x + size * 0.29;
 
+          if (
+            sprite.width > 0 &&
+            sprite.height > 0
+          ) {
             /*
-              読点は独立した1文字セルの中に置く。
-              size基準で上寄せすると、直前文字の字形の下張り出し量により
-              重なり方が変わるため、文字送り量gapを基準に中央寄りへ配置する。
+              x は縦列の中心。
+              記号を右寄りに見せつつ、隣列へ入らないよう最大でも0.12emだけ右へ移す。
+              y は独立セルの上部に置く。前セルとは gap 分離れているため重ならない。
             */
-            const commaY = yy + gap * 0.43;
+            const markCenterX =
+              x + size * 0.10;
 
-            ctx.save();
-            ctx.translate(commaX, commaY);
-            ctx.rotate(-Math.PI / 7);
-            ctx.beginPath();
-            ctx.ellipse(
-              0,
-              0,
-              size * 0.055,
-              size * 0.13,
-              0,
-              0,
-              Math.PI * 2
+            const markTop =
+              yy + size * 0.10;
+
+            const maxDisplayW =
+              size * 0.34;
+
+            const maxDisplayH =
+              size * 0.34;
+
+            const scaleToFit =
+              Math.min(
+                1,
+                maxDisplayW / sprite.width,
+                maxDisplayH / sprite.height
+              );
+
+            const displayW =
+              sprite.width * scaleToFit;
+
+            const displayH =
+              sprite.height * scaleToFit;
+
+            ctx.drawImage(
+              sprite.canvas,
+              markCenterX - displayW / 2,
+              markTop,
+              displayW,
+              displayH
             );
-            ctx.fill();
-            ctx.restore();
           }
 
-          ctx.restore();
           yy += gap;
           continue;
         }
