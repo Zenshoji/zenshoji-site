@@ -219,6 +219,7 @@
       height: 160mm;
 
       border: 1px solid #999;
+      border-radius: 2mm;
 
       background: #fff;
 
@@ -634,6 +635,81 @@
         serif;
 
       font-size: 14pt;
+    }
+
+
+
+    /* ========================================
+       戒名について（管理者可変モジュール）
+       見出し・本文とも同サイズ、見出しのみ太字。
+       右から左へ列を送る縦書き。
+    ======================================== */
+
+    .kaimyo-notes-area {
+      position: absolute;
+      top: 10mm;
+      height: 190mm;
+      overflow: hidden;
+      display: none;
+      font-family:
+        "Yu Mincho",
+        "YuMincho",
+        "Hiragino Mincho ProN",
+        serif;
+      font-size: 9.5pt;
+      line-height: 1;
+    }
+
+    .front.has-temple-info .kaimyo-notes-area {
+      left: 166mm;
+      width: 30mm;
+    }
+
+    .front.no-temple-info .kaimyo-notes-area {
+      left: 157mm;
+      width: 39mm;
+    }
+
+    .kaimyo-notes-columns {
+      position: absolute;
+      inset: 2mm 0;
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: flex-start;
+      align-items: stretch;
+      gap: 0.55mm;
+      overflow: hidden;
+    }
+
+    .kaimyo-note-column {
+      flex: 0 0 3.55mm;
+      width: 3.55mm;
+      height: 186mm;
+      writing-mode: vertical-rl !important;
+      -webkit-writing-mode: vertical-rl !important;
+      text-orientation: upright !important;
+      white-space: nowrap;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 1mm;
+      letter-spacing: 0.02em;
+    }
+
+    .kaimyo-note-column.heading {
+      font-weight: 700;
+    }
+
+    /* 戒名説明を出すときは中陰表セットの幅を調整 */
+    .front.has-kaimyo-notes.has-temple-info .chuin-area {
+      left: 45mm;
+      width: 116mm;
+    }
+
+    .front.has-kaimyo-notes.no-temple-info .chuin-area {
+      left: 18mm;
+      width: 134mm;
     }
 
 
@@ -1344,6 +1420,18 @@
       </div>
 
 
+      <div
+        class="kaimyo-notes-area"
+        id="kaimyoNotesArea"
+        aria-label="戒名について"
+      >
+        <div
+          class="kaimyo-notes-columns"
+          id="kaimyoNotesColumns"
+        ></div>
+      </div>
+
+
       <div class="ihai-area">
 
         <div class="ihai">
@@ -1484,8 +1572,34 @@
         : {};
 
 
+    /* 旧呼称は中陰表に常設 */
     const showOldNames =
-      pdfOptions.showOldNames !== false;
+      true;
+
+
+    const kaimyoSections =
+      data &&
+      Array.isArray(
+        data.kaimyoSections
+      )
+        ? data.kaimyoSections
+            .filter(
+              function(section) {
+                return (
+                  section &&
+                  section.visible !== false &&
+                  (
+                    String(section.heading || "").trim() ||
+                    String(section.body || "").trim()
+                  )
+                );
+              }
+            )
+        : [];
+
+
+    const showKaimyoNotes =
+      kaimyoSections.length > 0;
 
 
     const showThirteenBuddhas =
@@ -2586,7 +2700,168 @@
 
     }
 
+
+    function splitKaimyoBodyIntoColumns(
+      text,
+      charsPerColumn
+    ) {
+      const normalized =
+        String(text || "")
+          .replace(/\r\n?/g, "\n");
+
+      const columns = [];
+      let current = "";
+
+      Array.from(normalized)
+        .forEach(
+          function(char) {
+            if (char === "\n") {
+              if (current) {
+                columns.push(current);
+                current = "";
+              }
+              return;
+            }
+
+            current += char;
+
+            if (
+              Array.from(current).length >=
+              charsPerColumn
+            ) {
+              columns.push(current);
+              current = "";
+            }
+          }
+        );
+
+      if (current) {
+        columns.push(current);
+      }
+
+      return columns;
+    }
+
+
+    function getKaimyoNoteColumns() {
+      const columns = [];
+
+      kaimyoSections
+        .forEach(
+          function(section) {
+            const heading =
+              String(
+                section.heading || ""
+              ).trim();
+
+            const body =
+              String(
+                section.body || ""
+              ).trim();
+
+            if (heading) {
+              columns.push({
+                type: "heading",
+                text: heading
+              });
+            }
+
+            if (body) {
+              splitKaimyoBodyIntoColumns(
+                body,
+                43
+              )
+                .forEach(
+                  function(text) {
+                    columns.push({
+                      type: "body",
+                      text: text
+                    });
+                  }
+                );
+            }
+          }
+        );
+
+      return columns;
+    }
+
+
+    function buildKaimyoNotesPreview() {
+      const front =
+        document.querySelector(
+          ".page.front"
+        );
+
+      const area =
+        document.getElementById(
+          "kaimyoNotesArea"
+        );
+
+      const holder =
+        document.getElementById(
+          "kaimyoNotesColumns"
+        );
+
+      front.classList.toggle(
+        "has-temple-info",
+        showTempleInfo
+      );
+
+      front.classList.toggle(
+        "no-temple-info",
+        !showTempleInfo
+      );
+
+      front.classList.toggle(
+        "has-kaimyo-notes",
+        showKaimyoNotes
+      );
+
+      if (!showKaimyoNotes) {
+        area.style.display =
+          "none";
+        holder.innerHTML =
+          "";
+        return;
+      }
+
+      area.style.display =
+        "block";
+      holder.innerHTML =
+        "";
+
+      getKaimyoNoteColumns()
+        .forEach(
+          function(item) {
+            const column =
+              document.createElement(
+                "div"
+              );
+
+            column.className =
+              "kaimyo-note-column " +
+              (
+                item.type === "heading"
+                  ? "heading"
+                  : "body"
+              );
+
+            column.textContent =
+              item.text;
+
+            holder.appendChild(
+              column
+            );
+          }
+        );
+    }
+
+
     function buildPreview() {
+
+
+      buildKaimyoNotesPreview();
 
 
       /*
@@ -5043,6 +5318,86 @@
     ========================================
     */
 
+
+    function drawKaimyoNotesCanvas(
+      ctx
+    ) {
+      if (!showKaimyoNotes) {
+        return;
+      }
+
+      const columns =
+        getKaimyoNoteColumns();
+
+      const areaX =
+        showTempleInfo
+          ? mm(166)
+          : mm(157);
+
+      const areaW =
+        showTempleInfo
+          ? mm(30)
+          : mm(39);
+
+      const top =
+        mm(12);
+
+      const bottom =
+        mm(198);
+
+      const columnStep =
+        mm(4.10);
+
+      let x =
+        areaX +
+        areaW -
+        mm(2.2);
+
+      columns.forEach(
+        function(item) {
+          setFont(
+            ctx,
+            mm(
+              9.5 *
+              25.4 /
+              72
+            ),
+            item.type === "heading"
+              ? "700"
+              : "normal",
+            "serif"
+          );
+
+          drawVerticalText(
+            ctx,
+            item.text,
+            x,
+            top,
+            {
+              size:
+                mm(
+                  9.5 *
+                  25.4 /
+                  72
+                ),
+              gap:
+                mm(
+                  9.5 *
+                  25.4 /
+                  72
+                ) * 1.02,
+              maxHeight:
+                bottom - top
+            }
+          );
+
+          x -=
+            columnStep;
+        }
+      );
+    }
+
+
     function renderFrontCanvas() {
 
       const {
@@ -5270,13 +5625,25 @@
 
 
       const tableX =
-        mm(45);
+        showKaimyoNotes
+          ? (
+              showTempleInfo
+                ? mm(45)
+                : mm(18)
+            )
+          : mm(45);
 
       const tableY =
         mm(24);
 
       const tableW =
-        mm(149);
+        showKaimyoNotes
+          ? (
+              showTempleInfo
+                ? mm(116)
+                : mm(134)
+            )
+          : mm(149);
 
       const tableH =
         mm(130);
@@ -5651,7 +6018,13 @@
 
       ctx.fillText(
         "中陰とは",
-        mm(50),
+        showKaimyoNotes
+          ? (
+              showTempleInfo
+                ? mm(48)
+                : mm(21)
+            )
+          : mm(50),
         mm(160)
       );
 
@@ -5675,11 +6048,28 @@
       drawWrappedJapaneseText(
         ctx,
         "亡くなられてから四十九日を迎えるまでの期間をいいます。七日ごとの忌日には、亡き方を偲び、まごころをもって供養を勤めます。その営みは、亡き方とのご縁に感謝するとともに、私たち自身がいのちの尊さを見つめる機会でもあります。",
-        mm(50),
+        showKaimyoNotes
+          ? (
+              showTempleInfo
+                ? mm(48)
+                : mm(21)
+            )
+          : mm(50),
         mm(168),
-        mm(137),
+        showKaimyoNotes
+          ? (
+              showTempleInfo
+                ? mm(110)
+                : mm(128)
+            )
+          : mm(137),
         mm(5.2)
       );
+
+      drawKaimyoNotesCanvas(
+        ctx
+      );
+
 
       drawIhaiCanvas(
         ctx
