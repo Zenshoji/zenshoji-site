@@ -2810,7 +2810,7 @@
 
           <span
             class="ihai-main-name"
-            style="font-size:1.08em;"
+            style="font-size:${Array.from(name.replace(/\s/g, "")).length > 7 ? "1.026em" : "1.08em"};"
           >${personNameHtml(name)}</span>
 
           <span
@@ -4850,8 +4850,21 @@
         /*
           ブラウザの 0.58em / 1.15em / 0.58em を再現。
         */
+        const personNameLength =
+          Array.from(
+            name.replace(
+              /\s/g,
+              ""
+            )
+          ).length;
+
         const personNameSize =
-          mainSize * 1.08;
+          mainSize *
+          (
+            personNameLength > 7
+              ? 1.026
+              : 1.08
+          );
 
         const personNameSegments =
           buildPersonNameSegments(
