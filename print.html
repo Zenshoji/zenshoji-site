@@ -753,10 +753,11 @@
 
       /*
         上下装飾へ文字が侵入しない安全領域。
-        上 38mm／下 43mm を装飾用に空ける。
+        文字列全体を約1文字分上へ移動。
+        上 30mm／下 51mm を装飾用に空ける。
       */
-      top: 38mm;
-      bottom: 43mm;
+      top: 30mm;
+      bottom: 51mm;
       left: 50%;
 
       width: 12mm;
@@ -777,6 +778,13 @@
       justify-content: center;
 
       text-align: center;
+      white-space: nowrap;
+    }
+
+    .ihai-main-name {
+      white-space: nowrap;
+      word-break: keep-all;
+      overflow-wrap: normal;
     }
 
     .ihai-main-spacer {
@@ -2718,8 +2726,9 @@
           ></span>
 
           <span
+            class="ihai-main-name"
             style="font-size:1.08em;"
-          >${escapeHtml(name)}</span>
+          >${escapeHtml(name).replace(/ /g, "&nbsp;").replace(/　/g, "&#12288;")}</span>
 
           <span
             class="ihai-main-spacer"
@@ -4585,15 +4594,16 @@
 
       /*
         中央文字は上下装飾の安全領域内に配置。
+        ブラウザ同様、全体を約8mm上へ移動。
       */
       const mainAreaTop =
         top +
-        mm(38);
+        mm(30);
 
       const mainAreaHeight =
         height -
-        mm(38) -
-        mm(43);
+        mm(30) -
+        mm(51);
 
       const mainSize =
         mm(
