@@ -12,6 +12,30 @@
 
   <title>中陰表・年回表 管理者用 | 禅昌寺</title>
 
+  <script>
+    (function () {
+      const authKey = "zenshojiMemorialAdminAuth";
+      const password = "2613";
+
+      if (sessionStorage.getItem(authKey) === "ok") {
+        return;
+      }
+
+      const entered = window.prompt("管理者用パスワードを入力してください。");
+
+      if (entered === password) {
+        sessionStorage.setItem(authKey, "ok");
+        return;
+      }
+
+      if (entered !== null) {
+        window.alert("パスワードが違います。");
+      }
+
+      window.location.replace("memorial.html");
+    })();
+  </script>
+
 
   <style>
 
