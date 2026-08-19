@@ -753,11 +753,11 @@
 
       /*
         上下装飾へ文字が侵入しない安全領域。
-        文字列全体を約1文字分上へ移動。
-        上 30mm／下 51mm を装飾用に空ける。
+        文字列全体は元位置より約4mm上へ配置。
+        上 34mm／下 47mm を装飾用に空ける。
       */
-      top: 30mm;
-      bottom: 51mm;
+      top: 34mm;
+      bottom: 47mm;
       left: 50%;
 
       width: 12mm;
@@ -2457,6 +2457,29 @@
 
 
 
+    function normalizePersonName(
+      value
+    ) {
+
+      return String(
+        value || ""
+      )
+        /* 全角空白は半角空白へ統一 */
+        .replace(
+          /\u3000/g,
+          " "
+        )
+        /* 半角空白・タブ・改行等が連続しても1個へ */
+        .replace(
+          /\s+/g,
+          " "
+        )
+        /* 先頭・末尾の空白は除去 */
+        .trim();
+
+    }
+
+
     function applyIhaiMainLayout(
       hasKaimyo,
       mainTextLength
@@ -2646,6 +2669,12 @@
         );
 
 
+      const normalizedName =
+        normalizePersonName(
+          data.name
+        );
+
+
       if (
         data.kaimyo &&
         data.kaimyo.trim()
@@ -2667,13 +2696,12 @@
 
 
         if (
-          data.name &&
-          data.name.trim()
+          normalizedName
         ) {
 
           text +=
             "俗名　" +
-            data.name.trim();
+            normalizedName;
 
         }
 
@@ -2709,9 +2737,7 @@
       else {
 
         const name =
-          data.name
-            ? data.name.trim()
-            : "";
+          normalizedName;
 
 
         ihaiMain.innerHTML = `
@@ -4594,16 +4620,16 @@
 
       /*
         中央文字は上下装飾の安全領域内に配置。
-        ブラウザ同様、全体を約8mm上へ移動。
+        ブラウザ同様、元位置より約4mm上へ配置。
       */
       const mainAreaTop =
         top +
-        mm(30);
+        mm(34);
 
       const mainAreaHeight =
         height -
-        mm(30) -
-        mm(51);
+        mm(34) -
+        mm(47);
 
       const mainSize =
         mm(
@@ -4629,6 +4655,11 @@
 
       let leftText =
         "";
+
+      const normalizedName =
+        normalizePersonName(
+          data.name
+        );
 
       if (
         data.kaimyo &&
@@ -4686,13 +4717,12 @@
         );
 
         if (
-          data.name &&
-          data.name.trim()
+          normalizedName
         ) {
 
           leftText =
             "俗名　" +
-            data.name.trim();
+            normalizedName;
 
         }
 
@@ -4720,9 +4750,7 @@
       else {
 
         const name =
-          data.name
-            ? data.name.trim()
-            : "";
+          normalizedName;
 
         /*
           ブラウザの 0.58em / 1.15em / 0.58em を再現。
