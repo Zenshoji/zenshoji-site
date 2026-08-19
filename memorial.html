@@ -552,6 +552,31 @@
     }
 
 
+
+
+    .admin-entry {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .admin-entry button {
+      width: auto;
+      padding: 4px 8px;
+      border: 0;
+      background: transparent;
+      color: #999;
+      font-size: 12px;
+      font-weight: 400;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+
+    .admin-entry button:hover {
+      background: transparent;
+      color: #666;
+    }
+
     @media
     (max-width: 700px) {
 
@@ -1252,6 +1277,13 @@
         トップページへ戻る
       </a>
 
+    </div>
+
+
+    <div class="admin-entry">
+      <button type="button" id="adminEntryButton">
+        管理者用
+      </button>
     </div>
 
 
@@ -3960,6 +3992,49 @@
 
       );
 
+
+
+
+    /*
+      ========================================
+      管理者用 簡易入口
+      ========================================
+    */
+
+    document
+      .getElementById(
+        "adminEntryButton"
+      )
+      .addEventListener(
+        "click",
+        function () {
+
+          const entered =
+            window.prompt(
+              "管理者用パスワードを入力してください。"
+            );
+
+          if (entered === null) {
+            return;
+          }
+
+          if (entered !== "2613") {
+            window.alert(
+              "パスワードが違います。"
+            );
+            return;
+          }
+
+          sessionStorage.setItem(
+            "zenshojiMemorialAdminAuth",
+            "ok"
+          );
+
+          window.location.href =
+            "memorial-admin.html";
+
+        }
+      );
 
   </script>
 
