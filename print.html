@@ -647,15 +647,18 @@
 
     .kaimyo-notes-area {
       position: absolute;
-      top: 10mm;
-      height: 190mm;
+      top: 24mm;
+      height: 170mm;
       overflow: hidden;
       display: none;
+      border-left: 1px solid #aaa;
+      border-right: 1px solid #aaa;
       font-family:
-        "Yu Mincho",
-        "YuMincho",
-        "Hiragino Mincho ProN",
-        serif;
+        -apple-system,
+        BlinkMacSystemFont,
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
       font-size: 9.5pt;
       line-height: 1;
     }
@@ -672,22 +675,22 @@
 
     .kaimyo-notes-columns {
       position: absolute;
-      inset: 2mm 0;
+      inset: 2mm 0.6mm;
       display: flex;
       flex-direction: row-reverse;
       justify-content: flex-start;
       align-items: stretch;
-      gap: 0.55mm;
+      gap: 0.35mm;
       overflow: hidden;
     }
 
     .kaimyo-note-column {
       flex: 0 0 3.55mm;
       width: 3.55mm;
-      height: 186mm;
+      height: 166mm;
       writing-mode: vertical-rl !important;
       -webkit-writing-mode: vertical-rl !important;
-      text-orientation: upright !important;
+      text-orientation: mixed !important;
       white-space: nowrap;
       overflow: hidden;
       display: flex;
@@ -1605,6 +1608,21 @@
     const showThirteenBuddhas =
       pdfOptions.showThirteenBuddhas === true;
 
+    /* 年回表の旧呼称は管理者側で表示／非表示を選択 */
+    const showNenkaiOldNames =
+      pdfOptions.showNenkaiOldNames !== false;
+
+    const hasNenkaiOldNameData =
+      data &&
+      Array.isArray(data.nenkai) &&
+      data.nenkai.some(
+        function(item) {
+          return Boolean(
+            String(item.oldName || "").trim()
+          );
+        }
+      );
+
 
     const showTempleInfo =
       pdfOptions.showTempleInfo !== false;
@@ -2467,9 +2485,15 @@
 
     function getNenkaiGridRows() {
 
-      if (
-        showThirteenBuddhas
-      ) {
+      if (showNenkaiOldNames && hasNenkaiOldNameData && showThirteenBuddhas) {
+        return "20% 27% 31% 22%";
+      }
+
+      if (showNenkaiOldNames && hasNenkaiOldNameData) {
+        return "24% 32% 44%";
+      }
+
+      if (showThirteenBuddhas) {
         return "35% 38% 27%";
       }
 
@@ -2751,7 +2775,7 @@
           function(section) {
             const heading =
               String(
-                section.heading || ""
+                section.heading || section.title || ""
               ).trim();
 
             const body =
@@ -2769,7 +2793,7 @@
             if (body) {
               splitKaimyoBodyIntoColumns(
                 body,
-                43
+                40
               )
                 .forEach(
                   function(text) {
@@ -3340,7 +3364,17 @@
               getNenkaiGridRows();
 
 
-            let html = `
+            let html = "";
+
+            if (showNenkaiOldNames && hasNenkaiOldNameData) {
+              html += `
+                <div class="nenkai-cell">
+                  <div class="old-name">${escapeHtml(item.oldName || "")}</div>
+                </div>
+              `;
+            }
+
+            html += `
 
               <div class="nenkai-cell">
 
@@ -4199,6 +4233,31 @@
 
         }
 
+
+        /*
+          縦書き用記号
+          Canvasは縦組み用字形へ自動置換しないため、
+          鉤括弧・二重鉤括弧・三点/二点リーダーを90度回転する。
+        */
+        if (
+          token === "「" ||
+          token === "」" ||
+          token === "『" ||
+          token === "』" ||
+          token === "…" ||
+          token === "‥"
+        ) {
+          ctx.save();
+          setFont(ctx, size, weight, family);
+          ctx.translate(x, yy + size / 2);
+          ctx.rotate(Math.PI / 2);
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(token, 0, 0);
+          ctx.restore();
+          yy += gap;
+          continue;
+        }
 
         /*
           通常文字
@@ -5340,13 +5399,26 @@
           : mm(39);
 
       const top =
-        mm(12);
+        mm(26);
 
       const bottom =
-        mm(198);
+        mm(192);
 
+      /* 9.5ptを中陰説明本文と同じ書体で使用 */
       const columnStep =
-        mm(4.10);
+        mm(3.90);
+
+      /* モジュール境界：中陰表と位牌の縦組みが混ざらないよう左右に罫線 */
+      ctx.save();
+      ctx.strokeStyle = "#aaa";
+      ctx.lineWidth = mm(0.265);
+      ctx.beginPath();
+      ctx.moveTo(areaX, mm(24));
+      ctx.lineTo(areaX, mm(194));
+      ctx.moveTo(areaX + areaW, mm(24));
+      ctx.lineTo(areaX + areaW, mm(194));
+      ctx.stroke();
+      ctx.restore();
 
       let x =
         areaX +
@@ -5365,7 +5437,7 @@
             item.type === "heading"
               ? "700"
               : "normal",
-            "serif"
+            "sans"
           );
 
           drawVerticalText(
@@ -5439,13 +5511,30 @@
         ctx.strokeStyle =
           "#999";
 
-        /* 四辺罫線 */
-        ctx.strokeRect(
-          boxX,
-          boxY,
-          boxW,
-          boxH
-        );
+        /* 四辺罫線：ブラウザと同じく約2mm角丸 */
+        ctx.beginPath();
+        if (typeof ctx.roundRect === "function") {
+          ctx.roundRect(
+            boxX,
+            boxY,
+            boxW,
+            boxH,
+            mm(2)
+          );
+        }
+        else {
+          const r = mm(2);
+          ctx.moveTo(boxX + r, boxY);
+          ctx.lineTo(boxX + boxW - r, boxY);
+          ctx.quadraticCurveTo(boxX + boxW, boxY, boxX + boxW, boxY + r);
+          ctx.lineTo(boxX + boxW, boxY + boxH - r);
+          ctx.quadraticCurveTo(boxX + boxW, boxY + boxH, boxX + boxW - r, boxY + boxH);
+          ctx.lineTo(boxX + r, boxY + boxH);
+          ctx.quadraticCurveTo(boxX, boxY + boxH, boxX, boxY + boxH - r);
+          ctx.lineTo(boxX, boxY + r);
+          ctx.quadraticCurveTo(boxX, boxY, boxX + r, boxY);
+        }
+        ctx.stroke();
 
         /* 上段／下段 */
         ctx.beginPath();
@@ -5613,7 +5702,13 @@
       drawCenteredText(
         ctx,
         "中　陰　表",
-        mm(119.5),
+        showKaimyoNotes
+          ? (
+              showTempleInfo
+                ? mm(103)
+                : mm(85)
+            )
+          : mm(119.5),
         mm(6),
         mm(
           22 *
@@ -5995,6 +6090,22 @@
       );
 
 
+      /* ブラウザ版の説明欄上罫線と同期 */
+      ctx.save();
+      ctx.strokeStyle = "#aaa";
+      ctx.lineWidth = mm(0.265);
+      ctx.beginPath();
+      ctx.moveTo(
+        showKaimyoNotes ? (showTempleInfo ? mm(47) : mm(20)) : mm(47),
+        mm(157)
+      );
+      ctx.lineTo(
+        showKaimyoNotes ? (showTempleInfo ? mm(159) : mm(150)) : mm(192),
+        mm(157)
+      );
+      ctx.stroke();
+      ctx.restore();
+
       /*
         中陰とは
         browser: area top6 + description top151 + padding3 = 160mm
@@ -6136,9 +6247,13 @@
         count;
 
       const rowRatios =
-        showThirteenBuddhas
-          ? [0.35, 0.38, 0.27]
-          : [0.44, 0.56];
+        showNenkaiOldNames && hasNenkaiOldNameData && showThirteenBuddhas
+          ? [0.20, 0.27, 0.31, 0.22]
+          : showNenkaiOldNames && hasNenkaiOldNameData
+            ? [0.24, 0.32, 0.44]
+            : showThirteenBuddhas
+              ? [0.35, 0.38, 0.27]
+              : [0.44, 0.56];
 
       const rowStarts = [
         tableY
@@ -6256,78 +6371,83 @@
             columnW / 2;
 
 
-          /*
-            ブラウザ：20pt固定、5文字を基準に88%高へ均等割付。
-          */
+          let rowIndex = 0;
+
+          if (showNenkaiOldNames && hasNenkaiOldNameData) {
+            if (item.oldName) {
+              drawVerticalTextCentered(
+                ctx,
+                item.oldName,
+                cx,
+                rowStarts[rowIndex],
+                tableH * rowRatios[rowIndex],
+                {
+                  size: nenkaiNameSize * 0.72,
+                  gap: nenkaiNameSize * 0.72
+                }
+              );
+            }
+            rowIndex++;
+          }
+
+          /* ブラウザ：20pt固定、5文字を基準に88%高へ均等割付。 */
           drawVerticalDistributed(
             ctx,
             item.name,
             cx,
-            rowStarts[0],
-            tableH *
-            rowRatios[0],
+            rowStarts[rowIndex],
+            tableH * rowRatios[rowIndex],
             {
-              size:
-                nenkaiNameSize,
-              weight:
-                "600",
-              usableRatio:
-                0.88
+              size: nenkaiNameSize,
+              weight: "600",
+              usableRatio: 0.88
             }
           );
-
+          rowIndex++;
 
           drawVerticalTextCentered(
             ctx,
             item.year,
             cx,
-            rowStarts[1],
-            tableH *
-            rowRatios[1],
+            rowStarts[rowIndex],
+            tableH * rowRatios[rowIndex],
             {
-              size:
-                nenkaiYearSize,
-              gap:
-                nenkaiYearSize * 1.15
+              size: nenkaiYearSize,
+              gap: nenkaiYearSize * 1.15
             }
           );
+          rowIndex++;
 
-
-          if (
-            showThirteenBuddhas
-          ) {
-
-            const buddha =
-              getThirteenBuddha(
-                item.name
-              );
-
-            if (
-              buddha
-            ) {
-
+          if (showThirteenBuddhas) {
+            const buddha = getThirteenBuddha(item.name);
+            if (buddha) {
               drawVerticalTextCentered(
                 ctx,
                 buddha,
                 cx,
-                rowStarts[2],
-                tableH *
-                rowRatios[2],
+                rowStarts[rowIndex],
+                tableH * rowRatios[rowIndex],
                 {
-                  size:
-                    nenkaiBuddhaSize,
-                  gap:
-                    nenkaiBuddhaSize
+                  size: nenkaiBuddhaSize,
+                  gap: nenkaiBuddhaSize
                 }
               );
-
             }
-
           }
 
         }
       );
 
+
+      /* ブラウザ版の説明欄上罫線と同期 */
+      ctx.save();
+      ctx.strokeStyle = "#aaa";
+      ctx.lineWidth = mm(0.265);
+      ctx.beginPath();
+      ctx.moveTo(mm(78), mm(135));
+      ctx.lineTo(mm(291), mm(135));
+      ctx.stroke();
+      ctx.restore();
 
       /*
         法事とは・祥月命日とは
