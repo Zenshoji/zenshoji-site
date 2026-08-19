@@ -801,9 +801,9 @@
 
     .ihai-main-spacer {
       display: inline-block;
-      width: 0.55em;
-      height: 0.55em;
-      flex: 0 0 0.55em;
+      width: 0.35em;
+      height: 0.35em;
+      flex: 0 0 0.35em;
     }
 
     .ihai-date {
@@ -3588,18 +3588,6 @@
         const token of tokens
       ) {
 
-        /*
-          氏名の姓・名区切り専用。
-          通常の空白文字を描かず、0.35文字分だけ送る。
-        */
-        if (
-          token === ""
-        ) {
-          yy +=
-            size * 0.35;
-          continue;
-        }
-
         if (
           yy -
           y +
@@ -4003,14 +3991,6 @@
 
       tokens.forEach(
         function(token) {
-
-          if (
-            token === ""
-          ) {
-            height +=
-              size * 0.35;
-            return;
-          }
 
           if (/^\d{3,}$/.test(token)) {
             height +=
@@ -4836,7 +4816,7 @@
             "俗名　" +
             normalizedName.replace(
               / /g,
-              ""
+              " "
             );
 
         }
@@ -4887,7 +4867,7 @@
               text: "俗名",
               size: mainSize * 0.58,
               gap: mainSize * 0.58 * 1.08,
-              afterGap: mainSize * 0.50
+              afterGap: mainSize * 0.35
             },
             ...personNameSegments.map(
               function(segment, index) {
@@ -4896,7 +4876,7 @@
                   afterGap:
                     index ===
                     personNameSegments.length - 1
-                      ? mainSize * 0.50
+                      ? mainSize * 0.35
                       : segment.afterGap
                 };
               }
