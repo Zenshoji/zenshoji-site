@@ -3724,113 +3724,58 @@
 
     /*
       ========================================
-      PDF縦書き用 句読点画像
+      PDF縦書き用 句読点セル
 
-      本文と同じフォントで一度オフスクリーンCanvasへ描画し、
-      実際の字形だけを透明画像として切り出して再利用する。
-      手描き形状ではなく、本文フォントそのものの「、。」を使う。
+      句読点の座標を手計算しない。
+      ブラウザのCSS縦書き（writing-mode: vertical-rl）で
+      「、。｣を1文字分の正方形セル内に組ませ、
+      そのセル全体をSVG画像としてPDF Canvasへ描画する。
+
+      これにより、句読点の字形・位置ともブラウザの
+      縦書きエンジンに任せる。
     ========================================
     */
 
-    const verticalPunctuationSpriteCache = new Map();
+    function createVerticalPunctuationCellImage(token) {
+      const img = new Image();
+      const safeToken =
+        token === "、" ? "&#12289;" : "&#12290;";
 
-    function getVerticalPunctuationSprite(
-      token,
-      size,
-      weight = "normal",
-      family = "sans"
-    ) {
-      const key = [
-        token,
-        Math.round(size * 1000),
-        weight,
-        family
-      ].join("|");
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+          <foreignObject x="0" y="0" width="256" height="256">
+            <div xmlns="http://www.w3.org/1999/xhtml"
+              style="
+                width:256px;
+                height:256px;
+                margin:0;
+                padding:0;
+                overflow:hidden;
+                writing-mode:vertical-rl;
+                text-orientation:mixed;
+                font-family:'Yu Gothic','Hiragino Kaku Gothic ProN','Meiryo',sans-serif;
+                font-size:256px;
+                font-weight:400;
+                line-height:1;
+                color:#111;
+              "
+            >${safeToken}</div>
+          </foreignObject>
+        </svg>
+      `;
 
-      if (verticalPunctuationSpriteCache.has(key)) {
-        return verticalPunctuationSpriteCache.get(key);
-      }
+      img.src =
+        "data:image/svg+xml;charset=utf-8," +
+        encodeURIComponent(svg);
 
-      /* 高解像度で描き、アンチエイリアスされた字形をそのまま切り出す。 */
-      const scale = 4;
-      const pad = Math.ceil(size * scale * 1.2);
-      const side = Math.ceil(size * scale * 4 + pad * 2);
-      const canvas = document.createElement("canvas");
-      canvas.width = side;
-      canvas.height = side;
-      const c = canvas.getContext("2d");
-
-      c.clearRect(0, 0, side, side);
-      c.fillStyle = "#111111";
-      setFont(c, size * scale, weight, family);
-      c.textAlign = "left";
-      c.textBaseline = "top";
-      c.fillText(token, pad, pad);
-
-      const image = c.getImageData(0, 0, side, side);
-      const data = image.data;
-      let minX = side;
-      let minY = side;
-      let maxX = -1;
-      let maxY = -1;
-
-      for (let yy = 0; yy < side; yy++) {
-        for (let xx = 0; xx < side; xx++) {
-          const alpha = data[(yy * side + xx) * 4 + 3];
-          if (alpha > 8) {
-            if (xx < minX) minX = xx;
-            if (xx > maxX) maxX = xx;
-            if (yy < minY) minY = yy;
-            if (yy > maxY) maxY = yy;
-          }
-        }
-      }
-
-      if (maxX < minX || maxY < minY) {
-        const empty = {
-          canvas,
-          width: 0,
-          height: 0
-        };
-        verticalPunctuationSpriteCache.set(key, empty);
-        return empty;
-      }
-
-      /* 字形の端を切りすぎないよう1pxだけ余白を残す。 */
-      minX = Math.max(0, minX - 1);
-      minY = Math.max(0, minY - 1);
-      maxX = Math.min(side - 1, maxX + 1);
-      maxY = Math.min(side - 1, maxY + 1);
-
-      const cropW = maxX - minX + 1;
-      const cropH = maxY - minY + 1;
-      const spriteCanvas = document.createElement("canvas");
-      spriteCanvas.width = cropW;
-      spriteCanvas.height = cropH;
-      spriteCanvas
-        .getContext("2d")
-        .drawImage(
-          canvas,
-          minX,
-          minY,
-          cropW,
-          cropH,
-          0,
-          0,
-          cropW,
-          cropH
-        );
-
-      const sprite = {
-        canvas: spriteCanvas,
-        /* 元の文字サイズへ戻したときの実寸 */
-        width: cropW / scale,
-        height: cropH / scale
-      };
-
-      verticalPunctuationSpriteCache.set(key, sprite);
-      return sprite;
+      return img;
     }
+
+    const verticalCommaCellImage =
+      createVerticalPunctuationCellImage("、");
+
+    const verticalPeriodCellImage =
+      createVerticalPunctuationCellImage("。");
 
 
     function drawVerticalText(
@@ -4252,63 +4197,31 @@
         }
 
         /*
-          句読点（本文フォントの字形画像を使用）
+          句読点
 
-          手描きではなく、本文と同じフォントで作った透明画像を配置する。
-          右へ寄せすぎると隣の縦列へ侵入するため、自列内に収まる位置に固定する。
+          CSS縦書きで組んだ1文字セル全体を、そのまま配置する。
+          x/yの独自補正は行わない。
         */
         if (
           token === "。" ||
           token === "、"
         ) {
-          const sprite =
-            getVerticalPunctuationSprite(
-              token,
-              size,
-              weight,
-              family
-            );
+          const punctuationImage =
+            token === "、"
+              ? verticalCommaCellImage
+              : verticalPeriodCellImage;
 
           if (
-            sprite.width > 0 &&
-            sprite.height > 0
+            punctuationImage &&
+            punctuationImage.complete &&
+            punctuationImage.naturalWidth > 0
           ) {
-            /*
-              x は縦列の中心。
-              記号を右寄りに見せつつ、隣列へ入らないよう最大でも0.12emだけ右へ移す。
-              y は独立セルの上部に置く。前セルとは gap 分離れているため重ならない。
-            */
-            const markCenterX =
-              x + size * 0.10;
-
-            const markTop =
-              yy + size * 0.10;
-
-            const maxDisplayW =
-              size * 0.34;
-
-            const maxDisplayH =
-              size * 0.34;
-
-            const scaleToFit =
-              Math.min(
-                1,
-                maxDisplayW / sprite.width,
-                maxDisplayH / sprite.height
-              );
-
-            const displayW =
-              sprite.width * scaleToFit;
-
-            const displayH =
-              sprite.height * scaleToFit;
-
             ctx.drawImage(
-              sprite.canvas,
-              markCenterX - displayW / 2,
-              markTop,
-              displayW,
-              displayH
+              punctuationImage,
+              x - size / 2,
+              yy,
+              size,
+              size
             );
           }
 
@@ -6554,6 +6467,12 @@
           ),
           waitForImageLoad(
             ihaiBottomImage
+          ),
+          waitForImageLoad(
+            verticalCommaCellImage
+          ),
+          waitForImageLoad(
+            verticalPeriodCellImage
           )
         ]);
 
