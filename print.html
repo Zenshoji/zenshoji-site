@@ -691,21 +691,7 @@
     }
 
     .ihai-body {
-      position: absolute;
-
-      z-index: 1;
-
-      left: 7mm;
-      right: 7mm;
-
-      top: 20mm;
-      bottom: 20mm;
-
-      border:
-        1.3px solid #222;
-
-      border-radius:
-        7mm 7mm 3mm 3mm;
+      display: none;
     }
 
     .ihai-top {
@@ -765,13 +751,18 @@
 
       z-index: 2;
 
-      top: 50%;
+      /*
+        上下装飾へ文字が侵入しない安全領域。
+        上 38mm／下 43mm を装飾用に空ける。
+      */
+      top: 38mm;
+      bottom: 43mm;
       left: 50%;
 
-      width: 10mm;
-      height: 132mm;
+      width: 12mm;
+      height: auto;
 
-      transform: translate(-50%, -50%);
+      transform: translateX(-50%);
 
       writing-mode: vertical-rl;
       text-orientation: upright;
@@ -786,6 +777,13 @@
       justify-content: center;
 
       text-align: center;
+    }
+
+    .ihai-main-spacer {
+      display: inline-block;
+      width: 0.55em;
+      height: 0.55em;
+      flex: 0 0 0.55em;
     }
 
     .ihai-date {
@@ -2450,6 +2448,60 @@
     }
 
 
+
+    function applyIhaiMainLayout(
+      hasKaimyo,
+      mainTextLength
+    ) {
+
+      const main =
+        document.getElementById(
+          "ihaiMain"
+        );
+
+      if (!main) {
+        return;
+      }
+
+      /*
+        文字数別の基準。
+        短い戒名は適度に文字送りを広げ、
+        長い戒名は装飾に重ならないよう詰める。
+      */
+      if (hasKaimyo) {
+
+        if (mainTextLength <= 7) {
+          main.style.fontSize =
+            "24pt";
+          main.style.letterSpacing =
+            "0.32em";
+        }
+
+        else if (mainTextLength <= 10) {
+          main.style.fontSize =
+            "24pt";
+          main.style.letterSpacing =
+            "0.12em";
+        }
+
+        else {
+          main.style.fontSize =
+            "21pt";
+          main.style.letterSpacing =
+            "0.02em";
+        }
+
+      }
+
+      else {
+        main.style.fontSize =
+          "24pt";
+        main.style.letterSpacing =
+          "0.04em";
+      }
+
+    }
+
     function buildPreview() {
 
 
@@ -2594,6 +2646,13 @@
         ihaiMain.textContent =
           data.kaimyo.trim();
 
+        applyIhaiMainLayout(
+          true,
+          Array.from(
+            data.kaimyo.trim()
+          ).length
+        );
+
 
         let text =
           "";
@@ -2651,23 +2710,32 @@
 
           <span
             style="font-size:0.58em;"
-          >
-            俗名
-          </span>
+          >俗名</span>
 
           <span
-            style="font-size:1.15em;"
-          >
-            ${escapeHtml(name)}
-          </span>
+            class="ihai-main-spacer"
+            aria-hidden="true"
+          ></span>
+
+          <span
+            style="font-size:1.08em;"
+          >${escapeHtml(name)}</span>
+
+          <span
+            class="ihai-main-spacer"
+            aria-hidden="true"
+          ></span>
 
           <span
             style="font-size:0.58em;"
-          >
-            之精霊位
-          </span>
+          >之精霊位</span>
 
         `;
+
+        applyIhaiMainLayout(
+          false,
+          Array.from(name).length
+        );
 
 
         if (
@@ -4353,7 +4421,8 @@
                 gap,
                 height:
                   chars.length *
-                  gap
+                  gap +
+                  (segment.afterGap || 0)
               };
 
             }
@@ -4414,6 +4483,9 @@
             }
           );
 
+          yy +=
+            segment.afterGap || 0;
+
         }
       );
 
@@ -4449,10 +4521,8 @@
       const height =
         mm(184);
 
-      const borderWidth =
-        mm(0.344);
-
       ctx.save();
+
 
       /*
         背面装飾画像：文字より先に描画する。
@@ -4510,79 +4580,20 @@
       ctx.globalAlpha =
         1;
 
-      ctx.lineWidth =
-        borderWidth;
-
-      ctx.strokeStyle =
-        "#222";
-
-      /* 位牌本体：left/right 7mm, top/bottom 20mm */
-      const bodyX =
-        left +
-        mm(7);
-
-      const bodyY =
-        top +
-        mm(20);
-
-      const bodyW =
-        width -
-        mm(14);
-
-      const bodyH =
-        height -
-        mm(40);
-
-      if (
-        typeof ctx.roundRect ===
-        "function"
-      ) {
-
-        ctx.beginPath();
-
-        ctx.roundRect(
-          bodyX,
-          bodyY,
-          bodyW,
-          bodyH,
-          [
-            mm(7),
-            mm(7),
-            mm(3),
-            mm(3)
-          ]
-        );
-
-        ctx.stroke();
-
-      }
-
-      else {
-
-        ctx.strokeRect(
-          bodyX,
-          bodyY,
-          bodyW,
-          bodyH
-        );
-
-      }
-
       ctx.restore();
 
 
       /*
-        戒名：ブラウザ24pt、height 132mm、正中固定。
+        中央文字は上下装飾の安全領域内に配置。
       */
       const mainAreaTop =
         top +
-        (
-          height -
-          mm(132)
-        ) / 2;
+        mm(38);
 
       const mainAreaHeight =
-        mm(132);
+        height -
+        mm(38) -
+        mm(43);
 
       const mainSize =
         mm(
@@ -4590,10 +4601,6 @@
           25.4 /
           72
         );
-
-      const mainGap =
-        mainSize *
-        1.10;
 
       const sideSize =
         mm(
@@ -4618,6 +4625,39 @@
         data.kaimyo.trim()
       ) {
 
+        const kaimyoLength =
+          Array.from(
+            data.kaimyo.trim()
+          ).length;
+
+        let kaimyoSize =
+          mainSize;
+
+        let kaimyoGap =
+          mainSize * 1.10;
+
+        if (kaimyoLength <= 7) {
+          kaimyoGap =
+            mainSize * 1.32;
+        }
+
+        else if (kaimyoLength <= 10) {
+          kaimyoGap =
+            mainSize * 1.12;
+        }
+
+        else {
+          kaimyoSize =
+            mm(
+              21 *
+              25.4 /
+              72
+            );
+
+          kaimyoGap =
+            kaimyoSize * 1.02;
+        }
+
         drawVerticalTextCentered(
           ctx,
           data.kaimyo.trim(),
@@ -4627,9 +4667,9 @@
           mainAreaHeight,
           {
             size:
-              mainSize,
+              kaimyoSize,
             gap:
-              mainGap,
+              kaimyoGap,
             weight:
               "600"
           }
@@ -4683,12 +4723,14 @@
             {
               text: "俗名",
               size: mainSize * 0.58,
-              gap: mainSize * 0.58 * 1.10
+              gap: mainSize * 0.58 * 1.08,
+              afterGap: mainSize * 0.50
             },
             {
               text: name,
-              size: mainSize * 1.15,
-              gap: mainSize * 1.15 * 1.10
+              size: mainSize * 1.08,
+              gap: mainSize * 1.08 * 1.08,
+              afterGap: mainSize * 0.50
             },
             {
               text: "之精霊位",
