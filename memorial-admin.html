@@ -2999,6 +2999,348 @@
 
     /*
       ========================================
+      管理者入力の一時保存
+      PDF確認画面から戻っても入力内容を保持する。
+      同一タブ内だけで使う sessionStorage とする。
+      ========================================
+    */
+
+    const adminDraftKey =
+      "zenshojiMemorialAdminDraft";
+
+    let restoringAdminDraft =
+      false;
+
+    function collectAdminDraft() {
+
+      return {
+        inputMode:
+          inputMode,
+
+        name:
+          document.getElementById("name").value,
+
+        kaimyo:
+          document.getElementById("kaimyo").value,
+
+        age:
+          document.getElementById("age").value,
+
+        era:
+          document.getElementById("era").value,
+
+        eraYear:
+          document.getElementById("eraYear").value,
+
+        warekiMonth:
+          document.getElementById("warekiMonth").value,
+
+        warekiDay:
+          document.getElementById("warekiDay").value,
+
+        deathYear:
+          document.getElementById("deathYear").value,
+
+        deathMonth:
+          document.getElementById("deathMonth").value,
+
+        deathDay:
+          document.getElementById("deathDay").value,
+
+        showNenkaiOldNames:
+          document.getElementById("showNenkaiOldNames").checked,
+
+        showTempleInfo:
+          document.getElementById("showTempleInfo").checked,
+
+        kaimyoBlocks:
+          kaimyoBlocks.map(
+            function(block) {
+              return {
+                title: String(block.title || ""),
+                body: String(block.body || ""),
+                visible: block.visible !== false
+              };
+            }
+          )
+      };
+
+    }
+
+    function saveAdminDraft() {
+
+      if (restoringAdminDraft) {
+        return;
+      }
+
+      try {
+        sessionStorage.setItem(
+          adminDraftKey,
+          JSON.stringify(
+            collectAdminDraft()
+          )
+        );
+      }
+      catch (error) {
+        console.warn(
+          "管理者入力の一時保存に失敗しました。",
+          error
+        );
+      }
+
+    }
+
+    function setAdminInputMode(
+      mode
+    ) {
+
+      inputMode =
+        mode === "seireki"
+          ? "seireki"
+          : "wareki";
+
+      const warekiArea =
+        document.getElementById("warekiArea");
+
+      const seirekiArea =
+        document.getElementById("seirekiArea");
+
+      const warekiButton =
+        document.getElementById("warekiButton");
+
+      const seirekiButton =
+        document.getElementById("seirekiButton");
+
+      warekiArea.classList.toggle(
+        "hidden",
+        inputMode !== "wareki"
+      );
+
+      seirekiArea.classList.toggle(
+        "hidden",
+        inputMode !== "seireki"
+      );
+
+      warekiButton.classList.toggle(
+        "active",
+        inputMode === "wareki"
+      );
+
+      seirekiButton.classList.toggle(
+        "active",
+        inputMode === "seireki"
+      );
+
+    }
+
+    function restoreAdminDraft() {
+
+      let draft =
+        null;
+
+      try {
+        const storedDraft =
+          sessionStorage.getItem(
+            adminDraftKey
+          );
+
+        if (storedDraft) {
+          draft =
+            JSON.parse(
+              storedDraft
+            );
+        }
+      }
+      catch (error) {
+        console.warn(
+          "管理者入力の復元に失敗しました。",
+          error
+        );
+      }
+
+      if (!draft) {
+        return;
+      }
+
+      restoringAdminDraft =
+        true;
+
+      setAdminInputMode(
+        draft.inputMode
+      );
+
+      const simpleValues = {
+        name: draft.name,
+        kaimyo: draft.kaimyo,
+        age: draft.age,
+        era: draft.era,
+        eraYear: draft.eraYear,
+        warekiMonth: draft.warekiMonth,
+        deathYear: draft.deathYear,
+        deathMonth: draft.deathMonth
+      };
+
+      Object.keys(simpleValues)
+        .forEach(
+          function(id) {
+            if (
+              simpleValues[id] !== undefined &&
+              simpleValues[id] !== null
+            ) {
+              document.getElementById(id).value =
+                simpleValues[id];
+            }
+          }
+        );
+
+      updateWarekiDays();
+      if (draft.warekiDay) {
+        document.getElementById("warekiDay").value =
+          String(draft.warekiDay);
+      }
+
+      updateGregorianDays();
+      if (draft.deathDay) {
+        document.getElementById("deathDay").value =
+          String(draft.deathDay);
+      }
+
+      if (
+        typeof draft.showNenkaiOldNames === "boolean"
+      ) {
+        document.getElementById("showNenkaiOldNames").checked =
+          draft.showNenkaiOldNames;
+      }
+
+      if (
+        typeof draft.showTempleInfo === "boolean"
+      ) {
+        document.getElementById("showTempleInfo").checked =
+          draft.showTempleInfo;
+      }
+
+      if (
+        Array.isArray(draft.kaimyoBlocks) &&
+        draft.kaimyoBlocks.length
+      ) {
+        kaimyoBlocks.splice(
+          0,
+          kaimyoBlocks.length,
+          ...draft.kaimyoBlocks
+            .slice(0, 4)
+            .map(
+              function(block) {
+                return {
+                  title: String(block.title || ""),
+                  body: String(block.body || ""),
+                  visible: block.visible !== false
+                };
+              }
+            )
+        );
+      }
+
+      renderKaimyoBlocks();
+      updateKaimyoValidation();
+
+      restoringAdminDraft =
+        false;
+
+    }
+
+    function bindAdminDraftAutosave() {
+
+      document
+        .querySelectorAll(
+          "#name, #kaimyo, #age, #era, #eraYear, #warekiMonth, #warekiDay, #deathYear, #deathMonth, #deathDay, #showNenkaiOldNames, #showTempleInfo"
+        )
+        .forEach(
+          function(element) {
+            element.addEventListener(
+              "input",
+              saveAdminDraft
+            );
+
+            element.addEventListener(
+              "change",
+              saveAdminDraft
+            );
+          }
+        );
+
+      document.getElementById("warekiButton")
+        .addEventListener(
+          "click",
+          function() {
+            setTimeout(
+              saveAdminDraft,
+              0
+            );
+          }
+        );
+
+      document.getElementById("seirekiButton")
+        .addEventListener(
+          "click",
+          function() {
+            setTimeout(
+              saveAdminDraft,
+              0
+            );
+          }
+        );
+
+      document.getElementById("kaimyoBlockList")
+        .addEventListener(
+          "input",
+          function() {
+            setTimeout(
+              saveAdminDraft,
+              0
+            );
+          }
+        );
+
+      document.getElementById("kaimyoBlockList")
+        .addEventListener(
+          "change",
+          function() {
+            setTimeout(
+              saveAdminDraft,
+              0
+            );
+          }
+        );
+
+      document.getElementById("kaimyoBlockList")
+        .addEventListener(
+          "click",
+          function() {
+            setTimeout(
+              saveAdminDraft,
+              0
+            );
+          }
+        );
+
+      document.getElementById("addKaimyoBlockButton")
+        .addEventListener(
+          "click",
+          function() {
+            setTimeout(
+              saveAdminDraft,
+              0
+            );
+          }
+        );
+
+    }
+
+    restoreAdminDraft();
+    bindAdminDraftAutosave();
+
+    /*
+      ========================================
       結果表示
       ========================================
     */
@@ -3544,6 +3886,8 @@
           };
 
 
+          saveAdminDraft();
+
           sessionStorage
             .setItem(
 
@@ -3580,6 +3924,10 @@
         "click",
 
         function () {
+
+            sessionStorage.removeItem(adminDraftKey);
+
+            
 
 
           window.location.reload();
