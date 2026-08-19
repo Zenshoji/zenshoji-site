@@ -2805,7 +2805,7 @@
           ).length;
 
         const showSeireii =
-          personNameLength <= 7;
+          personNameLength <= 6;
 
 
         ihaiMain.innerHTML = `
@@ -4901,7 +4901,7 @@
                   afterGap:
                     index ===
                     personNameSegments.length - 1
-                      ? (personNameLength <= 7
+                      ? (personNameLength <= 6
                           ? mainSize * 0.35
                           : 0)
                       : segment.afterGap
@@ -4911,7 +4911,7 @@
           ];
 
         if (
-          personNameLength <= 7
+          personNameLength <= 6
         ) {
           centralNameSegments.push(
             {
