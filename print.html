@@ -4169,18 +4169,30 @@
             ctx.stroke();
           }
           else {
+            /*
+              縦書きの読点「、」。
+              曲線ではなく、直前文字の右下へ小さな斜め筆点を置く。
+              現在の文字セル上端より少し上へ戻すことで、
+              直前文字との間に不自然な空白を作らない。
+            */
+            const commaX = x + size * 0.29;
+            const commaY = yy - size * 0.06;
+
+            ctx.save();
+            ctx.translate(commaX, commaY);
+            ctx.rotate(-Math.PI / 7);
             ctx.beginPath();
-            ctx.moveTo(
-              px - size * 0.055,
-              py - size * 0.07
+            ctx.ellipse(
+              0,
+              0,
+              size * 0.055,
+              size * 0.13,
+              0,
+              0,
+              Math.PI * 2
             );
-            ctx.quadraticCurveTo(
-              px + size * 0.045,
-              py - size * 0.015,
-              px + size * 0.015,
-              py + size * 0.13
-            );
-            ctx.stroke();
+            ctx.fill();
+            ctx.restore();
           }
 
           ctx.restore();
