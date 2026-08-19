@@ -1212,6 +1212,30 @@
         </div>
 
 
+        <div class="option-row front-table-mode-row">
+
+          <div class="option-content">
+            <label
+              for="frontTableMode"
+              class="option-title"
+            >
+              表面に表示する表
+            </label>
+
+            <select id="frontTableMode">
+              <option value="auto" selected>自動</option>
+              <option value="chuin">中陰表を表示</option>
+              <option value="nenkai">年回表を表示</option>
+            </select>
+
+            <div class="option-description">
+              自動では、亡くなった日を1日目として百か日当日までは中陰表、101日目以降は年回表を表面に表示します。年回表を表面に表示した場合、裏面の年回表は表示しません。
+            </div>
+          </div>
+
+        </div>
+
+
         <div class="option-row">
 
           <input
@@ -3047,6 +3071,9 @@
         deathDay:
           document.getElementById("deathDay").value,
 
+        frontTableMode:
+          document.getElementById("frontTableMode").value,
+
         showNenkaiOldNames:
           document.getElementById("showNenkaiOldNames").checked,
 
@@ -3206,6 +3233,15 @@
       }
 
       if (
+        draft.frontTableMode === "auto" ||
+        draft.frontTableMode === "chuin" ||
+        draft.frontTableMode === "nenkai"
+      ) {
+        document.getElementById("frontTableMode").value =
+          draft.frontTableMode;
+      }
+
+      if (
         typeof draft.showNenkaiOldNames === "boolean"
       ) {
         document.getElementById("showNenkaiOldNames").checked =
@@ -3252,7 +3288,7 @@
 
       document
         .querySelectorAll(
-          "#name, #kaimyo, #age, #era, #eraYear, #warekiMonth, #warekiDay, #deathYear, #deathMonth, #deathDay, #showNenkaiOldNames, #showTempleInfo"
+          "#name, #kaimyo, #age, #era, #eraYear, #warekiMonth, #warekiDay, #deathYear, #deathMonth, #deathDay, #frontTableMode, #showNenkaiOldNames, #showTempleInfo"
         )
         .forEach(
           function(element) {
@@ -3813,6 +3849,14 @@
               ),
 
 
+            deathDateIso:
+              deathDate.getUTCFullYear() +
+              "-" +
+              String(deathDate.getUTCMonth() + 1).padStart(2, "0") +
+              "-" +
+              String(deathDate.getUTCDate()).padStart(2, "0"),
+
+
             deathYear:
               deathYear,
 
@@ -3847,6 +3891,14 @@
 
 
             options: {
+              frontTableMode:
+                document
+                  .getElementById(
+                    "frontTableMode"
+                  )
+                  .value,
+
+
               showNenkaiOldNames:
                 document
                   .getElementById(
