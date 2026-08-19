@@ -673,27 +673,28 @@
     .kaimyo-notes-columns {
       position: absolute;
       /*
-        11pt本文の字面が列の左右で欠けないよう、
-        横方向の余白を小さく確保しつつ列幅を広げる。
+        11ptの縦書き文字を7列置いたときも左右端を欠けさせない。
+        罫線との見た目の余白はarea側で確保し、文字ホルダーは少し広く使う。
       */
-      inset: 1.5mm 0.5mm;
+      inset: 1.5mm 1.0mm;
       display: flex;
       flex-direction: row-reverse;
       justify-content: flex-start;
       align-items: stretch;
-      gap: 0.1mm;
+      gap: 0;
       overflow: hidden;
     }
 
     .kaimyo-note-column {
-      flex: 0 0 4mm;
-      width: 4mm;
+      flex: 0 0 3.85mm;
+      width: 3.85mm;
       height: 100%;
       writing-mode: vertical-rl !important;
       -webkit-writing-mode: vertical-rl !important;
       text-orientation: mixed !important;
       white-space: nowrap;
-      overflow: hidden;
+      /* 各列単位では字形を切らない。全体の外側だけholderで管理する。 */
+      overflow: visible;
       display: flex;
       align-items: center;
       justify-content: flex-start;
@@ -2775,7 +2776,7 @@
           fullWidthMm,
           Math.max(
             5,
-            noteColumns.length * 4.10 + 1.00
+            noteColumns.length * 3.85 + 2.00
           )
         );
 
@@ -4138,41 +4139,29 @@
         }
 
         /*
-          句読点
-
-          Canvasの全角「。」「、」は字形自体に横書き用の余白を持つため、
-          fillTextの座標だけを動かすと縦組みで左下へずれて見える。
-          そこで字形を使わず、縦書きの1文字枠の右上側へ直接描画する。
-          見た目としては直前の文字のすぐ右下に続く位置になる。
+          句読点（縦組み専用描画）
+          横書き用フォント字形の内蔵余白に依存すると位置がずれるため、
+          「。」は円、「、」は短い雫状の線を直接描く。
+          これにより、直前文字の右下へ安定して配置できる。
         */
         if (
           token === "。" ||
           token === "、"
         ) {
           ctx.save();
+          ctx.strokeStyle = "#111";
+          ctx.fillStyle = "#111";
+          ctx.lineWidth = Math.max(1, size * 0.075);
 
-          ctx.strokeStyle =
-            ctx.fillStyle;
+          /* 文字枠の右下寄り。次の文字送りは通常文字と同じ。 */
+          const px = x + size * 0.27;
+          const py = yy + size * 0.24;
 
-          ctx.lineWidth =
-            Math.max(
-              1,
-              size * 0.075
-            );
-
-          const markX =
-            x + size * 0.27;
-
-          const markY =
-            yy + size * 0.16;
-
-          if (
-            token === "。"
-          ) {
+          if (token === "。") {
             ctx.beginPath();
             ctx.arc(
-              markX,
-              markY,
+              px,
+              py,
               size * 0.105,
               0,
               Math.PI * 2
@@ -4180,24 +4169,22 @@
             ctx.stroke();
           }
           else {
-            /* 「、」は右上から左下へ短く払う */
             ctx.beginPath();
             ctx.moveTo(
-              markX + size * 0.045,
-              markY - size * 0.055
+              px - size * 0.055,
+              py - size * 0.07
             );
-            ctx.lineTo(
-              markX - size * 0.070,
-              markY + size * 0.095
+            ctx.quadraticCurveTo(
+              px + size * 0.045,
+              py - size * 0.015,
+              px + size * 0.015,
+              py + size * 0.13
             );
             ctx.stroke();
           }
 
           ctx.restore();
-
-          yy +=
-            gap;
-
+          yy += gap;
           continue;
         }
 
