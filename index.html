@@ -271,36 +271,133 @@
     "use strict";
 
     /*
-      今後、お知らせを変更するときは
-      基本的にこの3項目だけ変更します。
+      ============================================================
+      年間行事 自動お知らせ連携
+      ============================================================
+      1) Google Apps Script 側で年間行事の日付を一元管理
+      2) 春分の日・秋分の日もGoogle「日本の祝日」から自動取得
+      3) 法要日の翌日から、直近の法要を「厳修しました」と表示
+      4) 臨時のお知らせが年間行事より新しければ、臨時のお知らせを優先
+
+      GASをWebアプリとしてデプロイした後、下のURLだけ設定してください。
     */
-    const news = {
-      date: "2026-08-20",
-      displayDate: "2026年8月20日",
-      title: "禅昌寺公式サイトを公開しました"
-    };
-
-    const newsDate = new Date(news.date + "T00:00:00");
-    const today = new Date();
-
-    newsDate.setHours(0, 0, 0, 0);
-    today.setHours(0, 0, 0, 0);
-
-    const millisecondsPerDay = 1000 * 60 * 60 * 24;
-    const daysPassed = Math.floor((today - newsDate) / millisecondsPerDay);
-
-    if (daysPassed >= 0 && daysPassed <= 90) {
-      document.getElementById("newsDate").textContent = news.displayDate;
-      document.getElementById("newsTitle").textContent = news.title;
-    } else {
-      document.getElementById("newsSection").style.display = "none";
-    }
+    const ANNUAL_EVENTS_GAS_URL = "";
 
     /*
-      禅昌寺公式LINEのプロフィールURLが決まったら、
-      下の空文字をURLに置き換えてください。
-      例: const LINE_PROFILE_URL = "https://lin.ee/x5iZU2J";
+      臨時のお知らせ。
+      必要なときだけ追加します。expiresAfterDays を過ぎると自動で候補から外れます。
     */
+    const manualNews = [
+      {
+        date: "2026-08-20",
+        title: "禅昌寺公式サイトを公開しました",
+        expiresAfterDays: 90
+      }
+    ];
+
+    function localIsoDate(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    }
+
+    function japaneseDate(iso) {
+      const m = String(iso).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if (!m) return iso;
+      return `${Number(m[1])}年${Number(m[2])}月${Number(m[3])}日`;
+    }
+
+    function dayDiff(fromIso, toIso) {
+      const a = new Date(fromIso + "T12:00:00");
+      const b = new Date(toIso + "T12:00:00");
+      return Math.floor((b - a) / (1000 * 60 * 60 * 24));
+    }
+
+    function selectLatestNews(annualEvents) {
+      const todayIso = localIsoDate(new Date());
+      const candidates = [];
+
+      // 年間法要は「終わった後」に出すため、当日は表示せず翌日から候補にする。
+      (annualEvents || []).forEach(event => {
+        if (!event || !event.date || event.date >= todayIso) return;
+        candidates.push({
+          date: event.date,
+          title: event.noticeTitle || `${event.name}を厳修しました`,
+          kind: "annual"
+        });
+      });
+
+      manualNews.forEach(item => {
+        if (!item.date || item.date > todayIso) return;
+        const elapsed = dayDiff(item.date, todayIso);
+        if (Number.isFinite(item.expiresAfterDays) && elapsed > item.expiresAfterDays) return;
+        candidates.push({
+          date: item.date,
+          title: item.title,
+          kind: "manual"
+        });
+      });
+
+      candidates.sort((a, b) => b.date.localeCompare(a.date));
+      return candidates[0] || null;
+    }
+
+    function renderNews(annualEvents) {
+      const latest = selectLatestNews(annualEvents);
+      const section = document.getElementById("newsSection");
+
+      if (!latest) {
+        section.style.display = "none";
+        return;
+      }
+
+      document.getElementById("newsDate").textContent = japaneseDate(latest.date);
+      document.getElementById("newsTitle").textContent = latest.title;
+      section.style.display = "block";
+    }
+
+    function loadAnnualEvents() {
+      // GAS URL未設定でも、臨時のお知らせは従来どおり表示できる。
+      if (!ANNUAL_EVENTS_GAS_URL) {
+        renderNews([]);
+        return;
+      }
+
+      let finished = false;
+      const callbackName = "ZenshojiAnnualEventsCallback";
+      const script = document.createElement("script");
+      const separator = ANNUAL_EVENTS_GAS_URL.includes("?") ? "&" : "?";
+
+      const finish = (events) => {
+        if (finished) return;
+        finished = true;
+        clearTimeout(timer);
+        renderNews(events || []);
+        try { delete window[callbackName]; } catch (_) { window[callbackName] = undefined; }
+        script.remove();
+      };
+
+      window[callbackName] = function(payload) {
+        if (payload && payload.ok && Array.isArray(payload.events)) {
+          finish(payload.events);
+        } else {
+          finish([]);
+        }
+      };
+
+      script.onerror = function() { finish([]); };
+      script.src = ANNUAL_EVENTS_GAS_URL + separator +
+        "action=annualEvents&callback=" + encodeURIComponent(callbackName) +
+        "&_=" + Date.now();
+
+      const timer = setTimeout(function() { finish([]); }, 5000);
+      document.head.appendChild(script);
+    }
+
+    loadAnnualEvents();
+
+    /* 禅昌寺公式LINE */
     const LINE_PROFILE_URL = "https://lin.ee/x5iZU2J";
     const lineProfileLink = document.getElementById("lineProfileLink");
 
@@ -308,11 +405,6 @@
       lineProfileLink.href = LINE_PROFILE_URL;
       lineProfileLink.target = "_blank";
       lineProfileLink.rel = "noopener noreferrer";
-    } else {
-      lineProfileLink.addEventListener("click", function (event) {
-        event.preventDefault();
-        alert("禅昌寺公式LINEの公開URLを設定してください。");
-      });
     }
   </script>
 </body>
