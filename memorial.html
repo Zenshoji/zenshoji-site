@@ -2665,86 +2665,59 @@
 
     const memorialItems = [
 
-
       {
-        name:
-          "一周忌",
-        addYear:
-          1
+        name: "一周忌",
+        oldName: "小祥忌",
+        addYear: 1
       },
 
-
       {
-        name:
-          "三回忌",
-        addYear:
-          2
+        name: "三回忌",
+        oldName: "大祥忌",
+        addYear: 2
       },
 
-
       {
-        name:
-          "七回忌",
-        addYear:
-          6
+        name: "七回忌",
+        oldName: "休広忌",
+        addYear: 6
       },
 
-
       {
-        name:
-          "十三回忌",
-        addYear:
-          12
+        name: "十三回忌",
+        oldName: "称名忌",
+        addYear: 12
       },
 
-
       {
-        name:
-          "十七回忌",
-        addYear:
-          16
+        name: "十七回忌",
+        oldName: "慈明忌",
+        addYear: 16
       },
 
-
       {
-        name:
-          "二十三回忌",
-        addYear:
-          22
+        name: "二十三回忌",
+        oldName: "思実忌",
+        addYear: 22
       },
 
-
       {
-        name:
-          "二十七回忌",
-        addYear:
-          26
+        name: "二十七回忌",
+        oldName: "忍光忌",
+        addYear: 26
       },
 
-
       {
-        name:
-          "三十三回忌",
-        addYear:
-          32
+        name: "三十三回忌",
+        oldName: "清浄本然忌",
+        addYear: 32
       },
 
-
       {
-        name:
-          "三十七回忌",
-        addYear:
-          36
-      },
-
-
-      {
-        name:
-          "五十回忌",
-        addYear:
-          49
+        name: "五十回忌",
+        oldName: "阿円忌",
+        addYear: 49
       }
-
 
     ];
 
@@ -3507,6 +3480,9 @@
                     name:
                       item.name,
 
+                    oldName:
+                      item.oldName,
+
                     year:
                       (
                         deathYear +
@@ -3527,6 +3503,9 @@
           */
 
           const pdfData = {
+
+  source:
+    "public",
 
   /*
     ========================================
@@ -3560,6 +3539,13 @@
       deathDate
     ),
 
+  deathDateIso:
+    deathDate.getUTCFullYear() +
+    "-" +
+    String(deathDate.getUTCMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(deathDate.getUTCDate()).padStart(2, "0"),
+
   deathYear:
     deathYear,
 
@@ -3591,21 +3577,21 @@
   options: {
 
     /*
-      旧呼称
-      一般利用者版では表示する
+      表面は命日から自動判定
+      百か日当日までは中陰表、101日目以降は年回表
     */
 
-    showOldNames:
-      true,
+    frontTableMode:
+      "auto",
 
 
     /*
-      十三仏
-      一般利用者版では表示しない
+      年回表の旧呼称
+      一般利用者版では表示する
     */
 
-    showThirteenBuddhas:
-      false,
+    showNenkaiOldNames:
+      true,
 
 
     /*
