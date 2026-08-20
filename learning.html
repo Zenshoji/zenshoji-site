@@ -7,9 +7,7 @@
   <title>体験・学び | 禅昌寺</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -22,17 +20,10 @@
         sans-serif;
       color: #222;
       background: #fff;
-      line-height: 1.7;
+      line-height: 1.8;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    /* =========================
-       ヘッダー
-    ========================= */
+    a { color: inherit; text-decoration: none; }
 
     header {
       padding: 26px 20px;
@@ -58,12 +49,8 @@
       letter-spacing: 0.12em;
     }
 
-    /* =========================
-       メイン
-    ========================= */
-
     main {
-      width: min(900px, calc(100% - 40px));
+      width: min(960px, calc(100% - 40px));
       margin: 0 auto;
       padding: 60px 0 80px;
     }
@@ -82,14 +69,11 @@
       font-size: 16px;
     }
 
-    /* =========================
-       体験・学び
-    ========================= */
-
     .category-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 24px;
+      align-items: start;
     }
 
     .category {
@@ -112,56 +96,61 @@
       font-size: 15px;
     }
 
-    /* =========================
-       各項目
-    ========================= */
-
-    .item {
-      display: block;
-      padding: 17px 4px;
+    .experience-item,
+    .learning-item {
+      padding: 22px 2px;
       border-top: 1px solid #e5e5e5;
     }
 
-    .item:last-child {
+    .experience-item:last-child,
+    .learning-item:last-child {
       border-bottom: 1px solid #e5e5e5;
     }
 
     .item-title {
-      font-size: 18px;
+      margin: 0;
+      font-size: 19px;
+      font-weight: 600;
+    }
+
+    .item-meta {
+      margin-top: 4px;
+      color: #555;
+      font-size: 14px;
       font-weight: 600;
     }
 
     .item-text {
-      margin-top: 3px;
+      margin: 12px 0 0;
+      color: #555;
       font-size: 14px;
-      color: #666;
     }
 
-    a.item:hover .item-title {
+    .item-text p {
+      margin: 0;
+    }
+
+    .item-text p + p {
+      margin-top: 10px;
+    }
+
+    .apply {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: #f6f6f4;
+      border-radius: 6px;
+      color: #444;
+      font-size: 14px;
+    }
+
+    .learning-item {
+      display: block;
+    }
+
+    .learning-item:hover .item-title {
       text-decoration: underline;
+      text-underline-offset: 3px;
     }
-
-    /* リンク未設定の項目 */
-
-    .item-disabled {
-      color: #777;
-    }
-
-    .status {
-      display: inline-block;
-      margin-left: 6px;
-      padding: 1px 7px;
-      border-radius: 4px;
-      background: #f0f0f0;
-      color: #777;
-      font-size: 12px;
-      font-weight: normal;
-      vertical-align: middle;
-    }
-
-    /* =========================
-       トップへ戻る
-    ========================= */
 
     .back {
       margin-top: 58px;
@@ -176,204 +165,121 @@
       background: #fff;
     }
 
-    /* =========================
-       スマートフォン
-    ========================= */
-
     @media (max-width: 700px) {
-
-      header {
-        padding: 20px 16px;
-      }
-
-      .site-name {
-        font-size: 20px;
-      }
-
+      header { padding: 20px 16px; }
+      .site-name { font-size: 20px; }
       main {
-        width: min(100% - 28px, 900px);
+        width: min(100% - 28px, 960px);
         padding: 42px 0 60px;
       }
-
-      h1 {
-        font-size: 27px;
-      }
-
-      .intro {
-        margin-bottom: 32px;
-      }
-
+      h1 { font-size: 27px; }
+      .intro { margin-bottom: 32px; }
       .category-grid {
         grid-template-columns: 1fr;
         gap: 18px;
       }
-
-      .category {
-        padding: 28px 22px;
-      }
-
-      .category h2 {
-        font-size: 23px;
-      }
+      .category { padding: 28px 22px; }
+      .category h2 { font-size: 23px; }
     }
   </style>
 </head>
 
 <body>
-
-  <!-- =========================
-       ヘッダー
-  ========================== -->
-
   <header>
     <div class="header-inner">
-      <a href="index.html" class="site-name">
-        松久山 禅昌寺
-      </a>
+      <a href="index.html" class="site-name">松久山 禅昌寺</a>
     </div>
   </header>
 
-
-  <!-- =========================
-       本文
-  ========================== -->
-
   <main>
-
     <h1>体験・学び</h1>
 
     <p class="intro">
       禅昌寺での体験や、仏教についての読みものをご案内しています。
     </p>
 
-
     <div class="category-grid">
-
-      <!-- =====================
-           体験
-      ====================== -->
-
       <section class="category">
-
         <h2>体験</h2>
+        <p class="category-description">お寺で仏教にふれる</p>
 
-        <p class="category-description">
-          お寺で仏教にふれる
-        </p>
-
-        <div class="item item-disabled">
-          <div class="item-title">
-            月例坐禅会
-            <span class="status">準備中</span>
-          </div>
-
+        <div class="experience-item">
+          <h3 class="item-title">坐禅会</h3>
+          <div class="item-meta">月例行事　毎月15日 夕方　／　参加無料</div>
           <div class="item-text">
-            坐禅会について
+            <p>
+              足を組んで坐りますので、動きやすい服装でのご参加をおすすめします。足を組むことが難しい方は、イス坐禅でもご参加いただけます。
+            </p>
+            <p>
+              曹洞宗の坐禅では、「ただひたすら坐ること（只管打坐・しかんたざ）」を大切にします。姿勢と呼吸を整え、静かに坐りながら、今ここにある自分自身と向き合う時間を体験していただけます。
+            </p>
+          </div>
+          <div class="apply">
+            参加を希望される方は、LINEチャットまたはお電話にてお申し込みください。
           </div>
         </div>
 
-        <div class="item item-disabled">
-          <div class="item-title">
-            月例写経会
-            <span class="status">準備中</span>
-          </div>
-
+        <div class="experience-item">
+          <h3 class="item-title">写経会</h3>
+          <div class="item-meta">月例行事　毎月1日 昼ごろ　／　参加無料</div>
           <div class="item-text">
-            写経会について
+            <p>
+              写経台紙（お手本）、写経用紙、書道用具はお寺でご用意しています。ご自身の道具をお持ちいただいても構いません。筆を持参される場合は、細めのものがおすすめです。
+            </p>
+            <p>
+              写経はテーブルと椅子を使用して行います。
+            </p>
+          </div>
+          <div class="apply">
+            参加を希望される方は、LINEチャットまたはお電話にてお申し込みください。
           </div>
         </div>
 
-        <div class="item item-disabled">
-          <div class="item-title">
-            その他の体験
-            <span class="status">準備中</span>
-          </div>
-
+        <div class="experience-item">
+          <h3 class="item-title">その他の体験</h3>
           <div class="item-text">
-            禅昌寺で行う体験のご案内
+            <p>
+              坐禅会・写経会などの月例行事のほかにも、写仏体験や匂い袋作り体験など、さまざまな体験行事を行ってきました。
+            </p>
+            <p>
+              ご希望の日程に合わせた体験会の開催や、出張での開催、少人数・個人での対応についてもご相談いただけます。
+            </p>
+          </div>
+          <div class="apply">
+            ご興味のある方は、LINEチャットまたはお電話にてお問い合わせください。
           </div>
         </div>
-
       </section>
 
-
-      <!-- =====================
-           学び
-      ====================== -->
-
       <section class="category">
-
         <h2>学び</h2>
-
-        <p class="category-description">
-          仏教を身近に知る
-        </p>
-
-
-        <!-- 1分で読める仏教のお話 -->
+        <p class="category-description">仏教を身近に知る</p>
 
         <a
           href="https://zenshoji.github.io/meinichi-liff/learning/articles/"
-          class="item"
+          class="learning-item"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <div class="item-title">
-            1分で読める仏教のお話
-          </div>
-
-          <div class="item-text">
-            身近な話題から仏教にふれる短いお話
-          </div>
+          <div class="item-title">1分で読める仏教のお話</div>
+          <div class="item-text">身近な話題から仏教にふれる短いお話</div>
         </a>
-
-
-        <!-- 仏教の言葉 -->
 
         <a
           href="https://zenshoji.github.io/meinichi-liff/learning/words/"
-          class="item"
+          class="learning-item"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <div class="item-title">
-            仏教の言葉
-          </div>
-
-          <div class="item-text">
-            仏教や禅の言葉をご紹介します
-          </div>
+          <div class="item-title">仏教の言葉</div>
+          <div class="item-text">仏教や禅の言葉をご紹介します</div>
         </a>
-
-
-        <!-- 寺だより -->
-
-        <a
-          href="https://zenshoji.github.io/meinichi-liff/learning/teradayori/"
-          class="item"
-        >
-          <div class="item-title">
-            寺だより
-            <span class="status">準備中</span>
-          </div>
-
-          <div class="item-text">
-            禅昌寺からの読みもの
-          </div>
-        </a>
-
       </section>
-
     </div>
-
-
-    <!-- =====================
-         トップへ戻る
-    ====================== -->
 
     <div class="back">
-      <a href="index.html">
-        トップページへ戻る
-      </a>
+      <a href="index.html">トップページへ戻る</a>
     </div>
-
   </main>
-
 </body>
 </html>
