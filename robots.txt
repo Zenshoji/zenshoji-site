@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+Disallow: /zenshoji-site/memorial-admin.html
+Disallow: /zenshoji-site/print.html
+Disallow: /zenshoji-site/confirm.html
+Disallow: /zenshoji-site/age.html
+Disallow: /zenshoji-site/faq.html
+
+Sitemap: https://zenshoji.github.io/zenshoji-site/sitemap.xml
