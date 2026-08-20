@@ -7,9 +7,7 @@
   <title>年間行事 | 禅昌寺</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -22,13 +20,10 @@
         sans-serif;
       color: #222;
       background: #fff;
-      line-height: 1.8;
+      line-height: 1.85;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
 
     header {
       padding: 26px 20px;
@@ -55,7 +50,7 @@
     }
 
     main {
-      width: min(900px, calc(100% - 40px));
+      width: min(930px, calc(100% - 40px));
       margin: 0 auto;
       padding: 60px 0 80px;
     }
@@ -80,9 +75,9 @@
 
     .event-row {
       display: grid;
-      grid-template-columns: 110px 1fr;
-      gap: 24px;
-      padding: 24px 4px;
+      grid-template-columns: 88px 1fr;
+      gap: 28px;
+      padding: 30px 4px;
       border-bottom: 1px solid #ddd;
     }
 
@@ -90,21 +85,36 @@
       font-size: 22px;
       font-weight: 600;
       color: #444;
+      white-space: nowrap;
+    }
+
+    .event-block + .event-block {
+      margin-top: 32px;
+      padding-top: 28px;
+      border-top: 1px solid #eee;
     }
 
     .event-content h2 {
-      margin: 0 0 6px;
+      margin: 0;
       font-size: 21px;
+      line-height: 1.5;
+    }
+
+    .event-date {
+      margin: 4px 0 12px;
+      color: #555;
+      font-size: 14px;
+      font-weight: 600;
     }
 
     .event-content p {
       margin: 0;
-      color: #666;
+      color: #555;
       font-size: 15px;
     }
 
-    .event-content h2 + h2 {
-      margin-top: 16px;
+    .event-content p + p {
+      margin-top: 10px;
     }
 
     .note {
@@ -129,57 +139,35 @@
     }
 
     @media (max-width: 700px) {
-
-      header {
-        padding: 20px 16px;
-      }
-
-      .site-name {
-        font-size: 20px;
-      }
-
+      header { padding: 20px 16px; }
+      .site-name { font-size: 20px; }
       main {
-        width: min(100% - 28px, 900px);
+        width: min(100% - 28px, 930px);
         padding: 42px 0 60px;
       }
-
-      h1 {
-        font-size: 27px;
-      }
-
-      .intro {
-        margin-bottom: 32px;
-      }
-
+      h1 { font-size: 27px; }
+      .intro { margin-bottom: 32px; }
       .event-row {
-        grid-template-columns: 72px 1fr;
-        gap: 16px;
-        padding: 20px 2px;
+        grid-template-columns: 58px 1fr;
+        gap: 14px;
+        padding: 24px 2px;
       }
-
-      .month {
-        font-size: 19px;
-      }
-
-      .event-content h2 {
-        font-size: 19px;
-      }
+      .month { font-size: 18px; }
+      .event-content h2 { font-size: 19px; }
+      .event-content p { font-size: 14px; }
+      .event-date { font-size: 13px; }
     }
   </style>
 </head>
 
 <body>
-
   <header>
     <div class="header-inner">
-      <a href="index.html" class="site-name">
-        松久山 禅昌寺
-      </a>
+      <a href="index.html" class="site-name">松久山 禅昌寺</a>
     </div>
   </header>
 
   <main>
-
     <h1>年間行事</h1>
 
     <p class="intro">
@@ -190,124 +178,181 @@
 
       <section class="event-row">
         <div class="month">1月</div>
-
         <div class="event-content">
-          <h2>修正会・初詣</h2>
-          <p>
-            新しい年の始まりにお参りいただく法要・行事です。
-          </p>
+          <div class="event-block">
+            <h2>初詣修正会・福だるま祈祷</h2>
+            <div class="event-date">毎年1月1日 午前0時（年越し）</div>
+            <p>
+              新しい年を迎えるにあたり、一年を無事に迎えられたことに感謝し、家内安全や無病息災など、新年の平穏を願ってご祈祷を行います。
+            </p>
+            <p>
+              法要に参列された方には、家内安全や厄除けを祈願した縁起物の福だるまをお配りしています。くじ引きで大きさを決め、大・中・小、または特大の福だるまをお持ち帰りいただきます。
+            </p>
+            <p>
+              深夜の法要となりますので、お越しの際は足元や道路状況に十分お気をつけください。
+            </p>
+          </div>
 
-          <h2>大般若祈祷会</h2>
-          <p>
-            大般若経六百巻を用いて、厄除けや諸願成就を祈る法要です。
-          </p>
+          <div class="event-block">
+            <h2>念珠くぐり・大般若祈祷会</h2>
+            <div class="event-date">毎年1月14日</div>
+            <p>
+              新年にあたり、檀信徒の皆さまの家内安全や無病息災などを願うご祈祷法要です。
+            </p>
+            <p>
+              地域の曹洞宗寺院の僧侶が集まり、全600巻からなる『大般若経』を、経本を大きく広げながら読み進める「転読」という方法でご祈祷します。
+            </p>
+            <p>
+              ご祈祷の後には、本堂に安置している大念珠を広げ、参拝された皆さまにその中をくぐっていただき、厄除けを願います。法要後には祈祷札をお配りします。
+            </p>
+          </div>
         </div>
       </section>
-
 
       <section class="event-row">
         <div class="month">2月</div>
-
         <div class="event-content">
-          <h2>涅槃会</h2>
-          <p>
-            お釈迦さまのご入滅を偲ぶ法要です。
-          </p>
+          <div class="event-block">
+            <h2>涅槃会</h2>
+            <div class="event-date">毎年2月13日</div>
+            <p>
+              お釈迦さまのご入滅を偲び、その教えと遺徳に感謝する法要です。併せて、檀信徒の皆さまのご先祖供養を行います。
+            </p>
+            <p>
+              本堂には、お釈迦さまの最期と、その死を悲しむ弟子たちや人々、鳥や獣などが描かれた「仏涅槃図」を掲げ、『仏遺教経』を読誦します。
+            </p>
+            <p>
+              法要後には、色とりどりの「涅槃団子」をお配りします。
+            </p>
+          </div>
         </div>
       </section>
-
 
       <section class="event-row">
         <div class="month">3月</div>
-
         <div class="event-content">
-          <h2>春彼岸会</h2>
-          <p>
-            春分の日にあわせて行います。
-          </p>
+          <div class="event-block">
+            <h2>春彼岸会</h2>
+            <div class="event-date">毎年 春分の日</div>
+            <p>
+              春のお彼岸の中日に、檀信徒の皆さまのご先祖供養を行います。
+            </p>
+            <p>
+              お彼岸は春と秋の年2回あり、春分の日・秋分の日を中日として、その前後3日間を合わせた7日間です。ご先祖さまを偲び供養するとともに、仏さまの教えにふれ、自分自身の生き方を見つめ直す期間でもあります。
+            </p>
+          </div>
         </div>
       </section>
-
 
       <section class="event-row">
         <div class="month">5月</div>
-
         <div class="event-content">
-          <h2>降誕会</h2>
-          <p>
-            お釈迦さまのご誕生をお祝いする法要です。
-          </p>
+          <div class="event-block">
+            <h2>降誕会</h2>
+            <div class="event-date">毎年5月6日</div>
+            <p>
+              お釈迦さまのご誕生をお祝いする法要です。禅昌寺では併せて、先代住職の供養と、檀信徒の皆さまのご先祖供養を行います。
+            </p>
+            <p>
+              降誕会は「花まつり」とも呼ばれ、花で飾った花御堂の中に誕生仏を安置し、甘茶をかけてお釈迦さまの誕生をお祝いします。
+            </p>
+            <p>
+              また法要後には、写経・写仏、匂い袋作りなど、仏教やお寺に親しんでいただくための体験を毎年行っています。
+            </p>
+          </div>
         </div>
       </section>
-
 
       <section class="event-row">
         <div class="month">6月</div>
-
         <div class="event-content">
-          <h2>六地蔵・永代観音供養会</h2>
-          <p>
-            六地蔵菩薩・永代観音のご供養を行います。
-          </p>
+          <div class="event-block">
+            <h2>六地蔵永代観音供養会</h2>
+            <div class="event-date">毎年6月19日</div>
+            <p>
+              禅昌寺の年間法要の中で、唯一境内でもお勤めする法要です。
+            </p>
+            <p>
+              境内に安置されている六地蔵、地蔵菩薩、永代観音、三十三観音を順にお参りした後、本堂でも法要を行います。本堂では檀信徒の皆さまのご先祖供養とともに、特に永代供養墓や旧合同墓に納骨・永代供養された方々のご供養を丁寧にお勤めします。
+            </p>
+            <p>
+              法要前にはお抹茶の接待席も設け、お菓子とともにお抹茶をお楽しみいただけます。
+            </p>
+          </div>
         </div>
       </section>
-
 
       <section class="event-row">
         <div class="month">8月</div>
-
         <div class="event-content">
-          <h2>初盆供養会</h2>
-          <p>
-            初盆を迎えられるご家庭を対象にご供養を行います。
-          </p>
+          <div class="event-block">
+            <h2>初盆供養会</h2>
+            <div class="event-date">毎年8月13日 夕方</div>
+            <p>
+              初盆（新盆）とは、故人が亡くなられ、四十九日の忌明けを迎えた後、初めて迎えるお盆のことです。
+            </p>
+            <p>
+              禅昌寺では対象となるご家庭へご案内し、本堂で合同の初盆供養を行います。本堂には多くのろうそくを灯し、迎え火になぞらえて、初めてのお盆を迎える故人を丁寧にご供養します。
+            </p>
+          </div>
 
-          <h2>盂蘭盆会</h2>
-          <p>
-            お盆のご供養として行う法要です。
-          </p>
+          <div class="event-block">
+            <h2>盂蘭盆会</h2>
+            <div class="event-date">毎年8月16日</div>
+            <p>
+              盂蘭盆会は、一般に「お盆」と呼ばれる行事です。
+            </p>
+            <p>
+              禅昌寺では、檀信徒の皆さまのご先祖供養とともに、「施食（せじき）」の法要を行います。施食は、ご先祖さまだけでなく、広くさまざまな精霊へ供養をめぐらす仏教の法要です。
+            </p>
+            <p>
+              お盆は、ご家庭でもご先祖さまを偲び、日頃の感謝とともに手を合わせる大切な期間です。
+            </p>
+          </div>
         </div>
       </section>
-
 
       <section class="event-row">
         <div class="month">9月</div>
-
         <div class="event-content">
-          <h2>秋彼岸会</h2>
-          <p>
-            秋分の日にあわせて行います。
-          </p>
+          <div class="event-block">
+            <h2>秋彼岸会</h2>
+            <div class="event-date">毎年 秋分の日</div>
+            <p>
+              秋のお彼岸の中日に、檀信徒の皆さまのご先祖供養を行います。
+            </p>
+            <p>
+              お彼岸は春と秋の年2回あり、秋分の日を中日として、その前後3日間を合わせた7日間です。ご先祖さまを偲び供養するとともに、仏さまの教えにふれ、自分自身の生き方を見つめ直す期間でもあります。
+            </p>
+          </div>
         </div>
       </section>
-
 
       <section class="event-row">
         <div class="month">10月</div>
-
         <div class="event-content">
-          <h2>成道会・報恩講</h2>
-          <p>
-            お釈迦さまの成道を偲び、仏祖への報恩感謝を捧げる法要です。
-          </p>
+          <div class="event-block">
+            <h2>成道会・報恩講</h2>
+            <div class="event-date">毎年10月19日</div>
+            <p>
+              お釈迦さまが悟りを開かれたことを記念する「成道会」を勤め、併せて檀信徒の皆さまのご先祖供養を行います。
+            </p>
+            <p>
+              本堂には「出山釈迦図」という掛け軸を掲げます。これは、お釈迦さまが長い苦行を離れて山を下り、やがて菩提樹の下で悟りを開かれるまでの姿を表したものです。
+            </p>
+          </div>
         </div>
       </section>
 
     </div>
 
-
     <div class="note">
-      法要の日時や内容は年によって異なる場合があります。詳しいご案内は、禅昌寺からの案内をご確認ください。
+      法要の時間や内容は変更となる場合があります。詳しい日時は、その都度お届けするご案内をご確認ください。
     </div>
-
 
     <div class="back">
-      <a href="index.html">
-        トップページへ戻る
-      </a>
+      <a href="index.html">トップページへ戻る</a>
     </div>
-
   </main>
-
 </body>
 </html>
