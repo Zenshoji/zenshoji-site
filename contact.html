@@ -7,9 +7,7 @@
   <title>お問い合わせ | 禅昌寺</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -25,10 +23,7 @@
       line-height: 1.8;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
 
     header {
       padding: 26px 20px;
@@ -80,16 +75,18 @@
       background: #fff;
     }
 
-    .contact-box + .contact-box {
-      margin-top: 22px;
-    }
+    .contact-box + .contact-box { margin-top: 22px; }
 
     .contact-box h2 {
       margin: 0 0 14px;
       font-size: 22px;
     }
 
+    .contact-box p { margin: 0; }
+    .contact-box p + p { margin-top: 10px; }
+
     .tel {
+      margin: 4px 0 12px;
       font-size: 25px;
       font-weight: 600;
       letter-spacing: 0.04em;
@@ -101,20 +98,31 @@
     }
 
     .note {
-      margin-top: 12px;
+      margin-top: 12px !important;
       color: #666;
+      font-size: 14px;
+    }
+
+    .important-note {
+      margin-top: 18px !important;
+      padding: 13px 15px;
+      background: #f6f6f4;
+      border-radius: 6px;
+      color: #444;
       font-size: 14px;
     }
 
     .line-button {
       display: inline-block;
-      margin-top: 12px;
+      margin-top: 16px;
       padding: 12px 22px;
       border-radius: 6px;
       background: #333;
       color: #fff;
       font-weight: 600;
     }
+
+    .line-button:hover { background: #111; }
 
     .back {
       margin-top: 58px;
@@ -129,86 +137,99 @@
     }
 
     @media (max-width: 700px) {
-
-      header {
-        padding: 20px 16px;
-      }
-
-      .site-name {
-        font-size: 20px;
-      }
-
+      header { padding: 20px 16px; }
+      .site-name { font-size: 20px; }
       main {
         width: min(100% - 28px, 760px);
         padding: 42px 0 60px;
       }
-
-      h1 {
-        font-size: 27px;
-      }
-
-      .contact-box {
-        padding: 24px 20px;
-      }
-
-      .tel {
-        font-size: 22px;
-      }
+      h1 { font-size: 27px; }
+      .contact-box { padding: 24px 20px; }
+      .tel { font-size: 22px; }
     }
   </style>
 </head>
 
 <body>
-
   <header>
     <div class="header-inner">
-      <a href="index.html" class="site-name">
-        松久山 禅昌寺
-      </a>
+      <a href="index.html" class="site-name">松久山 禅昌寺</a>
     </div>
   </header>
 
   <main>
-
     <h1>お問い合わせ</h1>
 
     <p class="intro">
-      禅昌寺へのお問い合わせはこちらからお願いいたします。
+      禅昌寺へのお問い合わせは、LINEチャットまたはお電話にて承ります。
     </p>
 
     <section class="contact-box">
+      <h2>禅昌寺公式LINE</h2>
+      <p>
+        法事・法要のご相談、坐禅会・写経会・各種体験への参加申込み、その他一般的なお問い合わせにご利用いただけます。
+      </p>
+      <p>
+        内容を確認のうえ、寺院より返信いたします。返信までにお時間をいただく場合があります。
+      </p>
+
+      <!--
+        公開前に、下の href を禅昌寺公式LINEのプロフィールURLへ差し替えてください。
+        例：https://lin.ee/XXXXXXXX
+      -->
+      <a
+        href="#"
+        class="line-button"
+        id="lineProfileLink"
+      >
+        禅昌寺公式LINEを見る
+      </a>
+
+      <p class="important-note">
+        LINEでのご連絡だけでは、法事・法要の日程や予約は確定しません。内容を確認したうえで、寺院よりあらためてご連絡いたします。
+      </p>
+    </section>
+
+    <section class="contact-box">
       <h2>お電話</h2>
-
       <div class="tel">
-        <a href="tel:0152762613">
-          0152-76-2613
-        </a>
+        <a href="tel:0152762613">0152-76-2613</a>
       </div>
-
+      <p>
+        お急ぎの場合や、訃報・危篤・葬儀に関するご連絡は、お電話にてお願いいたします。
+      </p>
       <p class="note">
         法要中や外出中など、すぐに電話に出られない場合があります。
       </p>
     </section>
 
-    <section class="contact-box">
-      <h2>禅昌寺公式LINE</h2>
-
-      <p>
-        ご命日の登録や各種ご案内は、禅昌寺公式LINEからもご利用いただけます。
-      </p>
-
-      <a href="#" class="line-button">
-        禅昌寺公式LINEを開く
-      </a>
-    </section>
-
     <div class="back">
-      <a href="index.html">
-        トップページへ戻る
-      </a>
+      <a href="index.html">トップページへ戻る</a>
     </div>
-
   </main>
 
+  <script>
+    "use strict";
+
+    /*
+      禅昌寺公式LINEのプロフィールURLが決まったら、
+      下の空文字をURLに置き換えてください。
+      例: const LINE_PROFILE_URL = "https://lin.ee/XXXXXXXX";
+    */
+    const LINE_PROFILE_URL = "";
+
+    const lineProfileLink = document.getElementById("lineProfileLink");
+
+    if (LINE_PROFILE_URL) {
+      lineProfileLink.href = LINE_PROFILE_URL;
+      lineProfileLink.target = "_blank";
+      lineProfileLink.rel = "noopener noreferrer";
+    } else {
+      lineProfileLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        alert("禅昌寺公式LINEの公開URLを設定してください。");
+      });
+    }
+  </script>
 </body>
 </html>
