@@ -290,6 +290,7 @@
       3) 法要日の翌日から「厳修しました」と表示
       4) 年間法要と臨時のお知らせを新しい順にまとめる
       5) 最新のお知らせから40日以内のものを最大3件表示
+      6) GASからは通常JSONをfetchで取得する
 
       GASをWebアプリとしてデプロイした後、下のURLだけ設定してください。
     */
@@ -406,42 +407,39 @@
       section.style.display = "block";
     }
 
-    function loadAnnualEvents() {
+    async function loadAnnualEvents() {
       // GAS URL未設定でも、臨時のお知らせは従来どおり表示できる。
       if (!ANNUAL_EVENTS_GAS_URL) {
         renderNews([]);
         return;
       }
 
-      let finished = false;
-      const callbackName = "ZenshojiAnnualEventsCallback";
-      const script = document.createElement("script");
       const separator = ANNUAL_EVENTS_GAS_URL.includes("?") ? "&" : "?";
+      const url = ANNUAL_EVENTS_GAS_URL + separator +
+        "action=annualEvents&_=" + Date.now();
 
-      const finish = (events) => {
-        if (finished) return;
-        finished = true;
-        clearTimeout(timer);
-        renderNews(events || []);
-        try { delete window[callbackName]; } catch (_) { window[callbackName] = undefined; }
-        script.remove();
-      };
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          cache: "no-store",
+          redirect: "follow"
+        });
 
-      window[callbackName] = function(payload) {
-        if (payload && payload.ok && Array.isArray(payload.events)) {
-          finish(payload.events);
-        } else {
-          finish([]);
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
         }
-      };
 
-      script.onerror = function() { finish([]); };
-      script.src = ANNUAL_EVENTS_GAS_URL + separator +
-        "action=annualEvents&callback=" + encodeURIComponent(callbackName) +
-        "&_=" + Date.now();
+        const payload = await response.json();
 
-      const timer = setTimeout(function() { finish([]); }, 5000);
-      document.head.appendChild(script);
+        if (payload && payload.ok && Array.isArray(payload.events)) {
+          renderNews(payload.events);
+        } else {
+          renderNews([]);
+        }
+      } catch (error) {
+        console.error("年間行事データの取得に失敗しました。", error);
+        renderNews([]);
+      }
     }
 
     loadAnnualEvents();
