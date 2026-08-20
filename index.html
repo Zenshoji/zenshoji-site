@@ -95,6 +95,20 @@
       font-weight: 600;
     }
 
+    .news-item {
+      padding: 16px 0;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .news-item:first-child {
+      padding-top: 0;
+    }
+
+    .news-item:last-child {
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
     .menu-grid {
       display: flex;
       flex-wrap: wrap;
@@ -205,10 +219,7 @@
   <section class="news" id="newsSection">
     <div class="container">
       <h2 class="section-title">最新のお知らせ</h2>
-      <div class="news-box">
-        <div class="news-date" id="newsDate"></div>
-        <div class="news-title" id="newsTitle"></div>
-      </div>
+      <div class="news-box" id="newsList"></div>
     </div>
   </section>
 
@@ -276,8 +287,9 @@
       ============================================================
       1) Google Apps Script 側で年間行事の日付を一元管理
       2) 春分の日・秋分の日もGoogle「日本の祝日」から自動取得
-      3) 法要日の翌日から、直近の法要を「厳修しました」と表示
-      4) 臨時のお知らせが年間行事より新しければ、臨時のお知らせを優先
+      3) 法要日の翌日から「厳修しました」と表示
+      4) 年間法要と臨時のお知らせを新しい順にまとめる
+      5) 最新のお知らせから40日以内のものを最大3件表示
 
       GASをWebアプリとしてデプロイした後、下のURLだけ設定してください。
     */
@@ -314,7 +326,7 @@
       return Math.floor((b - a) / (1000 * 60 * 60 * 24));
     }
 
-    function selectLatestNews(annualEvents) {
+    function selectRecentNews(annualEvents) {
       const todayIso = localIsoDate(new Date());
       const candidates = [];
 
@@ -328,10 +340,18 @@
         });
       });
 
+      // 臨時のお知らせ
       manualNews.forEach(item => {
         if (!item.date || item.date > todayIso) return;
+
         const elapsed = dayDiff(item.date, todayIso);
-        if (Number.isFinite(item.expiresAfterDays) && elapsed > item.expiresAfterDays) return;
+        if (
+          Number.isFinite(item.expiresAfterDays) &&
+          elapsed > item.expiresAfterDays
+        ) {
+          return;
+        }
+
         candidates.push({
           date: item.date,
           title: item.title,
@@ -339,21 +359,50 @@
         });
       });
 
+      // 新しい順に並べる
       candidates.sort((a, b) => b.date.localeCompare(a.date));
-      return candidates[0] || null;
+
+      if (candidates.length === 0) {
+        return [];
+      }
+
+      // 最新のお知らせから40日以内にあるものだけを、最大3件表示する。
+      const newestDate = candidates[0].date;
+
+      return candidates
+        .filter(item => dayDiff(item.date, newestDate) <= 40)
+        .slice(0, 3);
     }
 
     function renderNews(annualEvents) {
-      const latest = selectLatestNews(annualEvents);
+      const news = selectRecentNews(annualEvents);
       const section = document.getElementById("newsSection");
+      const list = document.getElementById("newsList");
 
-      if (!latest) {
+      if (!news.length) {
         section.style.display = "none";
         return;
       }
 
-      document.getElementById("newsDate").textContent = japaneseDate(latest.date);
-      document.getElementById("newsTitle").textContent = latest.title;
+      list.innerHTML = "";
+
+      news.forEach(item => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "news-item";
+
+        const date = document.createElement("div");
+        date.className = "news-date";
+        date.textContent = japaneseDate(item.date);
+
+        const title = document.createElement("div");
+        title.className = "news-title";
+        title.textContent = item.title;
+
+        wrapper.appendChild(date);
+        wrapper.appendChild(title);
+        list.appendChild(wrapper);
+      });
+
       section.style.display = "block";
     }
 
