@@ -3,284 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description" content="禅昌寺の坐禅会、写経会、写仏、匂い袋作りなどの体験と、仏教のお話をご案内します。初めての方もご参加いただけます。">
-<title>体験・学び | 禅昌寺</title>
-
+  <meta name="description" content="禅昌寺の坐禅会、写経会、写仏、匂い袋作りなどの体験と、仏教のお話、お経についての学びをご案内します。初めての方もご参加いただけます。">
+  <title>体験・学び | 禅昌寺</title>
   <style>
     * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Hiragino Kaku Gothic ProN",
-        "Yu Gothic",
-        "Meiryo",
-        sans-serif;
-      color: #222;
-      background: #fff;
-      line-height: 1.8;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    header {
-      padding: 26px 20px;
-      border-bottom: 1px solid #ddd;
-      background: #fff;
-    }
-
-    .header-inner {
-      width: min(1000px, calc(100% - 20px));
-      margin: 0 auto;
-    }
-
-    .site-name {
-      font-family:
-        "Yu Mincho",
-        "YuMincho",
-        "Hiragino Mincho ProN",
-        "Hiragino Mincho Pro",
-        "Noto Serif JP",
-        serif;
-      font-size: 24px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-    }
-
-    main {
-      width: min(960px, calc(100% - 40px));
-      margin: 0 auto;
-      padding: 60px 0 80px;
-    }
-
-    h1 {
-      margin: 0 0 14px;
-      text-align: center;
-      font-size: 32px;
-      font-weight: 600;
-    }
-
-    .intro {
-      margin: 0 auto 46px;
-      text-align: center;
-      color: #666;
-      font-size: 16px;
-    }
-
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 24px;
-      align-items: start;
-    }
-
-    .category {
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 34px 28px;
-      background: #fff;
-    }
-
-    .category h2 {
-      margin: 0 0 8px;
-      text-align: center;
-      font-size: 25px;
-    }
-
-    .category-description {
-      margin: 0 0 26px;
-      text-align: center;
-      color: #777;
-      font-size: 15px;
-    }
-
-    .experience-item,
-    .learning-item {
-      padding: 22px 2px;
-      border-top: 1px solid #e5e5e5;
-    }
-
-    .experience-item:last-child,
-    .learning-item:last-child {
-      border-bottom: 1px solid #e5e5e5;
-    }
-
-    .item-title {
-      margin: 0;
-      font-size: 19px;
-      font-weight: 600;
-    }
-
-    .item-meta {
-      margin-top: 4px;
-      color: #555;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .item-text {
-      margin: 12px 0 0;
-      color: #555;
-      font-size: 14px;
-    }
-
-    .item-text p {
-      margin: 0;
-    }
-
-    .item-text p + p {
-      margin-top: 10px;
-    }
-
-    .apply {
-      margin-top: 12px;
-      padding: 10px 12px;
-      background: #f6f6f4;
-      border-radius: 6px;
-      color: #444;
-      font-size: 14px;
-    }
-
-    .learning-item {
-      display: block;
-    }
-
-    .learning-item:hover .item-title {
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-
-    .back {
-      margin-top: 58px;
-      text-align: center;
-    }
-
-    .back a {
-      display: inline-block;
-      padding: 12px 24px;
-      border: 1px solid #bbb;
-      border-radius: 6px;
-      background: #fff;
-    }
-
-    @media (max-width: 700px) {
-      header { padding: 20px 16px; }
-      .site-name { font-size: 20px; }
-      main {
-        width: min(100% - 28px, 960px);
-        padding: 42px 0 60px;
-      }
-      h1 { font-size: 27px; }
-      .intro { margin-bottom: 32px; }
-      .category-grid {
-        grid-template-columns: 1fr;
-        gap: 18px;
-      }
-      .category { padding: 28px 22px; }
-      .category h2 { font-size: 23px; }
-    }
+    body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif; color:#222; background:#fff; line-height:1.8; }
+    a { color:inherit; text-decoration:none; }
+    header { padding:26px 20px; border-bottom:1px solid #ddd; background:#fff; }
+    .header-inner { width:min(1000px,calc(100% - 20px)); margin:0 auto; }
+    .site-name { font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Hiragino Mincho Pro","Noto Serif JP",serif; font-size:24px; font-weight:600; letter-spacing:.12em; }
+    main { width:min(960px,calc(100% - 40px)); margin:0 auto; padding:60px 0 80px; }
+    h1 { margin:0 0 14px; text-align:center; font-size:32px; font-weight:600; }
+    .intro { margin:0 auto 46px; text-align:center; color:#666; font-size:16px; }
+    .category-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; align-items:start; }
+    .category { border:1px solid #ddd; border-radius:10px; padding:34px 28px; background:#fff; }
+    .category h2 { margin:0 0 8px; text-align:center; font-size:25px; }
+    .category-description { margin:0 0 26px; text-align:center; color:#777; font-size:15px; }
+    .experience-item,.learning-item { padding:22px 2px; border-top:1px solid #e5e5e5; }
+    .experience-item:last-child,.learning-item:last-child { border-bottom:1px solid #e5e5e5; }
+    .item-title { margin:0; font-size:19px; font-weight:600; }
+    .item-meta { margin-top:4px; color:#555; font-size:14px; font-weight:600; }
+    .item-text { margin:12px 0 0; color:#555; font-size:14px; }
+    .item-text p { margin:0; }.item-text p+p{margin-top:10px}.apply{margin-top:12px;padding:10px 12px;background:#f6f6f4;border-radius:6px;color:#444;font-size:14px}
+    .learning-item{display:block}.learning-item:hover .item-title{text-decoration:underline;text-underline-offset:3px}.back{margin-top:58px;text-align:center}.back a{display:inline-block;padding:12px 24px;border:1px solid #bbb;border-radius:6px;background:#fff}
+    @media(max-width:700px){header{padding:20px 16px}.site-name{font-size:20px}main{width:min(100% - 28px,960px);padding:42px 0 60px}h1{font-size:27px}.intro{margin-bottom:32px}.category-grid{grid-template-columns:1fr;gap:18px}.category{padding:28px 22px}.category h2{font-size:23px}}
   </style>
 </head>
-
 <body>
-  <header>
-    <div class="header-inner">
-      <a href="index.html" class="site-name">松久山 禅昌寺</a>
-    </div>
-  </header>
-
-  <main>
-    <h1>体験・学び</h1>
-
-    <p class="intro">
-      禅昌寺での体験や、仏教についての読みものをご案内しています。
-    </p>
-
-    <div class="category-grid">
-      <section class="category">
-        <h2>体験</h2>
-        <p class="category-description">お寺で仏教にふれる</p>
-
-        <div class="experience-item">
-          <h3 class="item-title">坐禅会</h3>
-          <div class="item-meta">月例行事　毎月15日 夕方　／　参加無料</div>
-          <div class="item-text">
-            <p>
-              足を組んで坐りますので、動きやすい服装でのご参加をおすすめします。足を組むことが難しい方は、イス坐禅でもご参加いただけます。
-            </p>
-            <p>
-              曹洞宗の坐禅では、「ただひたすら坐ること（只管打坐・しかんたざ）」を大切にします。姿勢と呼吸を整え、静かに坐りながら、今ここにある自分自身と向き合う時間を体験していただけます。
-            </p>
-          </div>
-          <div class="apply">
-            参加を希望される方は、LINEチャットまたはお電話にてお申し込みください。
-          </div>
-        </div>
-
-        <div class="experience-item">
-          <h3 class="item-title">写経会</h3>
-          <div class="item-meta">月例行事　毎月1日 昼ごろ　／　参加無料</div>
-          <div class="item-text">
-            <p>
-              写経台紙（お手本）、写経用紙、書道用具はお寺でご用意しています。ご自身の道具をお持ちいただいても構いません。筆を持参される場合は、細めのものがおすすめです。
-            </p>
-            <p>
-              写経はテーブルと椅子を使用して行います。
-            </p>
-          </div>
-          <div class="apply">
-            参加を希望される方は、LINEチャットまたはお電話にてお申し込みください。
-          </div>
-        </div>
-
-        <div class="experience-item">
-          <h3 class="item-title">その他の体験</h3>
-          <div class="item-text">
-            <p>
-              坐禅会・写経会などの月例行事のほかにも、写仏体験や匂い袋作り体験など、さまざまな体験行事を行ってきました。
-            </p>
-            <p>
-              ご希望の日程に合わせた体験会の開催や、出張での開催、少人数・個人での対応についてもご相談いただけます。
-            </p>
-          </div>
-          <div class="apply">
-            ご興味のある方は、LINEチャットまたはお電話にてお問い合わせください。
-          </div>
-        </div>
-      </section>
-
-      <section class="category">
-        <h2>学び</h2>
-        <p class="category-description">仏教を身近に知る</p>
-
-        <a
-          href="https://zenshoji.github.io/meinichi-liff/learning/articles/"
-          class="learning-item"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div class="item-title">1分で読める仏教のお話</div>
-          <div class="item-text">身近な話題から仏教にふれる短いお話</div>
-        </a>
-
-        <a
-          href="https://zenshoji.github.io/meinichi-liff/learning/words/"
-          class="learning-item"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div class="item-title">仏教の言葉</div>
-          <div class="item-text">仏教や禅の言葉をご紹介します</div>
-        </a>
-      </section>
-    </div>
-
-    <div class="back">
-      <a href="index.html">トップページへ戻る</a>
-    </div>
-  </main>
-</body>
-</html>
+<header><div class="header-inner"><a href="index.html" class="site-name">松久山 禅昌寺</a></div></header>
+<main>
+<h1>体験・学び</h1>
+<p class="intro">禅昌寺での体験や、仏教についての読みものをご案内しています。</p>
+<div class="category-grid">
+<section class="category"><h2>体験</h2><p class="category-description">お寺で仏教にふれる</p>
+<div class="experience-item"><h3 class="item-title">坐禅会</h3><div class="item-meta">月例行事　毎月15日 夕方　／　参加無料</div><div class="item-text"><p>足を組んで坐りますので、動きやすい服装でのご参加をおすすめします。足を組むことが難しい方は、イス坐禅でもご参加いただけます。</p><p>曹洞宗の坐禅では、「ただひたすら坐ること（只管打坐・しかんたざ）」を大切にします。姿勢と呼吸を整え、静かに坐りながら、今ここにある自分自身と向き合う時間を体験していただけます。</p></div><div class="apply">参加を希望される方は、LINEチャットまたはお電話にてお申し込みください。</div></div>
+<div class="experience-item"><h3 class="item-title">写経会</h3><div class="item-meta">月例行事　毎月1日 昼ごろ　／　参加無料</div><div class="item-text"><p>写経台紙（お手本）、写経用紙、書道用具はお寺でご用意しています。ご自身の道具をお持ちいただいても構いません。筆を持参される場合は、細めのものがおすすめです。</p><p>写経はテーブルと椅子を使用して行います。</p></div><div class="apply">参加を希望される方は、LINEチャットまたはお電話にてお申し込みください。</div></div>
+<div class="experience-item"><h3 class="item-title">その他の体験</h3><div class="item-text"><p>坐禅会・写経会などの月例行事のほかにも、写仏体験や匂い袋作り体験など、さまざまな体験行事を行ってきました。</p><p>ご希望の日程に合わせた体験会の開催や、出張での開催、少人数・個人での対応についてもご相談いただけます。</p></div><div class="apply">ご興味のある方は、LINEチャットまたはお電話にてお問い合わせください。</div></div>
+</section>
+<section class="category"><h2>学び</h2><p class="category-description">仏教を身近に知る</p>
+<a href="https://zenshoji.github.io/meinichi-liff/learning/articles/" class="learning-item" target="_blank" rel="noopener noreferrer"><div class="item-title">1分で読める仏教のお話</div><div class="item-text">身近な話題から仏教にふれる短いお話</div></a>
+<a href="https://zenshoji.github.io/meinichi-liff/learning/words/" class="learning-item" target="_blank" rel="noopener noreferrer"><div class="item-title">仏教の言葉</div><div class="item-text">仏教や禅の言葉をご紹介します</div></a>
+<a href="sutra.html" class="learning-item"><div class="item-title">お経について</div><div class="item-text">禅昌寺でお唱えするお経の意味や由来をご紹介します</div></a>
+</section></div>
+<div class="back"><a href="index.html">トップページへ戻る</a></div>
+</main></body></html>
