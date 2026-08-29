@@ -230,6 +230,16 @@
       overflow: hidden;
     }
 
+
+    /*
+      裏面へ置く場合は、年回表の左側に確保済みの
+      70mm幅の空き領域（back-extra）の中央へ配置する。
+    */
+    .page.back .temple-info {
+      left: 36mm;
+      top: 24mm;
+    }
+
     .temple-identity {
       position: absolute;
 
@@ -1797,8 +1807,48 @@
       );
 
 
+    const requestedTempleInfoPosition =
+      (
+        pdfOptions.templeInfoPosition === "front" ||
+        pdfOptions.templeInfoPosition === "back" ||
+        pdfOptions.templeInfoPosition === "none"
+      )
+        ? pdfOptions.templeInfoPosition
+        : (
+            pdfOptions.showTempleInfo === false
+              ? "none"
+              : "front"
+          );
+
+
+    /*
+      年回表を表面に出す場合は裏面そのものを作らない。
+      そのため「裏面」を指定していても、寺院情報が消えないよう
+      その場合だけ表面左側へ自動退避する。
+    */
+    const effectiveTempleInfoPosition =
+      (
+        requestedTempleInfoPosition === "back" &&
+        frontTableMode === "nenkai"
+      )
+        ? "front"
+        : requestedTempleInfoPosition;
+
+
+    /*
+      既存の表面レイアウト計算は showTempleInfo を参照しているため、
+      これは「表面に寺院情報があるか」という意味で維持する。
+    */
     const showTempleInfo =
-      pdfOptions.showTempleInfo !== false;
+      effectiveTempleInfoPosition === "front";
+
+
+    const showTempleInfoOnBack =
+      effectiveTempleInfoPosition === "back";
+
+
+    const showTempleInfoAnywhere =
+      effectiveTempleInfoPosition !== "none";
 
 
     const IHAI_TOP_IMAGE_SRC =
@@ -3128,9 +3178,46 @@
           ".temple-info"
         );
 
+      const frontPage =
+        document.querySelector(
+          ".page.front"
+        );
+
+      const backPage =
+        document.querySelector(
+          ".page.back"
+        );
+
+      /*
+        寺院情報は1つだけ持ち、選択された面へDOM自体を移動する。
+        これによりブラウザ表示と「印刷する」で同じ実体を使う。
+      */
+      if (
+        showTempleInfoOnBack &&
+        backPage
+      ) {
+        backPage.appendChild(
+          templeInfo
+        );
+      }
+      else if (
+        frontPage &&
+        templeInfo.parentElement !== frontPage
+      ) {
+        const chuinArea =
+          frontPage.querySelector(
+            ".chuin-area"
+          );
+
+        frontPage.insertBefore(
+          templeInfo,
+          chuinArea
+        );
+      }
+
 
       if (
-        showTempleInfo
+        showTempleInfoAnywhere
       ) {
 
         templeInfo.style.display =
@@ -6031,6 +6118,225 @@
     }
 
 
+
+    function drawTempleInfoCanvas(
+      ctx,
+      boxXMm
+    ) {
+
+
+      const boxX =
+    mm(boxXMm);
+
+    const boxY =
+      mm(24);
+
+    const boxW =
+      mm(22);
+
+    const boxH =
+      mm(160);
+
+    const splitY =
+      boxY +
+      mm(50);
+
+    ctx.save();
+
+    ctx.lineWidth =
+      mm(0.265);
+
+    ctx.strokeStyle =
+      "#999";
+
+    /* 四辺罫線：ブラウザと同じく約2mm角丸 */
+    ctx.beginPath();
+    if (typeof ctx.roundRect === "function") {
+      ctx.roundRect(
+        boxX,
+        boxY,
+        boxW,
+        boxH,
+        mm(2)
+      );
+    }
+    else {
+      const r = mm(2);
+      ctx.moveTo(boxX + r, boxY);
+      ctx.lineTo(boxX + boxW - r, boxY);
+      ctx.quadraticCurveTo(boxX + boxW, boxY, boxX + boxW, boxY + r);
+      ctx.lineTo(boxX + boxW, boxY + boxH - r);
+      ctx.quadraticCurveTo(boxX + boxW, boxY + boxH, boxX + boxW - r, boxY + boxH);
+      ctx.lineTo(boxX + r, boxY + boxH);
+      ctx.quadraticCurveTo(boxX, boxY + boxH, boxX, boxY + boxH - r);
+      ctx.lineTo(boxX, boxY + r);
+      ctx.quadraticCurveTo(boxX, boxY, boxX + r, boxY);
+    }
+    ctx.stroke();
+
+    /* 上段／下段 */
+    ctx.beginPath();
+
+    ctx.moveTo(
+      boxX,
+      splitY
+    );
+
+    ctx.lineTo(
+      boxX +
+      boxW,
+      splitY
+    );
+
+    ctx.stroke();
+
+    /*
+      下段中央の細い縦罫線。
+      ブラウザ .temple-contact::after と同じく
+      上下3mmだけ空ける。
+    */
+    ctx.lineWidth =
+      mm(0.265);
+
+    ctx.strokeStyle =
+      "#bbb";
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      boxX +
+      boxW / 2,
+      splitY +
+      mm(3)
+    );
+
+    ctx.lineTo(
+      boxX +
+      boxW / 2,
+      boxY +
+      boxH -
+      mm(3)
+    );
+
+    ctx.stroke();
+
+    ctx.restore();
+
+
+    /* 上部：左 松久山／右 曹洞宗 */
+    const smallTempleSize =
+      mm(
+        11 *
+        25.4 /
+        72
+      );
+
+    const smallTempleGap =
+      smallTempleSize *
+      1.18;
+
+    drawVerticalText(
+      ctx,
+      "松久山",
+      boxX +
+      mm(7.75),
+      boxY +
+      mm(4),
+      {
+        size:
+          smallTempleSize,
+        gap:
+          smallTempleGap,
+        maxHeight:
+          mm(20)
+      }
+    );
+
+    drawVerticalText(
+      ctx,
+      "曹洞宗",
+      boxX +
+      mm(14.25),
+      boxY +
+      mm(4),
+      {
+        size:
+          smallTempleSize,
+        gap:
+          smallTempleGap,
+        maxHeight:
+          mm(20)
+      }
+    );
+
+
+    /* 中央下：禅昌寺 20pt */
+    const templeMainSize =
+      mm(
+        20 *
+        25.4 /
+        72
+      );
+
+    drawVerticalText(
+      ctx,
+      "禅昌寺",
+      boxX +
+      boxW / 2,
+      boxY +
+      mm(23),
+      {
+        size:
+          templeMainSize,
+        gap:
+          templeMainSize * 1.08,
+        weight:
+          "600",
+        maxHeight:
+          mm(25)
+      }
+    );
+
+
+    /*
+      下段はブラウザと同じ102mm有効高。
+      flex row-reverse の結果、住所が右・電話が左。
+    */
+    const contactY =
+      splitY +
+      mm(4);
+
+    const phoneX =
+      boxX +
+      mm(6.5);
+
+    const addressX =
+      boxX +
+      mm(15.5);
+
+    drawTempleVerticalTextCanvas(
+      ctx,
+      "電話　" +
+      data.temple.tel,
+      phoneX,
+      contactY,
+      102
+    );
+
+    drawTempleVerticalTextCanvas(
+      ctx,
+      data.temple.postal +
+      "　" +
+      data.temple.address,
+      addressX,
+      contactY,
+      102
+    );
+
+      
+    }
+
+
     function renderFrontCanvas() {
 
       const {
@@ -6047,215 +6353,10 @@
       if (
         showTempleInfo
       ) {
-
-        const boxX =
-          mm(11.5);
-
-        const boxY =
-          mm(24);
-
-        const boxW =
-          mm(22);
-
-        const boxH =
-          mm(160);
-
-        const splitY =
-          boxY +
-          mm(50);
-
-        ctx.save();
-
-        ctx.lineWidth =
-          mm(0.265);
-
-        ctx.strokeStyle =
-          "#999";
-
-        /* 四辺罫線：ブラウザと同じく約2mm角丸 */
-        ctx.beginPath();
-        if (typeof ctx.roundRect === "function") {
-          ctx.roundRect(
-            boxX,
-            boxY,
-            boxW,
-            boxH,
-            mm(2)
-          );
-        }
-        else {
-          const r = mm(2);
-          ctx.moveTo(boxX + r, boxY);
-          ctx.lineTo(boxX + boxW - r, boxY);
-          ctx.quadraticCurveTo(boxX + boxW, boxY, boxX + boxW, boxY + r);
-          ctx.lineTo(boxX + boxW, boxY + boxH - r);
-          ctx.quadraticCurveTo(boxX + boxW, boxY + boxH, boxX + boxW - r, boxY + boxH);
-          ctx.lineTo(boxX + r, boxY + boxH);
-          ctx.quadraticCurveTo(boxX, boxY + boxH, boxX, boxY + boxH - r);
-          ctx.lineTo(boxX, boxY + r);
-          ctx.quadraticCurveTo(boxX, boxY, boxX + r, boxY);
-        }
-        ctx.stroke();
-
-        /* 上段／下段 */
-        ctx.beginPath();
-
-        ctx.moveTo(
-          boxX,
-          splitY
-        );
-
-        ctx.lineTo(
-          boxX +
-          boxW,
-          splitY
-        );
-
-        ctx.stroke();
-
-        /*
-          下段中央の細い縦罫線。
-          ブラウザ .temple-contact::after と同じく
-          上下3mmだけ空ける。
-        */
-        ctx.lineWidth =
-          mm(0.265);
-
-        ctx.strokeStyle =
-          "#bbb";
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-          boxX +
-          boxW / 2,
-          splitY +
-          mm(3)
-        );
-
-        ctx.lineTo(
-          boxX +
-          boxW / 2,
-          boxY +
-          boxH -
-          mm(3)
-        );
-
-        ctx.stroke();
-
-        ctx.restore();
-
-
-        /* 上部：左 松久山／右 曹洞宗 */
-        const smallTempleSize =
-          mm(
-            11 *
-            25.4 /
-            72
-          );
-
-        const smallTempleGap =
-          smallTempleSize *
-          1.18;
-
-        drawVerticalText(
+        drawTempleInfoCanvas(
           ctx,
-          "松久山",
-          boxX +
-          mm(7.75),
-          boxY +
-          mm(4),
-          {
-            size:
-              smallTempleSize,
-            gap:
-              smallTempleGap,
-            maxHeight:
-              mm(20)
-          }
+          11.5
         );
-
-        drawVerticalText(
-          ctx,
-          "曹洞宗",
-          boxX +
-          mm(14.25),
-          boxY +
-          mm(4),
-          {
-            size:
-              smallTempleSize,
-            gap:
-              smallTempleGap,
-            maxHeight:
-              mm(20)
-          }
-        );
-
-
-        /* 中央下：禅昌寺 20pt */
-        const templeMainSize =
-          mm(
-            20 *
-            25.4 /
-            72
-          );
-
-        drawVerticalText(
-          ctx,
-          "禅昌寺",
-          boxX +
-          boxW / 2,
-          boxY +
-          mm(23),
-          {
-            size:
-              templeMainSize,
-            gap:
-              templeMainSize * 1.08,
-            weight:
-              "600",
-            maxHeight:
-              mm(25)
-          }
-        );
-
-
-        /*
-          下段はブラウザと同じ102mm有効高。
-          flex row-reverse の結果、住所が右・電話が左。
-        */
-        const contactY =
-          splitY +
-          mm(4);
-
-        const phoneX =
-          boxX +
-          mm(6.5);
-
-        const addressX =
-          boxX +
-          mm(15.5);
-
-        drawTempleVerticalTextCanvas(
-          ctx,
-          "電話　" +
-          data.temple.tel,
-          phoneX,
-          contactY,
-          102
-        );
-
-        drawTempleVerticalTextCanvas(
-          ctx,
-          data.temple.postal +
-          "　" +
-          data.temple.address,
-          addressX,
-          contactY,
-          102
-        );
-
       }
 
 
@@ -6699,6 +6800,16 @@
 
       if (frontTableMode === "nenkai") {
         return canvas;
+      }
+
+
+      if (
+        showTempleInfoOnBack
+      ) {
+        drawTempleInfoCanvas(
+          ctx,
+          36
+        );
       }
 
 
