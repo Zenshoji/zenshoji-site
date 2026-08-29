@@ -439,6 +439,11 @@
       border-top: 1px solid #d8d8d5;
     }
 
+
+    .kaimyo-editor.hidden-by-master {
+      display: none;
+    }
+
     .kaimyo-editor h3 {
       margin: 0 0 6px;
       font-size: 17px;
@@ -1312,7 +1317,33 @@
         </div>
 
 
-        <div class="kaimyo-editor">
+        <div class="option-row">
+
+          <input
+            type="checkbox"
+            id="showKaimyoNotes"
+            checked
+          >
+
+          <div class="option-content">
+
+            <label
+              for="showKaimyoNotes"
+              class="option-title"
+            >
+              戒名についての説明を表示
+            </label>
+
+            <div class="option-description">
+              チェックを外すと、入力内容を残したまま今回のPDFでは戒名の説明・由来などをすべて掲載しません。
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="kaimyo-editor" id="kaimyoEditor">
 
           <h3>
             戒名についての説明
@@ -2744,8 +2775,24 @@
           )
           .checked;
 
+      const showKaimyoNotes =
+        document
+          .getElementById(
+            "showKaimyoNotes"
+          )
+          .checked;
+
       const maxColumns =
         showTemple ? 7 : 10;
+
+      if (!showKaimyoNotes) {
+        return {
+          maxColumns: maxColumns,
+          usedColumns: 0,
+          headingTooLong: false,
+          overflow: false
+        };
+      }
 
       let usedColumns = 0;
       let headingTooLong = false;
@@ -3034,6 +3081,29 @@
         }
       );
 
+    function updateKaimyoEditorState() {
+
+      const showKaimyoNotes =
+        document
+          .getElementById(
+            "showKaimyoNotes"
+          )
+          .checked;
+
+      document
+        .getElementById(
+          "kaimyoEditor"
+        )
+        .classList
+        .toggle(
+          "hidden-by-master",
+          !showKaimyoNotes
+        );
+
+      updateKaimyoValidation();
+
+    }
+
     document
       .getElementById(
         "showTempleInfo"
@@ -3043,7 +3113,17 @@
         updateKaimyoValidation
       );
 
+    document
+      .getElementById(
+        "showKaimyoNotes"
+      )
+      .addEventListener(
+        "change",
+        updateKaimyoEditorState
+      );
+
     renderKaimyoBlocks();
+    updateKaimyoEditorState();
 
     /*
       ========================================
@@ -3103,6 +3183,9 @@
 
         showTempleInfo:
           document.getElementById("showTempleInfo").checked,
+
+        showKaimyoNotes:
+          document.getElementById("showKaimyoNotes").checked,
 
         kaimyoBlocks:
           kaimyoBlocks.map(
@@ -3280,6 +3363,13 @@
       }
 
       if (
+        typeof draft.showKaimyoNotes === "boolean"
+      ) {
+        document.getElementById("showKaimyoNotes").checked =
+          draft.showKaimyoNotes;
+      }
+
+      if (
         Array.isArray(draft.kaimyoBlocks) &&
         draft.kaimyoBlocks.length
       ) {
@@ -3301,7 +3391,7 @@
       }
 
       renderKaimyoBlocks();
-      updateKaimyoValidation();
+      updateKaimyoEditorState();
 
       restoringAdminDraft =
         false;
@@ -3312,7 +3402,7 @@
 
       document
         .querySelectorAll(
-          "#name, #kaimyo, #age, #era, #eraYear, #warekiMonth, #warekiDay, #deathYear, #deathMonth, #deathDay, #frontTableMode, #showNenkaiOldNames, #showTempleInfo"
+          "#name, #kaimyo, #age, #era, #eraYear, #warekiMonth, #warekiDay, #deathYear, #deathMonth, #deathDay, #frontTableMode, #showNenkaiOldNames, #showTempleInfo, #showKaimyoNotes"
         )
         .forEach(
           function(element) {
@@ -3894,24 +3984,30 @@
 
 
             kaimyoSections:
-              kaimyoBlocks
-                .filter(
-                  function(block) {
-                    return block.visible;
-                  }
+              document
+                .getElementById(
+                  "showKaimyoNotes"
                 )
-                .map(
-                  function(block) {
-                    return {
-                      heading:
-                        String(block.title || "").trim(),
-                      title:
-                        String(block.title || "").trim(),
-                      body:
-                        String(block.body || "").trim()
-                    };
-                  }
-                ),
+                .checked
+                ? kaimyoBlocks
+                    .filter(
+                      function(block) {
+                        return block.visible;
+                      }
+                    )
+                    .map(
+                      function(block) {
+                        return {
+                          heading:
+                            String(block.title || "").trim(),
+                          title:
+                            String(block.title || "").trim(),
+                          body:
+                            String(block.body || "").trim()
+                        };
+                      }
+                    )
+                : [],
 
 
             options: {
@@ -3935,6 +4031,14 @@
                 document
                   .getElementById(
                     "showTempleInfo"
+                  )
+                  .checked,
+
+
+              showKaimyoNotes:
+                document
+                  .getElementById(
+                    "showKaimyoNotes"
                   )
                   .checked
 
