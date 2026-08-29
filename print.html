@@ -419,11 +419,16 @@
       top: 8%;
       bottom: 8%;
 
-      width: 1px;
+      width: 0;
 
-      background: #111;
+      /*
+        ブラウザの印刷では背景色が省略される場合があるため、
+        ハイフンの縦線は background ではなく border で描く。
+        PDF保存側のCanvas描画には影響しない。
+      */
+      border-left: 1px solid #111;
 
-      transform: translateX(-50%);
+      transform: translateX(-0.5px);
     }
 
     .temple-address-space {
