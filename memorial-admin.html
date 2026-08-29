@@ -1288,31 +1288,28 @@
         </div>
 
 
-        <div class="option-row">
-
-
-          <input
-            type="checkbox"
-            id="showTempleInfo"
-            checked
-          >
-
+        <div class="option-row temple-info-position-row">
 
           <div class="option-content">
 
             <label
-              for="showTempleInfo"
+              for="templeInfoPosition"
               class="option-title"
             >
-              寺院情報を表示
+              寺院情報の掲載位置
             </label>
 
+            <select id="templeInfoPosition">
+              <option value="front" selected>表面左側に表示</option>
+              <option value="back">裏面の年回表の左側に表示</option>
+              <option value="none">表示しない</option>
+            </select>
+
             <div class="option-description">
-              曹洞宗 松久山 禅昌寺・住所・電話番号を表示します。
+              裏面を選んだ場合、裏面がある構成では年回表の左側へ表示します。年回表を表面に表示して裏面を使わない構成では、寺院情報が消えないよう自動的に表面左側へ表示します。
             </div>
 
           </div>
-
 
         </div>
 
@@ -2766,14 +2763,102 @@
 
     }
 
+    function resolveAdminFrontTableModeForLayout() {
+
+      const requestedMode =
+        document
+          .getElementById(
+            "frontTableMode"
+          )
+          .value;
+
+      if (
+        requestedMode === "chuin" ||
+        requestedMode === "nenkai"
+      ) {
+        return requestedMode;
+      }
+
+      const result =
+        getDeathDate();
+
+      if (
+        !result ||
+        !result.valid ||
+        !result.date
+      ) {
+        return "chuin";
+      }
+
+      const deathDate =
+        result.date;
+
+      const death =
+        new Date(
+          deathDate.getUTCFullYear(),
+          deathDate.getUTCMonth(),
+          deathDate.getUTCDate()
+        );
+
+      const now =
+        new Date();
+
+      const today =
+        new Date(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate()
+        );
+
+      const diffDays =
+        Math.floor(
+          (
+            today.getTime() -
+            death.getTime()
+          ) /
+          86400000
+        );
+
+      return diffDays >= 100
+        ? "nenkai"
+        : "chuin";
+
+    }
+
+
+    function isTempleInfoOnFrontForLayout() {
+
+      const position =
+        document
+          .getElementById(
+            "templeInfoPosition"
+          )
+          .value;
+
+      if (position === "none") {
+        return false;
+      }
+
+      if (position === "front") {
+        return true;
+      }
+
+      /*
+        裏面指定でも、年回表を表面に出す場合は
+        裏面そのものを使わないため寺院情報を表面へ退避する。
+      */
+      return (
+        position === "back" &&
+        resolveAdminFrontTableModeForLayout() === "nenkai"
+      );
+
+    }
+
+
     function getKaimyoValidation() {
 
       const showTemple =
-        document
-          .getElementById(
-            "showTempleInfo"
-          )
-          .checked;
+        isTempleInfoOnFrontForLayout();
 
       const showKaimyoNotes =
         document
@@ -3106,11 +3191,37 @@
 
     document
       .getElementById(
-        "showTempleInfo"
+        "templeInfoPosition"
       )
       .addEventListener(
         "change",
         updateKaimyoValidation
+      );
+
+    document
+      .getElementById(
+        "frontTableMode"
+      )
+      .addEventListener(
+        "change",
+        updateKaimyoValidation
+      );
+
+    document
+      .querySelectorAll(
+        "#era, #eraYear, #warekiMonth, #warekiDay, #deathYear, #deathMonth, #deathDay"
+      )
+      .forEach(
+        function(element) {
+          element.addEventListener(
+            "change",
+            updateKaimyoValidation
+          );
+          element.addEventListener(
+            "input",
+            updateKaimyoValidation
+          );
+        }
       );
 
     document
@@ -3181,8 +3292,15 @@
         showNenkaiOldNames:
           document.getElementById("showNenkaiOldNames").checked,
 
+        templeInfoPosition:
+          document.getElementById("templeInfoPosition").value,
+
+        /*
+          旧版との互換用。
+          新版では templeInfoPosition を優先する。
+        */
         showTempleInfo:
-          document.getElementById("showTempleInfo").checked,
+          document.getElementById("templeInfoPosition").value !== "none",
 
         showKaimyoNotes:
           document.getElementById("showKaimyoNotes").checked,
@@ -3356,10 +3474,24 @@
       }
 
       if (
+        draft.templeInfoPosition === "front" ||
+        draft.templeInfoPosition === "back" ||
+        draft.templeInfoPosition === "none"
+      ) {
+        document.getElementById("templeInfoPosition").value =
+          draft.templeInfoPosition;
+      }
+      else if (
         typeof draft.showTempleInfo === "boolean"
       ) {
-        document.getElementById("showTempleInfo").checked =
-          draft.showTempleInfo;
+        /*
+          旧版の一時保存データ：
+          true → 表面、false → 非表示として読み替える。
+        */
+        document.getElementById("templeInfoPosition").value =
+          draft.showTempleInfo
+            ? "front"
+            : "none";
       }
 
       if (
@@ -3402,7 +3534,7 @@
 
       document
         .querySelectorAll(
-          "#name, #kaimyo, #age, #era, #eraYear, #warekiMonth, #warekiDay, #deathYear, #deathMonth, #deathDay, #frontTableMode, #showNenkaiOldNames, #showTempleInfo, #showKaimyoNotes"
+          "#name, #kaimyo, #age, #era, #eraYear, #warekiMonth, #warekiDay, #deathYear, #deathMonth, #deathDay, #frontTableMode, #showNenkaiOldNames, #templeInfoPosition, #showKaimyoNotes"
         )
         .forEach(
           function(element) {
@@ -4027,12 +4159,24 @@
                   .checked,
 
 
+              templeInfoPosition:
+                document
+                  .getElementById(
+                    "templeInfoPosition"
+                  )
+                  .value,
+
+
+              /*
+                旧 print.html との互換用。
+                新 print.html は templeInfoPosition を優先する。
+              */
               showTempleInfo:
                 document
                   .getElementById(
-                    "showTempleInfo"
+                    "templeInfoPosition"
                   )
-                  .checked,
+                  .value !== "none",
 
 
               showKaimyoNotes:
