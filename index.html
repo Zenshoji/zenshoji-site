@@ -96,6 +96,16 @@
       font-weight: 600;
     }
 
+    .news-title a {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .news-title a:hover {
+      opacity: 0.72;
+    }
+
     .news-item {
       padding: 16px 0;
       border-bottom: 1px solid #e5e5e5;
@@ -303,6 +313,12 @@
     */
     const manualNews = [
       {
+        date: "2026-08-30",
+        title: "「学び」に新しいコラムを掲載しました",
+        url: "learning.html",
+        expiresAfterDays: 90
+      },
+      {
         date: "2026-08-20",
         title: "禅昌寺公式サイトを公開しました",
         expiresAfterDays: 90
@@ -357,6 +373,7 @@
         candidates.push({
           date: item.date,
           title: item.title,
+          url: item.url || "",
           kind: "manual"
         });
       });
@@ -398,7 +415,15 @@
 
         const title = document.createElement("div");
         title.className = "news-title";
-        title.textContent = item.title;
+
+        if (item.url) {
+          const link = document.createElement("a");
+          link.href = item.url;
+          link.textContent = item.title;
+          title.appendChild(link);
+        } else {
+          title.textContent = item.title;
+        }
 
         wrapper.appendChild(date);
         wrapper.appendChild(title);
