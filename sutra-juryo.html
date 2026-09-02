@@ -1,143 +1,109 @@
 <!DOCTYPE html>
 
 <html lang="ja"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1.0" name="viewport"/><meta content="寿量品偈（自我偈）の本文全文を区切りごとに掲載し、純粋な現代語の意味を添えて紹介します。" name="description"/><title>妙法蓮華経如来寿量品偈（自我偈） | 禅昌寺</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;color:#222;background:#fff;line-height:1.9}a{color:inherit;text-decoration:none}header{padding:26px 20px;border-bottom:1px solid #ddd;background:#fff}.header-inner{width:min(1000px,calc(100% - 20px));margin:0 auto}.site-name{font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Noto Serif JP",serif;font-size:24px;font-weight:600;letter-spacing:.12em}main{width:min(900px,calc(100% - 40px));margin:0 auto;padding:58px 0 80px}h1{margin:0 0 14px;text-align:center;font-size:32px;font-weight:600}h2{margin:54px 0 18px;padding-bottom:8px;border-bottom:1px solid #ddd;font-size:24px}h3{margin:34px 0 12px;font-size:20px}.intro{max-width:760px;margin:0 auto 42px;text-align:center;color:#666}.sutra-block{margin:26px 0 32px}.original,.meaning{border-radius:8px;padding:18px 20px}.original{background:#f5f3ed;border:1px solid #e5e1d7;font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN",serif;line-height:2;font-size:16px}.meaning{margin-top:10px;background:#fafafa;border-left:3px solid #bbb}.label{display:block;margin-bottom:6px;font-size:12px;font-weight:700;color:#666;letter-spacing:.08em}.note{margin:24px 0;padding:18px 20px;background:#f7f7f5;border-radius:8px}.source-list{font-size:14px;color:#555}.source-list li{margin:8px 0}.source-list a{text-decoration:underline;text-underline-offset:2px}.back{margin-top:58px;text-align:center}.back a{display:inline-block;padding:12px 24px;border:1px solid #bbb;border-radius:6px;background:#fff}.chapter-inner{padding:4px 20px 20px}.small{font-size:14px;color:#666}.interpretation-note{margin:24px 0;padding:18px 20px;background:#fffaf0;border:1px solid #eadfca;border-radius:8px;color:#555;font-size:14px;line-height:1.8}.interpretation-note strong{display:block;margin-bottom:6px;color:#333}.primary-box{margin:28px 0;padding:20px;border:2px solid #d9d2c3;border-radius:10px;background:#fffdf8}.primary-label{display:inline-block;margin-bottom:10px;padding:4px 10px;border-radius:999px;background:#ece7dc;font-size:12px;font-weight:700;color:#555}details.long-text{margin:24px 0;border:1px solid #ddd;border-radius:9px;overflow:hidden}details.long-text summary{cursor:pointer;padding:18px 20px;font-weight:700;background:#f8f8f6}details.long-text .chapter-inner{padding:8px 20px 22px}@media(max-width:700px){header{padding:20px 16px}.site-name{font-size:20px}main{width:min(100% - 28px,900px);padding:42px 0 60px}h1{font-size:27px}h2{font-size:22px;margin-top:44px}.original,.meaning{padding:16px}.chapter-inner{padding:2px 14px 18px}}
-/* 2026-09 総合目次・全文ドロップダウン・ルビ */
+/* 2026-09 お経ページ完成統一版 */
 .sutra-index-section{margin:48px 0 0}
-.sutra-index-section h2{margin-top:0}
 .compact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0 8px}
-.compact-card{display:flex;align-items:center;justify-content:space-between;gap:18px;border:1px solid #ddd;border-radius:9px;padding:17px 18px;background:#fff;transition:background .15s ease}
+.compact-card{display:flex;align-items:center;justify-content:space-between;gap:18px;border:1px solid #ddd;border-radius:9px;padding:17px 18px;background:#fff;text-decoration:none}
 .compact-card:hover{background:#fafafa}
 .compact-card-main{min-width:0}
-.compact-card-title{font-size:17px;font-weight:700;line-height:1.45;margin-bottom:4px}
-.compact-card-text{font-size:13px;color:#666;line-height:1.65}
+.compact-card-title{font-size:17px;font-weight:700;line-height:1.5}
+.compact-card-text{font-size:13px;color:#666;line-height:1.65;margin-top:4px}
 .compact-card-arrow{flex:0 0 auto;color:#777;font-size:18px}
-.fulltext-details{margin:42px 0 0;border:1px solid #d7d7d2;border-radius:10px;overflow:hidden;background:#fff}
+.fulltext-details{margin:34px 0 0;border:1px solid #d7d7d2;border-radius:10px;overflow:hidden;background:#fff}
 .fulltext-details summary{cursor:pointer;padding:18px 20px;background:#f7f7f5;font-weight:700;list-style-position:inside}
 .fulltext-details[open] summary{border-bottom:1px solid #ddd}
 .fulltext-inner{padding:22px}
-.fulltext-body{font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Hiragino Mincho Pro","Noto Serif JP",serif;font-size:16px;line-height:2.35}
+.fulltext-body{font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Noto Serif JP",serif;font-size:16px;line-height:2.3}
 .fulltext-body p{margin:0 0 1.15em}
-.fulltext-note{font-family:-apple-system,BlinkMacSystemFont,"Yu Gothic","Meiryo",sans-serif;font-size:13px;color:#666;margin:0 0 18px}
-ruby{ruby-align:center}
-rt{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;font-size:.52em;color:#666;letter-spacing:0}
-.legacy-move{margin:32px auto;max-width:650px;padding:24px;border:1px solid #ddd;border-radius:10px;background:#fafafa;text-align:center}
+.fulltext-note{font-size:13px;color:#666;line-height:1.8;margin:0 0 18px}
+.page-bottom-note{margin-top:36px}
+.long-text .sutra-block{margin-top:24px}
+ruby{ruby-position:over;ruby-align:center}
+rt{font-size:.52em;line-height:1;color:#666;font-weight:400}
 @media(max-width:700px){
   .compact-grid{grid-template-columns:1fr}
-  .compact-card{padding:15px 16px}
   .fulltext-inner{padding:17px 15px}
-  .fulltext-body{font-size:15px;line-height:2.35}
+  .fulltext-body{font-size:15px}
 }
-
-
-/* 全漢字ルビ */
-ruby{ruby-align:center;ruby-position:over}
-rt{font-size:.50em;line-height:1;color:#666;font-family:-apple-system,BlinkMacSystemFont,"Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;font-weight:400}
-.furigana-loading{font-size:12px;color:#777;margin:8px 0}
 </style></head><body><header><div class="header-inner"><a class="site-name" href="index.html">松久山 禅昌寺</a></div></header><main><h1>妙法蓮華経如来寿量品偈（自我偈）</h1>
-<p class="intro">『妙法蓮華経如来寿量品』のうち、「自我得仏来」から始まる偈文を全文掲載してご紹介します。</p>
+<p class="intro">『妙法蓮華経如来寿量品』のうち、禅昌寺で主にお唱えする「自我得仏来」から始まる偈文を中心に、前半の長行も含めてご紹介します。</p>
 <p>『如来寿量品』は『法華経』第十六章です。後半の偈文は冒頭の「自我得仏来」から「自我偈」とも呼ばれます。このページでは普段お唱えする自我偈を主に扱い、前半は折りたたんで確認できるようにしています。</p>
-<details class="long-text"><summary>如来寿量品の前半（長行）の内容を見る</summary><div class="chapter-inner">
-<h3>久遠の成仏</h3><p>人々は釈尊が今の生涯で初めて悟ったと思っていますが、寿量品では、仏となってから計り知れないほど長い時間が経っていると語られます。</p>
-<h3>涅槃という方便</h3><p>仏は常に人々を導いていますが、いつでも姿を見ることができれば教えを求める心が弱くなるため、入滅の姿を現します。</p>
-<h3>良医病子の譬え</h3><p>毒を飲んだ子どもたちを治すため、父である医師が自らの死を知らせ、子どもたちに薬を飲ませる譬えが語られます。</p>
-</div></details>
-<div class="primary-box"><span class="primary-label">禅昌寺で主にお唱えする部分</span><h2 style="margin-top:0">寿量品偈（自我偈）全文と意味</h2><div class="sutra-block"><h3>久遠の仏</h3><div class="original">自我得仏来　所経諸劫数　無量百千万　億載阿僧祇<br/>常説法教化　無数億衆生　令入於仏道　爾来無量劫</div><div class="meaning"><span class="label">意味</span>私が仏となってから過ぎた時間は、数えることのできないほど長いものです。その間、絶えず法を説き、数えきれない人々を教え、仏道へ入らせてきました。</div></div><div class="sutra-block"><h3>涅槃を方便として現す</h3><div class="original">為度衆生故　方便現涅槃　而実不滅度　常住此説法<br/>我常住於此　以諸神通力　令顛倒衆生　雖近而不見</div><div class="meaning"><span class="label">意味</span>人々を救うため、方便として涅槃に入る姿を現しますが、実際には滅びず、常にここにいて法を説いています。私は常にここにいますが、迷いの中にある人々には、近くにいても見えません。</div></div><div class="sutra-block"><h3>仏を慕い求める心</h3><div class="original">衆見我滅度　広供養舎利　咸皆懐恋慕　而生渇仰心<br/>衆生既信伏　質直意柔軟　一心欲見仏　不自惜身命</div><div class="meaning"><span class="label">意味</span>人々は私が亡くなったと見て、広く舎利を供養し、恋い慕う心と、乾いた者が水を求めるように仏を仰ぐ心を起こします。信じる心が深まり、素直で柔らかな心となり、身命を惜しまず一心に仏を見たいと願います。</div></div><div class="sutra-block"><h3>霊鷲山に常に在る</h3><div class="original">時我及衆僧　倶出霊鷲山　我時語衆生　常在此不滅<br/>以方便力故　現有滅不滅　余国有衆生　恭敬信楽者<br/>我復於彼中　為説無上法　汝等不聞此　但謂我滅度</div><div class="meaning"><span class="label">意味</span>その時、私は僧たちとともに霊鷲山に現れ、人々に「私は常にここにいて滅びない」と語ります。方便の力によって、滅びる姿と滅びない姿を現します。他の国に敬い信じる人がいれば、そこでもこの上ない法を説きます。</div></div><div class="sutra-block"><h3>姿を現さない方便</h3><div class="original">我見諸衆生　没在於苦海　故不為現身　令其生渇仰<br/>因其心恋慕　乃出為説法　神通力如是　於阿僧祇劫</div><div class="meaning"><span class="label">意味</span>私は人々が苦しみの海に沈んでいるのを見ています。そのため、すぐには姿を現さず、仏を求める心を起こさせます。その心が深まったときに姿を現し、法を説きます。</div></div><div class="sutra-block"><h3>常在する仏と安穏な国土</h3><div class="original">常在霊鷲山　及余諸住処　衆生見劫尽　大火所焼時<br/>我此土安穏　天人常充満　園林諸堂閣　種種宝荘厳<br/>宝樹多花果　衆生所遊楽　諸天撃天鼓　常作衆伎楽<br/>雨曼陀羅華　散仏及大衆　我浄土不毀　而衆見焼尽<br/>憂怖諸苦悩　如是悉充満</div><div class="meaning"><span class="label">意味</span>私は常に霊鷲山やさまざまな場所にいます。人々には世界が終わり大火に焼かれているように見えても、私の国土は安穏で、天人が満ち、園林や堂閣が宝で飾られています。宝の樹には花や実が多く、人々は楽しみ、天人は音楽を奏で、花を降らせます。私の清らかな国土は滅びませんが、人々には焼き尽くされ、憂いと恐れと苦しみに満ちているように見えます。</div></div><div class="sutra-block"><h3>仏に出会う縁</h3><div class="original">是諸罪衆生　以悪業因縁　過阿僧祇劫　不聞三宝名<br/>諸有修功徳　柔和質直者　則皆見我身　在此而説法<br/>或時為此衆　説仏寿無量　久乃見仏者　為説仏難値</div><div class="meaning"><span class="label">意味</span>悪い行いの因縁によって、長い間、仏・法・僧の名さえ聞けない人々がいます。功徳を修め、柔和で素直な人々は、ここで法を説く私の姿を見ることができます。私はある時には仏の寿命が量り知れないことを語り、長い時を経て仏に出会った人には、仏に出会うことの難しさを語ります。</div></div><div class="sutra-block"><h3>智慧と寿命</h3><div class="original">我智力如是　慧光照無量　寿命無数劫　久修業所得<br/>汝等有智者　勿於此生疑　当断令永尽　仏語実不虚</div><div class="meaning"><span class="label">意味</span>私の智慧の力はこのようで、その智慧の光は量り知れないところまで照らします。その寿命は数えきれないほど長く、長い修行によって得たものです。智慧ある人よ、このことに疑いを起こさず、疑いを断ち切ってください。仏の言葉に偽りはありません。</div></div><div class="sutra-block"><h3>良医の譬え</h3><div class="original">如医善方便　為治狂子故　実在而言死　無能説虚妄<br/>我亦為世父　救諸苦患者　為凡夫顛倒　実在而言滅</div><div class="meaning"><span class="label">意味</span>良い医師が、正気を失った子どもを治すため、実際には生きていながら自分が死んだと知らせても、それを偽りとはいえません。私も世の父として苦しむ人々を救うため、実際には常に在りながら、迷う人々の前では滅びた姿をとります。</div></div><div class="sutra-block"><h3>いつでも仏が見えることの危うさ</h3><div class="original">以常見我故　而生憍恣心　放逸著五欲　堕於悪道中<br/>我常知衆生　行道不行道　随応所可度　為説種種法</div><div class="meaning"><span class="label">意味</span>人々がいつも私を見ることができれば、驕りやわがままな心を起こし、気ままに五欲へ執着して、悪い道へ落ちることがあります。私は、人々が道を行じているかどうかを常に知り、それぞれに応じてさまざまな法を語ります。</div></div><div class="sutra-block"><h3>すべての人を仏道へ</h3><div class="original">毎自作是念　以何令衆生　得入無上道　速成就仏身</div><div class="meaning"><span class="label">意味</span>私はいつも、「どうすれば人々をこの上ない道へ入らせ、速やかに仏の身を成就させることができるだろうか」と念じています。</div></div></div>
+<details class="long-text"><summary>寿量品の前半（長行）の本文と意味を見る</summary><div class="chapter-inner"><div class="sutra-block"><h3>如来の言葉を信じるよう三度告げる</h3><div class="original chant-text">爾時仏告諸菩薩及一切大衆。諸善男子、汝等当信解如来誠諦之語。復告大衆、汝等当信解如来誠諦之語。又復告諸大衆、汝等当信解如来誠諦之語。是時菩薩大衆、弥勒為首、合掌白仏言。世尊、唯願説之、我等当信受仏語。如是三白已、復言、唯願説之、我等当信受仏語。爾時世尊、知諸菩薩三請不止、而告之言。汝等諦聴、如来秘密神通之力。</div><div class="meaning"><span class="label">意味</span>世尊は、これから語る如来の真実の言葉を信じ理解するよう三度告げます。弥勒菩薩をはじめとする大衆も、教えを聞かせてほしいと重ねて願います。</div></div><div class="sutra-block"><h3>久遠の成仏</h3><div class="original chant-text">一切世間天人及阿修羅、皆謂今釈迦牟尼仏、出釈氏宮、去伽耶城不遠、坐於道場、得阿耨多羅三藐三菩提。然善男子、我実成仏已来、無量無辺百千万億那由他劫。譬如五百千万億那由他阿僧祇三千大千世界、仮使有人抹為微塵、過於東方五百千万億那由他阿僧祇国、乃下一塵。如是東行、尽是微塵。諸善男子、於意云何。是諸世界、可得思惟校計知其数不。弥勒菩薩等倶白仏言。世尊、是諸世界無量無辺、非算数所知、亦非心力所及。一切声聞辟支仏、以無漏智、不能思惟知其限数。我等住阿惟越致地、於是事中亦所不達。世尊、如是諸世界無量無辺。爾時仏告大菩薩衆。諸善男子、今当分明宣語汝等。是諸世界、若著微塵及不著者、尽以為塵、一塵一劫。我成仏已来、復過於此百千万億那由他阿僧祇劫。</div><div class="meaning"><span class="label">意味</span>人々は釈尊がこの世で初めて悟ったと考えていますが、実際には計り知れないほど久しい昔から仏であったことが語られます。その長さは、無数の世界を微塵にして一粒ずつ数える譬えでも表しきれません。</div></div><div class="sutra-block"><h3>さまざまな場所で衆生を導く</h3><div class="original chant-text">自従是来、我常在此娑婆世界説法教化、亦於余処百千万億那由他阿僧祇国導利衆生。諸善男子、於是中間、我説燃灯仏等、又復言其入於涅槃。如是皆以方便分別。諸善男子、若有衆生来至我所、我以仏眼観其信等諸根利鈍、随所応度、処処自説名字不同年紀大小、亦復現言当入涅槃、又以種種方便説微妙法、能令衆生発歓喜心。諸善男子、如来見諸衆生楽於小法徳薄垢重者、為是人説、我少出家得阿耨多羅三藐三菩提。然我実成仏已来久遠若斯、但以方便教化衆生、令入仏道、作如是説。</div><div class="meaning"><span class="label">意味</span>仏は久遠の昔から、この娑婆世界だけでなく数えきれない国々で人々を導いてきました。相手の性質や理解に応じ、名前・姿・入滅などをさまざまに示し、仏道へ導きます。</div></div><div class="sutra-block"><h3>如来が見る世界と、その寿命</h3><div class="original chant-text">諸善男子、如来所演経典、皆為度脱衆生。或説己身、或説他身、或示己身、或示他身、或示己事、或示他事、諸所言説皆実不虚。所以者何。如来如実知見三界之相、無有生死若退若出、亦無在世及滅度者、非実非虚、非如非異、不如三界見於三界。如斯之事、如来明見無有錯謬。以諸衆生有種種性、種種欲、種種行、種種憶想分別故、欲令生諸善根、以若干因縁譬喩言辞種種説法、所作仏事未曾暫廃。如是我成仏已来甚大久遠、寿命無量阿僧祇劫、常住不滅。諸善男子、我本行菩薩道所成寿命、今猶未尽、復倍上数。</div><div class="meaning"><span class="label">意味</span>如来のさまざまな説法は、すべて人々を救うためのものです。人々の性質や願いに応じて教え方は変わりますが、仏のはたらきは絶えることなく、その寿命は量ることができません。</div></div><div class="sutra-block"><h3>入滅を示す理由</h3><div class="original chant-text">然今非実滅度、而便唱言当取滅度。如来以是方便教化衆生。所以者何、若仏久住於世、薄徳之人不種善根、貧窮下賤貪著五欲、入於憶想妄見網中。若見如来常在不滅、便起憍恣而懐厭怠、不能生難遭之想、恭敬之心。是故如来以方便説。比丘当知、諸仏出世難可値遇。所以者何、諸薄徳人、過無量百千万億劫、或有見仏、或不見者。以此事故我作是言、諸比丘、如来難可得見。斯衆生等聞如是語、必当生於難遭之想、心懐恋慕、渇仰於仏、便種善根。是故如来、雖不実滅而言滅度。又善男子、諸仏如来法皆如是、為度衆生、皆実不虚。</div><div class="meaning"><span class="label">意味</span>仏が入滅する姿を示すのは、人々が仏をいつでも会える存在だと思って怠らないようにするためです。仏に出会うことの尊さを知り、仏を求める心を起こして善い根を育てるための方便です。</div></div><div class="sutra-block"><h3>良医病子の譬え</h3><div class="original chant-text">譬如良医智慧聡達、明練方薬、善治衆病。其人多諸子息、若十二十乃至百数。以有事縁、遠至余国。諸子於後飲他毒薬、薬発悶乱、宛転于地。是時其父還来帰家。諸子飲毒、或失本心、或不失者、遥見其父、皆大歓喜、拝跪問訊。善安穏帰、我等愚痴誤服毒薬、願見救療、更賜寿命。父見子等苦悩如是、依諸経方、求好薬草、色香美味皆悉具足、搗篩和合、与子令服。而作是言、此大良薬、色香美味皆悉具足、汝等可服、速除苦悩、無復衆患。其諸子中不失心者、見此良薬色香倶好、即便服之、病尽除愈。余失心者、見其父来、雖亦歓喜問訊求索治病、然与其薬而不肯服。所以者何、毒気深入、失本心故、於此好色香薬而謂不美。父作是念、此子可愍、為毒所中、心皆顛倒。雖見我喜、求索救療、如是好薬而不肯服。我今当設方便、令服此薬。即作是言、汝等当知、我今衰老、死時已至。是好良薬、今留在此。汝可取服、勿憂不差。作是教已、復至他国、遣使還告、汝父已死。是時諸子聞父背喪、心大憂悩而作是念。若父在者、慈愍我等、能見救護。今者捨我遠喪他国、自惟孤露、無復恃怙。常懐悲感、心遂醒悟、乃知此薬色味香美、即取服之、毒病皆愈。其父聞子悉已得差、尋便来帰、咸使見之。諸善男子、於意云何。頗有人能説此良医虚妄罪不。不也世尊。仏言、我亦如是。成仏已来、無量無辺百千万億那由他阿僧祇劫。為衆生故、以方便力言当滅度、亦無有能如法説我虚妄過者。爾時世尊欲重宣此義、而説偈言。</div><div class="meaning"><span class="label">意味</span>良い医師が毒を飲んだ子どもたちを救う譬えです。正気を失った子は薬を飲もうとしないため、父は自分が死んだと知らせます。父を失った悲しみから子どもたちは正気に戻り、薬を飲んで回復します。仏の入滅も、人々が教えを真剣に受け取るための方便として重ねられます。</div></div></div></details><div class="primary-box"><span class="primary-label">禅昌寺で主にお唱えする部分</span><h2 style="margin-top:0">寿量品偈（自我偈）全文と意味</h2><div class="sutra-block"><h3>久遠の仏</h3><div class="original chant-text">自我得仏来　所経諸劫数　無量百千万　億載阿僧祇<br/>常説法教化　無数億衆生　令入於仏道　爾来無量劫</div><div class="meaning"><span class="label">意味</span>私が仏となってから過ぎた時間は、数えることのできないほど長いものです。その間、絶えず法を説き、数えきれない人々を教え、仏道へ入らせてきました。</div></div><div class="sutra-block"><h3>涅槃を方便として現す</h3><div class="original chant-text">為度衆生故　方便現涅槃　而実不滅度　常住此説法<br/>我常住於此　以諸神通力　令顛倒衆生　雖近而不見</div><div class="meaning"><span class="label">意味</span>人々を救うため、方便として涅槃に入る姿を現しますが、実際には滅びず、常にここにいて法を説いています。私は常にここにいますが、迷いの中にある人々には、近くにいても見えません。</div></div><div class="sutra-block"><h3>仏を慕い求める心</h3><div class="original chant-text">衆見我滅度　広供養舎利　咸皆懐恋慕　而生渇仰心<br/>衆生既信伏　質直意柔軟　一心欲見仏　不自惜身命</div><div class="meaning"><span class="label">意味</span>人々は私が亡くなったと見て、広く舎利を供養し、恋い慕う心と、乾いた者が水を求めるように仏を仰ぐ心を起こします。信じる心が深まり、素直で柔らかな心となり、身命を惜しまず一心に仏を見たいと願います。</div></div><div class="sutra-block"><h3>霊鷲山に常に在る</h3><div class="original chant-text">時我及衆僧　倶出霊鷲山　我時語衆生　常在此不滅<br/>以方便力故　現有滅不滅　余国有衆生　恭敬信楽者<br/>我復於彼中　為説無上法　汝等不聞此　但謂我滅度</div><div class="meaning"><span class="label">意味</span>その時、私は僧たちとともに霊鷲山に現れ、人々に「私は常にここにいて滅びない」と語ります。方便の力によって、滅びる姿と滅びない姿を現します。他の国に敬い信じる人がいれば、そこでもこの上ない法を説きます。</div></div><div class="sutra-block"><h3>姿を現さない方便</h3><div class="original chant-text">我見諸衆生　没在於苦海　故不為現身　令其生渇仰<br/>因其心恋慕　乃出為説法　神通力如是　於阿僧祇劫</div><div class="meaning"><span class="label">意味</span>私は人々が苦しみの海に沈んでいるのを見ています。そのため、すぐには姿を現さず、仏を求める心を起こさせます。その心が深まったときに姿を現し、法を説きます。</div></div><div class="sutra-block"><h3>常在する仏と安穏な国土</h3><div class="original chant-text">常在霊鷲山　及余諸住処　衆生見劫尽　大火所焼時<br/>我此土安穏　天人常充満　園林諸堂閣　種種宝荘厳<br/>宝樹多花果　衆生所遊楽　諸天撃天鼓　常作衆伎楽<br/>雨曼陀羅華　散仏及大衆　我浄土不毀　而衆見焼尽<br/>憂怖諸苦悩　如是悉充満</div><div class="meaning"><span class="label">意味</span>私は常に霊鷲山やさまざまな場所にいます。人々には世界が終わり大火に焼かれているように見えても、私の国土は安穏で、天人が満ち、園林や堂閣が宝で飾られています。宝の樹には花や実が多く、人々は楽しみ、天人は音楽を奏で、花を降らせます。私の清らかな国土は滅びませんが、人々には焼き尽くされ、憂いと恐れと苦しみに満ちているように見えます。</div></div><div class="sutra-block"><h3>仏に出会う縁</h3><div class="original chant-text">是諸罪衆生　以悪業因縁　過阿僧祇劫　不聞三宝名<br/>諸有修功徳　柔和質直者　則皆見我身　在此而説法<br/>或時為此衆　説仏寿無量　久乃見仏者　為説仏難値</div><div class="meaning"><span class="label">意味</span>悪い行いの因縁によって、長い間、仏・法・僧の名さえ聞けない人々がいます。功徳を修め、柔和で素直な人々は、ここで法を説く私の姿を見ることができます。私はある時には仏の寿命が量り知れないことを語り、長い時を経て仏に出会った人には、仏に出会うことの難しさを語ります。</div></div><div class="sutra-block"><h3>智慧と寿命</h3><div class="original chant-text">我智力如是　慧光照無量　寿命無数劫　久修業所得<br/>汝等有智者　勿於此生疑　当断令永尽　仏語実不虚</div><div class="meaning"><span class="label">意味</span>私の智慧の力はこのようで、その智慧の光は量り知れないところまで照らします。その寿命は数えきれないほど長く、長い修行によって得たものです。智慧ある人よ、このことに疑いを起こさず、疑いを断ち切ってください。仏の言葉に偽りはありません。</div></div><div class="sutra-block"><h3>良医の譬え</h3><div class="original chant-text">如医善方便　為治狂子故　実在而言死　無能説虚妄<br/>我亦為世父　救諸苦患者　為凡夫顛倒　実在而言滅</div><div class="meaning"><span class="label">意味</span>良い医師が、正気を失った子どもを治すため、実際には生きていながら自分が死んだと知らせても、それを偽りとはいえません。私も世の父として苦しむ人々を救うため、実際には常に在りながら、迷う人々の前では滅びた姿をとります。</div></div><div class="sutra-block"><h3>いつでも仏が見えることの危うさ</h3><div class="original chant-text">以常見我故　而生憍恣心　放逸著五欲　堕於悪道中<br/>我常知衆生　行道不行道　随応所可度　為説種種法</div><div class="meaning"><span class="label">意味</span>人々がいつも私を見ることができれば、驕りやわがままな心を起こし、気ままに五欲へ執着して、悪い道へ落ちることがあります。私は、人々が道を行じているかどうかを常に知り、それぞれに応じてさまざまな法を語ります。</div></div><div class="sutra-block"><h3>すべての人を仏道へ</h3><div class="original chant-text">毎自作是念　以何令衆生　得入無上道　速成就仏身</div><div class="meaning"><span class="label">意味</span>私はいつも、「どうすれば人々をこの上ない道へ入らせ、速やかに仏の身を成就させることができるだろうか」と念じています。</div></div></div>
 <div class="interpretation-note page-bottom-note">
 <strong>このページの解説について</strong>
 本文の「意味」「解説」は、曹洞宗公式資料・経典・参考文献をもとに、一般の方向けに平易にまとめた一つの読み方です。経典や偈文には、宗派・時代・研究者・訳によって異なる解釈があります。
 </div>
-<details class="fulltext-details"><summary>本文全文を読む</summary><div class="fulltext-inner"><p class="fulltext-note">ページ内で扱った本文を、解説を挟まず続けて読めます。ルビは漢字部分にのみ付けています。</p><div class="fulltext-body"><p>自我得仏来　所経諸劫数　無量百千万　億載阿僧祇<br/>常説法教化　無数億衆生　令入於仏道　爾来無量劫</p><p>為度衆生故　方便現涅槃　而実不滅度　常住此説法<br/>我常住於此　以諸神通力　令顛倒衆生　雖近而不見</p><p>衆見我滅度　広供養舎利　咸皆懐恋慕　而生渇仰心<br/>衆生既信伏　質直意柔軟　一心欲見仏　不自惜身命</p><p>時我及衆僧　倶出霊鷲山　我時語衆生　常在此不滅<br/>以方便力故　現有滅不滅　余国有衆生　恭敬信楽者<br/>我復於彼中　為説無上法　汝等不聞此　但謂我滅度</p><p>我見諸衆生　没在於苦海　故不為現身　令其生渇仰<br/>因其心恋慕　乃出為説法　神通力如是　於阿僧祇劫</p><p>常在霊鷲山　及余諸住処　衆生見劫尽　大火所焼時<br/>我此土安穏　天人常充満　園林諸堂閣　種種宝荘厳<br/>宝樹多花果　衆生所遊楽　諸天撃天鼓　常作衆伎楽<br/>雨曼陀羅華　散仏及大衆　我浄土不毀　而衆見焼尽<br/>憂怖諸苦悩　如是悉充満</p><p>是諸罪衆生　以悪業因縁　過阿僧祇劫　不聞三宝名<br/>諸有修功徳　柔和質直者　則皆見我身　在此而説法<br/>或時為此衆　説仏寿無量　久乃見仏者　為説仏難値</p><p>我智力如是　慧光照無量　寿命無数劫　久修業所得<br/>汝等有智者　勿於此生疑　当断令永尽　仏語実不虚</p><p>如医善方便　為治狂子故　実在而言死　無能説虚妄<br/>我亦為世父　救諸苦患者　為凡夫顛倒　実在而言滅</p><p>以常見我故　而生憍恣心　放逸著五欲　堕於悪道中<br/>我常知衆生　行道不行道　随応所可度　為説種種法</p><p>毎自作是念　以何令衆生　得入無上道　速成就仏身</p></div></div></details><h2>参考・出典</h2><ul class="source-list">
+<details class="fulltext-details"><summary>本文全文を読む</summary><div class="fulltext-inner"><p class="fulltext-note">解説を挟まず、ページで扱う本文を続けて読めます。</p><div class="fulltext-body chant-text"><p>爾時仏告諸菩薩及一切大衆。諸善男子、汝等当信解如来誠諦之語。復告大衆、汝等当信解如来誠諦之語。又復告諸大衆、汝等当信解如来誠諦之語。是時菩薩大衆、弥勒為首、合掌白仏言。世尊、唯願説之、我等当信受仏語。如是三白已、復言、唯願説之、我等当信受仏語。爾時世尊、知諸菩薩三請不止、而告之言。汝等諦聴、如来秘密神通之力。</p><p>一切世間天人及阿修羅、皆謂今釈迦牟尼仏、出釈氏宮、去伽耶城不遠、坐於道場、得阿耨多羅三藐三菩提。然善男子、我実成仏已来、無量無辺百千万億那由他劫。譬如五百千万億那由他阿僧祇三千大千世界、仮使有人抹為微塵、過於東方五百千万億那由他阿僧祇国、乃下一塵。如是東行、尽是微塵。諸善男子、於意云何。是諸世界、可得思惟校計知其数不。弥勒菩薩等倶白仏言。世尊、是諸世界無量無辺、非算数所知、亦非心力所及。一切声聞辟支仏、以無漏智、不能思惟知其限数。我等住阿惟越致地、於是事中亦所不達。世尊、如是諸世界無量無辺。爾時仏告大菩薩衆。諸善男子、今当分明宣語汝等。是諸世界、若著微塵及不著者、尽以為塵、一塵一劫。我成仏已来、復過於此百千万億那由他阿僧祇劫。</p><p>自従是来、我常在此娑婆世界説法教化、亦於余処百千万億那由他阿僧祇国導利衆生。諸善男子、於是中間、我説燃灯仏等、又復言其入於涅槃。如是皆以方便分別。諸善男子、若有衆生来至我所、我以仏眼観其信等諸根利鈍、随所応度、処処自説名字不同年紀大小、亦復現言当入涅槃、又以種種方便説微妙法、能令衆生発歓喜心。諸善男子、如来見諸衆生楽於小法徳薄垢重者、為是人説、我少出家得阿耨多羅三藐三菩提。然我実成仏已来久遠若斯、但以方便教化衆生、令入仏道、作如是説。</p><p>諸善男子、如来所演経典、皆為度脱衆生。或説己身、或説他身、或示己身、或示他身、或示己事、或示他事、諸所言説皆実不虚。所以者何。如来如実知見三界之相、無有生死若退若出、亦無在世及滅度者、非実非虚、非如非異、不如三界見於三界。如斯之事、如来明見無有錯謬。以諸衆生有種種性、種種欲、種種行、種種憶想分別故、欲令生諸善根、以若干因縁譬喩言辞種種説法、所作仏事未曾暫廃。如是我成仏已来甚大久遠、寿命無量阿僧祇劫、常住不滅。諸善男子、我本行菩薩道所成寿命、今猶未尽、復倍上数。</p><p>然今非実滅度、而便唱言当取滅度。如来以是方便教化衆生。所以者何、若仏久住於世、薄徳之人不種善根、貧窮下賤貪著五欲、入於憶想妄見網中。若見如来常在不滅、便起憍恣而懐厭怠、不能生難遭之想、恭敬之心。是故如来以方便説。比丘当知、諸仏出世難可値遇。所以者何、諸薄徳人、過無量百千万億劫、或有見仏、或不見者。以此事故我作是言、諸比丘、如来難可得見。斯衆生等聞如是語、必当生於難遭之想、心懐恋慕、渇仰於仏、便種善根。是故如来、雖不実滅而言滅度。又善男子、諸仏如来法皆如是、為度衆生、皆実不虚。</p><p>譬如良医智慧聡達、明練方薬、善治衆病。其人多諸子息、若十二十乃至百数。以有事縁、遠至余国。諸子於後飲他毒薬、薬発悶乱、宛転于地。是時其父還来帰家。諸子飲毒、或失本心、或不失者、遥見其父、皆大歓喜、拝跪問訊。善安穏帰、我等愚痴誤服毒薬、願見救療、更賜寿命。父見子等苦悩如是、依諸経方、求好薬草、色香美味皆悉具足、搗篩和合、与子令服。而作是言、此大良薬、色香美味皆悉具足、汝等可服、速除苦悩、無復衆患。其諸子中不失心者、見此良薬色香倶好、即便服之、病尽除愈。余失心者、見其父来、雖亦歓喜問訊求索治病、然与其薬而不肯服。所以者何、毒気深入、失本心故、於此好色香薬而謂不美。父作是念、此子可愍、為毒所中、心皆顛倒。雖見我喜、求索救療、如是好薬而不肯服。我今当設方便、令服此薬。即作是言、汝等当知、我今衰老、死時已至。是好良薬、今留在此。汝可取服、勿憂不差。作是教已、復至他国、遣使還告、汝父已死。是時諸子聞父背喪、心大憂悩而作是念。若父在者、慈愍我等、能見救護。今者捨我遠喪他国、自惟孤露、無復恃怙。常懐悲感、心遂醒悟、乃知此薬色味香美、即取服之、毒病皆愈。其父聞子悉已得差、尋便来帰、咸使見之。諸善男子、於意云何。頗有人能説此良医虚妄罪不。不也世尊。仏言、我亦如是。成仏已来、無量無辺百千万億那由他阿僧祇劫。為衆生故、以方便力言当滅度、亦無有能如法説我虚妄過者。爾時世尊欲重宣此義、而説偈言。</p><p>自我得仏来　所経諸劫数　無量百千万　億載阿僧祇<br/>常説法教化　無数億衆生　令入於仏道　爾来無量劫</p><p>為度衆生故　方便現涅槃　而実不滅度　常住此説法<br/>我常住於此　以諸神通力　令顛倒衆生　雖近而不見</p><p>衆見我滅度　広供養舎利　咸皆懐恋慕　而生渇仰心<br/>衆生既信伏　質直意柔軟　一心欲見仏　不自惜身命</p><p>時我及衆僧　倶出霊鷲山　我時語衆生　常在此不滅<br/>以方便力故　現有滅不滅　余国有衆生　恭敬信楽者<br/>我復於彼中　為説無上法　汝等不聞此　但謂我滅度</p><p>我見諸衆生　没在於苦海　故不為現身　令其生渇仰<br/>因其心恋慕　乃出為説法　神通力如是　於阿僧祇劫</p><p>常在霊鷲山　及余諸住処　衆生見劫尽　大火所焼時<br/>我此土安穏　天人常充満　園林諸堂閣　種種宝荘厳<br/>宝樹多花果　衆生所遊楽　諸天撃天鼓　常作衆伎楽<br/>雨曼陀羅華　散仏及大衆　我浄土不毀　而衆見焼尽<br/>憂怖諸苦悩　如是悉充満</p><p>是諸罪衆生　以悪業因縁　過阿僧祇劫　不聞三宝名<br/>諸有修功徳　柔和質直者　則皆見我身　在此而説法<br/>或時為此衆　説仏寿無量　久乃見仏者　為説仏難値</p><p>我智力如是　慧光照無量　寿命無数劫　久修業所得<br/>汝等有智者　勿於此生疑　当断令永尽　仏語実不虚</p><p>如医善方便　為治狂子故　実在而言死　無能説虚妄<br/>我亦為世父　救諸苦患者　為凡夫顛倒　実在而言滅</p><p>以常見我故　而生憍恣心　放逸著五欲　堕於悪道中<br/>我常知衆生　行道不行道　随応所可度　為説種種法</p><p>毎自作是念　以何令衆生　得入無上道　速成就仏身</p></div></div></details><h2>参考・出典</h2><ul class="source-list">
 <li><a href="https://shop.sotozen-net.or.jp/products/detail.php?product_id=130" rel="noopener noreferrer" target="_blank">曹洞宗出版物販売サイト「折本経典 寿量品」</a></li>
 <li><a href="https://shop.sotozen-net.or.jp/products/detail.php?product_id=29" rel="noopener noreferrer" target="_blank">曹洞宗出版物販売サイト「如来寿量品にきく」</a></li>
 <li><a href="https://www.sotozen-net.or.jp/soto/sutra" rel="noopener noreferrer" target="_blank">曹洞宗 曹洞禅ネット「経典」</a></li>
-</ul><div class="back"><a href="sutra.html">お経についてへ戻る</a></div></main>
+<li><a href="https://21dzk.l.u-tokyo.ac.jp/SAT/T0262_,09,0042a29:0262_,09,0044a05.html" rel="noopener noreferrer" target="_blank">SAT大正新脩大藏經テキストデータベース「妙法蓮華經」</a></li></ul><div class="back"><a href="sutra.html">お経についてへ戻る</a></div></main>
 <script src="https://cdn.jsdelivr.net/npm/kuroshiro@1.2.0/dist/kuroshiro.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/kuroshiro-analyzer-kuromoji@1.1.0/dist/kuroshiro-analyzer-kuromoji.min.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", async function () {
-  const main = document.querySelector("main");
-  if (!main || typeof Kuroshiro === "undefined" || typeof KuromojiAnalyzer === "undefined") return;
-
-  const fixed = {"妙法蓮華経観世音菩薩普門品偈": "みょうほうれんげきょうかんぜおんぼさつふもんぼんげ", "妙法蓮華経観世音菩薩普門品": "みょうほうれんげきょうかんぜおんぼさつふもんぼん", "妙法蓮華経如来寿量品偈": "みょうほうれんげきょうにょらいじゅりょうほんげ", "妙法蓮華経如来寿量品": "みょうほうれんげきょうにょらいじゅりょうほん", "般若心経": "はんにゃしんぎょう", "摩訶般若波羅蜜多心経": "まかはんにゃはらみったしんぎょう", "観自在菩薩": "かんじざいぼさつ", "般若波羅蜜多": "はんにゃはらみった", "阿耨多羅三藐三菩提": "あのくたらさんみゃくさんぼだい", "菩提薩埵": "ぼだいさった", "修証義": "しゅしょうぎ", "懺悔滅罪": "さんげめつざい", "受戒入位": "じゅかいにゅうい", "発願利生": "ほつがんりしょう", "行持報恩": "ぎょうじほうおん", "舎利礼文": "しゃりらいもん", "延命十句観音経": "えんめいじっくかんのんぎょう", "五観の偈": "ごかんのげ", "参同契": "さんどうかい", "宝鏡三昧": "ほうきょうざんまい", "仏遺教経": "ぶつゆいきょうぎょう", "大般若経": "だいはんにゃきょう", "釈迦牟尼仏": "しゃかむにぶつ", "観世音菩薩": "かんぜおんぼさつ", "観世音": "かんぜおん", "普門品偈": "ふもんぼんげ", "寿量品偈": "じゅりょうほんげ", "自我偈": "じがげ", "世尊妙相具": "せそんみょうそうぐ", "自我得仏来": "じがとくぶつらい", "菩提心": "ぼだいしん", "三宝": "さんぼう", "仏法僧": "ぶっぽうそう", "仏祖": "ぶっそ", "仏道": "ぶつどう", "涅槃": "ねはん", "智慧": "ちえ", "功徳": "くどく", "精進": "しょうじん", "禅定": "ぜんじょう", "少欲": "しょうよく", "知足": "ちそく", "遠離": "おんり", "不戯論": "ふけろん", "四諦": "したい", "解脱": "げだつ", "教誨": "きょうかい", "無常": "むじょう", "霊鷲山": "りょうじゅせん", "阿僧祇劫": "あそうぎこう", "大悲": "だいひ", "甘露門": "かんろもん", "開経偈": "かいきょうげ", "地蔵真言": "じぞうしんごん", "曹洞宗": "そうとうしゅう", "曹洞禅": "そうとうぜん", "禅昌寺": "ぜんしょうじ", "道元禅師": "どうげんぜんじ"};
+document.addEventListener("DOMContentLoaded", async () => {
+  const targets = document.querySelectorAll(".chant-text");
+  if (!targets.length || typeof Kuroshiro==="undefined" || typeof KuromojiAnalyzer==="undefined") return;
+  const fixed = {"般若心経": "はんにゃしんぎょう", "観自在菩薩": "かんじざいぼさつ", "般若波羅蜜多": "はんにゃはらみった", "舎利子": "しゃりし", "菩提薩埵": "ぼだいさった", "阿耨多羅三藐三菩提": "あのくたらさんみゃくさんぼだい", "羯諦": "ぎゃてい", "波羅羯諦": "はらぎゃてい", "波羅僧羯諦": "はらそうぎゃてい", "菩提薩婆訶": "ぼじそわか", "修証義": "しゅしょうぎ", "正法眼蔵": "しょうぼうげんぞう", "即心是仏": "そくしんぜぶつ", "舎利礼文": "しゃりらいもん", "釈迦如来": "しゃかにょらい", "真身舎利": "しんじんしゃり", "本地法身": "ほんじほっしん", "法界塔婆": "ほっかいとうば", "延命十句観音経": "えんめいじっくかんのんぎょう", "観世音": "かんぜおん", "南無仏": "なむぶつ", "五観の偈": "ごかんのげ", "参同契": "さんどうかい", "宝鏡三昧": "ほうきょうざんまい", "仏遺教経": "ぶつゆいきょうぎょう", "釈迦牟尼仏": "しゃかむにぶつ", "波羅提木叉": "はらだいもくしゃ", "妙法蓮華経": "みょうほうれんげきょう", "観世音菩薩": "かんぜおんぼさつ", "普門品偈": "ふもんぼんげ", "世尊偈": "せそんげ", "如来寿量品": "にょらいじゅりょうほん", "寿量品偈": "じゅりょうほんげ", "自我偈": "じがげ", "世尊妙相具": "せそんみょうそうぐ", "自我得仏来": "じがとくぶつらい", "霊鷲山": "りょうじゅせん", "阿僧祇劫": "あそうぎこう", "三宝": "さんぼう", "菩提心": "ぼだいしん", "涅槃": "ねはん", "大般若経": "だいはんにゃきょう", "大般若波羅蜜多経": "だいはんにゃはらみったきょう"};
   const keys = Object.keys(fixed).sort((a,b)=>b.length-a.length);
   const hasKanji = /[\u3400-\u4DBF\u4E00-\u9FFF々〆ヶ]/;
 
-  function applyFixedToTextNode(node) {
-    let text = node.nodeValue;
-    if (!hasKanji.test(text)) return;
-    let parts = [{text:text, ruby:false}];
-
-    keys.forEach(key => {
-      const next = [];
-      parts.forEach(part => {
-        if (part.ruby || !part.text.includes(key)) { next.push(part); return; }
-        const bits = part.text.split(key);
-        bits.forEach((bit, i) => {
-          if (bit) next.push({text:bit, ruby:false});
-          if (i < bits.length-1) next.push({text:key, ruby:true, reading:fixed[key]});
-        });
-      });
-      parts = next;
-    });
-
-    if (!parts.some(p=>p.ruby)) return;
-    const frag = document.createDocumentFragment();
-    parts.forEach(part => {
-      if (!part.ruby) {
-        frag.appendChild(document.createTextNode(part.text));
-      } else {
-        const ruby = document.createElement("ruby");
-        ruby.appendChild(document.createTextNode(part.text));
-        const rt = document.createElement("rt");
-        rt.textContent = part.reading;
-        ruby.appendChild(rt);
-        frag.appendChild(ruby);
+  function protectFixed(root){
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+    const nodes=[];
+    while(walker.nextNode()){
+      const n=walker.currentNode;
+      if(n.parentElement && !["RT","RUBY","SCRIPT","STYLE"].includes(n.parentElement.tagName) && hasKanji.test(n.nodeValue)) nodes.push(n);
+    }
+    for(const node of nodes){
+      let parts=[{text:node.nodeValue,ruby:false}];
+      for(const key of keys){
+        const next=[];
+        for(const part of parts){
+          if(part.ruby || !part.text.includes(key)){next.push(part);continue;}
+          const bits=part.text.split(key);
+          bits.forEach((b,i)=>{
+            if(b) next.push({text:b,ruby:false});
+            if(i<bits.length-1) next.push({text:key,ruby:true,reading:fixed[key]});
+          });
+        }
+        parts=next;
       }
-    });
-    node.replaceWith(frag);
-  }
-
-  // Fixed Buddhist / chant readings first.
-  const preWalker = document.createTreeWalker(main, NodeFilter.SHOW_TEXT);
-  const preNodes = [];
-  while(preWalker.nextNode()) {
-    const n = preWalker.currentNode;
-    const p = n.parentElement;
-    if (!p || ["SCRIPT","STYLE","RT","RUBY"].includes(p.tagName)) continue;
-    if (p.closest(".source-list")) continue;
-    if (hasKanji.test(n.nodeValue)) preNodes.push(n);
-  }
-  preNodes.forEach(applyFixedToTextNode);
-
-  const kuroshiro = new Kuroshiro();
-  try {
-    await kuroshiro.init(new KuromojiAnalyzer({
-      dictPath: "https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/dict"
-    }));
-
-    const walker = document.createTreeWalker(main, NodeFilter.SHOW_TEXT);
-    const nodes = [];
-    while(walker.nextNode()) {
-      const n = walker.currentNode;
-      const p = n.parentElement;
-      if (!p || ["SCRIPT","STYLE","RT","RUBY"].includes(p.tagName)) continue;
-      if (p.closest(".source-list")) continue;
-      if (hasKanji.test(n.nodeValue)) nodes.push(n);
+      if(!parts.some(x=>x.ruby)) continue;
+      const frag=document.createDocumentFragment();
+      for(const part of parts){
+        if(!part.ruby){frag.appendChild(document.createTextNode(part.text));continue;}
+        const ruby=document.createElement("ruby");
+        ruby.appendChild(document.createTextNode(part.text));
+        const rt=document.createElement("rt"); rt.textContent=part.reading;
+        ruby.appendChild(rt); frag.appendChild(ruby);
+      }
+      node.replaceWith(frag);
     }
-
-    for (const node of nodes) {
-      if (!node.isConnected) continue;
-      const converted = await kuroshiro.convert(node.nodeValue, {
-        mode: "furigana",
-        to: "hiragana"
-      });
-      const span = document.createElement("span");
-      span.innerHTML = converted;
-      node.replaceWith(...span.childNodes);
-    }
-  } catch (e) {
-    console.error("Furigana conversion failed:", e);
   }
+
+  targets.forEach(protectFixed);
+  const kuroshiro=new Kuroshiro();
+  try{
+    await kuroshiro.init(new KuromojiAnalyzer({dictPath:"https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/dict"}));
+    for(const root of targets){
+      const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+      const nodes=[];
+      while(walker.nextNode()){
+        const n=walker.currentNode;
+        const p=n.parentElement;
+        if(!p || ["RT","RUBY","SCRIPT","STYLE"].includes(p.tagName)) continue;
+        if(hasKanji.test(n.nodeValue)) nodes.push(n);
+      }
+      for(const node of nodes){
+        if(!node.isConnected) continue;
+        const converted=await kuroshiro.convert(node.nodeValue,{mode:"furigana",to:"hiragana"});
+        const span=document.createElement("span"); span.innerHTML=converted;
+        node.replaceWith(...span.childNodes);
+      }
+    }
+  }catch(e){console.error("sutra furigana:",e);}
 });
 </script>
 </body></html>
