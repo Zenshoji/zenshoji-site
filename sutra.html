@@ -37,6 +37,11 @@ rt{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu 
   .fulltext-body{font-size:15px;line-height:2.35}
 }
 
+
+/* 全漢字ルビ */
+ruby{ruby-align:center;ruby-position:over}
+rt{font-size:.50em;line-height:1;color:#666;font-family:-apple-system,BlinkMacSystemFont,"Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;font-weight:400}
+.furigana-loading{font-size:12px;color:#777;margin:8px 0}
 </style>
 </head>
 <body>
@@ -47,16 +52,13 @@ rt{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu 
 <div class="interpretation-note"><strong>各ページの「意味」「解説」について</strong>
 掲載する「意味」は本文を一般の方向けに平易な日本語にしたものです。背景や読み方についての補足は「解説」と分けて掲載します。いずれも曹洞宗公式資料・経典・研究資料等をもとに禅昌寺がまとめた一つの読み方であり、経典には時代・研究者・訳・伝承などによって異なる解釈があります。
 </div>
-
-
-
 <section class="sutra-index-section">
 <h2>よくお唱えするお経</h2>
 <div class="compact-grid">
 <a class="compact-card" href="sutra-hannya.html"><div class="compact-card-main"><div class="compact-card-title">般若心経</div><div class="compact-card-text">「空」の教えを説く、広く親しまれているお経</div></div><div class="compact-card-arrow">›</div></a>
 <a class="compact-card" href="sutra-shushogi.html"><div class="compact-card-main"><div class="compact-card-title">修証義</div><div class="compact-card-text">道元禅師の教えをもとに編まれた曹洞宗の経典</div></div><div class="compact-card-arrow">›</div></a>
-<a class="compact-card" href="sutra-kannon.html"><div class="compact-card-main"><div class="compact-card-title">観音経（普門品偈）</div><div class="compact-card-text">「世尊妙相具」から始まる観世音菩薩の偈文</div></div><div class="compact-card-arrow">›</div></a>
-<a class="compact-card" href="sutra-juryo.html"><div class="compact-card-main"><div class="compact-card-title">寿量品偈（自我偈）</div><div class="compact-card-text">「自我得仏来」から始まる『法華経』の偈文</div></div><div class="compact-card-arrow">›</div></a>
+<a class="compact-card" href="sutra-kannon.html"><div class="compact-card-main"><div class="compact-card-title">妙法蓮華経観世音菩薩普門品偈（せそん偈）</div><div class="compact-card-text">観世音菩薩の救いのはたらきを説く『法華経』の偈文</div></div><div class="compact-card-arrow">›</div></a>
+<a class="compact-card" href="sutra-juryo.html"><div class="compact-card-main"><div class="compact-card-title">妙法蓮華経如来寿量品偈（自我偈）</div><div class="compact-card-text">久遠の仏のいのちを説く『法華経』の偈文</div></div><div class="compact-card-arrow">›</div></a>
 <a class="compact-card" href="sutra-shariraimon.html"><div class="compact-card-main"><div class="compact-card-title">舎利礼文</div><div class="compact-card-text">お釈迦さまの舎利を礼拝し、その徳をたたえる礼文</div></div><div class="compact-card-arrow">›</div></a>
 <a class="compact-card" href="sutra-enmei.html"><div class="compact-card-main"><div class="compact-card-title">延命十句観音経</div><div class="compact-card-text">十句・四十二文字の短い観音経典</div></div><div class="compact-card-arrow">›</div></a>
 </div>
@@ -86,4 +88,94 @@ rt{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu 
 </ul>
 <div class="back"><a href="learning.html">体験・学びへ戻る</a></div>
 </main>
+
+<script src="https://cdn.jsdelivr.net/npm/kuroshiro@1.2.0/dist/kuroshiro.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/kuroshiro-analyzer-kuromoji@1.1.0/dist/kuroshiro-analyzer-kuromoji.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async function () {
+  const main = document.querySelector("main");
+  if (!main || typeof Kuroshiro === "undefined" || typeof KuromojiAnalyzer === "undefined") return;
+
+  const fixed = {"妙法蓮華経観世音菩薩普門品偈": "みょうほうれんげきょうかんぜおんぼさつふもんぼんげ", "妙法蓮華経観世音菩薩普門品": "みょうほうれんげきょうかんぜおんぼさつふもんぼん", "妙法蓮華経如来寿量品偈": "みょうほうれんげきょうにょらいじゅりょうほんげ", "妙法蓮華経如来寿量品": "みょうほうれんげきょうにょらいじゅりょうほん", "般若心経": "はんにゃしんぎょう", "摩訶般若波羅蜜多心経": "まかはんにゃはらみったしんぎょう", "観自在菩薩": "かんじざいぼさつ", "般若波羅蜜多": "はんにゃはらみった", "阿耨多羅三藐三菩提": "あのくたらさんみゃくさんぼだい", "菩提薩埵": "ぼだいさった", "修証義": "しゅしょうぎ", "懺悔滅罪": "さんげめつざい", "受戒入位": "じゅかいにゅうい", "発願利生": "ほつがんりしょう", "行持報恩": "ぎょうじほうおん", "舎利礼文": "しゃりらいもん", "延命十句観音経": "えんめいじっくかんのんぎょう", "五観の偈": "ごかんのげ", "参同契": "さんどうかい", "宝鏡三昧": "ほうきょうざんまい", "仏遺教経": "ぶつゆいきょうぎょう", "大般若経": "だいはんにゃきょう", "釈迦牟尼仏": "しゃかむにぶつ", "観世音菩薩": "かんぜおんぼさつ", "観世音": "かんぜおん", "普門品偈": "ふもんぼんげ", "寿量品偈": "じゅりょうほんげ", "自我偈": "じがげ", "世尊妙相具": "せそんみょうそうぐ", "自我得仏来": "じがとくぶつらい", "菩提心": "ぼだいしん", "三宝": "さんぼう", "仏法僧": "ぶっぽうそう", "仏祖": "ぶっそ", "仏道": "ぶつどう", "涅槃": "ねはん", "智慧": "ちえ", "功徳": "くどく", "精進": "しょうじん", "禅定": "ぜんじょう", "少欲": "しょうよく", "知足": "ちそく", "遠離": "おんり", "不戯論": "ふけろん", "四諦": "したい", "解脱": "げだつ", "教誨": "きょうかい", "無常": "むじょう", "霊鷲山": "りょうじゅせん", "阿僧祇劫": "あそうぎこう", "大悲": "だいひ", "甘露門": "かんろもん", "開経偈": "かいきょうげ", "地蔵真言": "じぞうしんごん", "曹洞宗": "そうとうしゅう", "曹洞禅": "そうとうぜん", "禅昌寺": "ぜんしょうじ", "道元禅師": "どうげんぜんじ"};
+  const keys = Object.keys(fixed).sort((a,b)=>b.length-a.length);
+  const hasKanji = /[\u3400-\u4DBF\u4E00-\u9FFF々〆ヶ]/;
+
+  function applyFixedToTextNode(node) {
+    let text = node.nodeValue;
+    if (!hasKanji.test(text)) return;
+    let parts = [{text:text, ruby:false}];
+
+    keys.forEach(key => {
+      const next = [];
+      parts.forEach(part => {
+        if (part.ruby || !part.text.includes(key)) { next.push(part); return; }
+        const bits = part.text.split(key);
+        bits.forEach((bit, i) => {
+          if (bit) next.push({text:bit, ruby:false});
+          if (i < bits.length-1) next.push({text:key, ruby:true, reading:fixed[key]});
+        });
+      });
+      parts = next;
+    });
+
+    if (!parts.some(p=>p.ruby)) return;
+    const frag = document.createDocumentFragment();
+    parts.forEach(part => {
+      if (!part.ruby) {
+        frag.appendChild(document.createTextNode(part.text));
+      } else {
+        const ruby = document.createElement("ruby");
+        ruby.appendChild(document.createTextNode(part.text));
+        const rt = document.createElement("rt");
+        rt.textContent = part.reading;
+        ruby.appendChild(rt);
+        frag.appendChild(ruby);
+      }
+    });
+    node.replaceWith(frag);
+  }
+
+  // Fixed Buddhist / chant readings first.
+  const preWalker = document.createTreeWalker(main, NodeFilter.SHOW_TEXT);
+  const preNodes = [];
+  while(preWalker.nextNode()) {
+    const n = preWalker.currentNode;
+    const p = n.parentElement;
+    if (!p || ["SCRIPT","STYLE","RT","RUBY"].includes(p.tagName)) continue;
+    if (p.closest(".source-list")) continue;
+    if (hasKanji.test(n.nodeValue)) preNodes.push(n);
+  }
+  preNodes.forEach(applyFixedToTextNode);
+
+  const kuroshiro = new Kuroshiro();
+  try {
+    await kuroshiro.init(new KuromojiAnalyzer({
+      dictPath: "https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/dict"
+    }));
+
+    const walker = document.createTreeWalker(main, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while(walker.nextNode()) {
+      const n = walker.currentNode;
+      const p = n.parentElement;
+      if (!p || ["SCRIPT","STYLE","RT","RUBY"].includes(p.tagName)) continue;
+      if (p.closest(".source-list")) continue;
+      if (hasKanji.test(n.nodeValue)) nodes.push(n);
+    }
+
+    for (const node of nodes) {
+      if (!node.isConnected) continue;
+      const converted = await kuroshiro.convert(node.nodeValue, {
+        mode: "furigana",
+        to: "hiragana"
+      });
+      const span = document.createElement("span");
+      span.innerHTML = converted;
+      node.replaceWith(...span.childNodes);
+    }
+  } catch (e) {
+    console.error("Furigana conversion failed:", e);
+  }
+});
+</script>
 </body></html>
