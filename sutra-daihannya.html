@@ -1,134 +1,102 @@
 <!DOCTYPE html>
 
 <html lang="ja"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="全六百巻の大般若経と転読大般若を紹介します。" name="description"/><title>大般若経とは | 禅昌寺</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;color:#222;background:#fff;line-height:1.9}a{color:inherit;text-decoration:none}header{padding:26px 20px;border-bottom:1px solid #ddd;background:#fff}.header-inner{width:min(1000px,calc(100% - 20px));margin:0 auto}.site-name{font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Noto Serif JP",serif;font-size:24px;font-weight:600;letter-spacing:.12em}main{width:min(900px,calc(100% - 40px));margin:0 auto;padding:58px 0 80px}h1{margin:0 0 14px;text-align:center;font-size:32px;font-weight:600}h2{margin:54px 0 18px;padding-bottom:8px;border-bottom:1px solid #ddd;font-size:24px}h3{margin:34px 0 12px;font-size:20px}.intro{max-width:760px;margin:0 auto 42px;text-align:center;color:#666}.sutra-block{margin:26px 0 32px}.original,.meaning{border-radius:8px;padding:18px 20px}.original{background:#f5f3ed;border:1px solid #e5e1d7;font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN",serif;line-height:2;font-size:16px}.meaning{margin-top:10px;background:#fafafa;border-left:3px solid #bbb}.label{display:block;margin-bottom:6px;font-size:12px;font-weight:700;color:#666;letter-spacing:.08em}.note{margin:24px 0;padding:18px 20px;background:#f7f7f5;border-radius:8px}.source-list{font-size:14px;color:#555}.source-list li{margin:8px 0}.source-list a{text-decoration:underline;text-underline-offset:2px}.back{margin-top:58px;text-align:center}.back a{display:inline-block;padding:12px 24px;border:1px solid #bbb;border-radius:6px;background:#fff}.chapter-inner{padding:4px 20px 20px}.small{font-size:14px;color:#666}.interpretation-note{margin:24px 0;padding:18px 20px;background:#fffaf0;border:1px solid #eadfca;border-radius:8px;color:#555;font-size:14px;line-height:1.8}.interpretation-note strong{display:block;margin-bottom:6px;color:#333}.primary-box{margin:28px 0;padding:20px;border:2px solid #d9d2c3;border-radius:10px;background:#fffdf8}.primary-label{display:inline-block;margin-bottom:10px;padding:4px 10px;border-radius:999px;background:#ece7dc;font-size:12px;font-weight:700;color:#555}details.long-text{margin:24px 0;border:1px solid #ddd;border-radius:9px;overflow:hidden}details.long-text summary{cursor:pointer;padding:18px 20px;font-weight:700;background:#f8f8f6}details.long-text .chapter-inner{padding:8px 20px 22px}@media(max-width:700px){header{padding:20px 16px}.site-name{font-size:20px}main{width:min(100% - 28px,900px);padding:42px 0 60px}h1{font-size:27px}h2{font-size:22px;margin-top:44px}.original,.meaning{padding:16px}.chapter-inner{padding:2px 14px 18px}}
-/* 2026-09 総合目次・全文ドロップダウン・ルビ */
+/* 2026-09 お経ページ完成統一版 */
 .sutra-index-section{margin:48px 0 0}
-.sutra-index-section h2{margin-top:0}
 .compact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0 8px}
-.compact-card{display:flex;align-items:center;justify-content:space-between;gap:18px;border:1px solid #ddd;border-radius:9px;padding:17px 18px;background:#fff;transition:background .15s ease}
+.compact-card{display:flex;align-items:center;justify-content:space-between;gap:18px;border:1px solid #ddd;border-radius:9px;padding:17px 18px;background:#fff;text-decoration:none}
 .compact-card:hover{background:#fafafa}
 .compact-card-main{min-width:0}
-.compact-card-title{font-size:17px;font-weight:700;line-height:1.45;margin-bottom:4px}
-.compact-card-text{font-size:13px;color:#666;line-height:1.65}
+.compact-card-title{font-size:17px;font-weight:700;line-height:1.5}
+.compact-card-text{font-size:13px;color:#666;line-height:1.65;margin-top:4px}
 .compact-card-arrow{flex:0 0 auto;color:#777;font-size:18px}
-.fulltext-details{margin:42px 0 0;border:1px solid #d7d7d2;border-radius:10px;overflow:hidden;background:#fff}
+.fulltext-details{margin:34px 0 0;border:1px solid #d7d7d2;border-radius:10px;overflow:hidden;background:#fff}
 .fulltext-details summary{cursor:pointer;padding:18px 20px;background:#f7f7f5;font-weight:700;list-style-position:inside}
 .fulltext-details[open] summary{border-bottom:1px solid #ddd}
 .fulltext-inner{padding:22px}
-.fulltext-body{font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Hiragino Mincho Pro","Noto Serif JP",serif;font-size:16px;line-height:2.35}
+.fulltext-body{font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Noto Serif JP",serif;font-size:16px;line-height:2.3}
 .fulltext-body p{margin:0 0 1.15em}
-.fulltext-note{font-family:-apple-system,BlinkMacSystemFont,"Yu Gothic","Meiryo",sans-serif;font-size:13px;color:#666;margin:0 0 18px}
-ruby{ruby-align:center}
-rt{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;font-size:.52em;color:#666;letter-spacing:0}
-.legacy-move{margin:32px auto;max-width:650px;padding:24px;border:1px solid #ddd;border-radius:10px;background:#fafafa;text-align:center}
+.fulltext-note{font-size:13px;color:#666;line-height:1.8;margin:0 0 18px}
+.page-bottom-note{margin-top:36px}
+.long-text .sutra-block{margin-top:24px}
+ruby{ruby-position:over;ruby-align:center}
+rt{font-size:.52em;line-height:1;color:#666;font-weight:400}
 @media(max-width:700px){
   .compact-grid{grid-template-columns:1fr}
-  .compact-card{padding:15px 16px}
   .fulltext-inner{padding:17px 15px}
-  .fulltext-body{font-size:15px;line-height:2.35}
+  .fulltext-body{font-size:15px}
 }
-
-
-/* 全漢字ルビ */
-ruby{ruby-align:center;ruby-position:over}
-rt{font-size:.50em;line-height:1;color:#666;font-family:-apple-system,BlinkMacSystemFont,"Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;font-weight:400}
-.furigana-loading{font-size:12px;color:#777;margin:8px 0}
 </style></head><body><header><div class="header-inner"><a class="site-name" href="index.html">松久山 禅昌寺</a></div></header><main><h1>大般若経とは</h1><p class="intro">全六百巻、約五百万字に及ぶ巨大な般若経典と、寺院で行われる「転読」についてご紹介します。</p><p>一般に『大般若経』と呼ばれる『大般若波羅蜜多経』は、玄奘三蔵らによって漢訳された六百巻の大部の経典です。</p><h2>六百巻のお経</h2><p>曹洞宗公式では約五百万字、全六百巻と紹介されています。内容の中心には、大乗仏教の般若の智慧、「空」の教えがあります。</p><h2>般若心経との関係</h2><p>日常よく唱える般若心経と大般若経は、同じ「般若＝智慧」の系譜にあります。短い般若心経に対し、大般若経は膨大な経文を通して般若の教えを説きます。</p><h2>なぜ経本を勢いよく広げるのか</h2><p>六百巻すべてを一度に読み通すことが難しいため、寺院では「転読」という読み方が行われます。現在の折本では、経本を左右や前後に広げるようにして転読する姿がよく見られます。</p><h2>転読大般若で祈ること</h2><p>経典を読誦する功徳をもって、世界の平和、檀信徒の安穏、災難消除などを祈ります。祈祷であると同時に、智慧の教えに触れる法要でもあります。</p>
 <div class="interpretation-note page-bottom-note">
 <strong>このページの解説について</strong>
 本文の「意味」「解説」は、曹洞宗公式資料・経典・参考文献をもとに、一般の方向けに平易にまとめた一つの読み方です。経典や偈文には、宗派・時代・研究者・訳によって異なる解釈があります。
 </div>
-<details class="fulltext-details"><summary>本文全文を読む</summary><div class="fulltext-inner">
-<p class="fulltext-note">『大般若波羅蜜多経』は全六百巻・約五百万字に及ぶため、このページ内に全六百巻を全文掲載することはしていません。禅昌寺の法要では、六百巻を一巻ずつ通読する代わりに「転読」を行います。</p>
-<div class="fulltext-body"><p>※この一ページだけは、経典の規模上「本文全文」の掲載対象外です。</p></div>
-</div></details><h2>参考・出典</h2><ul class="source-list"><li><a href="https://www.sotozen-net.or.jp/ceremony/annual" rel="noopener noreferrer" target="_blank">曹洞宗 曹洞禅ネット「年中行事―転読大般若」</a></li><li><a href="https://www.sotozen-net.or.jp/soto/sutra" rel="noopener noreferrer" target="_blank">曹洞宗 曹洞禅ネット「経典」</a></li></ul><div class="back"><a href="sutra.html">お経についてへ戻る</a></div></main>
+<details class="fulltext-details"><summary>本文全文を読む</summary><div class="fulltext-inner"><p class="fulltext-note">『大般若波羅蜜多経』は全六百巻に及ぶため、このページ内には全六百巻の本文を収載していません。禅昌寺の大般若法要で行う「転読」について、このページ本文でご紹介しています。</p></div></details><h2>参考・出典</h2><ul class="source-list"><li><a href="https://www.sotozen-net.or.jp/ceremony/annual" rel="noopener noreferrer" target="_blank">曹洞宗 曹洞禅ネット「年中行事―転読大般若」</a></li><li><a href="https://www.sotozen-net.or.jp/soto/sutra" rel="noopener noreferrer" target="_blank">曹洞宗 曹洞禅ネット「経典」</a></li></ul><div class="back"><a href="sutra.html">お経についてへ戻る</a></div></main>
 <script src="https://cdn.jsdelivr.net/npm/kuroshiro@1.2.0/dist/kuroshiro.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/kuroshiro-analyzer-kuromoji@1.1.0/dist/kuroshiro-analyzer-kuromoji.min.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", async function () {
-  const main = document.querySelector("main");
-  if (!main || typeof Kuroshiro === "undefined" || typeof KuromojiAnalyzer === "undefined") return;
-
-  const fixed = {"妙法蓮華経観世音菩薩普門品偈": "みょうほうれんげきょうかんぜおんぼさつふもんぼんげ", "妙法蓮華経観世音菩薩普門品": "みょうほうれんげきょうかんぜおんぼさつふもんぼん", "妙法蓮華経如来寿量品偈": "みょうほうれんげきょうにょらいじゅりょうほんげ", "妙法蓮華経如来寿量品": "みょうほうれんげきょうにょらいじゅりょうほん", "般若心経": "はんにゃしんぎょう", "摩訶般若波羅蜜多心経": "まかはんにゃはらみったしんぎょう", "観自在菩薩": "かんじざいぼさつ", "般若波羅蜜多": "はんにゃはらみった", "阿耨多羅三藐三菩提": "あのくたらさんみゃくさんぼだい", "菩提薩埵": "ぼだいさった", "修証義": "しゅしょうぎ", "懺悔滅罪": "さんげめつざい", "受戒入位": "じゅかいにゅうい", "発願利生": "ほつがんりしょう", "行持報恩": "ぎょうじほうおん", "舎利礼文": "しゃりらいもん", "延命十句観音経": "えんめいじっくかんのんぎょう", "五観の偈": "ごかんのげ", "参同契": "さんどうかい", "宝鏡三昧": "ほうきょうざんまい", "仏遺教経": "ぶつゆいきょうぎょう", "大般若経": "だいはんにゃきょう", "釈迦牟尼仏": "しゃかむにぶつ", "観世音菩薩": "かんぜおんぼさつ", "観世音": "かんぜおん", "普門品偈": "ふもんぼんげ", "寿量品偈": "じゅりょうほんげ", "自我偈": "じがげ", "世尊妙相具": "せそんみょうそうぐ", "自我得仏来": "じがとくぶつらい", "菩提心": "ぼだいしん", "三宝": "さんぼう", "仏法僧": "ぶっぽうそう", "仏祖": "ぶっそ", "仏道": "ぶつどう", "涅槃": "ねはん", "智慧": "ちえ", "功徳": "くどく", "精進": "しょうじん", "禅定": "ぜんじょう", "少欲": "しょうよく", "知足": "ちそく", "遠離": "おんり", "不戯論": "ふけろん", "四諦": "したい", "解脱": "げだつ", "教誨": "きょうかい", "無常": "むじょう", "霊鷲山": "りょうじゅせん", "阿僧祇劫": "あそうぎこう", "大悲": "だいひ", "甘露門": "かんろもん", "開経偈": "かいきょうげ", "地蔵真言": "じぞうしんごん", "曹洞宗": "そうとうしゅう", "曹洞禅": "そうとうぜん", "禅昌寺": "ぜんしょうじ", "道元禅師": "どうげんぜんじ"};
+document.addEventListener("DOMContentLoaded", async () => {
+  const targets = document.querySelectorAll(".chant-text");
+  if (!targets.length || typeof Kuroshiro==="undefined" || typeof KuromojiAnalyzer==="undefined") return;
+  const fixed = {"般若心経": "はんにゃしんぎょう", "観自在菩薩": "かんじざいぼさつ", "般若波羅蜜多": "はんにゃはらみった", "舎利子": "しゃりし", "菩提薩埵": "ぼだいさった", "阿耨多羅三藐三菩提": "あのくたらさんみゃくさんぼだい", "羯諦": "ぎゃてい", "波羅羯諦": "はらぎゃてい", "波羅僧羯諦": "はらそうぎゃてい", "菩提薩婆訶": "ぼじそわか", "修証義": "しゅしょうぎ", "正法眼蔵": "しょうぼうげんぞう", "即心是仏": "そくしんぜぶつ", "舎利礼文": "しゃりらいもん", "釈迦如来": "しゃかにょらい", "真身舎利": "しんじんしゃり", "本地法身": "ほんじほっしん", "法界塔婆": "ほっかいとうば", "延命十句観音経": "えんめいじっくかんのんぎょう", "観世音": "かんぜおん", "南無仏": "なむぶつ", "五観の偈": "ごかんのげ", "参同契": "さんどうかい", "宝鏡三昧": "ほうきょうざんまい", "仏遺教経": "ぶつゆいきょうぎょう", "釈迦牟尼仏": "しゃかむにぶつ", "波羅提木叉": "はらだいもくしゃ", "妙法蓮華経": "みょうほうれんげきょう", "観世音菩薩": "かんぜおんぼさつ", "普門品偈": "ふもんぼんげ", "世尊偈": "せそんげ", "如来寿量品": "にょらいじゅりょうほん", "寿量品偈": "じゅりょうほんげ", "自我偈": "じがげ", "世尊妙相具": "せそんみょうそうぐ", "自我得仏来": "じがとくぶつらい", "霊鷲山": "りょうじゅせん", "阿僧祇劫": "あそうぎこう", "三宝": "さんぼう", "菩提心": "ぼだいしん", "涅槃": "ねはん", "大般若経": "だいはんにゃきょう", "大般若波羅蜜多経": "だいはんにゃはらみったきょう"};
   const keys = Object.keys(fixed).sort((a,b)=>b.length-a.length);
   const hasKanji = /[\u3400-\u4DBF\u4E00-\u9FFF々〆ヶ]/;
 
-  function applyFixedToTextNode(node) {
-    let text = node.nodeValue;
-    if (!hasKanji.test(text)) return;
-    let parts = [{text:text, ruby:false}];
-
-    keys.forEach(key => {
-      const next = [];
-      parts.forEach(part => {
-        if (part.ruby || !part.text.includes(key)) { next.push(part); return; }
-        const bits = part.text.split(key);
-        bits.forEach((bit, i) => {
-          if (bit) next.push({text:bit, ruby:false});
-          if (i < bits.length-1) next.push({text:key, ruby:true, reading:fixed[key]});
-        });
-      });
-      parts = next;
-    });
-
-    if (!parts.some(p=>p.ruby)) return;
-    const frag = document.createDocumentFragment();
-    parts.forEach(part => {
-      if (!part.ruby) {
-        frag.appendChild(document.createTextNode(part.text));
-      } else {
-        const ruby = document.createElement("ruby");
-        ruby.appendChild(document.createTextNode(part.text));
-        const rt = document.createElement("rt");
-        rt.textContent = part.reading;
-        ruby.appendChild(rt);
-        frag.appendChild(ruby);
+  function protectFixed(root){
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+    const nodes=[];
+    while(walker.nextNode()){
+      const n=walker.currentNode;
+      if(n.parentElement && !["RT","RUBY","SCRIPT","STYLE"].includes(n.parentElement.tagName) && hasKanji.test(n.nodeValue)) nodes.push(n);
+    }
+    for(const node of nodes){
+      let parts=[{text:node.nodeValue,ruby:false}];
+      for(const key of keys){
+        const next=[];
+        for(const part of parts){
+          if(part.ruby || !part.text.includes(key)){next.push(part);continue;}
+          const bits=part.text.split(key);
+          bits.forEach((b,i)=>{
+            if(b) next.push({text:b,ruby:false});
+            if(i<bits.length-1) next.push({text:key,ruby:true,reading:fixed[key]});
+          });
+        }
+        parts=next;
       }
-    });
-    node.replaceWith(frag);
-  }
-
-  // Fixed Buddhist / chant readings first.
-  const preWalker = document.createTreeWalker(main, NodeFilter.SHOW_TEXT);
-  const preNodes = [];
-  while(preWalker.nextNode()) {
-    const n = preWalker.currentNode;
-    const p = n.parentElement;
-    if (!p || ["SCRIPT","STYLE","RT","RUBY"].includes(p.tagName)) continue;
-    if (p.closest(".source-list")) continue;
-    if (hasKanji.test(n.nodeValue)) preNodes.push(n);
-  }
-  preNodes.forEach(applyFixedToTextNode);
-
-  const kuroshiro = new Kuroshiro();
-  try {
-    await kuroshiro.init(new KuromojiAnalyzer({
-      dictPath: "https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/dict"
-    }));
-
-    const walker = document.createTreeWalker(main, NodeFilter.SHOW_TEXT);
-    const nodes = [];
-    while(walker.nextNode()) {
-      const n = walker.currentNode;
-      const p = n.parentElement;
-      if (!p || ["SCRIPT","STYLE","RT","RUBY"].includes(p.tagName)) continue;
-      if (p.closest(".source-list")) continue;
-      if (hasKanji.test(n.nodeValue)) nodes.push(n);
+      if(!parts.some(x=>x.ruby)) continue;
+      const frag=document.createDocumentFragment();
+      for(const part of parts){
+        if(!part.ruby){frag.appendChild(document.createTextNode(part.text));continue;}
+        const ruby=document.createElement("ruby");
+        ruby.appendChild(document.createTextNode(part.text));
+        const rt=document.createElement("rt"); rt.textContent=part.reading;
+        ruby.appendChild(rt); frag.appendChild(ruby);
+      }
+      node.replaceWith(frag);
     }
-
-    for (const node of nodes) {
-      if (!node.isConnected) continue;
-      const converted = await kuroshiro.convert(node.nodeValue, {
-        mode: "furigana",
-        to: "hiragana"
-      });
-      const span = document.createElement("span");
-      span.innerHTML = converted;
-      node.replaceWith(...span.childNodes);
-    }
-  } catch (e) {
-    console.error("Furigana conversion failed:", e);
   }
+
+  targets.forEach(protectFixed);
+  const kuroshiro=new Kuroshiro();
+  try{
+    await kuroshiro.init(new KuromojiAnalyzer({dictPath:"https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/dict"}));
+    for(const root of targets){
+      const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+      const nodes=[];
+      while(walker.nextNode()){
+        const n=walker.currentNode;
+        const p=n.parentElement;
+        if(!p || ["RT","RUBY","SCRIPT","STYLE"].includes(p.tagName)) continue;
+        if(hasKanji.test(n.nodeValue)) nodes.push(n);
+      }
+      for(const node of nodes){
+        if(!node.isConnected) continue;
+        const converted=await kuroshiro.convert(node.nodeValue,{mode:"furigana",to:"hiragana"});
+        const span=document.createElement("span"); span.innerHTML=converted;
+        node.replaceWith(...span.childNodes);
+      }
+    }
+  }catch(e){console.error("sutra furigana:",e);}
 });
 </script>
 </body></html>
