@@ -1,131 +1,29 @@
 <!DOCTYPE html>
-
-<html lang="ja"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="五観の偈の五つの句と意味を紹介します。" name="description"/><title>五観の偈とは | 禅昌寺</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;color:#222;background:#fff;line-height:1.9}a{color:inherit;text-decoration:none}header{padding:26px 20px;border-bottom:1px solid #ddd;background:#fff}.header-inner{width:min(1000px,calc(100% - 20px));margin:0 auto}.site-name{font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Noto Serif JP",serif;font-size:24px;font-weight:600;letter-spacing:.12em}main{width:min(900px,calc(100% - 40px));margin:0 auto;padding:58px 0 80px}h1{margin:0 0 14px;text-align:center;font-size:32px;font-weight:600}h2{margin:54px 0 18px;padding-bottom:8px;border-bottom:1px solid #ddd;font-size:24px}h3{margin:34px 0 12px;font-size:20px}.intro{max-width:760px;margin:0 auto 42px;text-align:center;color:#666}.sutra-block{margin:26px 0 32px}.original,.meaning{border-radius:8px;padding:18px 20px}.original{background:#f5f3ed;border:1px solid #e5e1d7;font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN",serif;line-height:2;font-size:16px}.meaning{margin-top:10px;background:#fafafa;border-left:3px solid #bbb}.label{display:block;margin-bottom:6px;font-size:12px;font-weight:700;color:#666;letter-spacing:.08em}.note{margin:24px 0;padding:18px 20px;background:#f7f7f5;border-radius:8px}.source-list{font-size:14px;color:#555}.source-list li{margin:8px 0}.source-list a{text-decoration:underline;text-underline-offset:2px}.back{margin-top:58px;text-align:center}.back a{display:inline-block;padding:12px 24px;border:1px solid #bbb;border-radius:6px;background:#fff}.chapter-inner{padding:4px 20px 20px}.small{font-size:14px;color:#666}.interpretation-note{margin:24px 0;padding:18px 20px;background:#fffaf0;border:1px solid #eadfca;border-radius:8px;color:#555;font-size:14px;line-height:1.8}.interpretation-note strong{display:block;margin-bottom:6px;color:#333}.primary-box{margin:28px 0;padding:20px;border:2px solid #d9d2c3;border-radius:10px;background:#fffdf8}.primary-label{display:inline-block;margin-bottom:10px;padding:4px 10px;border-radius:999px;background:#ece7dc;font-size:12px;font-weight:700;color:#555}details.long-text{margin:24px 0;border:1px solid #ddd;border-radius:9px;overflow:hidden}details.long-text summary{cursor:pointer;padding:18px 20px;font-weight:700;background:#f8f8f6}details.long-text .chapter-inner{padding:8px 20px 22px}@media(max-width:700px){header{padding:20px 16px}.site-name{font-size:20px}main{width:min(100% - 28px,900px);padding:42px 0 60px}h1{font-size:27px}h2{font-size:22px;margin-top:44px}.original,.meaning{padding:16px}.chapter-inner{padding:2px 14px 18px}}
-/* 2026-09 総合目次・全文ドロップダウン・ルビ */
-.sutra-index-section{margin:48px 0 0}
-.sutra-index-section h2{margin-top:0}
-.compact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0 8px}
-.compact-card{display:flex;align-items:center;justify-content:space-between;gap:18px;border:1px solid #ddd;border-radius:9px;padding:17px 18px;background:#fff;transition:background .15s ease}
-.compact-card:hover{background:#fafafa}
-.compact-card-main{min-width:0}
-.compact-card-title{font-size:17px;font-weight:700;line-height:1.45;margin-bottom:4px}
-.compact-card-text{font-size:13px;color:#666;line-height:1.65}
-.compact-card-arrow{flex:0 0 auto;color:#777;font-size:18px}
-.fulltext-details{margin:42px 0 0;border:1px solid #d7d7d2;border-radius:10px;overflow:hidden;background:#fff}
-.fulltext-details summary{cursor:pointer;padding:18px 20px;background:#f7f7f5;font-weight:700;list-style-position:inside}
-.fulltext-details[open] summary{border-bottom:1px solid #ddd}
-.fulltext-inner{padding:22px}
-.fulltext-body{font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Hiragino Mincho Pro","Noto Serif JP",serif;font-size:16px;line-height:2.35}
-.fulltext-body p{margin:0 0 1.15em}
-.fulltext-note{font-family:-apple-system,BlinkMacSystemFont,"Yu Gothic","Meiryo",sans-serif;font-size:13px;color:#666;margin:0 0 18px}
-ruby{ruby-align:center}
-rt{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;font-size:.52em;color:#666;letter-spacing:0}
-.legacy-move{margin:32px auto;max-width:650px;padding:24px;border:1px solid #ddd;border-radius:10px;background:#fafafa;text-align:center}
-@media(max-width:700px){
-  .compact-grid{grid-template-columns:1fr}
-  .compact-card{padding:15px 16px}
-  .fulltext-inner{padding:17px 15px}
-  .fulltext-body{font-size:15px;line-height:2.35}
-}
-
-
-/* 全漢字ルビ */
-ruby{ruby-align:center;ruby-position:over}
-rt{font-size:.50em;line-height:1;color:#666;font-family:-apple-system,BlinkMacSystemFont,"Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;font-weight:400}
-.furigana-loading{font-size:12px;color:#777;margin:8px 0}
-</style></head><body><header><div class="header-inner"><a class="site-name" href="index.html">松久山 禅昌寺</a></div></header><main><h1>五観の偈とは</h1><p class="intro">食事をいただく前に、自分の心と食の意味を五つの視点から見つめる偈文です。</p><p>道元禅師の『赴粥飯法』に示され、曹洞宗の僧堂では食事の前に唱えられます。</p><div class="sutra-block"><h3>一つには</h3><div class="original">一つには功の多少を計り　彼の来処を量る</div><div class="meaning"><span class="label">意味</span>この食事がここへ届くまでに費やされた多くの働きと、その食材がどこから来たのかを思います。</div></div><div class="sutra-block"><h3>二つには</h3><div class="original">二つには己が徳行の　全欠を忖って供に応ず</div><div class="meaning"><span class="label">意味</span>自分の行いが、この食事をいただくにふさわしいものであるかを振り返ります。</div></div><div class="sutra-block"><h3>三つには</h3><div class="original">三つには心を防ぎ過を離るることは　貪等を宗とす</div><div class="meaning"><span class="label">意味</span>心の過ちを防ぐため、とくに貪りをはじめとする煩悩に注意します。</div></div><div class="sutra-block"><h3>四つには</h3><div class="original">四つには正に良薬を事とするは　形枯を療ぜんが為なり</div><div class="meaning"><span class="label">意味</span>この食事を、身体の衰えを治し保つための良薬としていただきます。</div></div><div class="sutra-block"><h3>五つには</h3><div class="original">五つには成道の為の故に　今此の食を受く</div><div class="meaning"><span class="label">意味</span>仏道を成就するために、この食事をいただきます。</div></div>
-<div class="interpretation-note page-bottom-note">
-<strong>このページの解説について</strong>
-本文の「意味」「解説」は、曹洞宗公式資料・経典・参考文献をもとに、一般の方向けに平易にまとめた一つの読み方です。経典や偈文には、宗派・時代・研究者・訳によって異なる解釈があります。
-</div>
-<details class="fulltext-details"><summary>本文全文を読む</summary><div class="fulltext-inner"><p class="fulltext-note">ページ内で扱った本文を、解説を挟まず続けて読めます。ルビは漢字部分にのみ付けています。</p><div class="fulltext-body"><p>一つには功の多少を計り　彼の来処を量る</p><p>二つには己が徳行の　全欠を忖って供に応ず</p><p>三つには心を防ぎ過を離るることは　貪等を宗とす</p><p>四つには正に良薬を事とするは　形枯を療ぜんが為なり</p><p>五つには成道の為の故に　今此の食を受く</p></div></div></details><h2>参考・出典</h2><ul class="source-list"><li><a href="https://www.sotozen-net.or.jp/zen/eating/gokannoge" rel="noopener noreferrer" target="_blank">曹洞宗 曹洞禅ネット「『五観の偈』に学ぶ」</a></li><li><a href="https://www.sotozen-net.or.jp/zen/eating" rel="noopener noreferrer" target="_blank">曹洞宗 曹洞禅ネット「食べる修行～命をいただく～」</a></li></ul><div class="back"><a href="sutra.html">お経についてへ戻る</a></div></main>
-<script src="https://cdn.jsdelivr.net/npm/kuroshiro@1.2.0/dist/kuroshiro.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/kuroshiro-analyzer-kuromoji@1.1.0/dist/kuroshiro-analyzer-kuromoji.min.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", async function () {
-  const main = document.querySelector("main");
-  if (!main || typeof Kuroshiro === "undefined" || typeof KuromojiAnalyzer === "undefined") return;
-
-  const fixed = {"妙法蓮華経観世音菩薩普門品偈": "みょうほうれんげきょうかんぜおんぼさつふもんぼんげ", "妙法蓮華経観世音菩薩普門品": "みょうほうれんげきょうかんぜおんぼさつふもんぼん", "妙法蓮華経如来寿量品偈": "みょうほうれんげきょうにょらいじゅりょうほんげ", "妙法蓮華経如来寿量品": "みょうほうれんげきょうにょらいじゅりょうほん", "般若心経": "はんにゃしんぎょう", "摩訶般若波羅蜜多心経": "まかはんにゃはらみったしんぎょう", "観自在菩薩": "かんじざいぼさつ", "般若波羅蜜多": "はんにゃはらみった", "阿耨多羅三藐三菩提": "あのくたらさんみゃくさんぼだい", "菩提薩埵": "ぼだいさった", "修証義": "しゅしょうぎ", "懺悔滅罪": "さんげめつざい", "受戒入位": "じゅかいにゅうい", "発願利生": "ほつがんりしょう", "行持報恩": "ぎょうじほうおん", "舎利礼文": "しゃりらいもん", "延命十句観音経": "えんめいじっくかんのんぎょう", "五観の偈": "ごかんのげ", "参同契": "さんどうかい", "宝鏡三昧": "ほうきょうざんまい", "仏遺教経": "ぶつゆいきょうぎょう", "大般若経": "だいはんにゃきょう", "釈迦牟尼仏": "しゃかむにぶつ", "観世音菩薩": "かんぜおんぼさつ", "観世音": "かんぜおん", "普門品偈": "ふもんぼんげ", "寿量品偈": "じゅりょうほんげ", "自我偈": "じがげ", "世尊妙相具": "せそんみょうそうぐ", "自我得仏来": "じがとくぶつらい", "菩提心": "ぼだいしん", "三宝": "さんぼう", "仏法僧": "ぶっぽうそう", "仏祖": "ぶっそ", "仏道": "ぶつどう", "涅槃": "ねはん", "智慧": "ちえ", "功徳": "くどく", "精進": "しょうじん", "禅定": "ぜんじょう", "少欲": "しょうよく", "知足": "ちそく", "遠離": "おんり", "不戯論": "ふけろん", "四諦": "したい", "解脱": "げだつ", "教誨": "きょうかい", "無常": "むじょう", "霊鷲山": "りょうじゅせん", "阿僧祇劫": "あそうぎこう", "大悲": "だいひ", "甘露門": "かんろもん", "開経偈": "かいきょうげ", "地蔵真言": "じぞうしんごん", "曹洞宗": "そうとうしゅう", "曹洞禅": "そうとうぜん", "禅昌寺": "ぜんしょうじ", "道元禅師": "どうげんぜんじ"};
-  const keys = Object.keys(fixed).sort((a,b)=>b.length-a.length);
-  const hasKanji = /[\u3400-\u4DBF\u4E00-\u9FFF々〆ヶ]/;
-
-  function applyFixedToTextNode(node) {
-    let text = node.nodeValue;
-    if (!hasKanji.test(text)) return;
-    let parts = [{text:text, ruby:false}];
-
-    keys.forEach(key => {
-      const next = [];
-      parts.forEach(part => {
-        if (part.ruby || !part.text.includes(key)) { next.push(part); return; }
-        const bits = part.text.split(key);
-        bits.forEach((bit, i) => {
-          if (bit) next.push({text:bit, ruby:false});
-          if (i < bits.length-1) next.push({text:key, ruby:true, reading:fixed[key]});
-        });
-      });
-      parts = next;
-    });
-
-    if (!parts.some(p=>p.ruby)) return;
-    const frag = document.createDocumentFragment();
-    parts.forEach(part => {
-      if (!part.ruby) {
-        frag.appendChild(document.createTextNode(part.text));
-      } else {
-        const ruby = document.createElement("ruby");
-        ruby.appendChild(document.createTextNode(part.text));
-        const rt = document.createElement("rt");
-        rt.textContent = part.reading;
-        ruby.appendChild(rt);
-        frag.appendChild(ruby);
-      }
-    });
-    node.replaceWith(frag);
-  }
-
-  // Fixed Buddhist / chant readings first.
-  const preWalker = document.createTreeWalker(main, NodeFilter.SHOW_TEXT);
-  const preNodes = [];
-  while(preWalker.nextNode()) {
-    const n = preWalker.currentNode;
-    const p = n.parentElement;
-    if (!p || ["SCRIPT","STYLE","RT","RUBY"].includes(p.tagName)) continue;
-    if (p.closest(".source-list")) continue;
-    if (hasKanji.test(n.nodeValue)) preNodes.push(n);
-  }
-  preNodes.forEach(applyFixedToTextNode);
-
-  const kuroshiro = new Kuroshiro();
-  try {
-    await kuroshiro.init(new KuromojiAnalyzer({
-      dictPath: "https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/dict"
-    }));
-
-    const walker = document.createTreeWalker(main, NodeFilter.SHOW_TEXT);
-    const nodes = [];
-    while(walker.nextNode()) {
-      const n = walker.currentNode;
-      const p = n.parentElement;
-      if (!p || ["SCRIPT","STYLE","RT","RUBY"].includes(p.tagName)) continue;
-      if (p.closest(".source-list")) continue;
-      if (hasKanji.test(n.nodeValue)) nodes.push(n);
-    }
-
-    for (const node of nodes) {
-      if (!node.isConnected) continue;
-      const converted = await kuroshiro.convert(node.nodeValue, {
-        mode: "furigana",
-        to: "hiragana"
-      });
-      const span = document.createElement("span");
-      span.innerHTML = converted;
-      node.replaceWith(...span.childNodes);
-    }
-  } catch (e) {
-    console.error("Furigana conversion failed:", e);
-  }
-});
-</script>
-</body></html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="五観の偈の本文と読み、五つの意味を紹介します。"><title>五観の偈とは | 禅昌寺</title>
+<style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;color:#222;background:#fff;line-height:1.9}a{color:inherit;text-decoration:none}header{padding:26px 20px;border-bottom:1px solid #ddd}.header-inner{width:min(1000px,calc(100% - 20px));margin:0 auto}.site-name{font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Noto Serif JP",serif;font-size:24px;font-weight:600;letter-spacing:.12em}main{width:min(900px,calc(100% - 40px));margin:0 auto;padding:58px 0 80px}h1{margin:0 0 14px;text-align:center;font-size:32px;font-weight:600}h2{margin:54px 0 18px;padding-bottom:8px;border-bottom:1px solid #ddd;font-size:24px}h3{margin:34px 0 12px;font-size:20px}.intro{max-width:760px;margin:0 auto 42px;text-align:center;color:#666}.sutra-block{margin:26px 0 32px}.original,.meaning{border-radius:8px;padding:18px 20px}.original{background:#f5f3ed;border:1px solid #e5e1d7;font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN",serif;line-height:2.3;font-size:16px}.meaning{margin-top:10px;background:#fafafa;border-left:3px solid #bbb}.label{display:block;margin-bottom:6px;font-family:-apple-system,BlinkMacSystemFont,"Yu Gothic","Meiryo",sans-serif;font-size:12px;font-weight:700;color:#666;letter-spacing:.08em}.interpretation-note{margin:24px 0;padding:18px 20px;background:#fffaf0;border:1px solid #eadfca;border-radius:8px;color:#555;font-size:14px;line-height:1.8}.interpretation-note strong{display:block;margin-bottom:6px;color:#333}.page-bottom-note{margin-top:36px}.fulltext-details{margin:34px 0 0;border:1px solid #d7d7d2;border-radius:10px;overflow:hidden}.fulltext-details summary{cursor:pointer;padding:18px 20px;background:#f7f7f5;font-weight:700;list-style-position:inside}.fulltext-details[open] summary{border-bottom:1px solid #ddd}.fulltext-inner{padding:22px}.fulltext-body{font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Noto Serif JP",serif;font-size:16px;line-height:2.3}.fulltext-body p{margin:0 0 1.15em}.fulltext-note{font-size:13px;color:#666;line-height:1.8;margin:0 0 18px}.source-list{font-size:14px;color:#555}.source-list li{margin:8px 0}.source-list a{text-decoration:underline;text-underline-offset:2px}.back{margin-top:58px;text-align:center}.back a{display:inline-block;padding:12px 24px;border:1px solid #bbb;border-radius:6px}ruby{ruby-position:over;ruby-align:center}rt{font-size:.52em;line-height:1;color:#666;font-weight:400}.mobile-break{display:none}@media(max-width:700px){header{padding:20px 16px}.site-name{font-size:20px}main{width:min(100% - 28px,900px);padding:42px 0 60px}h1{font-size:27px}h2{font-size:22px;margin-top:44px}.original,.meaning{padding:16px}.fulltext-inner{padding:17px 15px}.fulltext-body{font-size:15px}.mobile-break{display:block}}
+</style></head><body>
+<header><div class="header-inner"><a class="site-name" href="index.html">松久山 禅昌寺</a></div></header><main>
+<h1>五観の偈とは</h1><p class="intro">食事をいただく前に、自分の心と食の意味を五つの視点から見つめる偈文です。</p>
+<p>『五観の偈』は、食事をいただく前に、自分の心と食事の意味を五つの視点から見つめる偈文です。道元禅師は、禅僧が食事をいただく際の作法と心構えを『赴粥飯法』に示しました。食事を単なる栄養補給としてではなく、命をいただき、自分の行いを省み、仏道を実践する機会として受け止めます。</p>
+<h2>本文とその意味</h2>
+<div class="sutra-block"><h3>食事が届くまでを思う</h3><div class="original"><span class="label">本文</span><ruby>一<rt>ひと</rt></ruby>つには　<ruby>功<rt>こう</rt></ruby>の<ruby>多少<rt>たしょう</rt></ruby>を<ruby>計<rt>はか</rt></ruby>り　<br class="mobile-break"><ruby>彼<rt>か</rt></ruby>の<ruby>来処<rt>らいしょ</rt></ruby>を<ruby>量<rt>はか</rt></ruby>る</div><div class="meaning"><span class="label">意味</span>この食事に用いられた食材の命と、食事がここへ届くまでに重ねられた多くの働きに思いを向けます。</div></div>
+<div class="sutra-block"><h3>自分の行いを振り返る</h3><div class="original"><span class="label">本文</span><ruby>二<rt>ふた</rt></ruby>つには　<ruby>己<rt>おのれ</rt></ruby>が<ruby>徳行<rt>とくぎょう</rt></ruby>の　<br class="mobile-break"><ruby>全欠<rt>ぜんけつ</rt></ruby>を<ruby>忖<rt>はか</rt></ruby>って　<ruby>供<rt>く</rt></ruby>に<ruby>応<rt>おう</rt></ruby>ず</div><div class="meaning"><span class="label">意味</span>自分の行いを振り返り、この食事をいただくにふさわしい生き方ができているかを省みます。</div></div>
+<div class="sutra-block"><h3>迷いの心を慎む</h3><div class="original"><span class="label">本文</span><ruby>三<rt>み</rt></ruby>つには　<ruby>心<rt>しん</rt></ruby>を<ruby>防<rt>ふせ</rt></ruby>ぎ　<br class="mobile-break"><ruby>過<rt>とが</rt></ruby>を<ruby>離<rt>はな</rt></ruby>るることは　<ruby>貪等<rt>とんとう</rt></ruby>を<ruby>宗<rt>しゅう</rt></ruby>とす</div><div class="meaning"><span class="label">意味</span>過ちにつながる心を慎み、とくに貪り・怒り・愚かさにとらわれないよう自分の心を整えます。</div></div>
+<div class="sutra-block"><h3>身体を養う良薬としていただく</h3><div class="original"><span class="label">本文</span><ruby>四<rt>よ</rt></ruby>つには　<ruby>正<rt>まさ</rt></ruby>に<ruby>良薬<rt>りょうやく</rt></ruby>を　<br class="mobile-break"><ruby>事<rt>こと</rt></ruby>とするは　<br class="mobile-break"><ruby>形枯<rt>ぎょうこ</rt></ruby>を<ruby>療<rt>りょう</rt></ruby>ぜんが<ruby>為<rt>ため</rt></ruby>なり</div><div class="meaning"><span class="label">意味</span>欲を満たすためではなく、身体を養い、健康を保つための良い薬として、この食事をいただきます。</div></div>
+<div class="sutra-block"><h3>仏道を歩むためにいただく</h3><div class="original"><span class="label">本文</span><ruby>五<rt>いつ</rt></ruby>つには　<ruby>成道<rt>じょうどう</rt></ruby>の<ruby>為<rt>ため</rt></ruby>の<ruby>故<rt>ゆえ</rt></ruby>に　<br class="mobile-break"><ruby>今此<rt>いまこ</rt></ruby>の<ruby>食<rt>じき</rt></ruby>を<ruby>受<rt>う</rt></ruby>く</div><div class="meaning"><span class="label">意味</span>自分だけでなく皆とともに仏道を成し遂げることを願い、そのためにこの食事をいただきます。</div></div>
+<h2>ことばの補足</h2>
+<h3>五観の偈と赴粥飯法</h3><p>「五観の偈」は、食事をいただく前に、自分の心と食事の意味を五つの視点から見つめる偈文です。道元禅師は、禅僧が食事をいただく際の作法と心構えを『赴粥飯法』に示しました。食事を単なる栄養補給としてではなく、命をいただき、自分の行いを省み、仏道を実践する機会として受け止めます。「観」には、心を向けてよく見つめ、受け止めるという意味があります。</p>
+<h3>貪り・怒り・愚かさ</h3><p>第三句の「貪等」は、「貪り」をはじめとする迷いの心を指します。仏教では、必要以上に求める「貪り」、思いどおりにならないことへの「怒り」、物事の真実が見えない「愚かさ」を、特に注意すべき三つの心として挙げます。食事を前にして、好き嫌いや量への欲に振り回されず、自分の心を整えていただくことを表しています。</p>
+<h3>食事を良薬としていただく</h3><p>第四句では、食事を欲望を満たすためのものではなく、身体を養い、健康を保つための「良薬」として受け止めます。続く第五句では、養われた身体と命を、自分のためだけでなく、皆とともに仏道を歩むために用いることを願います。食事をいただくことと、その力を日々の行いに生かすことが、一続きの実践として示されています。</p>
+<div class="interpretation-note page-bottom-note"><strong>このページの解説について</strong>本文の「意味」「解説」は、曹洞宗公式資料・経典・参考文献をもとに、一般の方向けに平易にまとめた一つの読み方です。経典や偈文には、宗派・時代・研究者・訳によって異なる解釈があります。</div>
+<details class="fulltext-details"><summary>本文全文を読む</summary><div class="fulltext-inner"><p class="fulltext-note">解説を挟まず、五観の偈の本文を続けて読めます。</p><div class="fulltext-body">
+<p><ruby>一<rt>ひと</rt></ruby>つには　<ruby>功<rt>こう</rt></ruby>の<ruby>多少<rt>たしょう</rt></ruby>を<ruby>計<rt>はか</rt></ruby>り　<br class="mobile-break"><ruby>彼<rt>か</rt></ruby>の<ruby>来処<rt>らいしょ</rt></ruby>を<ruby>量<rt>はか</rt></ruby>る</p>
+<p><ruby>二<rt>ふた</rt></ruby>つには　<ruby>己<rt>おのれ</rt></ruby>が<ruby>徳行<rt>とくぎょう</rt></ruby>の　<br class="mobile-break"><ruby>全欠<rt>ぜんけつ</rt></ruby>を<ruby>忖<rt>はか</rt></ruby>って　<ruby>供<rt>く</rt></ruby>に<ruby>応<rt>おう</rt></ruby>ず</p>
+<p><ruby>三<rt>み</rt></ruby>つには　<ruby>心<rt>しん</rt></ruby>を<ruby>防<rt>ふせ</rt></ruby>ぎ　<br class="mobile-break"><ruby>過<rt>とが</rt></ruby>を<ruby>離<rt>はな</rt></ruby>るることは　<ruby>貪等<rt>とんとう</rt></ruby>を<ruby>宗<rt>しゅう</rt></ruby>とす</p>
+<p><ruby>四<rt>よ</rt></ruby>つには　<ruby>正<rt>まさ</rt></ruby>に<ruby>良薬<rt>りょうやく</rt></ruby>を　<br class="mobile-break"><ruby>事<rt>こと</rt></ruby>とするは　<br class="mobile-break"><ruby>形枯<rt>ぎょうこ</rt></ruby>を<ruby>療<rt>りょう</rt></ruby>ぜんが<ruby>為<rt>ため</rt></ruby>なり</p>
+<p><ruby>五<rt>いつ</rt></ruby>つには　<ruby>成道<rt>じょうどう</rt></ruby>の<ruby>為<rt>ため</rt></ruby>の<ruby>故<rt>ゆえ</rt></ruby>に　<br class="mobile-break"><ruby>今此<rt>いまこ</rt></ruby>の<ruby>食<rt>じき</rt></ruby>を<ruby>受<rt>う</rt></ruby>く</p>
+</div></div></details>
+<h2>参考・出典</h2><ul class="source-list"><li><a href="https://www.sotozen-net.or.jp/zen/eating/gokannoge" target="_blank" rel="noopener noreferrer">曹洞宗 曹洞禅ネット「『五観の偈』に学ぶ」</a></li><li><a href="https://www.sotozen-net.or.jp/zen/eating" target="_blank" rel="noopener noreferrer">曹洞宗 曹洞禅ネット「食べる修行～命をいただく～」</a></li></ul>
+<div class="back"><a href="sutra.html">お経についてへ戻る</a></div>
+</main></body></html>
