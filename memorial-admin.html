@@ -890,6 +890,10 @@
 
   </style>
 
+
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 
 
@@ -1007,7 +1011,7 @@
                 元号
               </span>
 
-              <select id="era">
+              <select id="era" aria-label="元号">
 
                 <option value="taisho">
                   大正
@@ -1041,7 +1045,7 @@
 
               <input
                 type="number"
-                id="eraYear"
+                id="eraYear" aria-label="和暦の年"
                 inputmode="numeric"
                 min="1"
                 placeholder="例：49"
@@ -1056,7 +1060,7 @@
                 月
               </span>
 
-              <select id="warekiMonth">
+              <select id="warekiMonth" aria-label="和暦の月">
 
                 <option value="">
                   月
@@ -1086,7 +1090,7 @@
                 日
               </span>
 
-              <select id="warekiDay">
+              <select id="warekiDay" aria-label="和暦の日">
 
                 <option value="">
                   日
@@ -1120,7 +1124,7 @@
 
               <input
                 type="number"
-                id="deathYear"
+                id="deathYear" aria-label="西暦の年"
                 inputmode="numeric"
                 min="1912"
                 max="2200"
@@ -1136,7 +1140,7 @@
                 月
               </span>
 
-              <select id="deathMonth">
+              <select id="deathMonth" aria-label="西暦の月">
 
                 <option value="">
                   月
@@ -1166,7 +1170,7 @@
                 日
               </span>
 
-              <select id="deathDay">
+              <select id="deathDay" aria-label="西暦の日">
 
                 <option value="">
                   日

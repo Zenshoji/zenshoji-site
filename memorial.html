@@ -727,6 +727,23 @@
 
   </style>
 
+
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="site-common.css">
+  <link rel="canonical" href="https://zenshoji.github.io/zenshoji-site/memorial.html">
+
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="松久山 禅昌寺">
+  <meta property="og:title" content="中陰・年回表 | 禅昌寺">
+  <meta property="og:description" content="命日から中陰法要と年回忌の日程を確認できる禅昌寺の中陰・年回表です。初七日から四十九日、百か日、各年回忌を確認できます。">
+  <meta property="og:url" content="https://zenshoji.github.io/zenshoji-site/memorial.html">
+  <meta property="og:image" content="https://zenshoji.github.io/zenshoji-site/ogp.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="曹洞宗 松久山 禅昌寺 網走郡津別町">
 </head>
 
 
@@ -850,7 +867,7 @@
                 元号
               </span>
 
-              <select id="era">
+              <select id="era" aria-label="元号">
 
                 <option value="taisho">
                   大正
@@ -884,7 +901,7 @@
 
               <input
                 type="number"
-                id="eraYear"
+                id="eraYear" aria-label="和暦の年"
                 inputmode="numeric"
                 min="1"
                 placeholder="例：49"
@@ -899,7 +916,7 @@
                 月
               </span>
 
-              <select id="warekiMonth">
+              <select id="warekiMonth" aria-label="和暦の月">
 
                 <option value="">
                   月
@@ -929,7 +946,7 @@
                 日
               </span>
 
-              <select id="warekiDay">
+              <select id="warekiDay" aria-label="和暦の日">
 
                 <option value="">
                   日
@@ -972,7 +989,7 @@
 
               <input
                 type="number"
-                id="deathYear"
+                id="deathYear" aria-label="西暦の年"
                 inputmode="numeric"
                 min="1912"
                 max="2200"
@@ -988,7 +1005,7 @@
                 月
               </span>
 
-              <select id="deathMonth">
+              <select id="deathMonth" aria-label="西暦の月">
 
                 <option value="">
                   月
@@ -1018,7 +1035,7 @@
                 日
               </span>
 
-              <select id="deathDay">
+              <select id="deathDay" aria-label="西暦の日">
 
                 <option value="">
                   日
@@ -4026,6 +4043,13 @@
   </script>
 
 
+
+<footer class="site-common-footer">
+  <nav class="site-common-nav" aria-label="サイト内メニュー">
+    <a href="index.html">トップ</a><a href="events.html">年間行事</a><a href="learning.html">体験・学び</a><a href="access.html">アクセス</a><a href="memorial.html">中陰・年回表</a><a href="contact.html">お問い合わせ</a>
+  </nav>
+  <div class="site-common-meta"><a href="privacy.html">個人情報の取り扱い</a><span>© 松久山 禅昌寺</span></div>
+</footer>
 </body>
 
 </html>
