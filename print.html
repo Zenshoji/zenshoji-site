@@ -205,6 +205,32 @@
       height: 0.42em;
     }
 
+    /*
+      ウェブ版の中陰表に表示する日付数字だけを、
+      1文字分の正方形の中央へ明示的に配置する。
+      ブラウザごとの縦中横の位置差を避けるための指定で、
+      PDF生成処理には影響しない。
+    */
+    .chuin-date .tcy {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      line-height: 1em;
+      text-align: center;
+      vertical-align: middle;
+
+      writing-mode: horizontal-tb;
+      -webkit-writing-mode: horizontal-tb;
+      text-orientation: mixed;
+      text-combine-upright: none;
+      -webkit-text-combine: none;
+
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
 
     /* ========================================
        寺院情報
