@@ -856,6 +856,20 @@
       bottom: 0mm;
     }
 
+    .ihai-sanboin-stamp {
+      display: none;
+      position: absolute;
+      left: 50%;
+      top: 46.5%;
+      width: 44mm;
+      height: 44mm;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      opacity: 0.20;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+
     .ihai-body {
       display: none;
     }
@@ -1611,6 +1625,14 @@
             alt="位牌下部装飾"
           />
 
+          <img
+            class="ihai-sanboin-stamp"
+            id="ihaiSanboinStamp"
+            src="sanboin-stamp.png"
+            alt=""
+            aria-hidden="true"
+          />
+
           <div class="ihai-top"></div>
           <div class="ihai-body"></div>
           <div class="ihai-base-1"></div>
@@ -1767,6 +1789,9 @@
     const showNenkaiOldNames =
       pdfOptions.showNenkaiOldNames !== false;
 
+    const showSanboinStamp =
+      pdfOptions.showSanboinStamp === true;
+
     const requestedFrontTableMode =
       (
         pdfOptions.frontTableMode === "chuin" ||
@@ -1892,6 +1917,11 @@
 
     ihaiBottomImage.src =
       IHAI_BOTTOM_IMAGE_SRC;
+
+    const ihaiSanboinImage =
+      document.getElementById(
+        "ihaiSanboinStamp"
+      );
 
     function waitForImageLoad(
       img
@@ -3334,6 +3364,11 @@
       /*
         位牌
       */
+
+      ihaiSanboinImage.style.display =
+        showSanboinStamp
+          ? "block"
+          : "none";
 
       document
         .getElementById(
@@ -5458,6 +5493,40 @@
 
 
       /*
+        三宝印：戒名・俗名・死亡年月日の背面中央へ薄く配置。
+        文字を必ず前面に残すため、文字描画より先に描く。
+      */
+      if (
+        showSanboinStamp &&
+        ihaiSanboinImage.complete &&
+        ihaiSanboinImage.naturalWidth > 0
+      ) {
+        const stampSize =
+          mm(44);
+
+        const stampCenterX =
+          left + width / 2;
+
+        const stampCenterY =
+          top + height * 0.465;
+
+        ctx.save();
+        ctx.globalAlpha =
+          0.20;
+
+        ctx.drawImage(
+          ihaiSanboinImage,
+          stampCenterX - stampSize / 2,
+          stampCenterY - stampSize / 2,
+          stampSize,
+          stampSize
+        );
+
+        ctx.restore();
+      }
+
+
+      /*
         中央文字は上下装飾の安全領域内に配置。
         ブラウザ同様、元位置より約4mm上へ配置。
       */
@@ -7193,7 +7262,12 @@
           ),
           waitForImageLoad(
             ihaiBottomImage
-          )
+          ),
+          showSanboinStamp
+            ? waitForImageLoad(
+                ihaiSanboinImage
+              )
+            : Promise.resolve()
         ]);
 
         await prepareKaimyoNotesRaster();
