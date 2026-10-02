@@ -693,8 +693,6 @@
       height: 172mm;
       overflow: hidden;
       display: none;
-      border-left: 1px solid #aaa;
-      border-right: 1px solid #aaa;
       font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -706,8 +704,8 @@
     }
 
     .front.has-temple-info .kaimyo-notes-area {
-      left: 166mm;
-      width: 30mm;
+      left: 162mm;
+      width: 34mm;
     }
 
     .front.no-temple-info .kaimyo-notes-area {
@@ -731,8 +729,8 @@
     }
 
     .kaimyo-note-column {
-      flex: 0 0 3.85mm;
-      width: 3.85mm;
+      flex: 0 0 4.4mm;
+      width: 4.4mm;
       height: 100%;
       writing-mode: vertical-rl !important;
       -webkit-writing-mode: vertical-rl !important;
@@ -3142,15 +3140,15 @@
 
       /* 右端は固定し、左端だけ実際の使用列数に合わせて詰める */
       const fullLeftMm =
-        showTempleInfo ? 166 : 154;
+        showTempleInfo ? 162 : 154;
       const fullWidthMm =
-        showTempleInfo ? 30 : 42;
+        showTempleInfo ? 34 : 42;
       const usedWidthMm =
         Math.min(
           fullWidthMm,
           Math.max(
             5,
-            noteColumns.length * 3.85 + 2.70
+            noteColumns.length * 4.4 + 2.70
           )
         );
 
@@ -6042,12 +6040,12 @@
 
       const areaX =
         showTempleInfo
-          ? mm(166)
+          ? mm(162)
           : mm(154);
 
       const areaW =
         showTempleInfo
-          ? mm(30)
+          ? mm(34)
           : mm(42);
 
       const top =
@@ -6065,45 +6063,38 @@
         );
 
       const columnStep =
-        mm(3.85);
+        mm(4.4);
 
       const rightPadding =
-        mm(1.8);
+        mm(1.0);
 
       const leftPadding =
-        mm(1.8);
+        mm(1.0);
 
-      const usedWidth =
-        Math.max(
-          mm(4.5),
-          columns.length * columnStep + leftPadding + rightPadding
+      const maxColumns =
+        Math.floor(
+          (
+            areaW -
+            leftPadding -
+            rightPadding
+          ) /
+          columnStep
         );
 
-      /* 右罫線は固定。左罫線は実際に使用する列数に合わせて詰める。 */
-      const rightRuleX =
+      const visibleColumns =
+        columns.slice(
+          0,
+          maxColumns
+        );
+
+      /* HTML表示と同じく、文章前後の縦線は描画しない。 */
+      const rightEdgeX =
         areaX + areaW;
 
-      const leftRuleX =
-        Math.max(
-          areaX,
-          rightRuleX - usedWidth
-        );
-
-      ctx.save();
-      ctx.strokeStyle = "#aaa";
-      ctx.lineWidth = mm(0.265);
-      ctx.beginPath();
-      ctx.moveTo(leftRuleX, mm(24));
-      ctx.lineTo(leftRuleX, mm(196));
-      ctx.moveTo(rightRuleX, mm(24));
-      ctx.lineTo(rightRuleX, mm(196));
-      ctx.stroke();
-      ctx.restore();
-
       let x =
-        rightRuleX - rightPadding - columnStep / 2;
+        rightEdgeX - rightPadding - columnStep / 2;
 
-      columns.forEach(
+      visibleColumns.forEach(
         function(item) {
           const isHeading =
             item.type === "heading";
