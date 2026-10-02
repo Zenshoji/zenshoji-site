@@ -1273,6 +1273,31 @@
 
           <input
             type="checkbox"
+            id="showSanboinStamp"
+          >
+
+          <div class="option-content">
+
+            <label
+              for="showSanboinStamp"
+              class="option-title"
+            >
+              三宝印を位牌に表示
+            </label>
+
+            <div class="option-description">
+              戒名・俗名・死亡年月日の背面中央に、薄い朱色で印刷します。印刷後に実物の判を押す場合は、チェックを入れないでください。
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="option-row">
+
+          <input
+            type="checkbox"
             id="showNenkaiOldNames"
             checked
           >
@@ -3309,6 +3334,9 @@
         showKaimyoNotes:
           document.getElementById("showKaimyoNotes").checked,
 
+        showSanboinStamp:
+          document.getElementById("showSanboinStamp").checked,
+
         kaimyoBlocks:
           kaimyoBlocks.map(
             function(block) {
@@ -3506,6 +3534,13 @@
       }
 
       if (
+        typeof draft.showSanboinStamp === "boolean"
+      ) {
+        document.getElementById("showSanboinStamp").checked =
+          draft.showSanboinStamp;
+      }
+
+      if (
         Array.isArray(draft.kaimyoBlocks) &&
         draft.kaimyoBlocks.length
       ) {
@@ -3538,7 +3573,7 @@
 
       document
         .querySelectorAll(
-          "#name, #kaimyo, #age, #era, #eraYear, #warekiMonth, #warekiDay, #deathYear, #deathMonth, #deathDay, #frontTableMode, #showNenkaiOldNames, #templeInfoPosition, #showKaimyoNotes"
+          "#name, #kaimyo, #age, #era, #eraYear, #warekiMonth, #warekiDay, #deathYear, #deathMonth, #deathDay, #frontTableMode, #showNenkaiOldNames, #templeInfoPosition, #showKaimyoNotes, #showSanboinStamp"
         )
         .forEach(
           function(element) {
@@ -4187,6 +4222,14 @@
                 document
                   .getElementById(
                     "showKaimyoNotes"
+                  )
+                  .checked,
+
+
+              showSanboinStamp:
+                document
+                  .getElementById(
+                    "showSanboinStamp"
                   )
                   .checked
 
