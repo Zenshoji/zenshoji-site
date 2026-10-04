@@ -1273,6 +1273,32 @@
 
           <input
             type="checkbox"
+            id="showTableDescriptions"
+            checked
+          >
+
+          <div class="option-content">
+
+            <label
+              for="showTableDescriptions"
+              class="option-title"
+            >
+              表の説明を表示
+            </label>
+
+            <div class="option-description">
+              「中陰とは」「法事とは」「祥月命日とは」を表示します。オフにすると説明欄をなくし、表を用紙の下まで広げます。
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="option-row">
+
+          <input
+            type="checkbox"
             id="showSanboinStamp"
           >
 
@@ -3334,6 +3360,9 @@
         showKaimyoNotes:
           document.getElementById("showKaimyoNotes").checked,
 
+        showTableDescriptions:
+          document.getElementById("showTableDescriptions").checked,
+
         showSanboinStamp:
           document.getElementById("showSanboinStamp").checked,
 
@@ -3541,6 +3570,13 @@
       }
 
       if (
+        typeof draft.showTableDescriptions === "boolean"
+      ) {
+        document.getElementById("showTableDescriptions").checked =
+          draft.showTableDescriptions;
+      }
+
+      if (
         Array.isArray(draft.kaimyoBlocks) &&
         draft.kaimyoBlocks.length
       ) {
@@ -3573,7 +3609,7 @@
 
       document
         .querySelectorAll(
-          "#name, #kaimyo, #age, #era, #eraYear, #warekiMonth, #warekiDay, #deathYear, #deathMonth, #deathDay, #frontTableMode, #showNenkaiOldNames, #templeInfoPosition, #showKaimyoNotes, #showSanboinStamp"
+          "#name, #kaimyo, #age, #era, #eraYear, #warekiMonth, #warekiDay, #deathYear, #deathMonth, #deathDay, #frontTableMode, #showNenkaiOldNames, #templeInfoPosition, #showKaimyoNotes, #showTableDescriptions, #showSanboinStamp"
         )
         .forEach(
           function(element) {
@@ -4222,6 +4258,14 @@
                 document
                   .getElementById(
                     "showKaimyoNotes"
+                  )
+                  .checked,
+
+
+              showTableDescriptions:
+                document
+                  .getElementById(
+                    "showTableDescriptions"
                   )
                   .checked,
 
