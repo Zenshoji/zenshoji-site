@@ -1265,6 +1265,21 @@
       margin: 0;
     }
 
+    /*
+      管理者設定で説明を表示しない場合は、
+      説明欄と区切り線をなくし、表だけを用紙下端の
+      6mm余白まで広げる。
+    */
+    .page.hide-table-descriptions .chuin-description,
+    .page.hide-table-descriptions .houji-description {
+      display: none;
+    }
+
+    .page.hide-table-descriptions .chuin-table,
+    .page.hide-table-descriptions .nenkai-table {
+      height: 180mm;
+    }
+
 
     /* ========================================
        印刷
@@ -1788,6 +1803,10 @@
     /* 年回表の旧呼称は管理者側で表示／非表示を選択 */
     const showNenkaiOldNames =
       pdfOptions.showNenkaiOldNames !== false;
+
+    /* 旧データに設定がない場合は、従来通り説明を表示する。 */
+    const showTableDescriptions =
+      pdfOptions.showTableDescriptions !== false;
 
     const showSanboinStamp =
       pdfOptions.showSanboinStamp === true;
@@ -3142,6 +3161,11 @@
         frontTableMode === "nenkai"
       );
 
+      front.classList.toggle(
+        "hide-table-descriptions",
+        !showTableDescriptions
+      );
+
       const backPage =
         document.querySelector(".page.back");
 
@@ -3149,6 +3173,11 @@
         backPage.classList.toggle(
           "hide-back-nenkai",
           frontTableMode === "nenkai"
+        );
+
+        backPage.classList.toggle(
+          "hide-table-descriptions",
+          !showTableDescriptions
         );
       }
 
@@ -5883,7 +5912,12 @@
       const tableX = areaX;
       const tableY = mm(24);
       const tableW = areaW;
-      const tableH = mm(108);
+      const tableH =
+        mm(
+          showTableDescriptions
+            ? 108
+            : 180
+        );
       const nenkai = [...data.nenkai].reverse();
       const count = nenkai.length;
       const columnW = tableW / count;
@@ -5978,6 +6012,7 @@
         );
       });
 
+      if (showTableDescriptions) {
       /* 説明欄 */
       const descriptionX = areaX + mm(3);
       const descriptionW = areaW - mm(6);
@@ -6019,6 +6054,7 @@
         descriptionW,
         mm(5.2)
       );
+      }
     }
 
 
@@ -6506,7 +6542,11 @@
           : mm(149);
 
       const tableH =
-        mm(130);
+        mm(
+          showTableDescriptions
+            ? 130
+            : 180
+        );
 
       const columnCount =
         8;
@@ -6769,6 +6809,7 @@
       );
 
 
+      if (showTableDescriptions) {
       /* ブラウザ版の説明欄上罫線と同期 */
       ctx.save();
       ctx.strokeStyle = "#aaa";
@@ -6855,6 +6896,7 @@
           : mm(137),
         mm(5.2)
       );
+      }
 
       drawKaimyoNotesCanvas(
         ctx
@@ -6924,7 +6966,11 @@
         mm(213);
 
       const tableH =
-        mm(108);
+        mm(
+          showTableDescriptions
+            ? 108
+            : 180
+        );
 
 
       const nenkai =
@@ -7119,6 +7165,7 @@
       );
 
 
+      if (showTableDescriptions) {
       /* ブラウザ版の説明欄上罫線と同期 */
       ctx.save();
       ctx.strokeStyle = "#aaa";
@@ -7219,6 +7266,7 @@
         mm(207),
         mm(5.2)
       );
+      }
 
       return canvas;
 
