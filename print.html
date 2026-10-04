@@ -1280,6 +1280,23 @@
       height: 180mm;
     }
 
+    /*
+      説明非表示時も「○○回忌」の文字列は
+      従来の説明あり表示と同程度の高さに保ち、
+      拡張されたセルの中央に配置する。
+    */
+    .page.hide-table-descriptions
+      .nenkai-table.oldnames-on
+      .nenkai-name-slots {
+      height: 36.5mm;
+    }
+
+    .page.hide-table-descriptions
+      .nenkai-table:not(.oldnames-on)
+      .nenkai-name-slots {
+      height: 39mm;
+    }
+
 
     /* ========================================
        印刷
@@ -5985,16 +6002,45 @@
           nameLen >= 6;
         const nameSize = baseNameSize;
 
+        const nameRowTop =
+          rowStarts[rowIndex];
+
+        const nameRowHeight =
+          tableH * rowRatios[rowIndex];
+
+        const nameBlockHeight =
+          showTableDescriptions
+            ? nameRowHeight
+            : mm(
+                oldNamesOn
+                  ? 36.5
+                  : 39
+              );
+
+        const nameBlockTop =
+          nameRowTop +
+          (
+            nameRowHeight -
+            nameBlockHeight
+          ) / 2;
+
         drawVerticalDistributed(
           ctx,
           item.name,
           cx,
-          rowStarts[rowIndex],
-          tableH * rowRatios[rowIndex],
+          nameBlockTop,
+          nameBlockHeight,
           {
             size: nameSize,
             weight: "600",
-            usableRatio: oldNamesOn ? 0.94 : 0.84
+            usableRatio:
+              showTableDescriptions
+                ? (
+                    oldNamesOn
+                      ? 0.94
+                      : 0.84
+                  )
+                : 1
           }
         );
         rowIndex++;
@@ -7131,19 +7177,50 @@
             rowIndex++;
           }
 
-          /* ブラウザ：20pt固定、5文字を基準に88%高へ均等割付。 */
+          const nameRowTop =
+            rowStarts[rowIndex];
+
+          const nameRowHeight =
+            tableH * rowRatios[rowIndex];
+
+          const nameBlockHeight =
+            showTableDescriptions
+              ? nameRowHeight
+              : mm(
+                  oldNamesOn
+                    ? 36.5
+                    : 39
+                );
+
+          const nameBlockTop =
+            nameRowTop +
+            (
+              nameRowHeight -
+              nameBlockHeight
+            ) / 2;
+
+          /*
+            説明非表示時はセルだけを広げ、
+            文字列は従来高の中央ブロック内に収める。
+          */
           drawVerticalDistributed(
             ctx,
             item.name,
             cx,
-            rowStarts[rowIndex],
-            tableH * rowRatios[rowIndex],
+            nameBlockTop,
+            nameBlockHeight,
             {
               size:
                 nenkaiNameSize,
               weight: "600",
               usableRatio:
-                oldNamesOn ? 0.94 : 0.84
+                showTableDescriptions
+                  ? (
+                      oldNamesOn
+                        ? 0.94
+                        : 0.84
+                    )
+                  : 1
             }
           );
           rowIndex++;
