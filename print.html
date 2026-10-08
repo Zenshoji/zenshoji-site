@@ -506,52 +506,6 @@
     }
 
 
-    .handwritten-person-fields {
-      display: none;
-      position: absolute;
-      left: 4mm;
-      right: 4mm;
-      top: 10.5mm;
-      height: 5.5mm;
-      align-items: center;
-      justify-content: center;
-      gap: 8mm;
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Yu Gothic",
-        "Meiryo",
-        sans-serif;
-      font-size: 9pt;
-      line-height: 1;
-      white-space: nowrap;
-    }
-
-
-    .front.handwritten-chuin .handwritten-person-fields {
-      display: flex;
-    }
-
-
-    .handwritten-person-field {
-      display: inline-flex;
-      align-items: flex-end;
-      gap: 1.5mm;
-    }
-
-
-    .handwritten-person-line {
-      display: inline-block;
-      width: 42mm;
-      height: 4mm;
-      border-bottom: 0.3mm solid #777;
-    }
-
-
-    .handwritten-death-line {
-      width: 34mm;
-    }
-
     .chuin-table {
       position: absolute;
 
@@ -567,6 +521,16 @@
 
       grid-template-columns:
         repeat(8, 1fr);
+    }
+
+    /* 手書き版は故人名・命日欄を置かず、その分だけ表を上へ広げる */
+    .front.handwritten-chuin .chuin-table {
+      top: 13mm;
+      height: 135mm;
+    }
+
+    .front.handwritten-chuin.hide-table-descriptions .chuin-table {
+      height: 185mm;
     }
 
     .chuin-column {
@@ -1636,21 +1600,6 @@
 
         <div class="chuin-title">
           中　陰　表
-        </div>
-
-
-        <div class="handwritten-person-fields">
-
-          <div class="handwritten-person-field">
-            <span>故人名</span>
-            <span class="handwritten-person-line"></span>
-          </div>
-
-          <div class="handwritten-person-field">
-            <span>命日</span>
-            <span class="handwritten-person-line handwritten-death-line"></span>
-          </div>
-
         </div>
 
 
@@ -6646,146 +6595,6 @@
     }
 
 
-    function drawHandwrittenPersonFieldsCanvas(
-      ctx,
-      tableX,
-      tableW
-    ) {
-
-      if (!isHandwrittenChuin) {
-        return;
-      }
-
-      const firstLineWidth =
-        mm(42);
-
-      const secondLineWidth =
-        mm(34);
-
-      const groupGap =
-        mm(8);
-
-      const labelGap =
-        mm(1.5);
-
-      setFont(
-        ctx,
-        mm(
-          9 *
-          25.4 /
-          72
-        ),
-        "normal",
-        "sans"
-      );
-
-      ctx.save();
-      ctx.fillStyle =
-        "#222";
-      ctx.strokeStyle =
-        "#777";
-      ctx.lineWidth =
-        mm(0.3);
-      ctx.textAlign =
-        "left";
-      ctx.textBaseline =
-        "bottom";
-
-      const firstLabel =
-        "故人名";
-
-      const secondLabel =
-        "命日";
-
-      const firstLabelWidth =
-        ctx.measureText(
-          firstLabel
-        ).width;
-
-      const secondLabelWidth =
-        ctx.measureText(
-          secondLabel
-        ).width;
-
-      const totalWidth =
-        firstLabelWidth +
-        labelGap +
-        firstLineWidth +
-        groupGap +
-        secondLabelWidth +
-        labelGap +
-        secondLineWidth;
-
-      const firstX =
-        tableX +
-        (
-          tableW -
-          totalWidth
-        ) / 2;
-
-      const baselineY =
-        mm(21.4);
-
-      ctx.fillText(
-        firstLabel,
-        firstX,
-        baselineY
-      );
-
-      const firstLineX =
-        firstX +
-        firstLabelWidth +
-        labelGap;
-
-      ctx.beginPath();
-      ctx.moveTo(
-        firstLineX,
-        baselineY +
-        mm(0.4)
-      );
-      ctx.lineTo(
-        firstLineX +
-        firstLineWidth,
-        baselineY +
-        mm(0.4)
-      );
-      ctx.stroke();
-
-      const secondX =
-        firstLineX +
-        firstLineWidth +
-        groupGap;
-
-      ctx.fillText(
-        secondLabel,
-        secondX,
-        baselineY
-      );
-
-      const secondLineX =
-        secondX +
-        secondLabelWidth +
-        labelGap;
-
-      ctx.beginPath();
-      ctx.moveTo(
-        secondLineX,
-        baselineY +
-        mm(0.4)
-      );
-      ctx.lineTo(
-        secondLineX +
-        secondLineWidth,
-        baselineY +
-        mm(0.4)
-      );
-      ctx.stroke();
-
-      ctx.restore();
-
-    }
-
-
     function renderFrontCanvas() {
 
       const {
@@ -6857,7 +6666,11 @@
           : mm(45);
 
       const tableY =
-        mm(24);
+        mm(
+          isHandwrittenChuin
+            ? 19
+            : 24
+        );
 
       const tableW =
         showKaimyoNotes
@@ -6868,17 +6681,19 @@
             )
           : mm(149);
 
-      drawHandwrittenPersonFieldsCanvas(
-        ctx,
-        tableX,
-        tableW
-      );
-
       const tableH =
         mm(
-          showTableDescriptions
-            ? 130
-            : 180
+          isHandwrittenChuin
+            ? (
+                showTableDescriptions
+                  ? 135
+                  : 185
+              )
+            : (
+                showTableDescriptions
+                  ? 130
+                  : 180
+              )
         );
 
       const columnCount =
