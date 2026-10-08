@@ -505,6 +505,53 @@
       letter-spacing: 0.18em;
     }
 
+
+    .handwritten-person-fields {
+      display: none;
+      position: absolute;
+      left: 4mm;
+      right: 4mm;
+      top: 10.5mm;
+      height: 5.5mm;
+      align-items: center;
+      justify-content: center;
+      gap: 8mm;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+      font-size: 9pt;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+
+    .front.handwritten-chuin .handwritten-person-fields {
+      display: flex;
+    }
+
+
+    .handwritten-person-field {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 1.5mm;
+    }
+
+
+    .handwritten-person-line {
+      display: inline-block;
+      width: 42mm;
+      height: 4mm;
+      border-bottom: 0.3mm solid #777;
+    }
+
+
+    .handwritten-death-line {
+      width: 34mm;
+    }
+
     .chuin-table {
       position: absolute;
 
@@ -1335,6 +1382,17 @@
           auto;
       }
 
+      /*
+        手書き用中陰表と、年回表を表面に出す構成は
+        裏面を表示しない。非表示の裏面がDOM上に残っていても、
+        「印刷する」で余分な2ページ目を作らない。
+      */
+      .page.front.handwritten-chuin,
+      .page.front.show-front-nenkai {
+        page-break-after:
+          auto;
+      }
+
       .screen-fold {
         display: none;
       }
@@ -1581,6 +1639,21 @@
         </div>
 
 
+        <div class="handwritten-person-fields">
+
+          <div class="handwritten-person-field">
+            <span>故人名</span>
+            <span class="handwritten-person-line"></span>
+          </div>
+
+          <div class="handwritten-person-field">
+            <span>命日</span>
+            <span class="handwritten-person-line handwritten-death-line"></span>
+          </div>
+
+        </div>
+
+
         <div
           class="chuin-table"
           id="chuinTable"
@@ -1789,6 +1862,23 @@
         : {};
 
 
+    const isHandwrittenChuin =
+      Boolean(
+        data &&
+        (
+          data.documentMode ===
+            "handwrittenChuin" ||
+          pdfOptions.documentMode ===
+            "handwrittenChuin"
+        )
+      );
+
+    if (isHandwrittenChuin) {
+      document.title =
+        "手書き用中陰表 | 禅昌寺";
+    }
+
+
     /* 旧呼称は中陰表に常設 */
     const showOldNames =
       true;
@@ -1816,6 +1906,7 @@
 
 
     const showKaimyoNotes =
+      !isHandwrittenChuin &&
       kaimyoSections.length > 0;
     /* 年回表の旧呼称は管理者側で表示／非表示を選択 */
     const showNenkaiOldNames =
@@ -1823,18 +1914,23 @@
 
     /* 旧データに設定がない場合は、従来通り説明を表示する。 */
     const showTableDescriptions =
-      pdfOptions.showTableDescriptions !== false;
+      typeof pdfOptions.showTableDescriptions ===
+        "boolean"
+        ? pdfOptions.showTableDescriptions
+        : !isHandwrittenChuin;
 
     const showSanboinStamp =
       pdfOptions.showSanboinStamp === true;
 
     const requestedFrontTableMode =
-      (
-        pdfOptions.frontTableMode === "chuin" ||
-        pdfOptions.frontTableMode === "nenkai"
-      )
-        ? pdfOptions.frontTableMode
-        : "auto";
+      isHandwrittenChuin
+        ? "chuin"
+        : (
+            pdfOptions.frontTableMode === "chuin" ||
+            pdfOptions.frontTableMode === "nenkai"
+          )
+            ? pdfOptions.frontTableMode
+            : "auto";
 
     function resolveFrontTableMode() {
       if (requestedFrontTableMode !== "auto") {
@@ -1893,17 +1989,24 @@
 
 
     const requestedTempleInfoPosition =
-      (
-        pdfOptions.templeInfoPosition === "front" ||
-        pdfOptions.templeInfoPosition === "back" ||
-        pdfOptions.templeInfoPosition === "none"
-      )
-        ? pdfOptions.templeInfoPosition
-        : (
+      isHandwrittenChuin
+        ? (
+            pdfOptions.templeInfoPosition === "none" ||
             pdfOptions.showTempleInfo === false
               ? "none"
               : "front"
-          );
+          )
+        : (
+            pdfOptions.templeInfoPosition === "front" ||
+            pdfOptions.templeInfoPosition === "back" ||
+            pdfOptions.templeInfoPosition === "none"
+          )
+            ? pdfOptions.templeInfoPosition
+            : (
+                pdfOptions.showTempleInfo === false
+                  ? "none"
+                  : "front"
+              );
 
 
     /*
@@ -3164,6 +3267,11 @@
       );
 
       front.classList.toggle(
+        "handwritten-chuin",
+        isHandwrittenChuin
+      );
+
+      front.classList.toggle(
         "no-temple-info",
         !showTempleInfo
       );
@@ -3189,7 +3297,8 @@
       if (backPage) {
         backPage.classList.toggle(
           "hide-back-nenkai",
-          frontTableMode === "nenkai"
+          frontTableMode === "nenkai" ||
+          isHandwrittenChuin
         );
 
         backPage.classList.toggle(
@@ -3416,6 +3525,33 @@
           ? "block"
           : "none";
 
+      if (isHandwrittenChuin) {
+
+        document
+          .getElementById(
+            "ihaiDate"
+          )
+          .textContent =
+          "";
+
+        document
+          .getElementById(
+            "ihaiMain"
+          )
+          .textContent =
+          "";
+
+        document
+          .getElementById(
+            "ihaiLeft"
+          )
+          .textContent =
+          "";
+
+      }
+
+      else {
+
       document
         .getElementById(
           "ihaiDate"
@@ -3583,6 +3719,8 @@
             "";
 
         }
+
+      }
 
       }
 
@@ -5571,6 +5709,9 @@
         ctx.restore();
       }
 
+      if (isHandwrittenChuin) {
+        return;
+      }
 
       /*
         中央文字は上下装飾の安全領域内に配置。
@@ -6505,6 +6646,146 @@
     }
 
 
+    function drawHandwrittenPersonFieldsCanvas(
+      ctx,
+      tableX,
+      tableW
+    ) {
+
+      if (!isHandwrittenChuin) {
+        return;
+      }
+
+      const firstLineWidth =
+        mm(42);
+
+      const secondLineWidth =
+        mm(34);
+
+      const groupGap =
+        mm(8);
+
+      const labelGap =
+        mm(1.5);
+
+      setFont(
+        ctx,
+        mm(
+          9 *
+          25.4 /
+          72
+        ),
+        "normal",
+        "sans"
+      );
+
+      ctx.save();
+      ctx.fillStyle =
+        "#222";
+      ctx.strokeStyle =
+        "#777";
+      ctx.lineWidth =
+        mm(0.3);
+      ctx.textAlign =
+        "left";
+      ctx.textBaseline =
+        "bottom";
+
+      const firstLabel =
+        "故人名";
+
+      const secondLabel =
+        "命日";
+
+      const firstLabelWidth =
+        ctx.measureText(
+          firstLabel
+        ).width;
+
+      const secondLabelWidth =
+        ctx.measureText(
+          secondLabel
+        ).width;
+
+      const totalWidth =
+        firstLabelWidth +
+        labelGap +
+        firstLineWidth +
+        groupGap +
+        secondLabelWidth +
+        labelGap +
+        secondLineWidth;
+
+      const firstX =
+        tableX +
+        (
+          tableW -
+          totalWidth
+        ) / 2;
+
+      const baselineY =
+        mm(21.4);
+
+      ctx.fillText(
+        firstLabel,
+        firstX,
+        baselineY
+      );
+
+      const firstLineX =
+        firstX +
+        firstLabelWidth +
+        labelGap;
+
+      ctx.beginPath();
+      ctx.moveTo(
+        firstLineX,
+        baselineY +
+        mm(0.4)
+      );
+      ctx.lineTo(
+        firstLineX +
+        firstLineWidth,
+        baselineY +
+        mm(0.4)
+      );
+      ctx.stroke();
+
+      const secondX =
+        firstLineX +
+        firstLineWidth +
+        groupGap;
+
+      ctx.fillText(
+        secondLabel,
+        secondX,
+        baselineY
+      );
+
+      const secondLineX =
+        secondX +
+        secondLabelWidth +
+        labelGap;
+
+      ctx.beginPath();
+      ctx.moveTo(
+        secondLineX,
+        baselineY +
+        mm(0.4)
+      );
+      ctx.lineTo(
+        secondLineX +
+        secondLineWidth,
+        baselineY +
+        mm(0.4)
+      );
+      ctx.stroke();
+
+      ctx.restore();
+
+    }
+
+
     function renderFrontCanvas() {
 
       const {
@@ -6586,6 +6867,12 @@
                 : mm(134)
             )
           : mm(149);
+
+      drawHandwrittenPersonFieldsCanvas(
+        ctx,
+        tableX,
+        tableW
+      );
 
       const tableH =
         mm(
@@ -7416,6 +7703,7 @@
 
 
         const back =
+          isHandwrittenChuin ||
           frontTableMode === "nenkai"
             ? null
             : renderBackCanvas();
@@ -7466,7 +7754,10 @@
         );
 
 
-        if (frontTableMode !== "nenkai") {
+        if (
+          !isHandwrittenChuin &&
+          frontTableMode !== "nenkai"
+        ) {
           pdf.addPage(
             "a4",
             "landscape"
@@ -7488,12 +7779,16 @@
 
 
         pdf.save(
-          "中陰年回表.pdf"
+          isHandwrittenChuin
+            ? "手書き用中陰表.pdf"
+            : "中陰年回表.pdf"
         );
 
 
         status.textContent =
-          "中陰年回表.pdf を作成しました。";
+          isHandwrittenChuin
+            ? "手書き用中陰表.pdf を作成しました。"
+            : "中陰年回表.pdf を作成しました。";
 
       }
 
