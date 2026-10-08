@@ -307,10 +307,6 @@
 
   </style>
 
-
-  <link rel="icon" href="favicon.ico" sizes="any">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 
 
@@ -405,108 +401,128 @@
         );
 
 
-      const kaimyoDisplay =
-        data.kaimyo
-          ? data.kaimyo
-          : "入力なし";
+      const options =
+        data.options || {};
 
 
-      const ageDisplay =
-        data.age
-          ? data.age + "歳"
-          : "入力なし";
+      const handwritten =
+        data.documentMode ===
+          "handwrittenChuin" ||
+        options.documentMode ===
+          "handwrittenChuin";
 
 
-      const nameDisplay =
-        data.name
-          ? data.name
-          : "入力なし";
+      let summaryHtml =
+        "";
+
+
+      let noticeHtml =
+        "";
+
+
+      if (handwritten) {
+
+        summaryHtml = `
+          <section class="card">
+            <div class="row">
+              <div class="label">作成方法</div>
+              <div class="value">手書き用中陰表</div>
+            </div>
+            <div class="row">
+              <div class="label">日付</div>
+              <div class="value">すべて空欄</div>
+            </div>
+            <div class="row">
+              <div class="label">位牌</div>
+              <div class="value">形のみ表示・文字は空欄</div>
+            </div>
+            <div class="row">
+              <div class="label">三宝印</div>
+              <div class="value">${
+                options.showSanboinStamp
+                  ? "表示する"
+                  : "表示しない"
+              }</div>
+            </div>
+            <div class="row">
+              <div class="label">中陰の説明</div>
+              <div class="value">${
+                options.showTableDescriptions
+                  ? "表示する"
+                  : "表示しない"
+              }</div>
+            </div>
+            <div class="row">
+              <div class="label">寺院情報</div>
+              <div class="value">${
+                options.templeInfoPosition === "none"
+                  ? "表示しない"
+                  : "禅昌寺を表示"
+              }</div>
+            </div>
+          </section>
+        `;
+
+        noticeHtml =
+          "PDFはA4横・片面・三つ折りを想定して作成します。故人名・命日と各法要の日付は、印刷後に手書きします。";
+
+      }
+
+      else {
+
+        const kaimyoDisplay =
+          data.kaimyo
+            ? data.kaimyo
+            : "入力なし";
+
+        const ageDisplay =
+          data.age
+            ? data.age + "歳"
+            : "入力なし";
+
+        const nameDisplay =
+          data.name
+            ? data.name
+            : "入力なし";
+
+        summaryHtml = `
+          <section class="card">
+            <div class="row">
+              <div class="label">俗名</div>
+              <div class="value">${escapeHtml(nameDisplay)}</div>
+            </div>
+            <div class="row">
+              <div class="label">戒名</div>
+              <div class="value">${escapeHtml(kaimyoDisplay)}</div>
+            </div>
+            <div class="row">
+              <div class="label">命日</div>
+              <div class="value">
+                ${escapeHtml(data.deathDateJapanese)}
+                <br>
+                （${escapeHtml(data.deathDateGregorian)}）
+              </div>
+            </div>
+            <div class="row">
+              <div class="label">行年</div>
+              <div class="value">${escapeHtml(ageDisplay)}</div>
+            </div>
+          </section>
+        `;
+
+        noticeHtml =
+          "PDFはA4横・両面・三つ折りを想定して作成します。<br>位牌面には折り目がかからない配置になります。";
+
+      }
 
 
       content.innerHTML = `
 
-        <section class="card">
-
-
-          <div class="row">
-
-            <div class="label">
-              俗名
-            </div>
-
-            <div class="value">
-              ${escapeHtml(
-                nameDisplay
-              )}
-            </div>
-
-          </div>
-
-
-          <div class="row">
-
-            <div class="label">
-              戒名
-            </div>
-
-            <div class="value">
-              ${escapeHtml(
-                kaimyoDisplay
-              )}
-            </div>
-
-          </div>
-
-
-          <div class="row">
-
-            <div class="label">
-              命日
-            </div>
-
-            <div class="value">
-
-              ${escapeHtml(
-                data.deathDateJapanese
-              )}
-
-              <br>
-
-              （${escapeHtml(
-                data.deathDateGregorian
-              )}）
-
-            </div>
-
-          </div>
-
-
-          <div class="row">
-
-            <div class="label">
-              行年
-            </div>
-
-            <div class="value">
-              ${escapeHtml(
-                ageDisplay
-              )}
-            </div>
-
-          </div>
-
-
-        </section>
+        ${summaryHtml}
 
 
         <div class="notice">
-
-          PDFはA4横・両面・三つ折りを想定して作成します。
-
-          <br>
-
-          位牌面には折り目がかからない配置になります。
-
+          ${noticeHtml}
         </div>
 
 
