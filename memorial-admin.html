@@ -191,6 +191,45 @@
     }
 
 
+    .creation-mode-field {
+      margin-bottom: 28px;
+      padding: 18px;
+      border: 1px solid #d6d6d2;
+      border-radius: 8px;
+      background: #f7f7f5;
+    }
+
+
+    .creation-mode-description {
+      margin: 8px 0 0;
+      color: #666;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+
+    .handwritten-mode-note {
+      display: none;
+      margin: 0 0 24px;
+      padding: 15px 17px;
+      border-left: 4px solid #777;
+      background: #f6f6f4;
+      color: #555;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+
+    .handwritten-mode-note.show {
+      display: block;
+    }
+
+
+    .mode-content-hidden {
+      display: none !important;
+    }
+
+
     label {
       display: block;
 
@@ -642,6 +681,15 @@
     }
 
 
+    .handwritten-preview-line {
+      display: inline-block;
+      min-width: 190px;
+      margin-left: 8px;
+      border-bottom: 1px solid #777;
+      color: transparent;
+    }
+
+
     .result-section {
       margin-top:
         44px;
@@ -937,6 +985,42 @@
     <section class="input-card">
 
 
+      <div class="field creation-mode-field">
+
+        <label for="documentMode">
+          作成方法
+        </label>
+
+        <select id="documentMode">
+          <option value="normal" selected>
+            通常版（自動計算・印字）
+          </option>
+          <option value="handwrittenChuin">
+            手書き用中陰表
+          </option>
+        </select>
+
+        <p
+          class="creation-mode-description"
+          id="documentModeDescription"
+        >
+          故人情報から中陰表・年回表を計算し、位牌の文字も印字します。
+        </p>
+
+      </div>
+
+
+      <div
+        class="handwritten-mode-note"
+        id="handwrittenModeNote"
+      >
+        法要名は印字し、日付欄を空欄にした中陰表を1枚作成します。位牌の形は残しますが、戒名・俗名・死亡年月日は印字しません。
+      </div>
+
+
+      <div id="normalInputFields">
+
+
       <div class="field">
 
         <label for="name">
@@ -1227,6 +1311,9 @@
       </div>
 
 
+      </div>
+
+
       <!-- =====================================
            管理者PDF設定
       ====================================== -->
@@ -1242,10 +1329,9 @@
         <p class="option-intro">
           必要な項目を選択してください。
         </p>
-        </div>
 
 
-        <div class="option-row front-table-mode-row">
+        <div class="option-row front-table-mode-row normal-option-only">
 
           <div class="option-content">
             <label
@@ -1286,7 +1372,10 @@
               表の説明を表示
             </label>
 
-            <div class="option-description">
+            <div
+              class="option-description"
+              id="tableDescriptionHelp"
+            >
               「中陰とは」「法事とは」「祥月命日とは」を表示します。オフにすると説明欄をなくし、表を用紙の下まで広げます。
             </div>
 
@@ -1311,7 +1400,10 @@
               三宝印を位牌に表示
             </label>
 
-            <div class="option-description">
+            <div
+              class="option-description"
+              id="sanboinDescriptionHelp"
+            >
               戒名・俗名・死亡年月日の背面中央に、薄い朱色で印刷します。印刷後に実物の判を押す場合は、チェックを入れないでください。
             </div>
 
@@ -1320,7 +1412,7 @@
         </div>
 
 
-        <div class="option-row">
+        <div class="option-row normal-option-only">
 
           <input
             type="checkbox"
@@ -1343,7 +1435,7 @@
         </div>
 
 
-        <div class="option-row temple-info-position-row">
+        <div class="option-row temple-info-position-row normal-option-only">
 
           <div class="option-content">
 
@@ -1369,7 +1461,36 @@
         </div>
 
 
-        <div class="option-row">
+        <div
+          class="option-row handwritten-option-only mode-content-hidden"
+          id="handwrittenTempleInfoRow"
+        >
+
+          <input
+            type="checkbox"
+            id="handwrittenShowTempleInfo"
+            checked
+          >
+
+          <div class="option-content">
+
+            <label
+              for="handwrittenShowTempleInfo"
+              class="option-title"
+            >
+              禅昌寺の寺院情報を表示
+            </label>
+
+            <div class="option-description">
+              オフにすると寺院名・住所・電話番号を表示せず、その部分を空白にします。
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="option-row normal-option-only">
 
           <input
             type="checkbox"
@@ -1395,7 +1516,7 @@
         </div>
 
 
-        <div class="kaimyo-editor" id="kaimyoEditor">
+        <div class="kaimyo-editor normal-option-only" id="kaimyoEditor">
 
           <h3>
             戒名についての説明
@@ -1468,7 +1589,10 @@
       ></div>
 
 
-      <section class="result-section">
+      <section
+        class="result-section"
+        id="chuinResultSection"
+      >
 
 
         <h2>
@@ -1513,7 +1637,10 @@
       </section>
 
 
-      <section class="result-section">
+      <section
+        class="result-section"
+        id="nenkaiResultSection"
+      >
 
 
         <h2>
@@ -1610,6 +1737,206 @@
 
     let inputMode =
       "wareki";
+
+
+    let activeDocumentMode =
+      "normal";
+
+
+    const documentModePreferences = {
+      normal: {
+        showTableDescriptions: true,
+        showSanboinStamp: false
+      },
+      handwrittenChuin: {
+        showTableDescriptions: false,
+        showSanboinStamp: false
+      }
+    };
+
+
+    function isHandwrittenDocumentMode() {
+
+      return document
+        .getElementById(
+          "documentMode"
+        )
+        .value ===
+        "handwrittenChuin";
+
+    }
+
+
+    function storeActiveDocumentPreferences() {
+
+      const preferences =
+        documentModePreferences[
+          activeDocumentMode
+        ];
+
+      if (!preferences) {
+        return;
+      }
+
+      preferences.showTableDescriptions =
+        document
+          .getElementById(
+            "showTableDescriptions"
+          )
+          .checked;
+
+      preferences.showSanboinStamp =
+        document
+          .getElementById(
+            "showSanboinStamp"
+          )
+          .checked;
+
+    }
+
+
+    function applyDocumentMode(
+      mode,
+      preserveCurrentPreferences
+    ) {
+
+      const nextMode =
+        mode === "handwrittenChuin"
+          ? "handwrittenChuin"
+          : "normal";
+
+      if (
+        preserveCurrentPreferences !== false
+      ) {
+        storeActiveDocumentPreferences();
+      }
+
+      activeDocumentMode =
+        nextMode;
+
+      document
+        .getElementById(
+          "documentMode"
+        )
+        .value =
+        nextMode;
+
+      const handwritten =
+        nextMode ===
+        "handwrittenChuin";
+
+      document
+        .getElementById(
+          "normalInputFields"
+        )
+        .classList
+        .toggle(
+          "mode-content-hidden",
+          handwritten
+        );
+
+      document
+        .querySelectorAll(
+          ".normal-option-only"
+        )
+        .forEach(
+          function(element) {
+            element.classList.toggle(
+              "mode-content-hidden",
+              handwritten
+            );
+          }
+        );
+
+      document
+        .querySelectorAll(
+          ".handwritten-option-only"
+        )
+        .forEach(
+          function(element) {
+            element.classList.toggle(
+              "mode-content-hidden",
+              !handwritten
+            );
+          }
+        );
+
+      document
+        .getElementById(
+          "handwrittenModeNote"
+        )
+        .classList
+        .toggle(
+          "show",
+          handwritten
+        );
+
+      document
+        .getElementById(
+          "documentModeDescription"
+        )
+        .textContent =
+        handwritten
+          ? "法要名を印字し、日付と故人情報を手書きする中陰表を1枚作成します。"
+          : "故人情報から中陰表・年回表を計算し、位牌の文字も印字します。";
+
+      document
+        .getElementById(
+          "tableDescriptionHelp"
+        )
+        .textContent =
+        handwritten
+          ? "「中陰とは」を表示します。オフにすると説明欄をなくし、中陰表を用紙の下まで広げます。"
+          : "「中陰とは」「法事とは」「祥月命日とは」を表示します。オフにすると説明欄をなくし、表を用紙の下まで広げます。";
+
+      document
+        .getElementById(
+          "sanboinDescriptionHelp"
+        )
+        .textContent =
+        handwritten
+          ? "文字を入れない位牌の中央に、薄い朱色で印刷します。"
+          : "戒名・俗名・死亡年月日の背面中央に、薄い朱色で印刷します。印刷後に実物の判を押す場合は、チェックを入れないでください。";
+
+      document
+        .getElementById(
+          "createButton"
+        )
+        .textContent =
+        handwritten
+          ? "手書き用中陰表を表示する"
+          : "中陰表・年回表を表示する";
+
+      const preferences =
+        documentModePreferences[
+          nextMode
+        ];
+
+      document
+        .getElementById(
+          "showTableDescriptions"
+        )
+        .checked =
+        preferences.showTableDescriptions;
+
+      document
+        .getElementById(
+          "showSanboinStamp"
+        )
+        .checked =
+        preferences.showSanboinStamp;
+
+      document
+        .getElementById(
+          "results"
+        )
+        .style
+        .display =
+        "none";
+
+      updateKaimyoEditorState();
+
+    }
 
 
     const eras = {
@@ -2912,6 +3239,17 @@
 
     function getKaimyoValidation() {
 
+      if (
+        isHandwrittenDocumentMode()
+      ) {
+        return {
+          maxColumns: 0,
+          usedColumns: 0,
+          headingTooLong: false,
+          overflow: false
+        };
+      }
+
       const showTemple =
         isTempleInfoOnFrontForLayout();
 
@@ -3307,7 +3645,46 @@
 
     function collectAdminDraft() {
 
+      storeActiveDocumentPreferences();
+
       return {
+        documentMode:
+          document
+            .getElementById(
+              "documentMode"
+            )
+            .value,
+
+        documentModePreferences: {
+          normal: {
+            showTableDescriptions:
+              documentModePreferences
+                .normal
+                .showTableDescriptions,
+            showSanboinStamp:
+              documentModePreferences
+                .normal
+                .showSanboinStamp
+          },
+          handwrittenChuin: {
+            showTableDescriptions:
+              documentModePreferences
+                .handwrittenChuin
+                .showTableDescriptions,
+            showSanboinStamp:
+              documentModePreferences
+                .handwrittenChuin
+                .showSanboinStamp
+          }
+        },
+
+        handwrittenShowTempleInfo:
+          document
+            .getElementById(
+              "handwrittenShowTempleInfo"
+            )
+            .checked,
+
         inputMode:
           inputMode,
 
@@ -3478,6 +3855,71 @@
       restoringAdminDraft =
         true;
 
+      if (
+        draft.documentModePreferences &&
+        draft.documentModePreferences.normal &&
+        draft.documentModePreferences.handwrittenChuin
+      ) {
+        [
+          "normal",
+          "handwrittenChuin"
+        ].forEach(
+          function(mode) {
+            const saved =
+              draft.documentModePreferences[mode];
+
+            if (
+              typeof saved.showTableDescriptions ===
+              "boolean"
+            ) {
+              documentModePreferences[mode]
+                .showTableDescriptions =
+                saved.showTableDescriptions;
+            }
+
+            if (
+              typeof saved.showSanboinStamp ===
+              "boolean"
+            ) {
+              documentModePreferences[mode]
+                .showSanboinStamp =
+                saved.showSanboinStamp;
+            }
+          }
+        );
+      }
+      else {
+        if (
+          typeof draft.showTableDescriptions ===
+          "boolean"
+        ) {
+          documentModePreferences.normal
+            .showTableDescriptions =
+            draft.showTableDescriptions;
+        }
+
+        if (
+          typeof draft.showSanboinStamp ===
+          "boolean"
+        ) {
+          documentModePreferences.normal
+            .showSanboinStamp =
+            draft.showSanboinStamp;
+        }
+      }
+
+      if (
+        typeof draft.handwrittenShowTempleInfo ===
+        "boolean"
+      ) {
+        document
+          .getElementById(
+            "handwrittenShowTempleInfo"
+          )
+          .checked =
+          draft.handwrittenShowTempleInfo;
+      }
+
       setAdminInputMode(
         draft.inputMode
       );
@@ -3600,6 +4042,11 @@
       renderKaimyoBlocks();
       updateKaimyoEditorState();
 
+      applyDocumentMode(
+        draft.documentMode,
+        false
+      );
+
       restoringAdminDraft =
         false;
 
@@ -3608,8 +4055,23 @@
     function bindAdminDraftAutosave() {
 
       document
+        .getElementById(
+          "documentMode"
+        )
+        .addEventListener(
+          "change",
+          function() {
+            applyDocumentMode(
+              this.value,
+              true
+            );
+            saveAdminDraft();
+          }
+        );
+
+      document
         .querySelectorAll(
-          "#name, #kaimyo, #age, #era, #eraYear, #warekiMonth, #warekiDay, #deathYear, #deathMonth, #deathDay, #frontTableMode, #showNenkaiOldNames, #templeInfoPosition, #showKaimyoNotes, #showTableDescriptions, #showSanboinStamp"
+          "#name, #kaimyo, #age, #era, #eraYear, #warekiMonth, #warekiDay, #deathYear, #deathMonth, #deathDay, #frontTableMode, #showNenkaiOldNames, #templeInfoPosition, #handwrittenShowTempleInfo, #showKaimyoNotes, #showTableDescriptions, #showSanboinStamp"
         )
         .forEach(
           function(element) {
@@ -3694,6 +4156,14 @@
     }
 
     restoreAdminDraft();
+    applyDocumentMode(
+      document
+        .getElementById(
+          "documentMode"
+        )
+        .value,
+      false
+    );
     bindAdminDraftAutosave();
 
     /*
@@ -3701,6 +4171,93 @@
       結果表示
       ========================================
     */
+
+    function showResultsArea() {
+
+      document
+        .getElementById(
+          "results"
+        )
+        .style
+        .display =
+        "block";
+
+      document
+        .getElementById(
+          "results"
+        )
+        .scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+
+    }
+
+
+    function renderHandwrittenAdminResult() {
+
+      document
+        .getElementById(
+          "personBox"
+        )
+        .innerHTML =
+        "<p><strong>故人名：</strong><span class=\"handwritten-preview-line\">&nbsp;</span></p>" +
+        "<p><strong>命日：</strong><span class=\"handwritten-preview-line\">&nbsp;</span></p>";
+
+      const chuinBody =
+        document
+          .getElementById(
+            "chuinBody"
+          );
+
+      chuinBody.innerHTML =
+        "";
+
+      chuinItems.forEach(
+        function(item) {
+          const row =
+            document
+              .createElement(
+                "tr"
+              );
+
+          row.innerHTML =
+            "<td>" +
+            escapeHtml(item.name) +
+            "</td><td>&nbsp;</td>";
+
+          chuinBody.appendChild(
+            row
+          );
+        }
+      );
+
+      document
+        .getElementById(
+          "nenkaiBody"
+        )
+        .innerHTML =
+        "";
+
+      document
+        .getElementById(
+          "nenkaiResultSection"
+        )
+        .classList
+        .add(
+          "mode-content-hidden"
+        );
+
+      document
+        .getElementById(
+          "pdfMessage"
+        )
+        .textContent =
+        "";
+
+      showResultsArea();
+
+    }
 
     document
       .getElementById(
@@ -3711,6 +4268,24 @@
         "click",
 
         function () {
+
+
+          if (
+            isHandwrittenDocumentMode()
+          ) {
+            renderHandwrittenAdminResult();
+            return;
+          }
+
+
+          document
+            .getElementById(
+              "nenkaiResultSection"
+            )
+            .classList
+            .remove(
+              "mode-content-hidden"
+            );
 
 
           const result =
@@ -3966,28 +4541,7 @@
             );
 
 
-          document
-            .getElementById(
-              "results"
-            )
-            .style
-            .display =
-            "block";
-
-
-          document
-            .getElementById(
-              "results"
-            )
-            .scrollIntoView({
-
-              behavior:
-                "smooth",
-
-              block:
-                "start"
-
-            });
+          showResultsArea();
 
 
         }
@@ -4012,7 +4566,14 @@
         function () {
 
 
-          if (!updateKaimyoValidation()) {
+          const handwritten =
+            isHandwrittenDocumentMode();
+
+
+          if (
+            !handwritten &&
+            !updateKaimyoValidation()
+          ) {
 
             document
               .getElementById(
@@ -4027,7 +4588,12 @@
 
 
           const result =
-            getDeathDate();
+            handwritten
+              ? {
+                  valid: true,
+                  date: null
+                }
+              : getDeathDate();
 
 
           if (
@@ -4049,12 +4615,16 @@
 
 
           const deathDate =
-            result.date;
+            handwritten
+              ? null
+              : result.date;
 
 
           const deathYear =
-            deathDate
-              .getUTCFullYear();
+            handwritten
+              ? null
+              : deathDate
+                  .getUTCFullYear();
 
 
           const chuin =
@@ -4075,14 +4645,16 @@
                       item.oldName,
 
                     date:
-                      formatJapaneseDate(
+                      handwritten
+                        ? ""
+                        : formatJapaneseDate(
 
-                        addDays(
-                          deathDate,
-                          item.add
-                        )
+                            addDays(
+                              deathDate,
+                              item.add
+                            )
 
-                      )
+                          )
 
                   };
 
@@ -4093,8 +4665,10 @@
 
 
           const nenkai =
-            memorialItems
-              .map(
+            handwritten
+              ? []
+              : memorialItems
+                  .map(
 
                 function (
                   item
@@ -4121,7 +4695,25 @@
 
                 }
 
-              );
+                  );
+
+
+          const selectedTempleInfoPosition =
+            handwritten
+              ? (
+                  document
+                    .getElementById(
+                      "handwrittenShowTempleInfo"
+                    )
+                    .checked
+                    ? "front"
+                    : "none"
+                )
+              : document
+                  .getElementById(
+                    "templeInfoPosition"
+                  )
+                  .value;
 
 
           const pdfData = {
@@ -4131,55 +4723,75 @@
               "admin",
 
 
+            documentMode:
+              handwritten
+                ? "handwrittenChuin"
+                : "normal",
+
+
             name:
-              document
-                .getElementById(
-                  "name"
-                )
-                .value
-                .trim(),
+              handwritten
+                ? ""
+                : document
+                    .getElementById(
+                      "name"
+                    )
+                    .value
+                    .trim(),
 
 
             kaimyo:
-              document
-                .getElementById(
-                  "kaimyo"
-                )
-                .value
-                .trim(),
+              handwritten
+                ? ""
+                : document
+                    .getElementById(
+                      "kaimyo"
+                    )
+                    .value
+                    .trim(),
 
 
             age:
-              document
-                .getElementById(
-                  "age"
-                )
-                .value
-                .trim(),
+              handwritten
+                ? ""
+                : document
+                    .getElementById(
+                      "age"
+                    )
+                    .value
+                    .trim(),
 
 
             deathDateJapanese:
-              formatJapaneseDate(
-                deathDate
-              ),
+              handwritten
+                ? ""
+                : formatJapaneseDate(
+                    deathDate
+                  ),
 
 
             deathDateGregorian:
-              formatGregorianDate(
-                deathDate
-              ),
+              handwritten
+                ? ""
+                : formatGregorianDate(
+                    deathDate
+                  ),
 
 
             deathDateIso:
-              deathDate.getUTCFullYear() +
-              "-" +
-              String(deathDate.getUTCMonth() + 1).padStart(2, "0") +
-              "-" +
-              String(deathDate.getUTCDate()).padStart(2, "0"),
+              handwritten
+                ? ""
+                : deathDate.getUTCFullYear() +
+                  "-" +
+                  String(deathDate.getUTCMonth() + 1).padStart(2, "0") +
+                  "-" +
+                  String(deathDate.getUTCDate()).padStart(2, "0"),
 
 
             deathYear:
-              deathYear,
+              handwritten
+                ? ""
+                : deathYear,
 
 
             chuin:
@@ -4191,6 +4803,7 @@
 
 
             kaimyoSections:
+              !handwritten &&
               document
                 .getElementById(
                   "showKaimyoNotes"
@@ -4218,15 +4831,24 @@
 
 
             options: {
+              documentMode:
+                handwritten
+                  ? "handwrittenChuin"
+                  : "normal",
+
+
               frontTableMode:
-                document
-                  .getElementById(
-                    "frontTableMode"
-                  )
-                  .value,
+                handwritten
+                  ? "chuin"
+                  : document
+                      .getElementById(
+                        "frontTableMode"
+                      )
+                      .value,
 
 
               showNenkaiOldNames:
+                !handwritten &&
                 document
                   .getElementById(
                     "showNenkaiOldNames"
@@ -4235,11 +4857,7 @@
 
 
               templeInfoPosition:
-                document
-                  .getElementById(
-                    "templeInfoPosition"
-                  )
-                  .value,
+                selectedTempleInfoPosition,
 
 
               /*
@@ -4247,14 +4865,12 @@
                 新 print.html は templeInfoPosition を優先する。
               */
               showTempleInfo:
-                document
-                  .getElementById(
-                    "templeInfoPosition"
-                  )
-                  .value !== "none",
+                selectedTempleInfoPosition !==
+                "none",
 
 
               showKaimyoNotes:
+                !handwritten &&
                 document
                   .getElementById(
                     "showKaimyoNotes"
