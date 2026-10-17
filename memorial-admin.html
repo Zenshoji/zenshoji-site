@@ -681,15 +681,6 @@
     }
 
 
-    .handwritten-preview-line {
-      display: inline-block;
-      min-width: 190px;
-      margin-left: 8px;
-      border-bottom: 1px solid #777;
-      color: transparent;
-    }
-
-
     .result-section {
       margin-top:
         44px;
@@ -4196,13 +4187,14 @@
 
     function renderHandwrittenAdminResult() {
 
-      document
+      const personBox =
+        document
         .getElementById(
           "personBox"
-        )
-        .innerHTML =
-        "<p><strong>故人名：</strong><span class=\"handwritten-preview-line\">&nbsp;</span></p>" +
-        "<p><strong>命日：</strong><span class=\"handwritten-preview-line\">&nbsp;</span></p>";
+        );
+
+      personBox.innerHTML = "";
+      personBox.style.display = "none";
 
       const chuinBody =
         document
@@ -4410,12 +4402,14 @@
           }
 
 
-          document
+          const personBox =
+            document
             .getElementById(
               "personBox"
-            )
-            .innerHTML =
-            personHtml;
+            );
+
+          personBox.style.display = "";
+          personBox.innerHTML = personHtml;
 
 
           const chuinBody =
