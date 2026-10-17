@@ -43,22 +43,107 @@
     a { color: inherit; text-decoration: none; }
 
     .hero {
-      min-height: 420px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 40px 20px;
+      position: relative;
+      min-height: 100vh;
+      min-height: 100svh;
+      overflow: hidden;
       color: #fff;
-      background:
-        linear-gradient(rgba(0, 0, 0, 0.38), rgba(0, 0, 0, 0.38)),
-        image-set(url("hero.webp") type("image/webp"), url("hero.jpg") type("image/jpeg")) center center / cover no-repeat;
+      background: #222;
+      text-align: center;
+      isolation: isolate;
+      touch-action: pan-y;
     }
 
-    .hero > div { transform: translateY(35px); }
+    .hero-slides,
+    .hero-slide,
+    .hero-slide picture,
+    .hero-slide img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-slides {
+      z-index: -3;
+      overflow: hidden;
+    }
+
+    .hero-slide {
+      transform: translateX(100%);
+      visibility: hidden;
+      transition:
+        transform 1.2s cubic-bezier(0.65, 0, 0.35, 1),
+        visibility 0s linear 1.2s;
+      will-change: transform;
+    }
+
+    .hero-slide.is-active,
+    .hero-slide.is-entering,
+    .hero-slide.is-leaving {
+      visibility: visible;
+      transition-delay: 0s;
+    }
+
+    .hero-slide.is-active {
+      transform: translateX(0);
+    }
+
+    .hero-slide.is-entering.from-right {
+      transform: translateX(100%);
+    }
+
+    .hero-slide.is-entering.from-left {
+      transform: translateX(-100%);
+    }
+
+    .hero-slide.is-leaving.to-left {
+      transform: translateX(-100%);
+    }
+
+    .hero-slide.is-leaving.to-right {
+      transform: translateX(100%);
+    }
+
+    .hero-slide img {
+      object-fit: cover;
+      object-position: center center;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background: rgba(0, 0, 0, 0.30);
+      pointer-events: none;
+    }
+
+    .hero-title {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px;
+      pointer-events: none;
+      text-shadow: 0 2px 18px rgba(0, 0, 0, 0.34);
+    }
+
+    .hero-kamon {
+      width: clamp(80px, 7vw, 95px);
+      height: auto;
+      margin: 0 0 13px;
+    }
+
+    .hero-sect {
+      margin: 0 0 11px;
+      font-size: clamp(15px, 1.35vw, 18px);
+      letter-spacing: 0.28em;
+    }
 
     .hero h1 {
-      margin: 0;
+      margin: 0 0 9px;
       font-family:
         "Yu Mincho",
         "YuMincho",
@@ -66,14 +151,54 @@
         "Hiragino Mincho Pro",
         "Noto Serif JP",
         serif;
-      font-size: 42px;
+      font-size: clamp(38px, 4vw, 48px);
       letter-spacing: 0.16em;
       font-weight: 600;
     }
 
-    .hero p {
-      margin: 16px 0 0;
-      font-size: 18px;
+    .hero-location {
+      margin: 0;
+      font-size: clamp(14px, 1.2vw, 16px);
+      letter-spacing: 0.22em;
+    }
+
+    .hero-arrow {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      width: 48px;
+      height: 64px;
+      padding: 0;
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      border-radius: 3px;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.18);
+      font: inherit;
+      font-size: 31px;
+      line-height: 1;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(-50%);
+      transition: opacity 0.28s ease, background 0.2s ease;
+    }
+
+    .hero.has-multiple:hover .hero-arrow,
+    .hero.has-multiple:focus-within .hero-arrow {
+      opacity: 1;
+    }
+
+    .hero-arrow:hover,
+    .hero-arrow:focus-visible {
+      background: rgba(0, 0, 0, 0.38);
+      outline: 2px solid rgba(255, 255, 255, 0.9);
+      outline-offset: 3px;
+    }
+
+    .hero-arrow-prev { left: 24px; }
+    .hero-arrow-next { right: 24px; }
+
+    .hero:not(.has-multiple) .hero-arrow {
+      display: none;
     }
 
     .container {
@@ -211,10 +336,12 @@
     }
 
     @media (max-width: 768px) {
-      .hero { min-height: 320px; }
-      .hero > div { transform: translateY(20px); }
-      .hero h1 { font-size: 30px; }
-      .hero p { font-size: 16px; }
+      .hero-title { padding: 28px 20px; }
+      .hero-kamon { width: 76px; margin-bottom: 11px; }
+      .hero-sect { margin-bottom: 9px; font-size: 15px; }
+      .hero h1 { margin-bottom: 8px; font-size: clamp(29px, 8vw, 36px); }
+      .hero-location { font-size: 14px; }
+      .hero-arrow { display: none; }
       section { padding: 44px 0; }
       .section-title { font-size: 24px; }
       .menu-grid { gap: 12px; }
@@ -231,16 +358,61 @@
 
     @media (max-width: 430px) {
       .container { width: min(100% - 24px, 1100px); }
+      .hero-title { padding-inline: 16px; }
+      .hero h1 { letter-spacing: 0.12em; }
+      .hero-location { letter-spacing: 0.18em; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-slide { transition-duration: 0.01ms; }
+      .hero-arrow { transition-duration: 0.01ms; }
     }
   </style>
 </head>
 
 <body>
-  <header class="hero">
-    <div>
-      <h1>松久山 禅昌寺</h1>
-      <p>曹洞宗　北海道津別町</p>
+  <header class="hero" id="hero" aria-label="禅昌寺の風景">
+    <div class="hero-slides" id="heroSlides" aria-hidden="true">
+      <div class="hero-slide is-active">
+        <picture>
+          <source srcset="hero.webp" type="image/webp">
+          <img src="hero.jpg" alt="" fetchpriority="high">
+        </picture>
+      </div>
     </div>
+
+    <div class="hero-overlay" aria-hidden="true"></div>
+
+    <div class="hero-title">
+      <!--
+        家紋素材：Wikimedia Commons「Maru ni karahana.png」
+        CC0 1.0（縮小・白色化）
+      -->
+      <img
+        src="kamon-maru-ni-karahana.png"
+        class="hero-kamon"
+        alt="丸に唐花"
+        width="512"
+        height="512"
+      >
+      <p class="hero-sect">曹洞宗</p>
+      <h1>松久山 禅昌寺</h1>
+      <p class="hero-location">網走郡 津別町</p>
+    </div>
+
+    <button
+      type="button"
+      class="hero-arrow hero-arrow-prev"
+      id="heroPrev"
+      aria-label="前の写真を表示"
+    >&#8249;</button>
+
+    <button
+      type="button"
+      class="hero-arrow hero-arrow-next"
+      id="heroNext"
+      aria-label="次の写真を表示"
+    >&#8250;</button>
   </header>
 
   <section class="news" id="newsSection">
@@ -308,6 +480,161 @@
 
   <script>
     "use strict";
+
+    /*
+      ============================================================
+      トップ写真スライド
+      ============================================================
+      写真を増やす場合は、hero-slides 内へ hero-slide を追加します。
+      写真が1枚だけの間は、自動再生・矢印・スワイプ切替を停止します。
+    */
+    const hero = document.getElementById("hero");
+    const heroSlides = Array.from(
+      document.querySelectorAll(".hero-slide")
+    );
+    const heroPrev = document.getElementById("heroPrev");
+    const heroNext = document.getElementById("heroNext");
+    const heroReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    );
+    const HERO_DISPLAY_TIME = 7000;
+    const HERO_TRANSITION_TIME = 1200;
+
+    let heroIndex = 0;
+    let heroTimer = null;
+    let heroAnimating = false;
+    let heroTouchStartX = 0;
+    let heroTouchStartY = 0;
+
+    function setHeroSlideAccessibility() {
+      heroSlides.forEach((slide, index) => {
+        slide.setAttribute(
+          "aria-hidden",
+          index === heroIndex ? "false" : "true"
+        );
+      });
+    }
+
+    function stopHeroAutoplay() {
+      if (heroTimer) {
+        window.clearTimeout(heroTimer);
+        heroTimer = null;
+      }
+    }
+
+    function startHeroAutoplay() {
+      stopHeroAutoplay();
+
+      if (
+        heroSlides.length < 2 ||
+        heroReducedMotion.matches ||
+        document.hidden
+      ) {
+        return;
+      }
+
+      heroTimer = window.setTimeout(() => {
+        showHeroSlide(heroIndex + 1, 1, false);
+      }, HERO_DISPLAY_TIME);
+    }
+
+    function showHeroSlide(nextIndex, direction, manual) {
+      if (heroAnimating || heroSlides.length < 2) return;
+
+      const normalizedIndex =
+        (nextIndex + heroSlides.length) % heroSlides.length;
+
+      if (normalizedIndex === heroIndex) return;
+
+      heroAnimating = true;
+      stopHeroAutoplay();
+
+      const currentSlide = heroSlides[heroIndex];
+      const nextSlide = heroSlides[normalizedIndex];
+      const enteringClass = direction > 0 ? "from-right" : "from-left";
+      const leavingClass = direction > 0 ? "to-left" : "to-right";
+
+      nextSlide.classList.add("is-entering", enteringClass);
+
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          currentSlide.classList.add("is-leaving", leavingClass);
+          currentSlide.classList.remove("is-active");
+          nextSlide.classList.remove(enteringClass);
+          nextSlide.classList.add("is-active");
+
+          window.setTimeout(() => {
+            currentSlide.classList.remove("is-leaving", leavingClass);
+            nextSlide.classList.remove("is-entering");
+            heroIndex = normalizedIndex;
+            heroAnimating = false;
+            setHeroSlideAccessibility();
+            startHeroAutoplay();
+          }, heroReducedMotion.matches ? 10 : HERO_TRANSITION_TIME);
+        });
+      });
+
+      if (manual) {
+        hero.dataset.lastManualChange = String(Date.now());
+      }
+    }
+
+    if (heroSlides.length > 1) {
+      hero.classList.add("has-multiple");
+
+      heroPrev.addEventListener("click", () => {
+        showHeroSlide(heroIndex - 1, -1, true);
+      });
+
+      heroNext.addEventListener("click", () => {
+        showHeroSlide(heroIndex + 1, 1, true);
+      });
+
+      hero.addEventListener(
+        "touchstart",
+        event => {
+          const touch = event.changedTouches[0];
+          heroTouchStartX = touch.clientX;
+          heroTouchStartY = touch.clientY;
+        },
+        { passive: true }
+      );
+
+      hero.addEventListener(
+        "touchend",
+        event => {
+          const touch = event.changedTouches[0];
+          const diffX = touch.clientX - heroTouchStartX;
+          const diffY = touch.clientY - heroTouchStartY;
+
+          if (
+            Math.abs(diffX) < 45 ||
+            Math.abs(diffX) <= Math.abs(diffY)
+          ) {
+            return;
+          }
+
+          showHeroSlide(
+            heroIndex + (diffX < 0 ? 1 : -1),
+            diffX < 0 ? 1 : -1,
+            true
+          );
+        },
+        { passive: true }
+      );
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        stopHeroAutoplay();
+      } else {
+        startHeroAutoplay();
+      }
+    });
+
+    heroReducedMotion.addEventListener("change", startHeroAutoplay);
+    setHeroSlideAccessibility();
+    startHeroAutoplay();
 
     /*
       ============================================================
