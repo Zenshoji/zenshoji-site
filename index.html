@@ -105,6 +105,16 @@
       transform: translateX(100%);
     }
 
+    /*
+      退出した写真を次の待機位置へ戻すときは動かさない。
+      この指定がないと、左へ退出した写真が画面を横切って右へ戻ってしまう。
+    */
+    .hero-slide.is-resetting {
+      visibility: hidden;
+      transform: translateX(100%);
+      transition: none;
+    }
+
     .hero-slide img {
       object-fit: cover;
       object-position: center center;
@@ -584,7 +594,20 @@
           nextSlide.classList.add("is-active");
 
           window.setTimeout(() => {
+            /*
+              退出済みの写真は、アニメーションを止めた状態で
+              右側の待機位置へ戻す。
+            */
+            currentSlide.classList.add("is-resetting");
             currentSlide.classList.remove("is-leaving", leavingClass);
+
+            /*
+              is-resetting の位置を一度確定してから解除することで、
+              待機位置へ戻る動きが画面に見えないようにする。
+            */
+            currentSlide.getBoundingClientRect();
+            currentSlide.classList.remove("is-resetting");
+
             nextSlide.classList.remove("is-entering");
             heroIndex = normalizedIndex;
             heroAnimating = false;
